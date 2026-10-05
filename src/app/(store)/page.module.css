@@ -959,7 +959,6 @@
 
   .categoryGrid {
     grid-template-columns: repeat(4, 72vw);
-    margin-right: calc(-1 * var(--page-gutter));
   }
 
   .categoryCard {
@@ -1048,7 +1047,6 @@
   .roomGrid {
     grid-template-columns: repeat(4, 72vw);
     overflow-x: auto;
-    margin-right: calc(-1 * var(--page-gutter));
     padding-bottom: 0.4rem;
     scrollbar-width: none;
   }
