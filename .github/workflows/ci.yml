@@ -22,7 +22,6 @@ jobs:
       NEXT_PUBLIC_SITE_URL: http://127.0.0.1:3000
       NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
       NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci_placeholder_key
-      HOUSE_OF_LUME_SKIP_EXTERNAL_DATA: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@v7

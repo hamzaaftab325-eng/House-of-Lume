@@ -122,12 +122,6 @@ COD verification methods are restricted to `whatsapp` and `admin` for launch.
 
 Notifications are persisted first-class records. Delivery channels can independently track in-app, email and WhatsApp attempts.
 
-### Marketing subscriptions
-
-- `newsletter_subscribers`
-
-The homepage newsletter is a real persisted subscription surface rather than a visual-only form. Anonymous and authenticated storefront visitors receive insert-only access through RLS. Subscriber rows cannot be publicly selected, updated or deleted. Email values are normalized to lowercase and protected by a unique index so repeated submissions are idempotent from the visitor's perspective.
-
 ### Operations and auditing
 
 - `activity_logs`
@@ -199,16 +193,15 @@ Do not infer an admin identity from Git metadata, project names or customer data
 ## RLS model
 
 - Every public table has RLS enabled.
-- Anonymous users: published/active catalogue, active shipping configuration, approved reviews, explicitly public settings and newsletter subscription inserts only.
+- Anonymous users: published/active catalogue, active shipping configuration, approved reviews and explicitly public settings only.
 - Authenticated customers: public data plus records belonging to their linked customer identity.
 - Super Admin: complete operational visibility and permitted mutations through RLS-aware policies.
 - `service_role`: reserved for trusted server/background operations and never exposed to the browser.
 - Private authorization helper functions live under `app_private` and are not exposed as public RPC endpoints.
-- Newsletter subscribers are never a public read surface; storefront roles receive `INSERT` only.
 
 ## Advisor policy
 
-A security advisor run must return no actionable security findings before a phase containing schema or policy changes is considered complete.
+A Phase 1 security advisor run must return no actionable security findings before the phase is considered complete.
 
 Performance advisor `unused_index` notices on a new database are informational. Indexes required for foreign keys and known commerce query patterns are retained until real workload statistics exist; deleting useful indexes simply because a zero-traffic database has not used them is prohibited.
 
@@ -222,6 +215,15 @@ The repository migration filenames mirror the migrations applied to the connecte
 4. `20261005103534_phase1_security_rls.sql`
 5. `20261005103600_phase1_production_baseline_seed.sql`
 6. `20261005103838_phase1_advisor_hardening.sql`
-7. `20261005144236_phase3_newsletter_subscribers.sql`
 
 New database changes must be made through new migrations. Applied migration files are immutable.
+
+## Type generation
+
+The Supabase schema is the source of truth. Regenerate database types after schema changes with:
+
+```bash
+npm run db:types
+```
+
+The command uses the connected Supabase project ID and requires an authenticated Supabase CLI session. It writes the current `public` schema type definition to `src/lib/supabase/database.types.ts`. No database secret or service-role key is stored in the repository.

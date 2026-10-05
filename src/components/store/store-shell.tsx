@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import type { Route } from "next";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { ArrowUpRight, Heart, Menu, Search, ShoppingBag, UserRound } from "lucide-react";
 
 import { Drawer, EmptyDrawerState, SearchOverlay } from "@/components/ui/overlays";
@@ -18,14 +17,12 @@ type StoreNavItem = {
 
 const navItems: readonly StoreNavItem[] = [
   { label: "Lighting", href: "/#lighting" },
-  { label: "Living Green", href: "/#living-green" },
+  { label: "Living Green", href: "/#plants" },
   { label: "Objects", href: "/#objects" },
-  { label: "Our Story", href: "/#story" },
+  { label: "System", href: "/system" },
 ];
 
 export function StoreHeader() {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -42,13 +39,13 @@ export function StoreHeader() {
   return (
     <>
       <div className={styles.announcement}>Pakistan-wide delivery · Cash on Delivery at launch</div>
-      <header className={styles.header} data-home={isHome} data-scrolled={scrolled}>
+      <header className={styles.header} data-scrolled={scrolled}>
         <div className={styles.headerInner}>
           <div className={styles.mobileMenu}>
             <IconButton label="Open navigation" icon={<Menu />} onClick={() => setMenuOpen(true)} />
           </div>
           <nav className={styles.desktopNav} aria-label="Primary navigation">
-            {navItems.map((item) => (
+            {navItems.slice(0, 3).map((item) => (
               <Link key={item.label} className={styles.navLink} href={item.href}>
                 {item.label}
               </Link>
@@ -88,7 +85,7 @@ export function StoreHeader() {
         side="left"
         eyebrow="House of Lume"
         title="Explore"
-        description="Lighting, living green and considered objects for warmer spaces."
+        description="A compact mobile plane with large touch targets and no desktop-menu compression."
       >
         <nav className={styles.menuNav} aria-label="Mobile navigation">
           {navItems.map((item, index) => (
@@ -109,7 +106,10 @@ export function StoreHeader() {
             <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
         </nav>
-        <p className={styles.menuMeta}>Pakistan-wide delivery with Cash on Delivery at launch.</p>
+        <p className={styles.menuMeta}>
+          Designed for keyboard, touch, screen-reader, and reduced-motion use from the same
+          component.
+        </p>
       </Drawer>
 
       <SearchOverlay open={searchOpen} onOpenChange={setSearchOpen} />
@@ -121,7 +121,7 @@ export function StoreHeader() {
         title="Wishlist"
       >
         <EmptyDrawerState title="Nothing saved yet.">
-          Save pieces you want to return to as the catalogue grows.
+          Wishlist persistence connects to customer data in the commerce phase.
         </EmptyDrawerState>
       </Drawer>
 
@@ -136,8 +136,8 @@ export function StoreHeader() {
           </LumeButton>
         }
       >
-        <EmptyDrawerState title="Your bag is empty.">
-          Explore lighting, living green and objects selected for warmer rooms.
+        <EmptyDrawerState title="Your bag is quiet.">
+          Cart persistence and inventory-aware line items connect in Phase 6.
         </EmptyDrawerState>
       </Drawer>
     </>
@@ -153,34 +153,33 @@ export function StoreFooter() {
           <div className={styles.footerBrand}>
             <p className={styles.footerWordmark}>House of Lume</p>
             <p className={styles.footerCopy}>
-              Considered lighting, living green and objects for rooms that feel lived in—not staged.
+              Considered lighting, greenery, and objects for rooms that feel lived in—not staged.
             </p>
           </div>
           <nav className={styles.footerNav} aria-label="Footer navigation">
             <div className={styles.footerGroup}>
               <h2>Explore</h2>
               <Link href="/#lighting">Lighting</Link>
-              <Link href="/#living-green">Living Green</Link>
+              <Link href="/#plants">Living Green</Link>
               <Link href="/#objects">Objects</Link>
-              <Link href="/#spaces">Room inspiration</Link>
             </div>
             <div className={styles.footerGroup}>
               <h2>House</h2>
-              <Link href="/#story">Our story</Link>
-              <Link href="/#journal">House Notes</Link>
+              <Link href="/system">Design system</Link>
               <Link href="/account">Account</Link>
+              <Link href="/crm">CRM</Link>
             </div>
             <div className={styles.footerGroup}>
               <h2>Commerce</h2>
               <span>Cash on Delivery</span>
-              <span>Pakistan-wide delivery</span>
-              <span>Prices in PKR</span>
+              <span>Pakistan-wide</span>
+              <span>PKR</span>
             </div>
           </nav>
         </div>
         <div className={styles.footerBottom}>
           <span>© {year} House of Lume</span>
-          <span>Pakistan-wide delivery · Cash on Delivery at launch</span>
+          <span>Built for WCAG 2.2 AA and modern Core Web Vitals</span>
         </div>
       </div>
     </footer>
