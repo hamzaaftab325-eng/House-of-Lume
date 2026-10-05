@@ -1,0 +1,10 @@
+.next
+node_modules
+coverage
+playwright-report
+test-results
+package-lock.json
+AI_INSTRUCTIONS.md
+PROJECT_PLAN.md
+PHASE_EXECUTION_TEMPLATE.md
+design.md
