@@ -38,6 +38,16 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
+      - name: Normalize product affordance
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("src/app/(store)/page.module.css")
+          text = path.read_text()
+          text = text.replace(".productLabel button {", ".productAction {")
+          path.write_text(text)
+          PY
+
       - name: Format approved homepage
         run: npx prettier --write "src/app/(store)/page.tsx" "src/app/(store)/page.module.css"
 
@@ -47,7 +57,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "src/app/(store)/page.tsx" "src/app/(store)/page.module.css"
           if ! git diff --cached --quiet; then
-            git commit -m "style: format approved homepage"
+            git commit -m "style: normalize approved homepage"
             git push
           fi
 
