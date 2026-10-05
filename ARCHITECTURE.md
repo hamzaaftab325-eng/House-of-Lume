@@ -1,7 +1,7 @@
 # House of Lume — Application Architecture
 
 **Status:** Phase 0 production baseline  
-**Applies with:** `AI_INSTRUCTIONS.md`, `design.md`, `PROJECT_PLAN.md`, and `PHASE_EXECUTION_TEMPLATE.md`
+**Applies with:** `AI_INSTRUCTIONS.md`, `design.md`, `PROJECT_PLAN.md`, `PHASE_EXECUTION_TEMPLATE.md`, and `SECURITY.md`
 
 ## 1. Architectural Principle
 
@@ -250,17 +250,20 @@ Later phases expand E2E coverage according to `PROJECT_PLAN.md`.
 
 ## 14. CI Quality Gate
 
-The `CI` workflow runs on `main` pushes and pull requests using Node.js 24 LTS and the committed dependency lockfile.
+The `CI` workflow runs on `main` pushes and pull requests using Node.js 24 LTS, current GitHub Actions runtime releases, and the committed dependency lockfile.
 
 Required gates:
 
 1. `npm ci`
-2. Prettier formatting check
-3. ESLint
-4. TypeScript
-5. Vitest
-6. Next.js production build
-7. Playwright Chromium E2E smoke tests
+2. production dependency audit (`npm audit --omit=dev --audit-level=high`)
+3. Prettier formatting check
+4. ESLint
+5. TypeScript
+6. Vitest
+7. Next.js production build
+8. Playwright Chromium E2E smoke tests
+
+The production runtime audit must have no high/critical vulnerabilities. Development-only advisory handling and compatibility exceptions are governed by `SECURITY.md`.
 
 A failing required gate means the phase is not complete.
 
