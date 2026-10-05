@@ -74,7 +74,9 @@ test("search route is functional and has an honest empty state", async ({ page }
   await expect(page.getByRole("searchbox", { name: "Search published products" })).toHaveValue(
     "lamp",
   );
-  await expect(page.getByRole("heading", { name: "No published products match yet." })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "No published products match yet." }),
+  ).toBeVisible();
 });
 
 test("mobile navigation has accessible targets and scoped navigation", async ({ page }) => {

@@ -7,10 +7,7 @@ import {
   ProductUnit,
 } from "@/components/editorial/editorial";
 import { LumeButtonLink } from "@/components/ui/controls";
-import {
-  searchPublishedProducts,
-  type HomepageProduct,
-} from "@/server/homepage";
+import { searchPublishedProducts, type HomepageProduct } from "@/server/homepage";
 
 import styles from "./search.module.css";
 
@@ -93,7 +90,11 @@ export default async function SearchPage({
                 context={product.description}
                 price={product.priceLabel}
                 label={product.productType.replaceAll("_", " ")}
-                tone={product.productType === "plant" || product.productType === "planter" ? "olive" : "paper"}
+                tone={
+                  product.productType === "plant" || product.productType === "planter"
+                    ? "olive"
+                    : "paper"
+                }
               >
                 <ProductArtwork type={product.productType} />
               </ProductUnit>

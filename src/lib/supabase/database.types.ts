@@ -1,20 +1,7 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[];
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type ProductType =
-  | "lamp"
-  | "plant"
-  | "planter"
-  | "decor"
-  | "candle"
-  | "mirror"
-  | "furniture"
-  | "other";
+  "lamp" | "plant" | "planter" | "decor" | "candle" | "mirror" | "furniture" | "other";
 
 export type ProductStatus = "draft" | "active" | "archived";
 export type VariantStatus = "active" | "inactive" | "archived";

@@ -1,7 +1,11 @@
 .page {
   overflow: clip;
   background:
-    radial-gradient(circle at 82% 14%, color-mix(in srgb, var(--color-bronze) 10%, transparent), transparent 24rem),
+    radial-gradient(
+      circle at 82% 14%,
+      color-mix(in srgb, var(--color-bronze) 10%, transparent),
+      transparent 24rem
+    ),
     var(--color-canvas);
 }
 
@@ -42,8 +46,18 @@
 .heroShade {
   z-index: -2;
   background:
-    linear-gradient(90deg, rgba(20, 17, 12, 0.8) 0%, rgba(20, 17, 12, 0.48) 42%, rgba(20, 17, 12, 0.08) 72%),
-    linear-gradient(180deg, rgba(16, 14, 11, 0.2) 0%, rgba(16, 14, 11, 0.08) 50%, rgba(16, 14, 11, 0.62) 100%);
+    linear-gradient(
+      90deg,
+      rgba(20, 17, 12, 0.8) 0%,
+      rgba(20, 17, 12, 0.48) 42%,
+      rgba(20, 17, 12, 0.08) 72%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(16, 14, 11, 0.2) 0%,
+      rgba(16, 14, 11, 0.08) 50%,
+      rgba(16, 14, 11, 0.62) 100%
+    );
 }
 
 .heroInner {
@@ -258,7 +272,11 @@
   padding: clamp(2rem, 5vw, 4rem);
   border: 1px solid color-mix(in srgb, var(--color-paper) 18%, transparent);
   background:
-    linear-gradient(120deg, color-mix(in srgb, var(--color-bronze) 12%, transparent), transparent 54%),
+    linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--color-bronze) 12%, transparent),
+      transparent 54%
+    ),
     color-mix(in srgb, var(--color-paper) 4%, transparent);
 }
 
@@ -319,7 +337,11 @@
   align-content: center;
   padding: clamp(3rem, 8vw, 8rem) var(--page-gutter);
   background:
-    radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--color-bronze) 12%, transparent), transparent 20rem),
+    radial-gradient(
+      circle at 80% 20%,
+      color-mix(in srgb, var(--color-bronze) 12%, transparent),
+      transparent 20rem
+    ),
     var(--color-paper);
 }
 
@@ -602,7 +624,11 @@
   margin-top: clamp(2.5rem, 5vw, 5rem);
   padding: clamp(2rem, 5vw, 4rem);
   background:
-    radial-gradient(circle at 88% 30%, color-mix(in srgb, var(--color-olive) 17%, transparent), transparent 18rem),
+    radial-gradient(
+      circle at 88% 30%,
+      color-mix(in srgb, var(--color-olive) 17%, transparent),
+      transparent 18rem
+    ),
     var(--color-chalk);
 }
 
@@ -692,8 +718,12 @@
   }
 
   .heroShade {
-    background:
-      linear-gradient(180deg, rgba(18, 15, 11, 0.34) 0%, rgba(18, 15, 11, 0.44) 35%, rgba(18, 15, 11, 0.9) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(18, 15, 11, 0.34) 0%,
+      rgba(18, 15, 11, 0.44) 35%,
+      rgba(18, 15, 11, 0.9) 100%
+    );
   }
 
   .heroInner {

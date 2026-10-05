@@ -3,10 +3,7 @@
 import { useActionState } from "react";
 import { ArrowRight } from "lucide-react";
 
-import {
-  subscribeToNewsletter,
-  type NewsletterState,
-} from "@/app/(store)/actions";
+import { subscribeToNewsletter, type NewsletterState } from "@/app/(store)/actions";
 
 import styles from "./newsletter-form.module.css";
 

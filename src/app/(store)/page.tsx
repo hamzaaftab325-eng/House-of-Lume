@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Banknote,
-  Headphones,
-  Leaf,
-  ShieldCheck,
-  Sparkles,
-  Truck,
-} from "lucide-react";
+import { Banknote, Headphones, Leaf, ShieldCheck, Sparkles, Truck } from "lucide-react";
 
 import {
   DemoLampArt,
@@ -20,10 +13,7 @@ import { HomeMotion } from "@/components/home/home-motion";
 import { NewsletterForm } from "@/components/home/newsletter-form";
 import { LumeButtonLink, LumeLink } from "@/components/ui/controls";
 import { env } from "@/lib/env";
-import {
-  getHomepageProducts,
-  type HomepageProduct,
-} from "@/server/homepage";
+import { getHomepageProducts, type HomepageProduct } from "@/server/homepage";
 
 import styles from "./page.module.css";
 
@@ -69,8 +59,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "House of Lume — Objects for a warmer home",
-    description:
-      "Lighting, greenery and considered objects for warm, lived-in spaces.",
+    description: "Lighting, greenery and considered objects for warm, lived-in spaces.",
     images: [heroImage],
   },
 };
@@ -260,7 +249,12 @@ export default async function StorefrontHomePage() {
           </div>
           <div className={styles.categoryGrid}>
             {categories.map((category) => (
-              <article className={styles.categoryCard} id={category.id} key={category.id} data-home-reveal>
+              <article
+                className={styles.categoryCard}
+                id={category.id}
+                key={category.id}
+                data-home-reveal
+              >
                 <Image
                   src={category.image}
                   alt={category.alt}
@@ -340,12 +334,16 @@ export default async function StorefrontHomePage() {
           <p className={styles.kicker}>The House of Lume point of view</p>
           <h2 id="story-title">More than objects. A calmer way of living.</h2>
           <p>
-            A good room is not a catalogue of things. It is a balance of light, texture, greenery and
-            space. House of Lume is designed around that balance—so each object earns its place.
+            A good room is not a catalogue of things. It is a balance of light, texture, greenery
+            and space. House of Lume is designed around that balance—so each object earns its place.
           </p>
           <div className={styles.storyNotes}>
-            <span><Leaf aria-hidden="true" /> Natural materials</span>
-            <span><Sparkles aria-hidden="true" /> Intentional light</span>
+            <span>
+              <Leaf aria-hidden="true" /> Natural materials
+            </span>
+            <span>
+              <Sparkles aria-hidden="true" /> Intentional light
+            </span>
           </div>
           <LumeLink href="/#spaces">Explore spaces</LumeLink>
         </div>
@@ -356,13 +354,20 @@ export default async function StorefrontHomePage() {
           <div className={styles.centerHeading} data-home-reveal>
             <p className={styles.kicker}>Room discovery</p>
             <h2 id="spaces-title">Inspiration for real spaces.</h2>
-            <p>See how light, plants and objects work together instead of competing for attention.</p>
+            <p>
+              See how light, plants and objects work together instead of competing for attention.
+            </p>
           </div>
           <div className={styles.roomGrid}>
             {rooms.map((room) => (
               <article className={styles.roomCard} key={room.title} data-home-reveal>
                 <div className={styles.roomImage}>
-                  <Image src={room.image} alt={room.alt} fill sizes="(max-width: 767px) 85vw, 25vw" />
+                  <Image
+                    src={room.image}
+                    alt={room.alt}
+                    fill
+                    sizes="(max-width: 767px) 85vw, 25vw"
+                  />
                 </div>
                 <div className={styles.roomCopy}>
                   <h3>{room.title}</h3>
@@ -389,10 +394,20 @@ export default async function StorefrontHomePage() {
             </div>
             <div className={styles.materialMosaic} data-home-reveal>
               <div className={styles.materialLarge}>
-                <Image src={lightStudyImage} alt="Warm light across a lamp and plant" fill sizes="50vw" />
+                <Image
+                  src={lightStudyImage}
+                  alt="Warm light across a lamp and plant"
+                  fill
+                  sizes="50vw"
+                />
               </div>
               <div className={styles.materialSmall}>
-                <Image src={objectStudyImage} alt="Lamp and plant study in a textured interior" fill sizes="25vw" />
+                <Image
+                  src={objectStudyImage}
+                  alt="Lamp and plant study in a textured interior"
+                  fill
+                  sizes="25vw"
+                />
               </div>
               <div className={styles.materialLabel}>
                 <span>Light</span>
@@ -427,7 +442,9 @@ export default async function StorefrontHomePage() {
         <div className="site-shell">
           <div className={styles.journalLead} data-home-reveal>
             <p className={styles.kicker}>House Notes</p>
-            <blockquote id="journal-title">“Beautiful design has a way of slowing things down.”</blockquote>
+            <blockquote id="journal-title">
+              “Beautiful design has a way of slowing things down.”
+            </blockquote>
             <p>
               Notes on warmer lighting, calmer greenery, material choices and the small decisions
               that make home feel more personal.
@@ -435,23 +452,50 @@ export default async function StorefrontHomePage() {
           </div>
           <div className={styles.journalGrid}>
             <article data-home-reveal>
-              <Image src={bedroomImage} alt="Warm bedroom in soft natural light" fill sizes="33vw" />
-              <div><span>01</span><h3>Building a softer evening light plan</h3></div>
+              <Image
+                src={bedroomImage}
+                alt="Warm bedroom in soft natural light"
+                fill
+                sizes="33vw"
+              />
+              <div>
+                <span>01</span>
+                <h3>Building a softer evening light plan</h3>
+              </div>
             </article>
             <article data-home-reveal>
-              <Image src={greenLivingImage} alt="Greenery arranged in a warm living room" fill sizes="33vw" />
-              <div><span>02</span><h3>Living green without visual clutter</h3></div>
+              <Image
+                src={greenLivingImage}
+                alt="Greenery arranged in a warm living room"
+                fill
+                sizes="33vw"
+              />
+              <div>
+                <span>02</span>
+                <h3>Living green without visual clutter</h3>
+              </div>
             </article>
             <article data-home-reveal>
-              <Image src={objectStudyImage} alt="Small interior vignette with lamp and plant" fill sizes="33vw" />
-              <div><span>03</span><h3>Why one considered object can be enough</h3></div>
+              <Image
+                src={objectStudyImage}
+                alt="Small interior vignette with lamp and plant"
+                fill
+                sizes="33vw"
+              />
+              <div>
+                <span>03</span>
+                <h3>Why one considered object can be enough</h3>
+              </div>
             </article>
           </div>
           <div className={styles.newsletter} data-home-reveal>
             <div>
               <p className={styles.kicker}>Join the House of Lume journal</p>
               <h2>New collections, useful room notes and quieter inspiration.</h2>
-              <p>Your email is stored privately and is never exposed through the public catalogue API.</p>
+              <p>
+                Your email is stored privately and is never exposed through the public catalogue
+                API.
+              </p>
             </div>
             <NewsletterForm />
           </div>
