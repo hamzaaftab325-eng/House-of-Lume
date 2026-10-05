@@ -67,22 +67,22 @@ export const metadata: Metadata = {
 const categories = [
   {
     id: "lighting",
-    eyebrow: "Lighting",
+    eyebrow: "01 · Lighting",
     title: "Light that changes how a room feels.",
     image: lightStudyImage,
     alt: "Warm floor lamp casting light across an interior wall",
   },
   {
     id: "living-green",
-    eyebrow: "Living Green",
-    title: "Bring a quieter rhythm indoors.",
+    eyebrow: "02 · Living Green",
+    title: "A quieter rhythm, brought indoors.",
     image: greenLivingImage,
     alt: "Green plants in a warm modern living room",
   },
   {
     id: "objects",
-    eyebrow: "Objects",
-    title: "Finishing pieces with purpose.",
+    eyebrow: "03 · Objects",
+    title: "Finishing pieces with presence.",
     image: objectStudyImage,
     alt: "Table with a lamp and potted plant in a warm interior",
   },
@@ -90,24 +90,28 @@ const categories = [
 
 const rooms = [
   {
+    index: "01",
     title: "Living room",
     copy: "Ambient layers for the part of home that gathers everyone.",
     image: warmLivingImage,
     alt: "Warm living room with illuminated lamps and soft seating",
   },
   {
+    index: "02",
     title: "Bedroom",
     copy: "Softer light and natural texture for slower evenings.",
     image: bedroomImage,
     alt: "Bedroom in warm evening light with a plant",
   },
   {
+    index: "03",
     title: "Reading corner",
     copy: "Focused glow, greenery and objects that make a pause feel intentional.",
     image: lightStudyImage,
     alt: "Floor lamp and plant illuminated by a warm beam of light",
   },
   {
+    index: "04",
     title: "Quiet corner",
     copy: "A small composition can change the atmosphere of an entire room.",
     image: objectStudyImage,
@@ -119,22 +123,22 @@ const trustItems = [
   {
     icon: Truck,
     title: "Pakistan-wide delivery",
-    copy: "A configurable nationwide delivery model built for local fulfilment.",
+    copy: "Built for nationwide fulfilment with clear delivery expectations.",
   },
   {
     icon: Banknote,
     title: "Cash on Delivery",
-    copy: "COD is the only payment path at launch—clear, familiar and intentional.",
+    copy: "A familiar payment experience, intentionally designed for launch.",
   },
   {
     icon: ShieldCheck,
-    title: "Order verification",
-    copy: "WhatsApp and admin verification are built into the operational model.",
+    title: "Verified orders",
+    copy: "WhatsApp and admin verification support a cleaner COD workflow.",
   },
   {
     icon: Headphones,
     title: "Human support",
-    copy: "Order and after-sales workflows are designed around accountable service.",
+    copy: "Real order visibility and accountable after-sales support.",
   },
 ] as const;
 
@@ -189,47 +193,79 @@ export default async function StorefrontHomePage() {
         }}
       />
 
-      <section className={styles.hero} data-home-hero aria-labelledby="home-title">
-        <div className={styles.heroMedia} data-home-hero-media>
-          <Image
-            src={heroImage}
-            alt="Warm living room with soft furnishings, natural materials and ambient light"
-            fill
-            priority
-            sizes="100vw"
-            quality={88}
-          />
-        </div>
-        <div className={styles.heroShade} aria-hidden="true" />
-        <div className={styles.heroInner} data-home-hero-copy>
-          <div className={styles.heroCopy}>
-            <p className={styles.kicker}>Elevate everyday living</p>
-            <h1 className={styles.heroTitle} id="home-title">
-              Objects for a warmer home.
-            </h1>
-            <p className={styles.heroBody}>
-              Thoughtfully considered lighting, living green and objects for rooms that feel calm,
-              tactile and genuinely lived in.
-            </p>
-            <div className={styles.heroActions}>
-              <LumeButtonLink href="/#collections" showArrow>
-                Shop the collection
-              </LumeButtonLink>
-              <LumeLink href="/#story">Discover our story</LumeLink>
-            </div>
+      <section className={styles.heroShell} aria-label="House of Lume introduction">
+        <div className={styles.hero} data-home-hero aria-labelledby="home-title">
+          <div className={styles.heroMedia} data-home-hero-media>
+            <Image
+              src={heroImage}
+              alt="Warm living room with soft furnishings, natural materials and ambient light"
+              fill
+              priority
+              sizes="100vw"
+              quality={88}
+            />
           </div>
-          <div className={styles.heroFacts} aria-label="House of Lume service highlights">
-            <div>
-              <strong>PKR</strong>
-              <span>Local pricing</span>
+          <div className={styles.heroShade} aria-hidden="true" />
+          <div className={styles.heroGlow} aria-hidden="true" />
+
+          <div className={styles.heroInner} data-home-hero-copy>
+            <div className={styles.heroCopy}>
+              <div className={styles.heroEyebrowRow}>
+                <p className={styles.kicker}>House of Lume · Pakistan</p>
+                <span>Curated interiors / 2026</span>
+              </div>
+              <h1 className={styles.heroTitle} id="home-title">
+                Objects for a warmer home.
+              </h1>
+              <p className={styles.heroBody}>
+                Thoughtfully selected lighting, living green and sculptural objects for rooms that
+                feel calm, tactile and genuinely lived in.
+              </p>
+              <div className={styles.heroActions}>
+                <LumeButtonLink href="/#collections" showArrow>
+                  Explore the house
+                </LumeButtonLink>
+                <LumeLink href="/#story">Our point of view</LumeLink>
+              </div>
             </div>
-            <div>
-              <strong>COD</strong>
-              <span>At launch</span>
-            </div>
-            <div>
-              <strong>Pakistan</strong>
-              <span>Nationwide delivery</span>
+
+            <aside className={styles.heroAside} aria-label="House of Lume edit">
+              <p>The House Edit</p>
+              <div>
+                <span>01</span>
+                <strong>Lighting</strong>
+              </div>
+              <div>
+                <span>02</span>
+                <strong>Living Green</strong>
+              </div>
+              <div>
+                <span>03</span>
+                <strong>Objects</strong>
+              </div>
+            </aside>
+
+            <div className={styles.heroFacts} aria-label="House of Lume service highlights">
+              <div>
+                <span>01</span>
+                <strong>PKR pricing</strong>
+                <small>Local, clear and direct</small>
+              </div>
+              <div>
+                <span>02</span>
+                <strong>Cash on Delivery</strong>
+                <small>Built for launch</small>
+              </div>
+              <div>
+                <span>03</span>
+                <strong>Pakistan-wide</strong>
+                <small>Nationwide delivery</small>
+              </div>
+              <div>
+                <span>04</span>
+                <strong>Curated edit</strong>
+                <small>Less noise, better objects</small>
+              </div>
             </div>
           </div>
         </div>
@@ -239,14 +275,15 @@ export default async function StorefrontHomePage() {
         <div className="site-shell">
           <div className={styles.sectionHeading} data-home-reveal>
             <div>
-              <p className={styles.kicker}>Shop by category</p>
-              <h2 id="collections-title">Curated for every corner of your home.</h2>
+              <p className={styles.kicker}>01 / The Collection</p>
+              <h2 id="collections-title">Three ways to change the room.</h2>
             </div>
             <p>
-              Three starting points, one material language: softer light, living greenery and
-              objects that make a room feel considered.
+              Start with the feeling, not the checklist. Softer light, living greenery and objects
+              with enough presence to hold their own.
             </p>
           </div>
+
           <div className={styles.categoryGrid}>
             {categories.map((category) => (
               <article
@@ -259,14 +296,14 @@ export default async function StorefrontHomePage() {
                   src={category.image}
                   alt={category.alt}
                   fill
-                  sizes="(max-width: 767px) 100vw, 33vw"
+                  sizes="(max-width: 767px) 100vw, 60vw"
                 />
                 <div className={styles.categoryShade} aria-hidden="true" />
+                <div className={styles.categoryIndex}>{category.eyebrow}</div>
                 <div className={styles.categoryCopy}>
-                  <p>{category.eyebrow}</p>
                   <h3>{category.title}</h3>
                   <Link href="/#featured" className={styles.categoryLink}>
-                    Explore
+                    Explore collection
                     <span aria-hidden="true">↗</span>
                   </Link>
                 </div>
@@ -280,12 +317,12 @@ export default async function StorefrontHomePage() {
         <div className="site-shell">
           <div className={styles.featuredHeader} data-home-reveal>
             <div>
-              <p className={styles.kicker}>Featured collection</p>
-              <h2 id="featured-title">Objects chosen for atmosphere, not excess.</h2>
+              <p className={styles.kicker}>02 / The House Edit</p>
+              <h2 id="featured-title">Chosen for atmosphere, not excess.</h2>
             </div>
             <p>
-              This shelf is connected to the live House of Lume catalogue. Published products will
-              appear here automatically as the collection is populated.
+              A smaller, sharper collection of objects that earn their place through material,
+              silhouette, light and usefulness.
             </p>
           </div>
 
@@ -307,14 +344,14 @@ export default async function StorefrontHomePage() {
             </div>
           ) : (
             <div className={styles.catalogEmpty} data-home-reveal>
+              <div className={styles.catalogEmptyMark}>HL</div>
               <div>
-                <Sparkles aria-hidden="true" />
-                <p className={styles.catalogEyebrow}>Catalogue connected</p>
-                <h3>The first sellable collection is being prepared.</h3>
+                <p className={styles.catalogEyebrow}>The first House Edit</p>
+                <h3>A considered collection is arriving soon.</h3>
               </div>
               <p>
-                No fake products or invented prices are shown. As soon as a product is published in
-                Supabase, it can enter this shelf without changing the homepage layout.
+                We are preparing the first sellable edit now. The page is ready for live catalogue
+                products as soon as they are published.
               </p>
             </div>
           )}
@@ -327,16 +364,23 @@ export default async function StorefrontHomePage() {
             src={warmLivingImage}
             alt="Warm living room with lamps and natural textures"
             fill
-            sizes="(max-width: 767px) 100vw, 55vw"
+            sizes="(max-width: 767px) 100vw, 58vw"
           />
+          <div className={styles.storyCaption}>
+            <span>House study 01</span>
+            <span>Light / texture / quiet</span>
+          </div>
         </div>
         <div className={styles.storyCopy} data-home-reveal>
-          <p className={styles.kicker}>The House of Lume point of view</p>
-          <h2 id="story-title">More than objects. A calmer way of living.</h2>
+          <p className={styles.kicker}>03 / Our point of view</p>
+          <h2 id="story-title">Rooms should feel collected, not filled.</h2>
           <p>
-            A good room is not a catalogue of things. It is a balance of light, texture, greenery
-            and space. House of Lume is designed around that balance—so each object earns its place.
+            A good room is a balance of light, texture, greenery and breathing space. House of Lume
+            is built around that balance—so every object has a reason to be there.
           </p>
+          <blockquote>
+            “The goal is not more. The goal is a room that feels more like you.”
+          </blockquote>
           <div className={styles.storyNotes}>
             <span>
               <Leaf aria-hidden="true" /> Natural materials
@@ -345,19 +389,21 @@ export default async function StorefrontHomePage() {
               <Sparkles aria-hidden="true" /> Intentional light
             </span>
           </div>
-          <LumeLink href="/#spaces">Explore spaces</LumeLink>
+          <LumeLink href="/#spaces">Explore the rooms</LumeLink>
         </div>
       </section>
 
       <section className={styles.spaces} id="spaces" aria-labelledby="spaces-title">
         <div className="site-shell">
           <div className={styles.centerHeading} data-home-reveal>
-            <p className={styles.kicker}>Room discovery</p>
-            <h2 id="spaces-title">Inspiration for real spaces.</h2>
+            <p className={styles.kicker}>04 / Room stories</p>
+            <h2 id="spaces-title">Shop the mood, not the checklist.</h2>
             <p>
-              See how light, plants and objects work together instead of competing for attention.
+              Different rooms ask for different kinds of warmth. Start with atmosphere, then layer
+              in the objects that make it yours.
             </p>
           </div>
+
           <div className={styles.roomGrid}>
             {rooms.map((room) => (
               <article className={styles.roomCard} key={room.title} data-home-reveal>
@@ -366,12 +412,14 @@ export default async function StorefrontHomePage() {
                     src={room.image}
                     alt={room.alt}
                     fill
-                    sizes="(max-width: 767px) 85vw, 25vw"
+                    sizes="(max-width: 767px) 92vw, 50vw"
                   />
+                  <span className={styles.roomIndex}>{room.index}</span>
                 </div>
                 <div className={styles.roomCopy}>
                   <h3>{room.title}</h3>
                   <p>{room.copy}</p>
+                  <span aria-hidden="true">View mood ↗</span>
                 </div>
               </article>
             ))}
@@ -383,15 +431,21 @@ export default async function StorefrontHomePage() {
         <div className="site-shell">
           <div className={styles.materialGrid}>
             <div className={styles.materialCopy} data-home-reveal>
-              <p className={styles.kicker}>Material story</p>
-              <h2 id="materials-title">Designed around what light touches.</h2>
+              <p className={styles.kicker}>05 / Material language</p>
+              <h2 id="materials-title">Warmth lives in the details.</h2>
               <p>
-                Stone, ceramic, plant texture, brushed metal and linen respond differently through
-                the day. Our visual language keeps those differences visible instead of flattening
-                every product into the same card treatment.
+                Stone, ceramic, brushed metal, linen and plant texture all hold light differently.
+                Our visual language keeps those differences visible rather than flattening
+                everything into one generic product treatment.
               </p>
+              <div className={styles.materialList} aria-label="Material principles">
+                <span>01 · Honest texture</span>
+                <span>02 · Warm reflection</span>
+                <span>03 · Natural contrast</span>
+              </div>
               <LumeLink href="/#journal">Read the House Notes</LumeLink>
             </div>
+
             <div className={styles.materialMosaic} data-home-reveal>
               <div className={styles.materialLarge}>
                 <Image
@@ -421,14 +475,21 @@ export default async function StorefrontHomePage() {
 
       <section className={styles.trust} id="delivery" aria-label="Service commitments">
         <div className="site-shell">
+          <div className={styles.trustLead} data-home-reveal>
+            <p className={styles.kicker}>06 / Designed for Pakistan</p>
+            <h2>Beautiful on the surface. Practical underneath.</h2>
+          </div>
           <div className={styles.trustGrid}>
-            {trustItems.map((item) => {
+            {trustItems.map((item, index) => {
               const Icon = item.icon;
               return (
                 <article key={item.title} className={styles.trustItem} data-home-reveal>
-                  <Icon aria-hidden="true" />
+                  <div className={styles.trustIcon}>
+                    <Icon aria-hidden="true" />
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                  </div>
                   <div>
-                    <h2>{item.title}</h2>
+                    <h3>{item.title}</h3>
                     <p>{item.copy}</p>
                   </div>
                 </article>
@@ -441,25 +502,26 @@ export default async function StorefrontHomePage() {
       <section className={styles.journal} id="journal" aria-labelledby="journal-title">
         <div className="site-shell">
           <div className={styles.journalLead} data-home-reveal>
-            <p className={styles.kicker}>House Notes</p>
+            <p className={styles.kicker}>07 / House Notes</p>
             <blockquote id="journal-title">
-              “Beautiful design has a way of slowing things down.”
+              “Beautiful rooms rarely shout. They hold your attention quietly.”
             </blockquote>
             <p>
-              Notes on warmer lighting, calmer greenery, material choices and the small decisions
-              that make home feel more personal.
+              Notes on lighting, greenery, material choices and the small decisions that make home
+              feel more personal.
             </p>
           </div>
+
           <div className={styles.journalGrid}>
             <article data-home-reveal>
               <Image
                 src={bedroomImage}
                 alt="Warm bedroom in soft natural light"
                 fill
-                sizes="33vw"
+                sizes="(max-width: 767px) 100vw, 42vw"
               />
               <div>
-                <span>01</span>
+                <span>01 · Light</span>
                 <h3>Building a softer evening light plan</h3>
               </div>
             </article>
@@ -468,10 +530,10 @@ export default async function StorefrontHomePage() {
                 src={greenLivingImage}
                 alt="Greenery arranged in a warm living room"
                 fill
-                sizes="33vw"
+                sizes="(max-width: 767px) 100vw, 29vw"
               />
               <div>
-                <span>02</span>
+                <span>02 · Green</span>
                 <h3>Living green without visual clutter</h3>
               </div>
             </article>
@@ -480,21 +542,22 @@ export default async function StorefrontHomePage() {
                 src={objectStudyImage}
                 alt="Small interior vignette with lamp and plant"
                 fill
-                sizes="33vw"
+                sizes="(max-width: 767px) 100vw, 29vw"
               />
               <div>
-                <span>03</span>
+                <span>03 · Objects</span>
                 <h3>Why one considered object can be enough</h3>
               </div>
             </article>
           </div>
+
           <div className={styles.newsletter} data-home-reveal>
             <div>
-              <p className={styles.kicker}>Join the House of Lume journal</p>
-              <h2>New collections, useful room notes and quieter inspiration.</h2>
+              <p className={styles.kicker}>Stay inside the House</p>
+              <h2>New edits, useful room notes and quieter inspiration.</h2>
               <p>
-                Your email is stored privately and is never exposed through the public catalogue
-                API.
+                Occasional notes only—new collections, practical styling ideas and thoughtful
+                product stories.
               </p>
             </div>
             <NewsletterForm />
