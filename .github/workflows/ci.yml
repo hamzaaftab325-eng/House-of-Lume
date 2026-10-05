@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -25,8 +25,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-        with:
-          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -36,6 +34,22 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
+
+      - name: Format Phase 3
+        run: npm run format
+
+      - name: Commit formatting when needed
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No formatting changes needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "style: format Phase 3 implementation"
+          git push
 
       - name: Production dependency audit
         run: npm run audit:prod
