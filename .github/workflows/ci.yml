@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -26,8 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          persist-credentials: true
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -37,27 +36,6 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
-
-      - name: Fix mobile overflow
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          path = Path("src/app/(store)/page.module.css")
-          text = path.read_text()
-          text = text.replace("    margin-right: calc(-1 * var(--page-gutter));\n", "")
-          path.write_text(text)
-          PY
-          npx prettier --write "src/app/(store)/page.module.css"
-
-      - name: Commit responsive fix
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "src/app/(store)/page.module.css"
-          if ! git diff --cached --quiet; then
-            git commit -m "fix: prevent mobile homepage overflow"
-            git push
-          fi
 
       - name: Production dependency audit
         run: npm run audit:prod
