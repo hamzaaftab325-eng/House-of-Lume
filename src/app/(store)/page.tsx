@@ -275,19 +275,12 @@ export default async function StorefrontHomePage() {
           <h2 id="collections-title" data-home-heading>
             Three ways to change the room.
           </h2>
-          <p>
-            Start with the atmosphere you want to create. The objects come after.
-          </p>
+          <p>Start with the atmosphere you want to create. The objects come after.</p>
         </header>
 
         <div className={styles.chapterList}>
           {categories.map((category) => (
-            <article
-              className={styles.chapter}
-              id={category.id}
-              key={category.id}
-              data-home-reveal
-            >
+            <article className={styles.chapter} id={category.id} key={category.id} data-home-reveal>
               <div className={styles.chapterMeta}>
                 <span>{category.number}</span>
                 <p>{category.label}</p>
@@ -426,7 +419,9 @@ export default async function StorefrontHomePage() {
       </section>
 
       <section className={styles.materials} aria-labelledby="materials-title">
-        <div className={styles.materialBackdrop} aria-hidden="true">Material</div>
+        <div className={styles.materialBackdrop} aria-hidden="true">
+          Material
+        </div>
         <div className={styles.materialGrid}>
           <div className={styles.materialCopy} data-home-reveal>
             <p className={styles.eyebrow}>Material language</p>
@@ -434,8 +429,8 @@ export default async function StorefrontHomePage() {
               Warmth lives in what light touches.
             </h2>
             <p>
-              Linen absorbs it. Ceramic holds it. Metal throws it back. Leaves break it apart.
-              Those differences are the point.
+              Linen absorbs it. Ceramic holds it. Metal throws it back. Leaves break it apart. Those
+              differences are the point.
             </p>
             <LumeLink href="/#journal">Read the House Notes</LumeLink>
           </div>
@@ -471,8 +466,8 @@ export default async function StorefrontHomePage() {
           <p className={styles.eyebrow}>Designed for Pakistan</p>
           <h2 id="delivery-title">Quiet design. Clear service.</h2>
           <p>
-            The visual experience can be expressive. Ordering should be simple, familiar and easy
-            to understand.
+            The visual experience can be expressive. Ordering should be simple, familiar and easy to
+            understand.
           </p>
         </div>
 

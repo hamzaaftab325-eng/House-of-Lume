@@ -65,20 +65,16 @@ export function HomeMotion() {
       const lineItems = gsap.utils.toArray<HTMLElement>("[data-lume-line]");
       lineItems.forEach((element) => {
         const isVertical = element.offsetHeight > element.offsetWidth * 4;
-        gsap.fromTo(
-          element,
-          isVertical ? { scaleY: 0 } : { scaleX: 0 },
-          {
-            ...(isVertical ? { scaleY: 1 } : { scaleX: 1 }),
-            duration: 1.1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: element,
-              start: "top 92%",
-              once: true,
-            },
+        gsap.fromTo(element, isVertical ? { scaleY: 0 } : { scaleX: 0 }, {
+          ...(isVertical ? { scaleY: 1 } : { scaleX: 1 }),
+          duration: 1.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 92%",
+            once: true,
           },
-        );
+        });
       });
 
       const parallaxItems = gsap.utils.toArray<HTMLElement>("[data-home-parallax]");
