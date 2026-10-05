@@ -1,0 +1,88 @@
+name: Import Phase 3 Assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/import-phase3-assets.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  import-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install image tooling
+        run: python -m pip install --disable-pip-version-check pillow
+
+      - name: Download generated source assets
+        env:
+          HERO_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy9lYmNhZjRmZS0yNTkzLTRhMmQtYmU3OC1hZTBkODZjYmFmYzYucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2laRFZsT1RZNFlqRmtZMkUxWkRFeFppSXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTTNPREE1TjMwLlV3aHNPT1cyN0UzeU9KVFRDVFp3ZHJkZ2o1TmpBNG55TGJCeVJtZS12OU0="
+          LIGHTING_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy85OGJmYjkyZS1jMTI2LTRiNjAtYTczMS0xYTIyMzIwMzk2Y2QucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2laR1JpWTJNek9ETTVOV1U1TTJJMFlTSXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTTBNVGsxTlgwLmltMFpZOWpJRHdTbGNiZ2hQOEgwbjBUWld2WkV4eldPUTdUQkxsZFU4UDA="
+          PLANTS_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy80ZWY3YjlkZi02YWI2LTRhM2MtYTk5YS1jOGRjZDhjMWM2ZTQucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2lNRGd6WlRNNU9HSXlObVpoTldGbFpTSXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTTROamc1TVgwLlFZdjJSRFJoTlhvZE0tbHBJc20zV2kweEw3dVZPMlR6UENnSnZwZ2xpWlk="
+          DECOR_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy82NzgwODM1Yi1hNjhlLTQ0ZjMtOGVlNS1mZDRlNmFiMmZlMDEucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2lOVGhqTWpZeVltTTJPRGRrTW1KbE5DSXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTTJNVFEyT0gwLjJSOXJsMUlBV1Azb2hqOGZSSUFkYl9wUGg0UUI4YzhEc05vZDNGa0R1ajA="
+          PLANTERS_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy9mNDMwZTNmNS0zMGU2LTQ4MWItOGZhNS05ZWQyMjhkZGI2N2QucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2lPRGRrTUdFeVlUazFPVGMyTXpReE9TSXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTTROelk0T1gwLjdLRXdKWGN3S2dSMWMwb1FQbGdLSjJ4VkZCSzNaSVplbnNGSjEtZUI3OFk="
+          FEATURED_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy82ZmQ0NWVlMS02YWJhLTQ1MTktYmJlYS1jZmI3NmI0YTkxNjYucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2lNVFl3TXpVeE9EVmlPVGhoTkRrNU15SXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTTNNemd5T1gwLkFRRFdFd3VNMllDVE1hckhyN0JhNzJVaGk0RGZ0WUhMcXlETWtqbVJnbDQ="
+          COLLECTION_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy9mMzM0ZDJlNC00NDBlLTQwMWMtOGQzOS01NTk0NTdhYzdhOTMucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2lNMlEwWWpZell6STVZMkl6WXpoaU9TSXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTTBPVE14TkgwLnl3WlgwVW9DVVV6ai1zNlZWVVZtWjB4NzVYaGhOOUprQWo4TzhKNFNqN00="
+          LIVING_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy9kMjQzMDk1ZC02M2FiLTRiZWUtYTk4ZS1kYjYxOWIzMjJiNTEucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2lPVFkxWlRoa01HTmxNR1V3TXpka1pDSXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTXhOalE1TW4wLk1PZktwYVQzN1hyLVF4YUd3bzlpWmxqUE43NjR0V1pHZFVvRTh1aU9QRGc="
+          BEDROOM_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy9hNWRlNzc5Yi1kMzc4LTQ0ZGUtYjNiOS04YjA4Y2ZmZTVmMWQucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2laV000TVROaVlqaGlPR00wTURkbE5pSXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTTVNREF3T0gwLkNNTU5pSF80ajQ5Y1ZXSjJmNko3ekcycmE5M0ZwRFgxSTFXQnVPbzJLdTA="
+          DINING_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy9hYmRlNmQwYi1lZTAyLTQ0ZWUtYTNhNC00NTkzNGRiMjhiNjUucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2lNams1T0RjMU5qUTJPRGc1TmprellTSXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTXpOVGM0TUgwLk1ITVptNEhRZF96T0kyaVZWZmFyT1JqanNWMGRBcmt6YU5hcHhYRE9TTE0="
+          WORKSPACE_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy8zMjYwMmM0YS1jMDQ1LTRjMzctOTBjNi1kOWMwNmVmNGQ3YWMucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2lNalExWTJaa1lXTmhZek16TTJRMFpTSXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTXpORGd5T0gwLjg0NFptTC02MlpsbUlIbGI4dkh0Y2pSemJmZGNXM2t6ZzJUVVc4emc3VUU="
+          CONCEPT_B64: "aHR0cHM6Ly9kMmpxcm02b3phOG5iNi5jbG91ZGZyb250Lm5ldC9kYXRhc2V0cy9mMjZjODNkOC0yNDRjLTQ2N2QtOTI0My04YzZkOWY3ZmYzNmMucG5nP19qd3Q9ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnJaWGxJWVhOb0lqb2lOREV3WmpCaFltSmxPVEpqWTJZMlppSXNJbUoxWTJ0bGRDSTZJbkoxYm5kaGVTMWtZWFJoYzJWMGN5SXNJbk4wWVdkbElqb2ljSEp2WkNJc0ltVjRjQ0k2TVRjNU1UTTBORGd5TjMwLkFvNWdjNkp4bUdFU2NUZkhPdkNiRmhfN0hrbTBLQTVLREVVTGpkbXo3SWM="
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/hol-assets public/images/house-of-lume
+          fetch() { printf '%s' "$2" | base64 -d | xargs -0 curl -fL -o "/tmp/hol-assets/$1.png"; }
+          fetch hero "$HERO_B64"
+          fetch lighting "$LIGHTING_B64"
+          fetch plants "$PLANTS_B64"
+          fetch decor "$DECOR_B64"
+          fetch planters "$PLANTERS_B64"
+          fetch featured "$FEATURED_B64"
+          fetch collection "$COLLECTION_B64"
+          fetch living "$LIVING_B64"
+          fetch bedroom "$BEDROOM_B64"
+          fetch dining "$DINING_B64"
+          fetch workspace "$WORKSPACE_B64"
+          fetch concept "$CONCEPT_B64"
+
+      - name: Optimize and crop production assets
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          source = Path('/tmp/hol-assets')
+          target = Path('public/images/house-of-lume')
+          target.mkdir(parents=True, exist_ok=True)
+          specs = {'hero':1800,'lighting':900,'plants':900,'decor':900,'planters':900,'featured':1800,'collection':1800,'living':1200,'bedroom':1200,'dining':1200,'workspace':1200}
+          for name, max_width in specs.items():
+              image = Image.open(source / f'{name}.png').convert('RGB')
+              if image.width > max_width:
+                  image = image.resize((max_width, round(image.height * max_width / image.width)), Image.Resampling.LANCZOS)
+              image.save(target / f'{name}.webp', 'WEBP', quality=78, method=6)
+          concept = Image.open(source / 'concept.png').convert('RGB')
+          w, h = concept.size
+          craft = concept.crop((0, int(h * 0.645), int(w * 0.43), int(h * 0.775)))
+          craft = craft.resize((1200, round(1200 * craft.height / craft.width)), Image.Resampling.LANCZOS)
+          craft.save(target / 'craftsmanship.webp', 'WEBP', quality=80, method=6)
+          PY
+
+      - name: Commit permanent assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/images/house-of-lume
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "assets: add final Phase 3 imagery"
+          git push
