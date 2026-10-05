@@ -37,12 +37,14 @@ export function StoreHeader() {
 
   return (
     <>
-      <div className={styles.announcement}>
-        <span>Free Delivery Across Pakistan</span>
-        <span>Cash on Delivery</span>
-        <span>Easy Returns</span>
-        <span>Premium Quality</span>
-      </div>
+      {!isHome && (
+        <div className={styles.announcement}>
+          <span>Free Delivery Across Pakistan</span>
+          <span>Cash on Delivery</span>
+          <span>Easy Returns</span>
+          <span>Premium Quality</span>
+        </div>
+      )}
       <header className={styles.header} data-home={isHome} data-scrolled={scrolled}>
         <div className={styles.headerInner}>
           <div className={styles.mobileMenu}>
@@ -186,11 +188,11 @@ export function StoreFooter() {
             <div className={styles.footerGroup}>
               <h2>About</h2>
               <Link href="/#collection">Our Story</Link>
-              <Link href="/#craft">Craftsmanship</Link>
+              <Link href="/#materials">Craftsmanship</Link>
               <Link href="/#collection">House Collection</Link>
               <Link href="/#newsletter-title">Journal</Link>
             </div>
-            <div className={styles.footerGroup} id="delivery">
+            <div className={styles.footerGroup}>
               <h2>Help</h2>
               <Link href="/account">Customer Account</Link>
               <span>Shipping &amp; Delivery</span>
