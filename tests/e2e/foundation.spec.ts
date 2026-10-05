@@ -15,13 +15,11 @@ test("production homepage renders its full storytelling structure", async ({ pag
   await expect(page.getByRole("heading", { name: "Objects for a warmer home." })).toBeVisible();
   await expect(page.getByRole("banner")).toBeVisible();
   await expect(page.getByRole("contentinfo")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Three ways to change the room." })).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Curated for every corner of your home." }),
+    page.getByRole("heading", { name: "Rooms should feel collected, not filled." }),
   ).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: "More than objects. A calmer way of living." }),
-  ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Inspiration for real spaces." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Shop the mood, not the checklist." })).toBeVisible();
   await expect(page.getByText("Cash on Delivery", { exact: true }).first()).toBeVisible();
   await expect(page.getByLabel("Email address")).toBeVisible();
 });
@@ -140,7 +138,7 @@ test("reduced motion keeps the homepage usable without scrub choreography", asyn
 
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
   await expect(page.getByRole("heading", { name: "Objects for a warmer home." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Inspiration for real spaces." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Shop the mood, not the checklist." })).toBeVisible();
 });
 
 test("account and CRM foundation routes still load", async ({ page }) => {
