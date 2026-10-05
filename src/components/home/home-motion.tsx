@@ -18,7 +18,7 @@ export function HomeMotion() {
       revealItems.forEach((element) => {
         gsap.from(element, {
           opacity: 0,
-          y: 36,
+          y: 26,
           duration: 0.9,
           ease: "power3.out",
           scrollTrigger: {
@@ -29,19 +29,71 @@ export function HomeMotion() {
         });
       });
 
+      const headingItems = gsap.utils.toArray<HTMLElement>("[data-home-heading]");
+      headingItems.forEach((element) => {
+        gsap.from(element, {
+          opacity: 0,
+          y: 34,
+          duration: 1.05,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 86%",
+            once: true,
+          },
+        });
+      });
+
+      const imageItems = gsap.utils.toArray<HTMLElement>("[data-home-image]");
+      imageItems.forEach((element) => {
+        gsap.fromTo(
+          element,
+          { clipPath: "inset(0 0 14% 0)" },
+          {
+            clipPath: "inset(0 0 0% 0)",
+            duration: 1.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: element,
+              start: "top 86%",
+              once: true,
+            },
+          },
+        );
+      });
+
+      const lineItems = gsap.utils.toArray<HTMLElement>("[data-lume-line]");
+      lineItems.forEach((element) => {
+        const isVertical = element.offsetHeight > element.offsetWidth * 4;
+        gsap.fromTo(
+          element,
+          isVertical ? { scaleY: 0 } : { scaleX: 0 },
+          {
+            ...(isVertical ? { scaleY: 1 } : { scaleX: 1 }),
+            duration: 1.1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: element,
+              start: "top 92%",
+              once: true,
+            },
+          },
+        );
+      });
+
       const parallaxItems = gsap.utils.toArray<HTMLElement>("[data-home-parallax]");
       parallaxItems.forEach((element) => {
         gsap.fromTo(
           element,
-          { yPercent: -3 },
+          { yPercent: -2.5 },
           {
-            yPercent: 4,
+            yPercent: 3.5,
             ease: "none",
             scrollTrigger: {
               trigger: element,
               start: "top bottom",
               end: "bottom top",
-              scrub: 0.8,
+              scrub: 0.9,
             },
           },
         );
@@ -49,10 +101,11 @@ export function HomeMotion() {
 
       const heroMedia = document.querySelector<HTMLElement>("[data-home-hero-media]");
       const heroCopy = document.querySelector<HTMLElement>("[data-home-hero-copy]");
+
       if (heroMedia) {
         gsap.to(heroMedia, {
-          scale: 1.035,
-          yPercent: 4,
+          scale: 1.045,
+          yPercent: 3.5,
           ease: "none",
           scrollTrigger: {
             trigger: "[data-home-hero]",
@@ -62,27 +115,31 @@ export function HomeMotion() {
           },
         });
       }
+
       if (heroCopy) {
         gsap.to(heroCopy, {
-          yPercent: -7,
-          opacity: 0.78,
+          yPercent: -4,
+          opacity: 0.84,
           ease: "none",
           scrollTrigger: {
             trigger: "[data-home-hero]",
             start: "top top",
-            end: "bottom 25%",
-            scrub: 0.7,
+            end: "bottom 22%",
+            scrub: 0.75,
           },
         });
       }
     });
 
     mm.add("(max-width: 767px)", () => {
-      const revealItems = gsap.utils.toArray<HTMLElement>("[data-home-reveal]");
+      const revealItems = gsap.utils.toArray<HTMLElement>(
+        "[data-home-reveal], [data-home-heading], [data-home-image]",
+      );
+
       revealItems.forEach((element) => {
         gsap.from(element, {
           opacity: 0,
-          y: 18,
+          y: 16,
           duration: 0.55,
           ease: "power2.out",
           scrollTrigger: {
