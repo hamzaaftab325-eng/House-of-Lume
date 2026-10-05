@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Headphones,
-  PackageCheck,
-  Play,
-  ShieldCheck,
-  Truck,
-} from "lucide-react";
+import { ArrowRight, Headphones, PackageCheck, Play, ShieldCheck, Truck } from "lucide-react";
 
 import { HomeMotion } from "@/components/home/home-motion";
 import { NewsletterForm } from "@/components/home/newsletter-form";

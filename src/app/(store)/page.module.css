@@ -449,7 +449,7 @@
   font-size: 0.66rem;
 }
 
-.productLabel button {
+.productAction {
   position: absolute;
   right: 0.65rem;
   bottom: 0.65rem;
@@ -1002,7 +1002,7 @@
     padding-right: 2.6rem;
   }
 
-  .productLabel button {
+  .productAction {
     width: 1.75rem;
     height: 1.75rem;
     right: 0.45rem;
