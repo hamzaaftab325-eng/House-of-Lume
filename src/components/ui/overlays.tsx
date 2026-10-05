@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import Link from "next/link";
 import { ChevronDown, Search, X } from "lucide-react";
 
 import { cx } from "@/lib/cx";
@@ -231,6 +232,12 @@ type SearchOverlayProps = {
   onOpenChange: (open: boolean) => void;
 };
 
+const searchDestinations = [
+  ["01", "Warm lighting", "/#lighting"],
+  ["02", "Living green", "/#plants"],
+  ["03", "Objects & materials", "/#objects"],
+] as const;
+
 export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
   return (
     <LumeDialog
@@ -261,12 +268,8 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
         </LumeButton>
       </form>
       <nav className={styles.searchSuggestions} aria-label="Quick search destinations">
-        {[
-          ["01", "Warm lighting", "/#lighting"],
-          ["02", "Living green", "/#plants"],
-          ["03", "Objects & materials", "/#objects"],
-        ].map(([index, label, href]) => (
-          <a
+        {searchDestinations.map(([index, label, href]) => (
+          <Link
             key={index}
             className={styles.searchSuggestion}
             href={href}
@@ -275,7 +278,7 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
             <span className={styles.searchIndex}>{index}</span>
             <span>{label}</span>
             <Search aria-hidden="true" size={16} />
-          </a>
+          </Link>
         ))}
       </nav>
     </LumeDialog>
