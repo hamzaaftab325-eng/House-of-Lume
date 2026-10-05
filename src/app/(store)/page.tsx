@@ -383,7 +383,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.serviceRail} id="delivery" aria-label="Shopping with House of Lume">
+      <section
+        className={styles.serviceRail}
+        id="delivery"
+        aria-label="Shopping with House of Lume"
+      >
         {services.map((service) => {
           const Icon = service.icon;
           return (
