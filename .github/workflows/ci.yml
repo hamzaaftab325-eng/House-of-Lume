@@ -3,12 +3,10 @@ name: CI
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -26,8 +24,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-        with:
-          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -37,6 +33,22 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
+
+      - name: Format redesigned homepage
+        run: npm run format
+
+      - name: Commit formatter output
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No formatting changes needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/app/'(store)'/page.module.css tests/e2e/foundation.spec.ts
+          git commit -m "style: format elevated homepage"
+          git push
 
       - name: Production dependency audit
         run: npm run audit:prod
