@@ -153,9 +153,9 @@ export function StoreFooter() {
           <nav className={styles.footerNav} aria-label="Footer navigation">
             <div className={styles.footerGroup}>
               <h2>Explore</h2>
-              <a href="/#lighting">Lighting</a>
-              <a href="/#plants">Living Green</a>
-              <a href="/#objects">Objects</a>
+              <Link href="/#lighting">Lighting</Link>
+              <Link href="/#plants">Living Green</Link>
+              <Link href="/#objects">Objects</Link>
             </div>
             <div className={styles.footerGroup}>
               <h2>House</h2>
