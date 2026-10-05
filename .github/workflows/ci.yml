@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -22,9 +22,12 @@ jobs:
       NEXT_PUBLIC_SITE_URL: http://127.0.0.1:3000
       NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
       NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci_placeholder_key
+      HOUSE_OF_LUME_SKIP_EXTERNAL_DATA: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -34,22 +37,6 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
-
-      - name: Format Phase 3
-        run: npm run format
-
-      - name: Commit formatting when needed
-        shell: bash
-        run: |
-          if git diff --quiet; then
-            echo "No formatting changes needed."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "style: format Phase 3 implementation"
-          git push
 
       - name: Production dependency audit
         run: npm run audit:prod
