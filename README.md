@@ -21,6 +21,7 @@ Read these before implementation work:
 3. `PROJECT_PLAN.md` — scope, phases and COD operations architecture
 4. `PHASE_EXECUTION_TEMPLATE.md` — mandatory phase checklist/audit format
 5. `ARCHITECTURE.md` — route, domain, service, validation and data-access boundaries
+6. `SECURITY.md` — dependency-security gates and documented tooling exceptions
 
 ## Current architecture
 
@@ -83,6 +84,7 @@ npm run dev
 ## Quality gates
 
 ```bash
+npm run audit:prod
 npm run format:check
 npm run lint
 npm run typecheck
@@ -92,6 +94,8 @@ npm run test:e2e
 ```
 
 The same gates are enforced by GitHub Actions using Node.js 24 LTS and the committed dependency lockfile.
+
+The production dependency audit must report no high/critical runtime vulnerabilities. Development-tool advisory handling is defined in `SECURITY.md` and must never be silently ignored.
 
 A phase cannot be marked 100% complete if an applicable quality gate is failing or unverified when verification is available.
 
