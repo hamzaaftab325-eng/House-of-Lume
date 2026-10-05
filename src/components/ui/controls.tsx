@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { Route } from "next";
 import Link, { type LinkProps } from "next/link";
 import { ArrowRight } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -36,6 +37,8 @@ type ButtonVisualProps = VariantProps<typeof buttonVariants> & {
 
 type LumeButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & ButtonVisualProps;
 
+type TypedLinkProps = LinkProps<Route>;
+
 export function LumeButton({
   className,
   variant,
@@ -58,7 +61,7 @@ export function LumeButton({
   );
 }
 
-type LumeButtonLinkProps = LinkProps &
+type LumeButtonLinkProps = TypedLinkProps &
   ButtonVisualProps & {
     children: ReactNode;
     className?: string;
@@ -81,7 +84,7 @@ export function LumeButtonLink({
   );
 }
 
-type LumeLinkProps = LinkProps & {
+type LumeLinkProps = TypedLinkProps & {
   children: ReactNode;
   className?: string;
 };

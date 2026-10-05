@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { Route } from "next";
 import Link from "next/link";
 import { ArrowUpRight, Heart, Menu, Search, ShoppingBag, UserRound } from "lucide-react";
 
@@ -9,7 +10,12 @@ import { IconButton, LumeButton } from "@/components/ui/controls";
 
 import styles from "./store-shell.module.css";
 
-const navItems = [
+type StoreNavItem = {
+  label: string;
+  href: Route;
+};
+
+const navItems: readonly StoreNavItem[] = [
   { label: "Lighting", href: "/#lighting" },
   { label: "Living Green", href: "/#plants" },
   { label: "Objects", href: "/#objects" },
