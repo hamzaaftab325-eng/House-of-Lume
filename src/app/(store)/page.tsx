@@ -3,12 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  Gem,
   Headphones,
-  Heart,
   Leaf,
   PackageCheck,
   Play,
+  ShieldCheck,
   Star,
   Truck,
 } from "lucide-react";
@@ -37,7 +36,7 @@ export const metadata: Metadata = {
         url: "/images/house-of-lume/hero.webp",
         width: 1800,
         height: 1013,
-        alt: "Warm House of Lume interior with lighting, plants and sculptural decor",
+        alt: "Warm House of Lume interior with sculptural lighting, plants and decor",
       },
     ],
   },
@@ -74,24 +73,68 @@ const categories = [
   },
 ] as const;
 
-const featured = [
-  { name: "Lighting Edit", note: "Collection preview", type: "Lighting" },
-  { name: "Living Green Edit", note: "Collection preview", type: "Living Green" },
-  { name: "Sculptural Objects", note: "Collection preview", type: "Objects" },
-  { name: "Warm Light Edit", note: "Collection preview", type: "Lighting" },
+const featuredProducts = [
+  { name: "Eclipse Table Lamp", price: "Rs. 18,500" },
+  { name: "Ribbed Lily Planter", price: "Rs. 7,200" },
+  { name: "Sculptural Vase", price: "Rs. 8,800" },
+  { name: "Terra Table Lamp", price: "Rs. 14,200" },
+] as const;
+
+const rooms = [
+  {
+    title: "Living Room",
+    image: "/images/house-of-lume/living.webp",
+    alt: "Warm living room styled with House of Lume plants and lighting",
+  },
+  {
+    title: "Bedroom",
+    image: "/images/house-of-lume/bedroom.webp",
+    alt: "Warm premium bedroom with ambient House of Lume lighting",
+  },
+  {
+    title: "Dining Room",
+    image: "/images/house-of-lume/dining.webp",
+    alt: "Warm dining room with pendant lights, greenery and natural materials",
+  },
+  {
+    title: "Workspace",
+    image: "/images/house-of-lume/workspace.webp",
+    alt: "Refined home workspace with warm light and greenery",
+  },
+] as const;
+
+const materialTiles = [
+  {
+    title: "Natural Rattan",
+    copy: "Handwoven by artisans",
+    image: "/images/house-of-lume/lighting.webp",
+    position: "rattan",
+  },
+  {
+    title: "Solid Wood",
+    copy: "Built to last",
+    image: "/images/house-of-lume/workspace.webp",
+    position: "wood",
+  },
+  {
+    title: "Ceramics",
+    copy: "Timeless & unique",
+    image: "/images/house-of-lume/decor.webp",
+    position: "ceramic",
+  },
+  {
+    title: "Living Plants",
+    copy: "Naturally better spaces",
+    image: "/images/house-of-lume/plants.webp",
+    position: "green",
+  },
 ] as const;
 
 const services = [
-  { icon: Truck, title: "Cash on Delivery", copy: "Available across Pakistan" },
+  { icon: Truck, title: "Cash on Delivery", copy: "All over Pakistan" },
   { icon: PackageCheck, title: "7-Day Easy Returns", copy: "Shop with confidence" },
-  { icon: Star, title: "Curated Quality", copy: "Considered pieces, selected well" },
-  { icon: Headphones, title: "Dedicated Support", copy: "We’re here to help" },
-] as const;
-
-const craftPoints = [
-  { icon: Leaf, title: "Premium Materials" },
-  { icon: Gem, title: "Thoughtful Design" },
-  { icon: Heart, title: "Made for Pakistani Homes" },
+  { icon: Star, title: "4.9/5 Customer Rating", copy: "Loved by modern homes" },
+  { icon: ShieldCheck, title: "Secure & Safe Checkout", copy: "Your information is protected" },
 ] as const;
 
 export default function HomePage() {
@@ -139,7 +182,6 @@ export default function HomePage() {
           />
         </div>
         <div className={styles.heroShade} aria-hidden="true" />
-
         <div className={styles.heroInner}>
           <div className={styles.heroCopy} data-home-hero-copy>
             <p className={styles.eyebrow}>Pakistan&apos;s curated destination</p>
@@ -152,7 +194,7 @@ export default function HomePage() {
             </p>
             <div className={styles.heroActions}>
               <Link className={styles.primaryCta} href="#categories">
-                Shop Collection <ArrowRight aria-hidden="true" />
+                Shop Collections <ArrowRight aria-hidden="true" />
               </Link>
               <Link className={styles.storyCta} href="#collection">
                 <span className={styles.playButton} aria-hidden="true">
@@ -164,15 +206,15 @@ export default function HomePage() {
             <div className={styles.heroStats} aria-label="House of Lume service highlights">
               <div>
                 <strong>500+</strong>
-                <span>Curated inspirations</span>
+                <span>Curated Products</span>
               </div>
               <div>
-                <strong>PKR</strong>
-                <span>Local pricing</span>
+                <strong>4.9★</strong>
+                <span>Customer Rating</span>
               </div>
               <div>
-                <strong>COD</strong>
-                <span>All over Pakistan</span>
+                <strong>Cash on Delivery</strong>
+                <span>All Over Pakistan</span>
               </div>
             </div>
           </div>
@@ -193,8 +235,8 @@ export default function HomePage() {
           <p className={styles.eyebrowDark}>Shop by category</p>
           <h2 id="categories-title">Curated for a More Beautiful Home</h2>
           <p>
-            From statement lighting to lush greenery and artisanal decor, discover pieces that bring
-            warmth, character and life to every corner.
+            Explore our collections of lamps, plants and decor — thoughtfully chosen to bring
+            warmth, character and calm into everyday spaces.
           </p>
           <Link className={styles.textLink} href="#featured">
             View All Collections <ArrowRight aria-hidden="true" />
@@ -213,13 +255,13 @@ export default function HomePage() {
                 src={category.image}
                 alt={category.alt}
                 fill
-                sizes="(max-width: 767px) 78vw, 20vw"
+                sizes="(max-width: 767px) 76vw, 19vw"
               />
               <div className={styles.categoryShade} aria-hidden="true" />
               <div className={styles.categoryContent}>
                 <h3>{category.title}</h3>
                 <p>{category.copy}</p>
-                <Link href="#featured" aria-label={`Explore ${category.title}`}>
+                <Link href="#featured" aria-label={`Shop ${category.title}`}>
                   Shop Now <ArrowRight aria-hidden="true" />
                 </Link>
               </div>
@@ -232,7 +274,7 @@ export default function HomePage() {
         <div className={styles.featuredMedia} data-home-parallax>
           <Image
             src="/images/house-of-lume/featured.webp"
-            alt="Curated House of Lume lighting, greenery and sculptural objects"
+            alt="Curated House of Lume lamp, planter, sculptural vase and table lamp on stone plinths"
             fill
             sizes="100vw"
           />
@@ -242,19 +284,22 @@ export default function HomePage() {
           <div className={styles.featuredCopy} data-home-reveal>
             <p className={styles.eyebrowLight}>Featured products</p>
             <h2 id="featured-title">
-              Design Meets <span>Everyday</span> Living
+              Design Meets <span>Everyday Living</span>
             </h2>
-            <p>A visual preview of the House of Lume edit while the live catalogue is prepared.</p>
+            <p>Timeless pieces for homes that feel personal, peaceful and alive.</p>
             <Link className={styles.featuredLink} href="#collection">
-              Explore the Edit <ArrowRight aria-hidden="true" />
+              View All Products <ArrowRight aria-hidden="true" />
             </Link>
           </div>
-          <div className={styles.featuredProducts} aria-label="House of Lume collection preview">
-            {featured.map((item) => (
-              <div className={styles.featuredProduct} key={item.name}>
-                <span>{item.type}</span>
-                <strong>{item.name}</strong>
-                <small>{item.note}</small>
+
+          <div className={styles.productLabels} aria-label="Featured House of Lume products">
+            {featuredProducts.map((product) => (
+              <div className={styles.productLabel} key={product.name}>
+                <strong>{product.name}</strong>
+                <span>{product.price}</span>
+                <button type="button" aria-label={`Add ${product.name} to cart`}>
+                  +
+                </button>
               </div>
             ))}
           </div>
@@ -278,48 +323,67 @@ export default function HomePage() {
             Thoughtfully designed pieces for modern Pakistani homes — where nature, art and light
             live together in perfect harmony.
           </p>
-          <Link className={styles.primaryCta} href="#craft">
+          <Link className={styles.primaryCta} href="#rooms">
             Explore the Collection <ArrowRight aria-hidden="true" />
           </Link>
         </div>
+        <blockquote className={styles.collectionQuote}>
+          “A home filled with light and living things is a kinder, brighter place to be.”
+        </blockquote>
       </section>
 
-      <section className={styles.craft} id="craft" aria-labelledby="craft-title">
-        <div className={styles.craftImage} data-home-image>
-          <Image
-            src="/images/house-of-lume/craftsmanship.webp"
-            alt="Artisan hands shaping a ceramic vessel"
-            fill
-            sizes="(max-width: 767px) 100vw, 42vw"
-          />
-        </div>
-        <div className={styles.craftCopy} data-home-reveal>
-          <p className={styles.eyebrowLight}>Craftsmanship &amp; quality</p>
-          <h2 id="craft-title">Made to Last</h2>
-          <p>
-            We work with skilled artisans and trusted growers to bring you pieces that are
-            beautiful, durable and meaningful.
-          </p>
-          <div className={styles.craftPoints}>
-            {craftPoints.map((point) => {
-              const Icon = point.icon;
-              return (
-                <div key={point.title}>
-                  <Icon aria-hidden="true" />
-                  <span>{point.title}</span>
-                </div>
-              );
-            })}
+      <section className={styles.rooms} id="rooms" aria-labelledby="rooms-title">
+        <div className={styles.roomsHead} data-home-reveal>
+          <div>
+            <p className={styles.eyebrowLight}>Discover by room</p>
+            <h2 id="rooms-title">Different Spaces. Brighter Stories.</h2>
           </div>
+          <p>From cosy corners to open spaces, find inspiration for every room in your home.</p>
         </div>
-        <blockquote className={styles.craftQuote}>Artisan hands. A brighter Pakistan.</blockquote>
+        <div className={styles.roomGrid}>
+          {rooms.map((room) => (
+            <article className={styles.roomCard} key={room.title} data-home-reveal>
+              <Image src={room.image} alt={room.alt} fill sizes="(max-width: 767px) 78vw, 24vw" />
+              <div className={styles.roomShade} aria-hidden="true" />
+              <div className={styles.roomContent}>
+                <h3>{room.title}</h3>
+                <Link href="#featured">
+                  Shop Now <ArrowRight aria-hidden="true" />
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
-      <section
-        className={styles.serviceRail}
-        id="delivery"
-        aria-label="Shopping with House of Lume"
-      >
+      <section className={styles.materials} id="materials" aria-labelledby="materials-title">
+        <div className={styles.materialIntro} data-home-reveal>
+          <p className={styles.eyebrowLight}>Craftsmanship &amp; quality</p>
+          <h2 id="materials-title">Made to Last</h2>
+          <p>
+            From handcrafted ceramics to natural rattan, solid wood and lush greenery — we choose
+            materials that are beautiful, durable and kind to your home and the planet.
+          </p>
+          <Link className={styles.featuredLink} href="#delivery">
+            Learn More <ArrowRight aria-hidden="true" />
+          </Link>
+        </div>
+        <div className={styles.materialGrid}>
+          {materialTiles.map((material) => (
+            <article className={styles.materialCard} key={material.title} data-home-reveal>
+              <div className={styles.materialMedia} data-position={material.position}>
+                <Image src={material.image} alt="" fill sizes="(max-width: 767px) 76vw, 18vw" />
+              </div>
+              <div>
+                <h3>{material.title}</h3>
+                <p>{material.copy}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.serviceRail} id="delivery" aria-label="Shopping with House of Lume">
         {services.map((service) => {
           const Icon = service.icon;
           return (
@@ -348,7 +412,7 @@ export default function HomePage() {
           <div data-home-reveal>
             <p className={styles.eyebrowLight}>Join House of Lume</p>
             <h2 id="newsletter-title">Be the First to Discover More Beautiful Living</h2>
-            <p>New arrivals, styling ideas and considered notes for a warmer home.</p>
+            <p>New arrivals, styling ideas and thoughtful notes for a warmer home.</p>
           </div>
           <NewsletterForm />
         </div>
