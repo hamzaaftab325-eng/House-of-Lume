@@ -11,20 +11,41 @@
   position: absolute;
   inset: -25% -10%;
   z-index: -1;
-  background: radial-gradient(circle at 58% 34%, color-mix(in srgb, var(--color-paper) 82%, transparent), transparent 38%);
+  background: radial-gradient(
+    circle at 58% 34%,
+    color-mix(in srgb, var(--color-paper) 82%, transparent),
+    transparent 38%
+  );
   content: "";
   opacity: 0.72;
   pointer-events: none;
 }
 
-.stagePortrait { aspect-ratio: 4 / 5; }
-.stageSquare { aspect-ratio: 1; }
-.stageLandscape { aspect-ratio: 16 / 10; }
-.stageCanvas { background: var(--color-canvas); }
-.stagePaper { background: var(--color-paper); }
-.stageChalk { background: var(--color-chalk); }
-.stageInk { background: var(--color-ink); color: var(--color-paper); }
-.stageOlive { background: color-mix(in srgb, var(--color-olive) 18%, var(--color-canvas)); }
+.stagePortrait {
+  aspect-ratio: 4 / 5;
+}
+.stageSquare {
+  aspect-ratio: 1;
+}
+.stageLandscape {
+  aspect-ratio: 16 / 10;
+}
+.stageCanvas {
+  background: var(--color-canvas);
+}
+.stagePaper {
+  background: var(--color-paper);
+}
+.stageChalk {
+  background: var(--color-chalk);
+}
+.stageInk {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.stageOlive {
+  background: color-mix(in srgb, var(--color-olive) 18%, var(--color-canvas));
+}
 
 .stageLabel {
   position: absolute;
@@ -126,10 +147,19 @@
   padding: clamp(2.5rem, 7vw, 7rem) var(--page-gutter);
 }
 
-.splitPrimary { background: var(--color-paper); }
-.splitSecondary { background: var(--color-ink); color: var(--color-paper); }
-.splitOlive .splitSecondary { background: var(--color-olive); }
-.splitBronze .splitSecondary { background: var(--color-bronze); }
+.splitPrimary {
+  background: var(--color-paper);
+}
+.splitSecondary {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.splitOlive .splitSecondary {
+  background: var(--color-olive);
+}
+.splitBronze .splitSecondary {
+  background: var(--color-bronze);
+}
 
 .cropWindow {
   position: relative;
@@ -239,7 +269,11 @@
   width: 64%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, #f4c983 56%, transparent), transparent 66%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, #f4c983 56%, transparent),
+    transparent 66%
+  );
   content: "";
   filter: blur(2px);
 }
@@ -284,8 +318,14 @@
   transform-origin: bottom center;
 }
 
-.plantArt::before { left: 29%; transform: rotate(-22deg); }
-.plantArt::after { right: 27%; transform: scaleX(-1) rotate(-14deg); }
+.plantArt::before {
+  left: 29%;
+  transform: rotate(-22deg);
+}
+.plantArt::after {
+  right: 27%;
+  transform: scaleX(-1) rotate(-14deg);
+}
 
 .plantLeaf {
   position: absolute;
@@ -321,7 +361,9 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .shelf > :nth-child(2) { transform: translateY(3rem); }
+  .shelf > :nth-child(2) {
+    transform: translateY(3rem);
+  }
 
   .materialStory {
     grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
@@ -329,14 +371,22 @@
 }
 
 @media (min-width: 64rem) {
-  .splitPlane { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
-  .chapter { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
-  .roomStory { grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1.28fr); }
+  .splitPlane {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+  .chapter {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+  .roomStory {
+    grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1.28fr);
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
   .productUnit .stageContent {
-    transition: transform 600ms var(--ease-lume), filter 600ms var(--ease-lume);
+    transition:
+      transform 600ms var(--ease-lume),
+      filter 600ms var(--ease-lume);
   }
 
   .productUnit:hover .stageContent {
@@ -346,6 +396,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .shelf > :nth-child(2) { transform: none; }
-  .productUnit .stageContent { transition: none; }
+  .shelf > :nth-child(2) {
+    transform: none;
+  }
+  .productUnit .stageContent {
+    transition: none;
+  }
 }

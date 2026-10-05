@@ -216,22 +216,43 @@
 }
 
 @media (min-width: 64rem) {
-  .desktopNav { display: flex; }
-  .mobileMenu { display: none; }
-  .accountLink { display: grid; }
-  .desktopOnly { display: inline-flex; }
-  .footerTop { grid-template-columns: minmax(0, 1.2fr) minmax(28rem, 0.8fr); }
-  .footerNav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .desktopNav {
+    display: flex;
+  }
+  .mobileMenu {
+    display: none;
+  }
+  .accountLink {
+    display: grid;
+  }
+  .desktopOnly {
+    display: inline-flex;
+  }
+  .footerTop {
+    grid-template-columns: minmax(0, 1.2fr) minmax(28rem, 0.8fr);
+  }
+  .footerNav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .navLink:hover::after { transform: scaleX(1); }
-  .accountLink:hover { border-color: color-mix(in srgb, var(--color-ink) 18%, transparent); background: var(--color-paper); }
-  .footerGroup a:hover { color: #d5b78d; }
+  .navLink:hover::after {
+    transform: scaleX(1);
+  }
+  .accountLink:hover {
+    border-color: color-mix(in srgb, var(--color-ink) 18%, transparent);
+    background: var(--color-paper);
+  }
+  .footerGroup a:hover {
+    color: #d5b78d;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .header,
   .navLink::after,
-  .accountLink { transition: none; }
+  .accountLink {
+    transition: none;
+  }
 }

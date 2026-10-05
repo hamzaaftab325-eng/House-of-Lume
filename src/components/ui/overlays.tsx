@@ -266,7 +266,12 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
           ["02", "Living green", "/#plants"],
           ["03", "Objects & materials", "/#objects"],
         ].map(([index, label, href]) => (
-          <a key={index} className={styles.searchSuggestion} href={href} onClick={() => onOpenChange(false)}>
+          <a
+            key={index}
+            className={styles.searchSuggestion}
+            href={href}
+            onClick={() => onOpenChange(false)}
+          >
             <span className={styles.searchIndex}>{index}</span>
             <span>{label}</span>
             <Search aria-hidden="true" size={16} />

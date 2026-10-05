@@ -21,7 +21,12 @@ export function ProductStage({
   tone = "chalk",
   className,
 }: ProductStageProps) {
-  const ratioClass = ratio === "portrait" ? styles.stagePortrait : ratio === "square" ? styles.stageSquare : styles.stageLandscape;
+  const ratioClass =
+    ratio === "portrait"
+      ? styles.stagePortrait
+      : ratio === "square"
+        ? styles.stageSquare
+        : styles.stageLandscape;
   const toneClass =
     tone === "canvas"
       ? styles.stageCanvas
@@ -76,7 +81,12 @@ type SplitPlaneProps = {
   className?: string;
 };
 
-export function SplitPlane({ primary, secondary, secondaryTone = "ink", className }: SplitPlaneProps) {
+export function SplitPlane({
+  primary,
+  secondary,
+  secondaryTone = "ink",
+  className,
+}: SplitPlaneProps) {
   return (
     <section
       className={cx(
@@ -105,7 +115,14 @@ type EditorialChapterProps = {
   className?: string;
 };
 
-export function EditorialChapter({ eyebrow, title, body, action, media, className }: EditorialChapterProps) {
+export function EditorialChapter({
+  eyebrow,
+  title,
+  body,
+  action,
+  media,
+  className,
+}: EditorialChapterProps) {
   return (
     <section className={cx(styles.chapter, className)}>
       <div className={styles.chapterCopy}>

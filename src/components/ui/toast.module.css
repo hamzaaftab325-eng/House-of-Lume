@@ -25,10 +25,18 @@
   pointer-events: auto;
 }
 
-.toast[data-tone="success"] { color: var(--color-success); }
-.toast[data-tone="warning"] { color: var(--color-warning); }
-.toast[data-tone="error"] { color: var(--color-error); }
-.toast[data-tone="info"] { color: var(--color-info); }
+.toast[data-tone="success"] {
+  color: var(--color-success);
+}
+.toast[data-tone="warning"] {
+  color: var(--color-warning);
+}
+.toast[data-tone="error"] {
+  color: var(--color-error);
+}
+.toast[data-tone="info"] {
+  color: var(--color-info);
+}
 
 .copy {
   color: var(--color-ink);

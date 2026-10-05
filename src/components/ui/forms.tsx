@@ -1,4 +1,10 @@
-import { useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
+import {
+  useId,
+  type InputHTMLAttributes,
+  type ReactNode,
+  type SelectHTMLAttributes,
+  type TextareaHTMLAttributes,
+} from "react";
 
 import { cx } from "@/lib/cx";
 
@@ -42,7 +48,16 @@ function FieldChrome({ id, label, optional, hint, error, children }: FieldChrome
 
 type TextFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "id"> & SharedFieldProps;
 
-export function TextField({ label, hint, error, optional, id, className, required, ...props }: TextFieldProps) {
+export function TextField({
+  label,
+  hint,
+  error,
+  optional,
+  id,
+  className,
+  required,
+  ...props
+}: TextFieldProps) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
   const describedBy = error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined;
@@ -61,7 +76,8 @@ export function TextField({ label, hint, error, optional, id, className, require
   );
 }
 
-type TextAreaFieldProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "id"> & SharedFieldProps;
+type TextAreaFieldProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "id"> &
+  SharedFieldProps;
 
 export function TextAreaField({
   label,
@@ -161,7 +177,12 @@ export function RadioGroup({ legend, name, options, defaultValue }: RadioGroupPr
       <legend className={styles.legend}>{legend}</legend>
       {options.map((option) => (
         <label key={option.value} className={styles.choice}>
-          <input type="radio" name={name} value={option.value} defaultChecked={defaultValue === option.value} />
+          <input
+            type="radio"
+            name={name}
+            value={option.value}
+            defaultChecked={defaultValue === option.value}
+          />
           <span className={styles.choiceText}>
             <strong>{option.label}</strong>
             {option.description ? <span>{option.description}</span> : null}

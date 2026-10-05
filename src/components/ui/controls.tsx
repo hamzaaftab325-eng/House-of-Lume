@@ -47,7 +47,11 @@ export function LumeButton({
   ...props
 }: LumeButtonProps) {
   return (
-    <button className={cx(buttonVariants({ variant, shape, size }), className)} type={type} {...props}>
+    <button
+      className={cx(buttonVariants({ variant, shape, size }), className)}
+      type={type}
+      {...props}
+    >
       <span>{children}</span>
       {showArrow ? <ArrowRight className={styles.arrow} aria-hidden="true" /> : null}
     </button>

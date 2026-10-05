@@ -47,7 +47,9 @@
   opacity: 0.32;
   transform: scaleX(0.25);
   transform-origin: left center;
-  transition: opacity var(--duration-fast) ease, transform var(--duration-control) var(--ease-lume);
+  transition:
+    opacity var(--duration-fast) ease,
+    transform var(--duration-control) var(--ease-lume);
 }
 
 .primary {

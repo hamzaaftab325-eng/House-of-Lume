@@ -125,13 +125,26 @@
 }
 
 @media (min-width: 48rem) {
-  .introMeta { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .interactionGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .formGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .introMeta {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .interactionGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .formGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scrubScene { min-height: auto; }
-  .scrubSticky { position: static; min-height: auto; }
-  .scrubLine { transform: none; }
+  .scrubScene {
+    min-height: auto;
+  }
+  .scrubSticky {
+    position: static;
+    min-height: auto;
+  }
+  .scrubLine {
+    transform: none;
+  }
 }

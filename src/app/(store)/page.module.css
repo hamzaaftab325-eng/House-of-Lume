@@ -1,4 +1,6 @@
-.page { overflow: clip; }
+.page {
+  overflow: clip;
+}
 
 .hero {
   display: grid;

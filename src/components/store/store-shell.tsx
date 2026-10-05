@@ -56,9 +56,19 @@ export function StoreHeader() {
               <UserRound aria-hidden="true" />
             </Link>
             <span className={styles.desktopOnly}>
-              <IconButton label="Wishlist" icon={<Heart />} count={0} onClick={() => setWishlistOpen(true)} />
+              <IconButton
+                label="Wishlist"
+                icon={<Heart />}
+                count={0}
+                onClick={() => setWishlistOpen(true)}
+              />
             </span>
-            <IconButton label="Shopping bag" icon={<ShoppingBag />} count={0} onClick={() => setBagOpen(true)} />
+            <IconButton
+              label="Shopping bag"
+              icon={<ShoppingBag />}
+              count={0}
+              onClick={() => setBagOpen(true)}
+            />
           </div>
         </div>
       </header>
@@ -73,7 +83,12 @@ export function StoreHeader() {
       >
         <nav className={styles.menuNav} aria-label="Mobile navigation">
           {navItems.map((item, index) => (
-            <Link key={item.label} className={styles.menuLink} href={item.href} onClick={() => setMenuOpen(false)}>
+            <Link
+              key={item.label}
+              className={styles.menuLink}
+              href={item.href}
+              onClick={() => setMenuOpen(false)}
+            >
               <span className={styles.menuIndex}>{String(index + 1).padStart(2, "0")}</span>
               <span>{item.label}</span>
               <ArrowUpRight size={16} aria-hidden="true" />
@@ -85,13 +100,23 @@ export function StoreHeader() {
             <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
         </nav>
-        <p className={styles.menuMeta}>Designed for keyboard, touch, screen-reader, and reduced-motion use from the same component.</p>
+        <p className={styles.menuMeta}>
+          Designed for keyboard, touch, screen-reader, and reduced-motion use from the same
+          component.
+        </p>
       </Drawer>
 
       <SearchOverlay open={searchOpen} onOpenChange={setSearchOpen} />
 
-      <Drawer open={wishlistOpen} onOpenChange={setWishlistOpen} eyebrow="Saved objects" title="Wishlist">
-        <EmptyDrawerState title="Nothing saved yet.">Wishlist persistence connects to customer data in the commerce phase.</EmptyDrawerState>
+      <Drawer
+        open={wishlistOpen}
+        onOpenChange={setWishlistOpen}
+        eyebrow="Saved objects"
+        title="Wishlist"
+      >
+        <EmptyDrawerState title="Nothing saved yet.">
+          Wishlist persistence connects to customer data in the commerce phase.
+        </EmptyDrawerState>
       </Drawer>
 
       <Drawer
@@ -99,9 +124,15 @@ export function StoreHeader() {
         onOpenChange={setBagOpen}
         eyebrow="Your selection"
         title="Shopping bag"
-        footer={<LumeButton showArrow onClick={() => setBagOpen(false)}>Continue exploring</LumeButton>}
+        footer={
+          <LumeButton showArrow onClick={() => setBagOpen(false)}>
+            Continue exploring
+          </LumeButton>
+        }
       >
-        <EmptyDrawerState title="Your bag is quiet.">Cart persistence and inventory-aware line items connect in Phase 6.</EmptyDrawerState>
+        <EmptyDrawerState title="Your bag is quiet.">
+          Cart persistence and inventory-aware line items connect in Phase 6.
+        </EmptyDrawerState>
       </Drawer>
     </>
   );
@@ -115,7 +146,9 @@ export function StoreFooter() {
         <div className={styles.footerTop}>
           <div className={styles.footerBrand}>
             <p className={styles.footerWordmark}>House of Lume</p>
-            <p className={styles.footerCopy}>Considered lighting, greenery, and objects for rooms that feel lived in—not staged.</p>
+            <p className={styles.footerCopy}>
+              Considered lighting, greenery, and objects for rooms that feel lived in—not staged.
+            </p>
           </div>
           <nav className={styles.footerNav} aria-label="Footer navigation">
             <div className={styles.footerGroup}>

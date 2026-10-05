@@ -40,7 +40,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <ol className={styles.viewport} aria-label="Notifications" aria-live="polite" aria-relevant="additions">
+      <ol
+        className={styles.viewport}
+        aria-label="Notifications"
+        aria-live="polite"
+        aria-relevant="additions"
+      >
         <AnimatePresence initial={false}>
           {toasts.map((toast) => (
             <motion.li
@@ -55,7 +60,11 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 <strong>{toast.title}</strong>
                 {toast.message ? <p>{toast.message}</p> : null}
               </div>
-              <IconButton label="Dismiss notification" icon={<X />} onClick={() => dismiss(toast.id)} />
+              <IconButton
+                label="Dismiss notification"
+                icon={<X />}
+                onClick={() => dismiss(toast.id)}
+              />
             </motion.li>
           ))}
         </AnimatePresence>
