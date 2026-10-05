@@ -4,11 +4,9 @@ import Link from "next/link";
 import {
   ArrowRight,
   Headphones,
-  Leaf,
   PackageCheck,
   Play,
   ShieldCheck,
-  Star,
   Truck,
 } from "lucide-react";
 
@@ -74,10 +72,10 @@ const categories = [
 ] as const;
 
 const featuredProducts = [
-  { name: "Eclipse Table Lamp", price: "Rs. 18,500" },
-  { name: "Ribbed Lily Planter", price: "Rs. 7,200" },
-  { name: "Sculptural Vase", price: "Rs. 8,800" },
-  { name: "Terra Table Lamp", price: "Rs. 14,200" },
+  { name: "Eclipse Table Lamp", meta: "House Edit" },
+  { name: "Ribbed Lily Planter", meta: "House Edit" },
+  { name: "Sculptural Vase", meta: "House Edit" },
+  { name: "Terra Table Lamp", meta: "House Edit" },
 ] as const;
 
 const rooms = [
@@ -131,10 +129,10 @@ const materialTiles = [
 ] as const;
 
 const services = [
-  { icon: Truck, title: "Cash on Delivery", copy: "All over Pakistan" },
-  { icon: PackageCheck, title: "7-Day Easy Returns", copy: "Shop with confidence" },
-  { icon: Star, title: "4.9/5 Customer Rating", copy: "Loved by modern homes" },
-  { icon: ShieldCheck, title: "Secure & Safe Checkout", copy: "Your information is protected" },
+  { icon: Truck, title: "Cash on Delivery", copy: "Across Pakistan" },
+  { icon: PackageCheck, title: "Easy Returns", copy: "Clear support process" },
+  { icon: ShieldCheck, title: "Curated Quality", copy: "Considered pieces, selected well" },
+  { icon: Headphones, title: "Dedicated Support", copy: "We’re here to help" },
 ] as const;
 
 export default function HomePage() {
@@ -205,16 +203,16 @@ export default function HomePage() {
             </div>
             <div className={styles.heroStats} aria-label="House of Lume service highlights">
               <div>
-                <strong>500+</strong>
-                <span>Curated Products</span>
+                <strong>Pakistan-wide</strong>
+                <span>Delivery</span>
               </div>
               <div>
-                <strong>4.9★</strong>
-                <span>Customer Rating</span>
+                <strong>PKR</strong>
+                <span>Local pricing</span>
               </div>
               <div>
-                <strong>Cash on Delivery</strong>
-                <span>All Over Pakistan</span>
+                <strong>COD</strong>
+                <span>Cash on Delivery</span>
               </div>
             </div>
           </div>
@@ -296,10 +294,10 @@ export default function HomePage() {
             {featuredProducts.map((product) => (
               <div className={styles.productLabel} key={product.name}>
                 <strong>{product.name}</strong>
-                <span>{product.price}</span>
-                <button type="button" aria-label={`Add ${product.name} to cart`}>
+                <span>{product.meta}</span>
+                <span className={styles.productAction} aria-hidden="true">
                   +
-                </button>
+                </span>
               </div>
             ))}
           </div>
