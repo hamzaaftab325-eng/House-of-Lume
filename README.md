@@ -20,6 +20,7 @@ Read these before implementation work:
 2. `design.md` — visual, interaction, accessibility and motion system
 3. `PROJECT_PLAN.md` — scope, phases and COD operations architecture
 4. `PHASE_EXECUTION_TEMPLATE.md` — mandatory phase checklist/audit format
+5. `ARCHITECTURE.md` — route, domain, service, validation and data-access boundaries
 
 ## Current architecture
 
@@ -43,7 +44,9 @@ src/
     └── logger.ts      structured server logging foundation
 ```
 
-Future domain code should be organized by responsibility rather than by page. Server-owned pricing, inventory, COD eligibility and order state must never be delegated to browser state.
+The complete dependency and boundary rules live in `ARCHITECTURE.md`.
+
+Future domain code is organized by responsibility rather than by page. Server-owned pricing, inventory, COD eligibility and order state must never be delegated to browser state.
 
 ## Route boundaries
 
@@ -73,19 +76,22 @@ No secret values belong in source control.
 ## Development
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
 ## Quality gates
 
 ```bash
+npm run format:check
 npm run lint
 npm run typecheck
 npm run test
 npm run build
 npm run test:e2e
 ```
+
+The same gates are enforced by GitHub Actions using Node.js 24 LTS and the committed dependency lockfile.
 
 A phase cannot be marked 100% complete if an applicable quality gate is failing or unverified when verification is available.
 
