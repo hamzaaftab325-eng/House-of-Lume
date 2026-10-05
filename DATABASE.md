@@ -170,6 +170,18 @@ Exception states include failed delivery, RTO and cancellation.
 
 Shipping values are configuration defaults and can later be changed through the CRM without schema changes.
 
+## Development seed data
+
+`supabase/seed.sql` contains representative development-only commerce data:
+
+- lamp product with finish, size and light-temperature variants
+- plant product with plant-size and pot combinations
+- variant-level inventory
+- development customer
+- development COD order and address snapshot
+
+This seed file is for local/test environments only and must not be applied to the production project.
+
 ## Super Admin bootstrap
 
 The database allows exactly one active Super Admin at launch using a partial unique index.
@@ -214,4 +226,4 @@ The Supabase schema is the source of truth. Regenerate database types after sche
 npm run db:types
 ```
 
-The command targets the local Supabase stack reconstructed from committed migrations, avoiding dependence on private production database credentials.
+The command uses the connected Supabase project ID and requires an authenticated Supabase CLI session. It writes the current `public` schema type definition to `src/lib/supabase/database.types.ts`. No database secret or service-role key is stored in the repository.
