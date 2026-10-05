@@ -15,6 +15,10 @@ export type HomepageProduct = {
   priceLabel: string;
 };
 
+function externalDataDisabled() {
+  return process.env.HOUSE_OF_LUME_SKIP_EXTERNAL_DATA === "true";
+}
+
 function createPublicCatalogClient() {
   return createClient<Database>(
     env.NEXT_PUBLIC_SUPABASE_URL,
@@ -61,23 +65,32 @@ function mapProduct(product: {
 }
 
 export async function getHomepageProducts(limit = 4): Promise<HomepageProduct[]> {
-  const supabase = createPublicCatalogClient();
-  const { data, error } = await supabase
-    .from("products")
-    .select("id,name,slug,short_description,product_type,product_variants(price_pkr,status)")
-    .eq("status", "active")
-    .order("published_at", { ascending: false })
-    .limit(limit);
+  if (externalDataDisabled()) return [];
 
-  if (error) {
-    logger.error("homepage.catalog_query_failed", {
-      code: error.code,
-      message: error.message,
+  try {
+    const supabase = createPublicCatalogClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select("id,name,slug,short_description,product_type,product_variants(price_pkr,status)")
+      .eq("status", "active")
+      .order("published_at", { ascending: false })
+      .limit(limit);
+
+    if (error) {
+      logger.error("homepage.catalog_query_failed", {
+        code: error.code,
+        message: error.message,
+      });
+      return [];
+    }
+
+    return (data ?? []).map(mapProduct);
+  } catch (error) {
+    logger.error("homepage.catalog_query_exception", {
+      message: error instanceof Error ? error.message : "Unknown catalogue error",
     });
     return [];
   }
-
-  return (data ?? []).map(mapProduct);
 }
 
 export async function searchPublishedProducts(
@@ -85,24 +98,31 @@ export async function searchPublishedProducts(
   limit = 12,
 ): Promise<HomepageProduct[]> {
   const normalized = term.trim().slice(0, 80);
-  if (normalized.length < 2) return [];
+  if (normalized.length < 2 || externalDataDisabled()) return [];
 
-  const supabase = createPublicCatalogClient();
-  const { data, error } = await supabase
-    .from("products")
-    .select("id,name,slug,short_description,product_type,product_variants(price_pkr,status)")
-    .eq("status", "active")
-    .ilike("name", `%${normalized}%`)
-    .order("published_at", { ascending: false })
-    .limit(limit);
+  try {
+    const supabase = createPublicCatalogClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select("id,name,slug,short_description,product_type,product_variants(price_pkr,status)")
+      .eq("status", "active")
+      .ilike("name", `%${normalized}%`)
+      .order("published_at", { ascending: false })
+      .limit(limit);
 
-  if (error) {
-    logger.error("catalog.search_failed", {
-      code: error.code,
-      message: error.message,
+    if (error) {
+      logger.error("catalog.search_failed", {
+        code: error.code,
+        message: error.message,
+      });
+      return [];
+    }
+
+    return (data ?? []).map(mapProduct);
+  } catch (error) {
+    logger.error("catalog.search_exception", {
+      message: error instanceof Error ? error.message : "Unknown search error",
     });
     return [];
   }
-
-  return (data ?? []).map(mapProduct);
 }
