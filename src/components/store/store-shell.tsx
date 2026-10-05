@@ -53,7 +53,7 @@ export function StoreHeader() {
           <div className={styles.actions}>
             <IconButton label="Search" icon={<Search />} onClick={() => setSearchOpen(true)} />
             <Link className={styles.accountLink} href="/account" aria-label="Customer account">
-              <IconButton label="Customer account" icon={<UserRound />} tabIndex={-1} />
+              <UserRound aria-hidden="true" />
             </Link>
             <span className={styles.desktopOnly}>
               <IconButton label="Wishlist" icon={<Heart />} count={0} onClick={() => setWishlistOpen(true)} />

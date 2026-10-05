@@ -1,16 +1,20 @@
-import { useId, type InputHTMLAttributes, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
+import { useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
 
 import { cx } from "@/lib/cx";
 
 import styles from "./forms.module.css";
 
-type FieldChromeProps = {
-  id: string;
+type SharedFieldProps = {
   label: string;
-  optional?: boolean;
   hint?: string;
   error?: string;
-  children: React.ReactNode;
+  optional?: boolean;
+  id?: string;
+};
+
+type FieldChromeProps = SharedFieldProps & {
+  id: string;
+  children: ReactNode;
 };
 
 function FieldChrome({ id, label, optional, hint, error, children }: FieldChromeProps) {
@@ -36,13 +40,7 @@ function FieldChrome({ id, label, optional, hint, error, children }: FieldChrome
   );
 }
 
-type TextFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "id"> & {
-  label: string;
-  hint?: string;
-  error?: string;
-  optional?: boolean;
-  id?: string;
-};
+type TextFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "id"> & SharedFieldProps;
 
 export function TextField({ label, hint, error, optional, id, className, required, ...props }: TextFieldProps) {
   const generatedId = useId();
@@ -63,7 +61,7 @@ export function TextField({ label, hint, error, optional, id, className, require
   );
 }
 
-type TextAreaFieldProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "id"> & TextFieldProps;
+type TextAreaFieldProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "id"> & SharedFieldProps;
 
 export function TextAreaField({
   label,
@@ -93,14 +91,10 @@ export function TextAreaField({
   );
 }
 
-type SelectFieldProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, "id"> & {
-  label: string;
-  hint?: string;
-  error?: string;
-  optional?: boolean;
-  id?: string;
-  options: Array<{ label: string; value: string }>;
-};
+type SelectFieldProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, "id"> &
+  SharedFieldProps & {
+    options: Array<{ label: string; value: string }>;
+  };
 
 export function SelectField({
   label,

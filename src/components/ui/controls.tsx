@@ -30,10 +30,11 @@ const buttonVariants = cva(styles.button, {
   },
 });
 
-type LumeButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
-  VariantProps<typeof buttonVariants> & {
-    showArrow?: boolean;
-  };
+type ButtonVisualProps = VariantProps<typeof buttonVariants> & {
+  showArrow?: boolean;
+};
+
+type LumeButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & ButtonVisualProps;
 
 export function LumeButton({
   className,
@@ -50,6 +51,29 @@ export function LumeButton({
       <span>{children}</span>
       {showArrow ? <ArrowRight className={styles.arrow} aria-hidden="true" /> : null}
     </button>
+  );
+}
+
+type LumeButtonLinkProps = LinkProps &
+  ButtonVisualProps & {
+    children: ReactNode;
+    className?: string;
+  };
+
+export function LumeButtonLink({
+  className,
+  variant,
+  shape,
+  size,
+  showArrow = false,
+  children,
+  ...props
+}: LumeButtonLinkProps) {
+  return (
+    <Link className={cx(buttonVariants({ variant, shape, size }), className)} {...props}>
+      <span>{children}</span>
+      {showArrow ? <ArrowRight className={styles.arrow} aria-hidden="true" /> : null}
+    </Link>
   );
 }
 

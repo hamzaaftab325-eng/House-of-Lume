@@ -247,6 +247,7 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
             Search House of Lume
           </label>
           <input
+            autoFocus
             className={styles.searchInput}
             id="global-search"
             name="q"
