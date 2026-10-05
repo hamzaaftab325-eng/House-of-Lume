@@ -1,0 +1,70 @@
+.page { overflow: clip; }
+
+.hero {
+  display: grid;
+  min-height: min(78dvh, 52rem);
+  align-content: end;
+  padding-block: clamp(5rem, 10vw, 10rem) clamp(3rem, 6vw, 6rem);
+}
+
+.kicker {
+  margin: 0 0 1rem;
+  color: var(--color-bronze);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.title {
+  max-width: 10ch;
+  margin: 0;
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(4rem, 9vw, 9rem);
+  font-weight: 520;
+  letter-spacing: -0.06em;
+  line-height: 0.82;
+  text-wrap: balance;
+}
+
+.copy {
+  max-width: 42rem;
+  margin: 2rem 0 0;
+  color: var(--color-ash);
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  line-height: 1.72;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.5rem;
+  margin-top: 2rem;
+}
+
+.preview {
+  padding-block: clamp(3rem, 8vw, 7rem);
+}
+
+.previewHeader {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.previewTitle {
+  max-width: 16ch;
+  margin: 0;
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(2.6rem, 5vw, 5rem);
+  font-weight: 560;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+.previewCopy {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--color-ash);
+  line-height: 1.7;
+}

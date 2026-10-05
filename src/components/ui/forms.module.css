@@ -1,0 +1,146 @@
+.field {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.labelRow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.label {
+  color: var(--color-ink);
+  font-size: 0.8rem;
+  font-weight: 760;
+}
+
+.optional {
+  color: var(--color-ash);
+  font-size: 0.72rem;
+  font-weight: 560;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  min-height: 3.25rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-input);
+  background: color-mix(in srgb, var(--color-paper) 88%, transparent);
+  color: var(--color-ink);
+  padding: 0.8rem 0.9rem;
+  outline: none;
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease,
+    background-color var(--duration-fast) ease;
+}
+
+.textarea {
+  min-height: 8rem;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.select {
+  appearance: none;
+  padding-right: 2.75rem;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--color-ash) 50%),
+    linear-gradient(135deg, var(--color-ash) 50%, transparent 50%);
+  background-position:
+    calc(100% - 1rem) 50%,
+    calc(100% - 0.7rem) 50%;
+  background-repeat: no-repeat;
+  background-size: 0.3rem 0.3rem;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: var(--color-bronze);
+  background: var(--color-paper);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-bronze) 14%, transparent);
+}
+
+.input[aria-invalid="true"],
+.textarea[aria-invalid="true"],
+.select[aria-invalid="true"] {
+  border-color: var(--color-error);
+}
+
+.hint,
+.error {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.hint {
+  color: var(--color-ash);
+}
+
+.error {
+  color: var(--color-error);
+  font-weight: 650;
+}
+
+.choice {
+  position: relative;
+  display: grid;
+  min-height: 2.75rem;
+  cursor: pointer;
+  grid-template-columns: 1.25rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.choice input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0.1rem 0 0;
+  accent-color: var(--color-ink);
+}
+
+.choiceText {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.choiceText strong {
+  font-size: 0.84rem;
+}
+
+.choiceText span {
+  color: var(--color-ash);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.radioGroup {
+  display: grid;
+  gap: 0.75rem;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.legend {
+  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 760;
+}
+
+.formGrid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 48rem) {
+  .formGridTwo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

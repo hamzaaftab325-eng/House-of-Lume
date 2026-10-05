@@ -1,0 +1,137 @@
+.page {
+  overflow: clip;
+}
+
+.intro {
+  display: grid;
+  min-height: min(72dvh, 46rem);
+  align-content: end;
+  padding-block: clamp(5rem, 10vw, 9rem) clamp(3rem, 6vw, 6rem);
+}
+
+.kicker,
+.sectionKicker {
+  margin: 0 0 1rem;
+  color: var(--color-bronze);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.title {
+  max-width: 11ch;
+  margin: 0;
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(4rem, 9vw, 9rem);
+  font-weight: 520;
+  letter-spacing: -0.06em;
+  line-height: 0.82;
+  text-wrap: balance;
+}
+
+.introMeta {
+  display: grid;
+  gap: 1rem;
+  margin-top: clamp(2rem, 5vw, 4rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-line-strong);
+  color: var(--color-ash);
+  font-size: 0.78rem;
+}
+
+.section {
+  padding-block: clamp(4rem, 9vw, 8rem);
+}
+
+.sectionHeader {
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+.sectionTitle {
+  max-width: 15ch;
+  margin: 0;
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(2.8rem, 5vw, 5.5rem);
+  font-weight: 560;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+.sectionCopy {
+  max-width: 44rem;
+  margin: 0;
+  color: var(--color-ash);
+  line-height: 1.7;
+}
+
+.controlRow,
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.interactionGrid,
+.formGrid {
+  display: grid;
+  gap: 2rem;
+}
+
+.panel {
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border-top: 1px solid var(--color-line-strong);
+  background: color-mix(in srgb, var(--color-paper) 58%, transparent);
+}
+
+.scrubScene {
+  min-height: 120dvh;
+  padding-block: 4rem;
+}
+
+.scrubSticky {
+  position: sticky;
+  top: 8rem;
+  display: grid;
+  min-height: 55dvh;
+  align-content: center;
+  gap: 2rem;
+}
+
+.scrubTitle {
+  max-width: 12ch;
+  margin: 0;
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(3rem, 7vw, 7rem);
+  font-weight: 540;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+}
+
+.scrubTrack {
+  height: 1px;
+  background: var(--color-line-strong);
+}
+
+.scrubLine {
+  width: 100%;
+  height: 3px;
+  background: var(--color-bronze);
+  transform: scaleX(0.08);
+  transform-origin: left center;
+}
+
+@media (min-width: 48rem) {
+  .introMeta { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .interactionGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .formGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrubScene { min-height: auto; }
+  .scrubSticky { position: static; min-height: auto; }
+  .scrubLine { transform: none; }
+}

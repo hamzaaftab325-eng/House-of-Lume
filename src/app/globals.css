@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --color-canvas: #f2ede3;
   --color-paper: #fbf8f1;
   --color-chalk: #e6ded0;
@@ -14,10 +15,24 @@
   --color-warning: #9b6d2f;
   --color-error: #9e493d;
   --color-info: #536b73;
+  --color-line: color-mix(in srgb, var(--color-ink) 12%, transparent);
+  --color-line-strong: color-mix(in srgb, var(--color-ink) 20%, transparent);
   --page-gutter: clamp(1.25rem, 3vw, 3.5rem);
   --content-max: 90rem;
+  --editorial-max: 100rem;
   --reading-max: 47.5rem;
-  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-bronze) 42%, transparent);
+  --radius-input: 0.625rem;
+  --radius-control: 0.5rem;
+  --radius-dialog: 1rem;
+  --duration-fast: 180ms;
+  --duration-control: 360ms;
+  --duration-section: 760ms;
+  --ease-lume: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --shadow-float: 0 1.25rem 4rem color-mix(in srgb, var(--color-ink) 16%, transparent);
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-bronze) 36%, transparent);
+  --z-header: 40;
+  --z-overlay: 70;
+  --z-toast: 90;
 }
 
 @theme inline {
@@ -27,14 +42,21 @@
   --color-foreground: var(--color-ink);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
+  min-width: 20rem;
   background: var(--color-canvas);
   color: var(--color-ink);
+  scroll-padding-top: 6rem;
+  scrollbar-gutter: stable;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-synthesis: none;
 }
 
 body {
@@ -43,6 +65,14 @@ body {
   background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-manrope), sans-serif;
+}
+
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+main {
+  min-width: 0;
 }
 
 a {
@@ -55,6 +85,23 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+button,
+a,
+summary,
+input,
+textarea,
+select {
+  touch-action: manipulation;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
 }
 
 :focus-visible {
@@ -73,13 +120,25 @@ select {
   margin-inline: auto;
 }
 
+.editorial-shell {
+  width: min(100% - (2 * var(--page-gutter)), var(--editorial-max));
+  margin-inline: auto;
+}
+
 .reading-width {
   max-width: var(--reading-max);
 }
 
-.lume-rule {
+.sr-only {
+  position: absolute;
+  width: 1px;
   height: 1px;
-  background: color-mix(in srgb, var(--color-ink) 18%, transparent);
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  margin: -1px;
 }
 
 .foundation-page {
@@ -112,42 +171,6 @@ select {
   color: var(--color-ash);
   font-size: clamp(1rem, 1.4vw, 1.125rem);
   line-height: 1.7;
-}
-
-.foundation-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 1.5rem;
-  margin-top: 2.5rem;
-}
-
-.foundation-link {
-  display: inline-flex;
-  min-height: 2.75rem;
-  align-items: center;
-  border-bottom: 1px solid var(--color-ink);
-  font-weight: 700;
-}
-
-.foundation-link:hover {
-  border-color: var(--color-bronze);
-  color: var(--color-bronze);
-}
-
-.foundation-status {
-  display: grid;
-  gap: 1rem;
-  margin-top: clamp(4rem, 10vw, 8rem);
-  padding-top: 1.5rem;
-  border-top: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
-  color: var(--color-ash);
-  font-size: 0.875rem;
-}
-
-@media (min-width: 48rem) {
-  .foundation-status {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

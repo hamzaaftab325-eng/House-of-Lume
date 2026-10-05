@@ -1,0 +1,288 @@
+.dialog,
+.drawer {
+  margin: auto;
+  padding: 0;
+  overflow: clip;
+  border: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-float);
+}
+
+.dialog::backdrop,
+.drawer::backdrop {
+  background: color-mix(in srgb, var(--color-ink) 46%, transparent);
+  backdrop-filter: blur(5px);
+}
+
+.dialog {
+  width: min(calc(100% - 2rem), 44rem);
+  max-height: min(86dvh, 52rem);
+  border-radius: var(--radius-dialog);
+}
+
+.dialogSearch {
+  width: min(calc(100% - 2rem), 76rem);
+  max-height: min(90dvh, 56rem);
+}
+
+.dialogHeader,
+.drawerHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.5rem;
+  align-items: start;
+  padding: 1.5rem var(--page-gutter);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.dialogEyebrow,
+.drawerEyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--color-bronze);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.dialogTitle,
+.drawerTitle {
+  margin: 0;
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.dialogDescription,
+.drawerDescription {
+  max-width: 44rem;
+  margin: 0.6rem 0 0;
+  color: var(--color-ash);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.dialogBody {
+  overflow: auto;
+  max-height: calc(90dvh - 7rem);
+  padding: clamp(1.5rem, 4vw, 3rem) var(--page-gutter);
+}
+
+.drawer {
+  width: min(92vw, 30rem);
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  border-radius: 0;
+}
+
+.drawerRight {
+  margin-left: auto;
+}
+
+.drawerLeft {
+  margin-right: auto;
+}
+
+.drawerBody {
+  display: flex;
+  height: calc(100dvh - 7.25rem);
+  flex-direction: column;
+  overflow: auto;
+  padding: 1.5rem var(--page-gutter) 2rem;
+}
+
+.drawerFooter {
+  margin-top: auto;
+  padding-top: 2rem;
+}
+
+.accordion {
+  border-top: 1px solid var(--color-line-strong);
+}
+
+.accordionItem {
+  border-bottom: 1px solid var(--color-line-strong);
+}
+
+.accordionSummary {
+  display: grid;
+  min-height: 4rem;
+  cursor: pointer;
+  list-style: none;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  font-weight: 720;
+}
+
+.accordionSummary::-webkit-details-marker {
+  display: none;
+}
+
+.accordionChevron {
+  width: 1rem;
+  transition: transform var(--duration-control) var(--ease-lume);
+}
+
+.accordionItem[open] .accordionChevron {
+  transform: rotate(180deg);
+}
+
+.accordionContent {
+  max-width: 48rem;
+  padding: 0 2rem 1.5rem 0;
+  color: var(--color-ash);
+  line-height: 1.7;
+}
+
+.tabsList {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-line-strong);
+  scrollbar-width: none;
+}
+
+.tabsList::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  position: relative;
+  min-height: 3.25rem;
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  color: var(--color-ash);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 720;
+  cursor: pointer;
+}
+
+.tab::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--color-bronze);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-control) var(--ease-lume);
+}
+
+.tab[aria-selected="true"] {
+  color: var(--color-ink);
+}
+
+.tab[aria-selected="true"]::after {
+  transform: scaleX(1);
+}
+
+.tabPanel {
+  padding-block: 1.5rem;
+}
+
+.searchForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.searchInput {
+  width: 100%;
+  min-height: 3.6rem;
+  border: 0;
+  border-bottom: 1px solid var(--color-ink);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  letter-spacing: -0.03em;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: color-mix(in srgb, var(--color-ash) 72%, transparent);
+}
+
+.searchSuggestions {
+  display: grid;
+  gap: 0;
+  margin-top: 2rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.searchSuggestion {
+  display: grid;
+  min-height: 3.5rem;
+  grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-ink);
+}
+
+.searchIndex {
+  color: var(--color-bronze);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.emptyState {
+  display: grid;
+  min-height: 18rem;
+  place-items: center;
+  align-content: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.emptyState strong {
+  font-family: var(--font-cormorant), serif;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.emptyState p {
+  max-width: 26rem;
+  margin: 0;
+  color: var(--color-ash);
+  line-height: 1.6;
+}
+
+@media (max-width: 40rem) {
+  .dialog,
+  .dialogSearch {
+    width: 100%;
+    max-height: 100dvh;
+    margin: auto 0 0;
+    border-radius: var(--radius-dialog) var(--radius-dialog) 0 0;
+  }
+
+  .dialogBody {
+    max-height: calc(100dvh - 7rem);
+  }
+
+  .searchForm {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accordionChevron,
+  .tab::after {
+    transition: none;
+  }
+}
