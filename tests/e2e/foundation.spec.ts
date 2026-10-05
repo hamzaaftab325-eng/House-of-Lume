@@ -9,16 +9,41 @@ async function expectNoHorizontalOverflow(page: import("@playwright/test").Page)
   expect(hasNoOverflow).toBe(true);
 }
 
-test("storefront shell and Phase 2 product system render", async ({ page }) => {
+test("production homepage renders its full storytelling structure", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.getByRole("heading", { name: "Objects for a warmer home." })).toBeVisible();
   await expect(page.getByRole("banner")).toBeVisible();
   await expect(page.getByRole("contentinfo")).toBeVisible();
-  await expect(page.getByText("Nocturne Reading Lamp")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Explore the system" })).toHaveAttribute(
+  await expect(
+    page.getByRole("heading", { name: "Curated for every corner of your home." }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "More than objects. A calmer way of living." }),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Inspiration for real spaces." })).toBeVisible();
+  await expect(page.getByText("Cash on Delivery", { exact: true }).first()).toBeVisible();
+  await expect(page.getByLabel("Email address")).toBeVisible();
+});
+
+test("homepage routes use real section destinations", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(page.getByRole("link", { name: "Lighting" }).first()).toHaveAttribute(
     "href",
-    "/system",
+    "/#lighting",
+  );
+  await expect(page.getByRole("link", { name: "Living Green" }).first()).toHaveAttribute(
+    "href",
+    "/#living-green",
+  );
+  await expect(page.getByRole("link", { name: "Objects" }).first()).toHaveAttribute(
+    "href",
+    "/#objects",
+  );
+  await expect(page.getByRole("link", { name: "Our Story" }).first()).toHaveAttribute(
+    "href",
+    "/#story",
   );
 });
 
@@ -27,22 +52,29 @@ test("search and bag use accessible modal planes and restore focus", async ({ pa
 
   const searchTrigger = page.getByRole("button", { name: "Search" });
   await searchTrigger.click();
-  await expect(
-    page.getByRole("dialog", { name: "Find an object by mood, room, or material." }),
-  ).toBeVisible();
-  await expect(page.getByRole("searchbox", { name: "Search House of Lume" })).toBeFocused();
-  await page
-    .getByRole("button", { name: "Close Find an object by mood, room, or material." })
-    .click();
+  await expect(page.getByRole("dialog", { name: "Find an object by name." })).toBeVisible();
+  const searchbox = page.getByRole("searchbox", { name: "Search House of Lume" });
+  await expect(searchbox).toBeFocused();
+  await page.getByRole("button", { name: "Close Find an object by name." }).click();
   await expect(searchTrigger).toBeFocused();
 
   const bagTrigger = page.getByRole("button", { name: "Shopping bag" });
   await bagTrigger.click();
   await expect(page.getByRole("dialog", { name: "Shopping bag" })).toBeVisible();
-  await expect(page.getByText("Your bag is quiet.")).toBeVisible();
+  await expect(page.getByText("Your bag is empty.")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog", { name: "Shopping bag" })).not.toBeVisible();
   await expect(bagTrigger).toBeFocused();
+});
+
+test("search route is functional and has an honest empty state", async ({ page }) => {
+  await page.goto("/search?q=lamp");
+
+  await expect(page.getByRole("heading", { name: "Results for “lamp”" })).toBeVisible();
+  await expect(page.getByRole("searchbox", { name: "Search published products" })).toHaveValue(
+    "lamp",
+  );
+  await expect(page.getByRole("heading", { name: "No published products match yet." })).toBeVisible();
 });
 
 test("mobile navigation has accessible targets and scoped navigation", async ({ page }) => {
@@ -67,7 +99,7 @@ test("mobile navigation has accessible targets and scoped navigation", async ({ 
   await expectNoHorizontalOverflow(page);
 });
 
-test("storefront and design-system showroom do not overflow supported responsive widths", async ({
+test("homepage, search and design system do not overflow supported responsive widths", async ({
   page,
 }) => {
   for (const width of responsiveWidths) {
@@ -76,12 +108,15 @@ test("storefront and design-system showroom do not overflow supported responsive
     await page.goto("/");
     await expectNoHorizontalOverflow(page);
 
+    await page.goto("/search?q=lamp");
+    await expectNoHorizontalOverflow(page);
+
     await page.goto("/system");
     await expectNoHorizontalOverflow(page);
   }
 });
 
-test("design system interactions are keyboard usable", async ({ page }) => {
+test("design system interactions remain keyboard usable", async ({ page }) => {
   await page.goto("/system");
 
   await expect(page.getByRole("heading", { name: "A showroom, not a template." })).toBeVisible();
@@ -97,17 +132,16 @@ test("design system interactions are keyboard usable", async ({ page }) => {
   await expect(dialogTrigger).toBeFocused();
 });
 
-test("reduced motion keeps the design system usable", async ({ page }) => {
+test("reduced motion keeps the homepage usable without scrub choreography", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/system");
+  await page.goto("/");
 
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
-  await expect(
-    page.getByRole("heading", { name: "Scroll moves the story, not the interface." }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Objects for a warmer home." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Inspiration for real spaces." })).toBeVisible();
 });
 
-test("account and CRM foundation routes load", async ({ page }) => {
+test("account and CRM foundation routes still load", async ({ page }) => {
   await page.goto("/account");
   await expect(page.getByRole("heading", { name: "Account foundation." })).toBeVisible();
 
