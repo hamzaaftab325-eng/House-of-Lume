@@ -55,9 +55,21 @@ Re-review this exception whenever any of these change:
 
 It must also be re-reviewed before the final production security-hardening phase.
 
-## Lint toolchain support
+## Lint toolchain compatibility
 
-The repository targets ESLint 10 with Next.js 16 flat configuration. Unsupported/EOL linter majors should not remain pinned in the foundation.
+The repository uses the Next.js 16 flat ESLint configuration and pins ESLint `9.39.5` exactly for compatibility with the current stable Next.js 16.3.8 plugin stack.
+
+ESLint 10 was explicitly tested during Phase 0. Installation succeeded, but lint execution failed because the stable React/import/accessibility plugins currently pulled by `eslint-config-next@16.3.8` still declare/support ESLint 9-era APIs and peer ranges. Forcing ESLint 10 would therefore create a broken lint gate.
+
+This is a deliberate compatibility pin, not an assumption that ESLint 9 is current indefinitely.
+
+Re-review the pin when:
+
+- `eslint-config-next` changes;
+- `eslint-plugin-react`, `eslint-plugin-import`, or `eslint-plugin-jsx-a11y` add stable ESLint 10 support in the Next.js dependency graph; or
+- Next.js publishes a stable lint-toolchain update.
+
+Until then, a functioning lint gate on the supported stable Next.js dependency graph is preferred over an unsupported major-version override.
 
 ## Secret handling
 
