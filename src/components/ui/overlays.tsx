@@ -234,7 +234,7 @@ type SearchOverlayProps = {
 
 const searchDestinations = [
   ["01", "Warm lighting", "/#lighting"],
-  ["02", "Living green", "/#plants"],
+  ["02", "Living green", "/#living-green"],
   ["03", "Objects & materials", "/#objects"],
 ] as const;
 
@@ -244,11 +244,11 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
       open={open}
       onOpenChange={onOpenChange}
       eyebrow="Search House of Lume"
-      title="Find an object by mood, room, or material."
-      description="The predictive data layer arrives in the catalogue phase; this production shell already has the final accessible overlay and keyboard behavior."
+      title="Find an object by name."
+      description="Search checks the live published catalogue and returns only products currently available to the storefront."
       size="search"
     >
-      <form className={styles.searchForm} action="/system" method="get">
+      <form className={styles.searchForm} action="/search" method="get" role="search">
         <div>
           <label className="sr-only" htmlFor="global-search">
             Search House of Lume
@@ -259,8 +259,11 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
             id="global-search"
             name="q"
             type="search"
-            placeholder="Try ‘warm reading light’"
+            placeholder="Try ‘lamp’ or ‘olive’"
+            minLength={2}
+            maxLength={80}
             autoComplete="off"
+            required
           />
         </div>
         <LumeButton type="submit" showArrow>
