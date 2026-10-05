@@ -122,7 +122,9 @@ export default function HomePage() {
       <HomeMotion />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+        }}
       />
 
       <section className={styles.hero} data-home-hero aria-labelledby="home-title">
@@ -201,8 +203,18 @@ export default function HomePage() {
 
         <div className={styles.categoryGrid}>
           {categories.map((category) => (
-            <article className={styles.categoryCard} id={category.id} key={category.id} data-home-reveal>
-              <Image src={category.image} alt={category.alt} fill sizes="(max-width: 767px) 78vw, 20vw" />
+            <article
+              className={styles.categoryCard}
+              id={category.id}
+              key={category.id}
+              data-home-reveal
+            >
+              <Image
+                src={category.image}
+                alt={category.alt}
+                fill
+                sizes="(max-width: 767px) 78vw, 20vw"
+              />
               <div className={styles.categoryShade} aria-hidden="true" />
               <div className={styles.categoryContent}>
                 <h3>{category.title}</h3>
@@ -285,8 +297,8 @@ export default function HomePage() {
           <p className={styles.eyebrowLight}>Craftsmanship &amp; quality</p>
           <h2 id="craft-title">Made to Last</h2>
           <p>
-            We work with skilled artisans and trusted growers to bring you pieces that are beautiful,
-            durable and meaningful.
+            We work with skilled artisans and trusted growers to bring you pieces that are
+            beautiful, durable and meaningful.
           </p>
           <div className={styles.craftPoints}>
             {craftPoints.map((point) => {
@@ -303,7 +315,11 @@ export default function HomePage() {
         <blockquote className={styles.craftQuote}>Artisan hands. A brighter Pakistan.</blockquote>
       </section>
 
-      <section className={styles.serviceRail} id="delivery" aria-label="Shopping with House of Lume">
+      <section
+        className={styles.serviceRail}
+        id="delivery"
+        aria-label="Shopping with House of Lume"
+      >
         {services.map((service) => {
           const Icon = service.icon;
           return (

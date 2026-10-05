@@ -12,13 +12,18 @@ async function expectNoHorizontalOverflow(page: import("@playwright/test").Page)
 test("final Phase 3 homepage and storefront shell render", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Homes That Inspire" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Curated for a More Beautiful Home" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Curated for a More Beautiful Home" }),
+  ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Design Meets Everyday Living" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Spaces with Soul" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Made to Last" })).toBeVisible();
   await expect(page.getByRole("banner")).toBeVisible();
   await expect(page.getByRole("contentinfo")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Shop Collection" })).toHaveAttribute("href", "#categories");
+  await expect(page.getByRole("link", { name: "Shop Collection" })).toHaveAttribute(
+    "href",
+    "#categories",
+  );
   await expect(page.getByRole("textbox", { name: "Email address" })).toBeVisible();
 });
 
@@ -26,9 +31,13 @@ test("search and bag use accessible modal planes and restore focus", async ({ pa
   await page.goto("/");
   const searchTrigger = page.getByRole("button", { name: "Search" });
   await searchTrigger.click();
-  await expect(page.getByRole("dialog", { name: "Find an object by mood, room, or material." })).toBeVisible();
+  await expect(
+    page.getByRole("dialog", { name: "Find an object by mood, room, or material." }),
+  ).toBeVisible();
   await expect(page.getByRole("searchbox", { name: "Search House of Lume" })).toBeFocused();
-  await page.getByRole("button", { name: "Close Find an object by mood, room, or material." }).click();
+  await page
+    .getByRole("button", { name: "Close Find an object by mood, room, or material." })
+    .click();
   await expect(searchTrigger).toBeFocused();
   const bagTrigger = page.getByRole("button", { name: "Shopping bag" });
   await bagTrigger.click();
@@ -58,7 +67,9 @@ test("mobile navigation has accessible targets and scoped navigation", async ({ 
   await expectNoHorizontalOverflow(page);
 });
 
-test("storefront and design-system showroom do not overflow supported responsive widths", async ({ page }) => {
+test("storefront and design-system showroom do not overflow supported responsive widths", async ({
+  page,
+}) => {
   for (const width of responsiveWidths) {
     await page.setViewportSize({ width, height: width < 768 ? 812 : 900 });
     await page.goto("/");
