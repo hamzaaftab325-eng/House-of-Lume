@@ -125,6 +125,12 @@ video {
   margin-inline: auto;
 }
 
+@media (max-width: 30rem) {
+  header[data-home][data-scrolled] > div {
+    gap: 0.35rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
