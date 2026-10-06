@@ -3,10 +3,34 @@ import { expect, test } from "@playwright/test";
 const responsiveWidths = [320, 375, 430, 768, 1024, 1440, 1920] as const;
 
 async function expectNoHorizontalOverflow(page: import("@playwright/test").Page) {
-  const hasNoOverflow = await page.evaluate(
-    () => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
-  );
-  expect(hasNoOverflow).toBe(true);
+  const diagnostics = await page.evaluate(() => {
+    const root = document.documentElement;
+    const offenders = Array.from(document.querySelectorAll<HTMLElement>("body *"))
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          tag: element.tagName.toLowerCase(),
+          className: element.className,
+          left: Math.round(rect.left * 10) / 10,
+          right: Math.round(rect.right * 10) / 10,
+          width: Math.round(rect.width * 10) / 10,
+        };
+      })
+      .filter((entry) => entry.right > root.clientWidth + 1 || entry.left < -1)
+      .slice(0, 12);
+
+    return {
+      path: window.location.pathname,
+      viewport: root.clientWidth,
+      scrollWidth: root.scrollWidth,
+      offenders,
+    };
+  });
+
+  expect(
+    diagnostics.scrollWidth,
+    `Horizontal overflow on ${diagnostics.path} at ${diagnostics.viewport}px. Offenders: ${JSON.stringify(diagnostics.offenders)}`,
+  ).toBeLessThanOrEqual(diagnostics.viewport + 1);
 }
 
 test("final Phase 3 homepage and storefront shell render", async ({ page }) => {
