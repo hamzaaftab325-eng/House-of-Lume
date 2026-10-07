@@ -12,7 +12,7 @@
 - All application timestamps are `timestamptz` and written in UTC.
 - Customer, order, staff and operational data is protected with Row Level Security.
 - The browser never receives a service-role/secret key.
-- Published catalogue data is the only anonymous read surface.
+- Published catalogue data is the only anonymous read surface apart from explicitly scoped insert-only public actions such as newsletter subscription.
 - Authenticated customers can access only their own account data.
 - One active `super_admin` is allowed at launch.
 - Guest checkout is supported without requiring an Auth user.
@@ -122,6 +122,12 @@ COD verification methods are restricted to `whatsapp` and `admin` for launch.
 
 Notifications are persisted first-class records. Delivery channels can independently track in-app, email and WhatsApp attempts.
 
+### Marketing subscriptions
+
+- `newsletter_subscribers`
+
+The homepage newsletter is a real persisted subscription surface rather than a visual-only form. Anonymous and authenticated storefront visitors receive insert-only access through RLS. Subscriber rows cannot be publicly selected, updated or deleted. Email values are normalized to lowercase and protected by a unique index so repeated submissions are idempotent from the visitor's perspective.
+
 ### Operations and auditing
 
 - `activity_logs`
@@ -193,15 +199,16 @@ Do not infer an admin identity from Git metadata, project names or customer data
 ## RLS model
 
 - Every public table has RLS enabled.
-- Anonymous users: published/active catalogue, active shipping configuration, approved reviews and explicitly public settings only.
-- Authenticated customers: public data plus records belonging to their linked customer identity.
+- Anonymous users: published/active catalogue, active shipping configuration, approved reviews, explicitly public settings and newsletter subscription inserts only.
+- Authenticated customers: public data plus records belonging to their linked customer identity and newsletter subscription inserts.
 - Super Admin: complete operational visibility and permitted mutations through RLS-aware policies.
 - `service_role`: reserved for trusted server/background operations and never exposed to the browser.
 - Private authorization helper functions live under `app_private` and are not exposed as public RPC endpoints.
+- Newsletter subscribers are never a public read surface; storefront `anon` and `authenticated` roles receive `INSERT` only.
 
 ## Advisor policy
 
-A Phase 1 security advisor run must return no actionable security findings before the phase is considered complete.
+A security advisor run must return no actionable security findings before a phase containing schema or policy changes is considered complete.
 
 Performance advisor `unused_index` notices on a new database are informational. Indexes required for foreign keys and known commerce query patterns are retained until real workload statistics exist; deleting useful indexes simply because a zero-traffic database has not used them is prohibited.
 
@@ -215,6 +222,7 @@ The repository migration filenames mirror the migrations applied to the connecte
 4. `20261005103534_phase1_security_rls.sql`
 5. `20261005103600_phase1_production_baseline_seed.sql`
 6. `20261005103838_phase1_advisor_hardening.sql`
+7. `20261007182058_phase3_homepage_newsletter.sql`
 
 New database changes must be made through new migrations. Applied migration files are immutable.
 

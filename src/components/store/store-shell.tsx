@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Route } from "next";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowUpRight, Heart, Menu, Search, ShoppingBag, UserRound } from "lucide-react";
 
 import { Drawer, EmptyDrawerState, SearchOverlay } from "@/components/ui/overlays";
@@ -10,19 +10,18 @@ import { IconButton, LumeButton } from "@/components/ui/controls";
 
 import styles from "./store-shell.module.css";
 
-type StoreNavItem = {
-  label: string;
-  href: Route;
-};
-
-const navItems: readonly StoreNavItem[] = [
+const navItems = [
+  { label: "Home", href: "/" },
   { label: "Lighting", href: "/#lighting" },
-  { label: "Living Green", href: "/#plants" },
-  { label: "Objects", href: "/#objects" },
-  { label: "System", href: "/system" },
-];
+  { label: "Plants", href: "/#plants" },
+  { label: "Decor", href: "/#decor" },
+  { label: "Rooms", href: "/#rooms" },
+  { label: "Our Story", href: "/#philosophy" },
+] as const;
 
 export function StoreHeader() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -38,23 +37,40 @@ export function StoreHeader() {
 
   return (
     <>
-      <div className={styles.announcement}>Pakistan-wide delivery · Cash on Delivery at launch</div>
-      <header className={styles.header} data-scrolled={scrolled}>
+      {!isHome && (
+        <div className={styles.announcement}>
+          <span>Pakistan-wide delivery</span>
+          <span>Cash on Delivery</span>
+          <span>Prices in PKR</span>
+          <span>Considered home living</span>
+        </div>
+      )}
+      <header className={styles.header} data-home={isHome} data-scrolled={scrolled}>
         <div className={styles.headerInner}>
           <div className={styles.mobileMenu}>
             <IconButton label="Open navigation" icon={<Menu />} onClick={() => setMenuOpen(true)} />
           </div>
+
+          <Link className={styles.logo} href="/" aria-label="House of Lume home">
+            <span className={styles.logoMark} aria-hidden="true" />
+            <span className={styles.logoText}>
+              <strong>HOUSE OF LUME</strong>
+              <small>Lights · Plants · Spaces</small>
+            </span>
+          </Link>
+
           <nav className={styles.desktopNav} aria-label="Primary navigation">
-            {navItems.slice(0, 3).map((item) => (
-              <Link key={item.label} className={styles.navLink} href={item.href}>
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                className={styles.navLink}
+                data-active={item.href === "/" && isHome}
+                href={item.href}
+              >
                 {item.label}
               </Link>
             ))}
           </nav>
-
-          <Link className={styles.logo} href="/" aria-label="House of Lume home">
-            House of Lume
-          </Link>
 
           <div className={styles.actions}>
             <IconButton label="Search" icon={<Search />} onClick={() => setSearchOpen(true)} />
@@ -85,7 +101,7 @@ export function StoreHeader() {
         side="left"
         eyebrow="House of Lume"
         title="Explore"
-        description="A compact mobile plane with large touch targets and no desktop-menu compression."
+        description="Lighting, living green and timeless objects for warmer homes."
       >
         <nav className={styles.menuNav} aria-label="Mobile navigation">
           {navItems.map((item, index) => (
@@ -101,15 +117,12 @@ export function StoreHeader() {
             </Link>
           ))}
           <Link className={styles.menuLink} href="/account" onClick={() => setMenuOpen(false)}>
-            <span className={styles.menuIndex}>05</span>
+            <span className={styles.menuIndex}>07</span>
             <span>Account</span>
             <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
         </nav>
-        <p className={styles.menuMeta}>
-          Designed for keyboard, touch, screen-reader, and reduced-motion use from the same
-          component.
-        </p>
+        <p className={styles.menuMeta}>Pakistan-wide delivery · Cash on Delivery · PKR pricing</p>
       </Drawer>
 
       <SearchOverlay open={searchOpen} onOpenChange={setSearchOpen} />
@@ -146,40 +159,57 @@ export function StoreHeader() {
 
 export function StoreFooter() {
   const year = new Date().getFullYear();
+
   return (
     <footer className={styles.footer}>
       <div className={styles.footerInner}>
         <div className={styles.footerTop}>
           <div className={styles.footerBrand}>
-            <p className={styles.footerWordmark}>House of Lume</p>
+            <div className={styles.footerLogo}>
+              <span className={styles.logoMark} aria-hidden="true" />
+              <span className={styles.logoText}>
+                <strong>HOUSE OF LUME</strong>
+                <small>Lights · Plants · Spaces</small>
+              </span>
+            </div>
             <p className={styles.footerCopy}>
-              Considered lighting, greenery, and objects for rooms that feel lived in—not staged.
+              Lighting, living green and considered home decor for modern Pakistani homes.
             </p>
           </div>
+
           <nav className={styles.footerNav} aria-label="Footer navigation">
             <div className={styles.footerGroup}>
               <h2>Explore</h2>
               <Link href="/#lighting">Lighting</Link>
-              <Link href="/#plants">Living Green</Link>
-              <Link href="/#objects">Objects</Link>
+              <Link href="/#plants">Plants</Link>
+              <Link href="/#decor">Home Decor</Link>
+              <Link href="/#categories">Collections</Link>
             </div>
             <div className={styles.footerGroup}>
               <h2>House</h2>
-              <Link href="/system">Design system</Link>
-              <Link href="/account">Account</Link>
-              <Link href="/crm">CRM</Link>
+              <Link href="/#philosophy">Our Story</Link>
+              <Link href="/#rooms">Room Inspiration</Link>
+              <Link href="/#newsletter-title">House Notes</Link>
+              <Link href="/system">Design System</Link>
             </div>
             <div className={styles.footerGroup}>
               <h2>Commerce</h2>
+              <Link href="/account">Customer Account</Link>
+              <span>Pakistan-wide delivery</span>
               <span>Cash on Delivery</span>
-              <span>Pakistan-wide</span>
-              <span>PKR</span>
+              <span>PKR pricing</span>
             </div>
           </nav>
+
+          <div className={styles.footerSignature}>
+            <span>A brighter Pakistan</span>
+            <strong>begins at home.</strong>
+          </div>
         </div>
+
         <div className={styles.footerBottom}>
-          <span>© {year} House of Lume</span>
-          <span>Built for WCAG 2.2 AA and modern Core Web Vitals</span>
+          <span>© {year} House of Lume. All rights reserved.</span>
+          <span>Pakistan · PKR · Cash on Delivery</span>
         </div>
       </div>
     </footer>
