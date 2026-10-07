@@ -48,7 +48,13 @@
 .heroShade {
   z-index: -2;
   background:
-    linear-gradient(90deg, rgba(11, 24, 15, 0.93) 0%, rgba(13, 29, 18, 0.78) 34%, rgba(14, 27, 17, 0.28) 67%, rgba(9, 14, 10, 0.12) 100%),
+    linear-gradient(
+      90deg,
+      rgba(11, 24, 15, 0.93) 0%,
+      rgba(13, 29, 18, 0.78) 34%,
+      rgba(14, 27, 17, 0.28) 67%,
+      rgba(9, 14, 10, 0.12) 100%
+    ),
     linear-gradient(180deg, rgba(6, 10, 7, 0.28), transparent 42%, rgba(7, 12, 8, 0.62));
 }
 
@@ -146,9 +152,7 @@
 .categories {
   position: relative;
   padding: clamp(5.6rem, 9vw, 8.5rem) var(--page-gutter) clamp(6.5rem, 10vw, 9rem);
-  background:
-    radial-gradient(circle at 0 70%, rgba(74, 104, 61, 0.07), transparent 22rem),
-    #fff;
+  background: radial-gradient(circle at 0 70%, rgba(74, 104, 61, 0.07), transparent 22rem), #fff;
 }
 
 .sectionIntro {
@@ -276,7 +280,13 @@
 
 .featuredShade {
   z-index: -2;
-  background: linear-gradient(90deg, rgba(9, 15, 10, 0.96) 0%, rgba(12, 20, 13, 0.82) 34%, rgba(11, 17, 12, 0.3) 72%, rgba(10, 15, 11, 0.5));
+  background: linear-gradient(
+    90deg,
+    rgba(9, 15, 10, 0.96) 0%,
+    rgba(12, 20, 13, 0.82) 34%,
+    rgba(11, 17, 12, 0.3) 72%,
+    rgba(10, 15, 11, 0.5)
+  );
 }
 
 .featuredInner {
@@ -362,8 +372,7 @@
   align-content: center;
   padding: clamp(4rem, 8vw, 8rem) clamp(2rem, 6vw, 6.5rem);
   background:
-    radial-gradient(circle at 100% 8%, rgba(73, 108, 69, 0.13), transparent 22rem),
-    #fbf8ef;
+    radial-gradient(circle at 100% 8%, rgba(73, 108, 69, 0.13), transparent 22rem), #fbf8ef;
 }
 
 .philosophyCopy h2 {
@@ -543,8 +552,7 @@
   align-content: center;
   padding: clamp(4rem, 8vw, 8rem) clamp(2rem, 6vw, 6rem);
   background:
-    radial-gradient(circle at 90% 10%, rgba(213, 231, 139, 0.14), transparent 25rem),
-    #1e3b28;
+    radial-gradient(circle at 90% 10%, rgba(213, 231, 139, 0.14), transparent 25rem), #1e3b28;
 }
 
 .greenCopy h2 {
@@ -639,7 +647,12 @@
 
 .newsletterShade {
   z-index: -2;
-  background: linear-gradient(90deg, rgba(15, 49, 29, 0.97), rgba(22, 65, 40, 0.88) 47%, rgba(17, 35, 23, 0.38));
+  background: linear-gradient(
+    90deg,
+    rgba(15, 49, 29, 0.97),
+    rgba(22, 65, 40, 0.88) 47%,
+    rgba(17, 35, 23, 0.38)
+  );
 }
 
 .newsletterInner {
@@ -755,7 +768,12 @@
   }
 
   .heroShade {
-    background: linear-gradient(180deg, rgba(8, 17, 11, 0.55), rgba(8, 20, 12, 0.78) 55%, rgba(7, 17, 11, 0.96));
+    background: linear-gradient(
+      180deg,
+      rgba(8, 17, 11, 0.55),
+      rgba(8, 20, 12, 0.78) 55%,
+      rgba(7, 17, 11, 0.96)
+    );
   }
 
   .heroInner {

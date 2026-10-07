@@ -26,8 +26,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: {
     title: "House of Lume — Light for Better Living",
-    description:
-      "Lighting, living green and considered objects for warmer homes across Pakistan.",
+    description: "Lighting, living green and considered objects for warmer homes across Pakistan.",
     url: "/",
     siteName: "House of Lume",
     locale: "en_PK",
@@ -322,7 +321,9 @@ export default function HomePage() {
             <p className={styles.eyebrow}>Room inspiration</p>
             <h2 id="rooms-title">Homes that feel good.</h2>
           </div>
-          <p>Four ways to layer light, greenery and objects without making the room feel overdone.</p>
+          <p>
+            Four ways to layer light, greenery and objects without making the room feel overdone.
+          </p>
         </div>
         <div className={styles.roomStack}>
           {rooms.map((room, index) => (
@@ -333,7 +334,12 @@ export default function HomePage() {
               key={room.title}
             >
               <div className={styles.roomMedia} data-home-image>
-                <Image src={room.image} alt={room.alt} fill sizes="(max-width: 767px) 100vw, 52vw" />
+                <Image
+                  src={room.image}
+                  alt={room.alt}
+                  fill
+                  sizes="(max-width: 767px) 100vw, 52vw"
+                />
               </div>
               <div className={styles.roomCopy}>
                 <span>{room.index}</span>
@@ -366,8 +372,8 @@ export default function HomePage() {
             More light. <em>More life.</em>
           </h2>
           <p>
-            Plants introduce movement, softness and changing light. Pair them with grounded
-            planters and warm illumination for rooms that feel naturally alive.
+            Plants introduce movement, softness and changing light. Pair them with grounded planters
+            and warm illumination for rooms that feel naturally alive.
           </p>
           <Link href="#plants">
             Explore living green <ArrowRight aria-hidden="true" />
