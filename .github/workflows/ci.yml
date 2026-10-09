@@ -2,56 +2,20 @@ name: CI
 
 on:
   push:
-    branches: [main, phase3-first-design-refresh]
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  format-branch:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/phase3-first-design-refresh'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout feature branch
-        uses: actions/checkout@v7
-        with:
-          ref: phase3-first-design-refresh
-          persist-credentials: true
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-
-      - name: Install locked dependencies
-        run: npm ci
-
-      - name: Format changed homepage files
-        run: npx prettier --write "src/app/(store)/page.module.css" "src/app/(store)/page.tsx" "src/components/store/store-shell.module.css"
-
-      - name: Commit formatter output
-        run: |
-          if git diff --quiet; then
-            echo "No formatting changes required"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "src/app/(store)/page.module.css" "src/app/(store)/page.tsx" "src/components/store/store-shell.module.css"
-          git commit -m "chore: format Phase 3 homepage"
-          git push origin HEAD:phase3-first-design-refresh
-
   quality:
-    if: github.event_name != 'push' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
