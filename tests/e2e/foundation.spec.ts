@@ -9,19 +9,21 @@ async function expectNoHorizontalOverflow(page: import("@playwright/test").Page)
   expect(hasNoOverflow).toBe(true);
 }
 
-test("Phase 3 homepage renders the approved storytelling structure", async ({ page }) => {
+test("Phase 3 homepage renders the approved gallery storytelling structure", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { name: "Light for Better Living" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "A brighter, kinder home." })).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Find the pieces that change how a room feels." }),
+    page.getByRole("heading", { name: "Find what belongs in your space." }),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Design meets everyday living." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Homes that feel good." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "More light. More life." })).toBeVisible();
-  await expect(page.getByLabel("Shopping with House of Lume")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Editors' picks." })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Objects should earn their place." }),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Real spaces. Brighter living." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The Material Archive." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Made to arrive well." })).toBeVisible();
   await expect(page.getByRole("textbox", { name: "Email address" })).toBeVisible();
-  await expect(page.locator("[data-edge]")).toHaveCount(5);
   await expect(page.getByRole("banner")).toBeVisible();
   await expect(page.getByRole("contentinfo")).toBeVisible();
 });
@@ -106,7 +108,7 @@ test("reduced motion keeps the homepage and design system usable", async ({ page
   await page.goto("/");
 
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
-  await expect(page.getByRole("heading", { name: "Light for Better Living" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "A brighter, kinder home." })).toBeVisible();
 
   await page.goto("/system");
   await expect(

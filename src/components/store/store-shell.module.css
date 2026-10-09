@@ -34,9 +34,18 @@
 .header[data-home="true"] {
   position: absolute;
   top: 0;
-  background: linear-gradient(180deg, rgba(13, 10, 7, 0.56), transparent);
-  color: #fbf8f1;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 254, 251, 0.95),
+    rgba(255, 254, 251, 0.72) 56%,
+    transparent
+  );
+  color: #171714;
   backdrop-filter: none;
+}
+
+.header[data-home="true"] .navLink::after {
+  background: #0f5da8;
 }
 
 .header[data-scrolled="true"]:not([data-home="true"]) {
