@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Headphones,
-  Leaf,
-  PackageCheck,
-  ShieldCheck,
-  Truck,
-} from "lucide-react";
+import { ArrowRight, Headphones, Leaf, PackageCheck, ShieldCheck, Truck } from "lucide-react";
 
 import { HomeMotion } from "@/components/home/home-motion";
 import { NewsletterForm } from "@/components/home/newsletter-form";
@@ -260,7 +253,11 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className={styles.heroStage} data-home-hero-stage aria-label="House of Lume object edit">
+          <div
+            className={styles.heroStage}
+            data-home-hero-stage
+            aria-label="House of Lume object edit"
+          >
             <div className={styles.heroStageLamp} data-home-object data-home-image>
               <Image
                 src="/images/house-of-lume/lighting.webp"
@@ -297,7 +294,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.categorySection} id="categories" aria-labelledby="categories-title">
+      <section
+        className={styles.categorySection}
+        id="categories"
+        aria-labelledby="categories-title"
+      >
         <div className={styles.categoryIntro} data-home-reveal>
           <p className={styles.eyebrow}>Explore by category</p>
           <h2 id="categories-title">Find what belongs in your space.</h2>
@@ -400,7 +401,12 @@ export default function HomePage() {
         </div>
         <div className={styles.spacesGrid}>
           {spaces.map((space, index) => (
-            <article className={styles.spaceTile} data-slot={index + 1} data-home-image key={space.title}>
+            <article
+              className={styles.spaceTile}
+              data-slot={index + 1}
+              data-home-image
+              key={space.title}
+            >
               <Image src={space.image} alt={space.alt} fill sizes="(max-width: 767px) 92vw, 25vw" />
               <div className={styles.spaceShade} aria-hidden="true" />
               <div className={styles.spaceMeta}>
@@ -426,7 +432,12 @@ export default function HomePage() {
           {materials.map((material) => (
             <article className={styles.materialTile} key={material.title} data-home-image>
               <div className={styles.materialImage}>
-                <Image src={material.image} alt={material.alt} fill sizes="(max-width: 767px) 42vw, 14vw" />
+                <Image
+                  src={material.image}
+                  alt={material.alt}
+                  fill
+                  sizes="(max-width: 767px) 42vw, 14vw"
+                />
               </div>
               <span>{material.index}</span>
               <h3>{material.title}</h3>

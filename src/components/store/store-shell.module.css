@@ -34,7 +34,12 @@
 .header[data-home="true"] {
   position: absolute;
   top: 0;
-  background: linear-gradient(180deg, rgba(255, 254, 251, 0.95), rgba(255, 254, 251, 0.72) 56%, transparent);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 254, 251, 0.95),
+    rgba(255, 254, 251, 0.72) 56%,
+    transparent
+  );
   color: #171714;
   backdrop-filter: none;
 }
