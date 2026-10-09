@@ -40,8 +40,11 @@ jobs:
       - name: Production dependency audit
         run: npm run audit:prod
 
-      - name: Formatting
-        run: npm run format:check
+      - name: Formatting diagnostic
+        run: |
+          npx prettier --write "src/app/(store)/page.module.css" "src/app/(store)/page.tsx" "src/components/store/store-shell.module.css"
+          git diff -- "src/app/(store)/page.module.css" "src/app/(store)/page.tsx" "src/components/store/store-shell.module.css"
+          exit 1
 
       - name: Lint
         run: npm run lint
