@@ -2,39 +2,60 @@
 
 ## Source direction
 
-The production homepage is based on the user-supplied `v18 integrated section tears` homepage reference. The implementation preserves its strongest ideas—cinematic House of Lume imagery, an integrated hero/header, warm green/cream material planes, editorial category discovery, room storytelling, craftsmanship, service information, newsletter and torn paper transitions—while converting the prototype into reusable Next.js production components.
+The production homepage uses the approved **bright editorial-gallery concept** selected from the five new House of Lume visual directions. The design is intentionally different from the previous cinematic/torn-paper direction.
 
-The uploaded prototype is treated as visual direction rather than production code. Prototype-only fake cart, wishlist, ratings, product counts, prices and newsletter JavaScript are not copied into the application.
+The homepage now uses:
 
-## Torn divider system
+- a mineral/off-white gallery canvas
+- an object-led hero instead of a full-room hero
+- a restrained cobalt accent
+- asymmetric rectangular bento compositions
+- editorial product stages rather than generic cards
+- a House Edit / Editors' Picks shelf
+- real-space inspiration
+- a Material Archive
+- a quiet service rail
+- a light newsletter composition
 
-`TornDivider` is a reusable editorial component with `fine`, `wide` and `rough` variants and top/bottom placement. It uses pure-white SVG edges with no gray stroke, blur or shadow, matching the approved torn-paper treatment while avoiding duplicated section-specific CSS.
-
-The component is used across multiple homepage transitions so the torn edge becomes a deliberate House of Lume visual signature rather than a one-off decoration.
-
-## Production assets
-
-Homepage imagery is stored locally under `public/images/house-of-lume/` as optimized WebP assets. Runtime pages do not depend on temporary generation URLs or third-party stock-image hosts.
+The visual source is treated as art direction rather than production code. Fake product prices, ratings, stock claims, scarcity and customer counts from concept imagery are not copied into the application.
 
 ## Commerce integrity
 
-The connected production catalogue currently has no published products. Phase 3 therefore presents the featured area as a clearly labelled editorial House Edit and does not invent purchasable inventory, prices, review counts or scarcity. Live product units will connect when published catalogue data exists in the catalogue/product phases.
+The connected production catalogue currently contains no published product records. Phase 3 therefore renders the Editors' Picks area as a clearly labelled editorial preview. It does not invent purchasable inventory or prices. The visual shelf is structured so real catalogue ProductUnits can replace the editorial preview once catalogue data is published in the commerce phases.
+
+## Existing design system
+
+Phase 3 continues to use the Phase 2 production foundation:
+
+- Cormorant Garamond display typography
+- Manrope interface typography
+- Lume Line principles
+- rectangular Crop Windows
+- Object Stage thinking
+- GSAP + ScrollTrigger ownership for scroll choreography
+- Lenis storefront scrolling where enabled
+- Motion for UI overlays
+- reduced-motion support
+
+The reusable `TornDivider` component remains available in the design system but is not used by this homepage direction because the selected concept is based on clean architectural edges rather than torn-paper transitions.
+
+## Production assets
+
+Homepage imagery remains stored locally under `public/images/house-of-lume/` as optimized WebP assets. Runtime pages do not depend on temporary generation URLs or third-party stock-image hosts.
 
 ## Newsletter
 
-The homepage newsletter persists to `public.newsletter_subscribers` through a validated server action. Email addresses are normalized to lowercase, duplicate submissions are handled idempotently, and a honeypot field provides a lightweight spam control.
-
-Storefront `anon` and `authenticated` roles receive `INSERT` only through RLS and cannot publicly select, update or delete subscriber records.
+The homepage newsletter persists to `public.newsletter_subscribers` through the existing validated server action. Email addresses are normalized, duplicate submissions are handled idempotently, and the honeypot field remains in place for lightweight abuse protection.
 
 ## SEO
 
-The homepage provides route metadata, canonical URL, Open Graph data, Organization/WebSite JSON-LD, `robots.txt`, and `sitemap.xml`. Copy naturally describes House of Lume lighting, living plants, home decor, Pakistan-wide delivery and Cash on Delivery without keyword stuffing or unsupported commercial claims.
+The homepage provides route metadata, canonical URL, Open Graph data, Organization/WebSite JSON-LD, `robots.txt`, and `sitemap.xml`. Copy naturally describes House of Lume lighting, plants, home decor, Pakistan-wide delivery and Cash on Delivery without keyword stuffing or unsupported claims.
 
 ## Motion and responsive behavior
 
-Desktop uses restrained GSAP/ScrollTrigger reveals, crop-window image reveals, photographic drift and hero parallax. Mobile uses short entrance reveals and native scrolling. Reduced-motion users receive static content without scroll choreography.
+Desktop motion is deliberately restrained: hero-copy entrance, staged object entrance, crop-window reveals, photographic drift and short section reveals. Mobile uses shorter entrance reveals and native scrolling. Reduced-motion users receive static content without scroll choreography.
 
-Required responsive verification covers 320, 375, 430, 768, 1024, 1440 and 1920 widths plus the existing design-system/account/CRM regression routes.
+Required responsive verification covers 320, 375, 430, 768, 1024, 1440 and 1920 widths plus existing design-system/account/CRM regression routes.
 
 ## Completion gate
 
@@ -48,7 +69,7 @@ Phase 3 is complete only when:
 - Playwright E2E passes
 - responsive horizontal-overflow checks pass
 - reduced-motion and keyboard regressions pass
-- the Supabase security advisor reports no actionable findings
-- the final `main` commit receives successful CI and deployment status
+- Supabase security checks relevant to existing Phase 3 data remain clear
+- the final production commit receives successful CI and deployment status
 
 Until those gates are green, Phase 3 must not be reported as 100% complete.
