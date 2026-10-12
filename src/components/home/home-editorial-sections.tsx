@@ -141,29 +141,152 @@ export function HomeEditorialSections() {
 
       splitTargets.forEach((heading) => {
         const split = new SplitType(heading, { types: "lines,words" });
-        const lines = split.lines ?? [];
         const words = split.words ?? [];
 
         splits.push(split);
-        gsap.set(lines, { overflow: "hidden" });
-
         if (words.length === 0) return;
 
-        gsap.from(words, {
-          autoAlpha: 0,
-          yPercent: 110,
-          rotateX: 7,
-          transformOrigin: "50% 100%",
-          duration: 0.9,
-          stagger: 0.028,
-          ease: "power4.out",
-          clearProps: "transform,opacity,visibility",
-          scrollTrigger: {
-            trigger: heading,
-            start: "top 88%",
-            once: true,
+        gsap.fromTo(
+          words,
+          {
+            autoAlpha: 0,
+            yPercent: 72,
+            rotateX: 10,
+            scale: 0.985,
+            filter: "blur(14px)",
+            transformOrigin: "50% 100%",
+            willChange: "transform,filter,opacity",
           },
-        });
+          {
+            autoAlpha: 1,
+            yPercent: 0,
+            rotateX: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 1.05,
+            stagger: 0.032,
+            ease: "power4.out",
+            clearProps: "transform,filter,opacity,visibility,willChange",
+            scrollTrigger: {
+              trigger: heading,
+              start: "top 89%",
+              once: true,
+            },
+          },
+        );
+      });
+
+      const cinematicText = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          [
+            'main [data-active="true"] p',
+            'main [data-active="true"] a',
+            "#categories > header p",
+            "#products header p",
+            "[data-editorial-section] p",
+            "[data-editorial-section] a",
+            "[data-editorial-section] strong",
+            "[data-editorial-section] small",
+          ].join(", "),
+        ),
+      );
+
+      cinematicText.forEach((text, index) => {
+        const computedFilter = window.getComputedStyle(text).filter;
+        const baseFilter = computedFilter === "none" ? "blur(0px)" : computedFilter;
+        const blurredFilter =
+          computedFilter === "none" ? "blur(8px)" : `blur(8px) ${computedFilter}`;
+
+        gsap.fromTo(
+          text,
+          {
+            filter: blurredFilter,
+            willChange: "filter",
+          },
+          {
+            filter: baseFilter,
+            duration: 0.78 + (index % 4) * 0.04,
+            ease: "power3.out",
+            clearProps: "filter,willChange",
+            scrollTrigger: {
+              trigger: text,
+              start: "top 92%",
+              once: true,
+            },
+          },
+        );
+      });
+
+      const cinematicCards = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          [
+            "#categories article",
+            "#products article",
+            "[data-editorial-section] article",
+            "[data-editorial-section] aside",
+          ].join(", "),
+        ),
+      );
+
+      cinematicCards.forEach((card, index) => {
+        gsap.fromTo(
+          card,
+          {
+            filter: "blur(9px)",
+            clipPath: "inset(2.5% 2.5% 2.5% 2.5%)",
+            willChange: "filter,clip-path",
+          },
+          {
+            filter: "blur(0px)",
+            clipPath: "inset(0% 0% 0% 0%)",
+            duration: 0.92 + (index % 3) * 0.07,
+            ease: "power3.out",
+            clearProps: "filter,clipPath,willChange",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 91%",
+              once: true,
+            },
+          },
+        );
+      });
+
+      const cinematicMedia = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          [
+            "#categories article img",
+            "#products article img",
+            "[data-editorial-section] article img",
+            "[data-editorial-section] aside img",
+            "[data-editorial-section] [data-reveal] > img",
+          ].join(", "),
+        ),
+      );
+
+      cinematicMedia.forEach((media, index) => {
+        const computedFilter = window.getComputedStyle(media).filter;
+        const baseFilter = computedFilter === "none" ? "blur(0px)" : computedFilter;
+        const blurredFilter =
+          computedFilter === "none" ? "blur(12px)" : `blur(12px) ${computedFilter}`;
+
+        gsap.fromTo(
+          media,
+          {
+            filter: blurredFilter,
+            willChange: "filter",
+          },
+          {
+            filter: baseFilter,
+            duration: 1 + (index % 4) * 0.06,
+            ease: "power3.out",
+            clearProps: "filter,willChange",
+            scrollTrigger: {
+              trigger: media.parentElement ?? media,
+              start: "top 92%",
+              once: true,
+            },
+          },
+        );
       });
 
       const sections = gsap.utils.toArray<HTMLElement>("[data-editorial-section]", root);
@@ -187,14 +310,14 @@ export function HomeEditorialSections() {
           .from(revealItems, {
             autoAlpha: 0,
             y: 22,
-            duration: 0.78,
+            duration: 0.82,
             stagger: 0.07,
           })
           .from(
             media,
             {
               scale: 1.035,
-              duration: 1.05,
+              duration: 1.08,
               stagger: 0.05,
               ease: "power2.out",
             },
@@ -207,6 +330,30 @@ export function HomeEditorialSections() {
       parallaxMedia.forEach((media, index) => {
         const travel = Number(media.dataset.parallax ?? 5.5);
         const trigger = media.parentElement ?? media;
+
+        const computedFilter = window.getComputedStyle(media).filter;
+        const baseFilter = computedFilter === "none" ? "blur(0px)" : computedFilter;
+        const blurredFilter =
+          computedFilter === "none" ? "blur(10px)" : `blur(10px) ${computedFilter}`;
+
+        gsap.fromTo(
+          media,
+          {
+            filter: blurredFilter,
+            willChange: "filter,transform",
+          },
+          {
+            filter: baseFilter,
+            duration: 1.05,
+            ease: "power3.out",
+            clearProps: "filter,willChange",
+            scrollTrigger: {
+              trigger,
+              start: "top 91%",
+              once: true,
+            },
+          },
+        );
 
         gsap.fromTo(
           media,
@@ -262,8 +409,8 @@ export function HomeEditorialSections() {
     },
   );
 
-  const liftSmall = reducedMotion ? undefined : { y: -5 };
-  const liftMedium = reducedMotion ? undefined : { y: -8 };
+  const liftSmall = reducedMotion ? undefined : { y: -6, scale: 1.008 };
+  const liftMedium = reducedMotion ? undefined : { y: -9, scale: 1.012 };
 
   return (
     <div ref={rootRef}>
