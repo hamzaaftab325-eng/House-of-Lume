@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 
 import { gsap, registerGsap, useGSAP } from "@/lib/motion/gsap";
@@ -78,7 +77,7 @@ export function HomeProducts() {
         defaults: { ease: "power3.out" },
         scrollTrigger: {
           trigger: section,
-          start: "top 76%",
+          start: "top 78%",
           once: true,
         },
       });
@@ -86,30 +85,29 @@ export function HomeProducts() {
       reveal
         .from(headingParts, {
           autoAlpha: 0,
-          y: 22,
-          duration: 0.78,
-          stagger: 0.08,
+          y: 18,
+          duration: 0.72,
+          stagger: 0.07,
         })
         .from(
           cards,
           {
             autoAlpha: 0,
-            y: 34,
-            clipPath: "inset(0 0 12% 0)",
-            duration: 0.96,
-            stagger: 0.085,
+            y: 28,
+            duration: 0.86,
+            stagger: 0.08,
           },
-          0.16,
+          0.12,
         )
         .from(
           images,
           {
-            scale: 1.055,
-            duration: 1.2,
-            stagger: 0.07,
+            scale: 1.045,
+            duration: 1.05,
+            stagger: 0.065,
             ease: "power2.out",
           },
-          0.24,
+          0.2,
         );
     },
     { scope: sectionRef },
@@ -129,7 +127,7 @@ export function HomeProducts() {
             Objects for a Brighter Home
           </h2>
           <p className={styles.intro}>
-            A considered preview of the forms, materials, and objects shaping the House of Lume
+            A considered preview of forms, materials, and objects shaping the House of Lume
             collection.
           </p>
           <p className={styles.status}>Editorial preview · Product catalogue not yet published</p>
@@ -176,7 +174,7 @@ export function HomeProducts() {
 
                 <div className={styles.nameRow}>
                   <h3>{product.name}</h3>
-                  <ArrowRight className={styles.nameArrow} aria-hidden="true" />
+                  <span className={styles.nameArrow} aria-hidden="true" />
                 </div>
 
                 <div className={styles.footerRule} aria-hidden="true" />
