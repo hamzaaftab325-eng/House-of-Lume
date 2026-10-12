@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { HomeCategories } from "@/components/home/home-categories";
+import { HomeEditorialSections } from "@/components/home/home-editorial-sections";
 import { HomeHero } from "@/components/home/home-hero";
 import { HomeProducts } from "@/components/home/home-products";
 
@@ -16,6 +17,7 @@ export default function StorefrontHomePage() {
       <HomeHero />
       <HomeCategories />
       <HomeProducts />
+      <HomeEditorialSections />
     </main>
   );
 }
