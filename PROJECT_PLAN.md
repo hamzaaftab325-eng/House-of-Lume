@@ -262,88 +262,94 @@ Create a production-quality base that later phases do not need to rewrite.
 
 # 6. Phase 1 — Database, Domain Model & Security Foundation
 
+**Status:** ⚠️ Implementation is present in the repository, but final live RLS/policy verification is still required before Phase 1 can be marked 100% complete.
+
 ## Goal
 
 Build the real commerce schema before hardcoding product/business logic into UI.
 
 ## Core entities
 
-- [ ] profiles
-- [ ] staff_profiles
-- [ ] roles
-- [ ] permissions
-- [ ] role_permissions
-- [ ] categories
-- [ ] collections
-- [ ] products
-- [ ] product_variants
-- [ ] product_media
-- [ ] inventory_locations if required
-- [ ] inventory_balances
-- [ ] inventory_ledger
-- [ ] customers
-- [ ] customer_addresses
-- [ ] carts
-- [ ] cart_items
-- [ ] wishlists
-- [ ] wishlist_items
-- [ ] discounts
-- [ ] discount_rules
-- [ ] orders
-- [ ] order_items
-- [ ] order_addresses
-- [ ] order_status_history
-- [ ] cod_verifications
-- [ ] cod_settlements
-- [ ] delivery_attempts
-- [ ] shipments
-- [ ] returns
-- [ ] return_items
-- [ ] reviews
-- [ ] support_threads/tickets if included
-- [ ] notifications
-- [ ] notification_deliveries
-- [ ] notification_preferences
-- [ ] email_events
-- [ ] abandoned_carts
-- [ ] activity_logs
-- [ ] audit_logs
+- [x] profiles
+- [x] staff_profiles
+- [x] roles
+- [x] permissions
+- [x] role_permissions
+- [x] categories
+- [x] collections
+- [x] products
+- [x] product_variants
+- [x] product_media
+- [x] inventory_locations if required
+- [x] inventory_balances
+- [x] inventory_ledger
+- [x] customers
+- [x] customer_addresses
+- [x] carts
+- [x] cart_items
+- [x] wishlists
+- [x] wishlist_items
+- [x] discounts
+- [x] discount_rules
+- [x] orders
+- [x] order_items
+- [x] order_addresses
+- [x] order_status_history
+- [x] cod_verifications
+- [x] cod_settlements
+- [x] delivery_attempts
+- [x] shipments
+- [x] returns
+- [x] return_items
+- [x] reviews
+- [x] support_threads/tickets if included
+- [x] notifications
+- [x] notification_deliveries
+- [x] notification_preferences
+- [x] email_events
+- [x] abandoned_carts
+- [x] activity_logs
+- [x] audit_logs
 
 ## Data integrity
 
-- [ ] Foreign keys
-- [ ] Unique constraints
-- [ ] Check constraints
-- [ ] Money representation strategy
-- [ ] Timezone strategy
-- [ ] Slug uniqueness
-- [ ] SKU uniqueness
-- [ ] Inventory constraints
-- [ ] Status enum/state strategy
-- [ ] Useful indexes
+- [x] Foreign keys
+- [x] Unique constraints
+- [x] Check constraints
+- [x] Money representation strategy
+- [x] Timezone strategy
+- [x] Slug uniqueness
+- [x] SKU uniqueness
+- [x] Inventory constraints
+- [x] Status enum/state strategy
+- [x] Useful indexes
 
 ## Security
 
-- [ ] RLS enabled for private data
-- [ ] Customer ownership policies
-- [ ] Staff authorization policies
-- [ ] Admin-only policies
-- [ ] Service-role usage server-only
-- [ ] Policy tests
+- [x] RLS enabled for private data
+- [x] Customer ownership policies
+- [x] Staff authorization policies
+- [x] Admin-only policies
+- [x] Service-role usage server-only
+- [ ] Policy tests — final live verification against the House of Lume Supabase project is still required
 
 ## Seed data
 
-- [ ] Categories
-- [ ] Collections
-- [ ] Products
-- [ ] Variants
-- [ ] Inventory
-- [ ] Staff roles
-- [ ] Example customers/orders for development
+- [x] Categories
+- [x] Collections
+- [x] Products
+- [x] Variants
+- [x] Inventory
+- [x] Staff roles
+- [x] Example customers/orders for development
+
+**Phase 1 status: not yet 100% complete — implementation is complete, but the required live policy-test evidence is not currently verifiable.**
 
 ---
 
 # 7. Phase 2 — Storefront Design System Implementation
+
+**Status:** ✅ Complete — reusable storefront components, store shell, and motion infrastructure are implemented and verified by the current production quality gate.
 
 ## Goal
 
@@ -351,50 +357,63 @@ Translate `design.md` into reusable production components.
 
 ## Components
 
-- [ ] LumeButton
-- [ ] LumeLink
-- [ ] IconButton
-- [ ] LumeLine
-- [ ] ProductStage
-- [ ] ProductUnit
-- [ ] ShelfGrid
-- [ ] SplitPlane
-- [ ] CropWindow
-- [ ] EditorialChapter
-- [ ] MaterialStory
-- [ ] RoomStory
-- [ ] SearchOverlay shell
-- [ ] Drawer
-- [ ] Dialog
-- [ ] Accordion
-- [ ] Tabs
-- [ ] Inputs
-- [ ] Selects
-- [ ] Checkbox/radio
-- [ ] StatusBadge
-- [ ] Toast system
+- [x] LumeButton
+- [x] LumeLink
+- [x] IconButton
+- [x] LumeLine
+- [x] ProductStage
+- [x] ProductUnit
+- [x] ShelfGrid
+- [x] SplitPlane
+- [x] CropWindow
+- [x] EditorialChapter
+- [x] MaterialStory
+- [x] RoomStory
+- [x] SearchOverlay shell
+- [x] Drawer
+- [x] Dialog
+- [x] Accordion
+- [x] Tabs
+- [x] Inputs
+- [x] Selects
+- [x] Checkbox/radio
+- [x] StatusBadge
+- [x] Toast system
 
 ## Store shell
 
-- [ ] Header
-- [ ] Sticky header states
-- [ ] Mobile navigation
-- [ ] Footer
-- [ ] Announcement area if required
-- [ ] Global search trigger
-- [ ] Wishlist indicator
-- [ ] Bag indicator
+- [x] Header
+- [x] Sticky header states
+- [x] Mobile navigation
+- [x] Footer
+- [x] Announcement area if required
+- [x] Global search trigger
+- [x] Wishlist indicator
+- [x] Bag indicator
 
 ## Motion infrastructure
 
-- [ ] GSAP registration
-- [ ] ScrollTrigger lifecycle helpers
-- [ ] Lenis integration
-- [ ] Motion/Framer Motion boundaries
-- [ ] SplitType helper
-- [ ] Reduced-motion mode
-- [ ] Route cleanup
-- [ ] Responsive motion behavior
+- [x] GSAP registration
+- [x] ScrollTrigger lifecycle helpers
+- [x] Lenis integration
+- [x] Motion/Framer Motion boundaries
+- [x] SplitType helper
+- [x] Reduced-motion mode
+- [x] Route cleanup
+- [x] Responsive motion behavior
+
+## Verification
+
+- [x] Formatting passes
+- [x] Lint passes
+- [x] TypeScript passes
+- [x] Unit tests pass
+- [x] Production build passes
+- [x] Playwright end-to-end tests pass
+- [x] Store shell and design-system interaction coverage passes
+- [x] Responsive no-horizontal-overflow checks pass across the supported viewport set
+
+**Phase 2 status: 100% complete.**
 
 ---
 
