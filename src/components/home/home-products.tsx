@@ -138,6 +138,20 @@ export function HomeProducts() {
         <div className={styles.shelf} role="list" aria-label="Product editorial preview">
           {previewProducts.map((product) => (
             <article key={product.name} className={styles.productUnit} role="listitem">
+              <span className={`${styles.edgeAccent} ${styles.edgeAccentLeftTop}`} aria-hidden="true" />
+              <span
+                className={`${styles.edgeAccent} ${styles.edgeAccentLeftLower}`}
+                aria-hidden="true"
+              />
+              <span
+                className={`${styles.edgeAccent} ${styles.edgeAccentRightMid}`}
+                aria-hidden="true"
+              />
+              <span
+                className={`${styles.edgeAccent} ${styles.edgeAccentRightLower}`}
+                aria-hidden="true"
+              />
+
               <div className={styles.topRail} aria-hidden="true">
                 <span className={styles.topIndex}>{product.index}</span>
                 <span className={styles.topLine} />
@@ -150,7 +164,7 @@ export function HomeProducts() {
                   src={product.image}
                   alt=""
                   fill
-                  sizes="(max-width: 720px) 82vw, (max-width: 1100px) 42vw, 19vw"
+                  sizes="(max-width: 720px) 82vw, (max-width: 1180px) 31vw, 19vw"
                 />
               </div>
 
