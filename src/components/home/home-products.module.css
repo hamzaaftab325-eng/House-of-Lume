@@ -1,11 +1,11 @@
 .section {
   position: relative;
   overflow: clip;
-  padding-block: clamp(5.5rem, 8vw, 8.5rem);
+  padding-block: clamp(5.5rem, 7.5vw, 8rem);
   background:
-    radial-gradient(circle at 18% 6%, rgba(255, 255, 255, 0.7), transparent 30%),
-    radial-gradient(circle at 82% 10%, rgba(150, 116, 77, 0.07), transparent 28%),
-    linear-gradient(180deg, #f4efe6 0%, #efe6d8 100%);
+    radial-gradient(circle at 13% 4%, rgba(255, 255, 255, 0.72), transparent 28%),
+    radial-gradient(circle at 86% 7%, rgba(150, 116, 77, 0.075), transparent 25%),
+    linear-gradient(180deg, #f4eee4 0%, #eee3d3 100%);
   color: var(--color-ink);
 }
 
@@ -18,17 +18,19 @@
 }
 
 .section::before {
+  opacity: 0.62;
   background:
-    linear-gradient(116deg, transparent 0 24%, rgba(83, 68, 48, 0.04) 42%, transparent 58%),
-    linear-gradient(18deg, transparent 0 62%, rgba(83, 68, 48, 0.025) 100%);
+    radial-gradient(ellipse at -3% 24%, rgba(84, 83, 57, 0.09), transparent 19%),
+    radial-gradient(ellipse at 104% 34%, rgba(84, 83, 57, 0.075), transparent 17%),
+    linear-gradient(113deg, transparent 0 26%, rgba(80, 63, 43, 0.035) 42%, transparent 58%);
 }
 
 .section::after {
-  opacity: 0.48;
+  opacity: 0.36;
   background:
-    radial-gradient(ellipse at 7% 14%, rgba(102, 112, 91, 0.12), transparent 17%),
-    radial-gradient(ellipse at 94% 20%, rgba(102, 112, 91, 0.09), transparent 15%);
-  filter: blur(1px);
+    linear-gradient(103deg, transparent 0 11%, rgba(83, 65, 45, 0.035) 12%, transparent 22%),
+    linear-gradient(72deg, transparent 0 74%, rgba(83, 65, 45, 0.03) 75%, transparent 86%);
+  filter: blur(1.2px);
 }
 
 .inner {
@@ -41,7 +43,7 @@
 .header {
   display: flex;
   max-width: 52rem;
-  margin: 0 auto clamp(2.6rem, 4vw, 4.1rem);
+  margin: 0 auto clamp(2.75rem, 4vw, 4.3rem);
   flex-direction: column;
   align-items: center;
   text-align: center;
@@ -52,9 +54,9 @@
   margin: 0 0 1rem;
   padding-inline: 4.25rem;
   color: var(--color-ash);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 650;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.29em;
   text-transform: uppercase;
 }
 
@@ -64,7 +66,7 @@
   top: 50%;
   width: 3rem;
   height: 1px;
-  background: color-mix(in srgb, var(--color-bronze) 48%, transparent);
+  background: color-mix(in srgb, var(--color-bronze) 45%, transparent);
   content: "";
 }
 
@@ -79,7 +81,7 @@
 .title {
   margin: 0;
   font-family: var(--font-cormorant), serif;
-  font-size: clamp(3rem, 5vw, 5.35rem);
+  font-size: clamp(3rem, 4.8vw, 5rem);
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 0.94;
@@ -87,38 +89,38 @@
 }
 
 .intro {
-  max-width: 40rem;
-  margin: 1.2rem 0 0;
+  max-width: 39rem;
+  margin: 1.15rem 0 0;
   color: var(--color-ash);
-  font-size: clamp(0.95rem, 1.15vw, 1.06rem);
+  font-size: clamp(0.94rem, 1.05vw, 1.04rem);
   line-height: 1.7;
   text-wrap: balance;
 }
 
 .status {
-  margin: 1.05rem 0 0;
-  color: color-mix(in srgb, var(--color-ash) 86%, var(--color-bronze));
-  font-size: 0.67rem;
+  margin: 0.9rem 0 0;
+  color: color-mix(in srgb, var(--color-ash) 84%, var(--color-bronze));
+  font-size: 0.62rem;
   font-weight: 650;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
 .shelf {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: clamp(0.8rem, 1.15vw, 1.15rem);
+  gap: clamp(0.72rem, 0.95vw, 1rem);
   align-items: stretch;
 }
 
 .productUnit {
   position: relative;
   min-width: 0;
-  border: 1px solid color-mix(in srgb, var(--color-ink) 30%, transparent);
-  background: color-mix(in srgb, var(--color-paper) 94%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-ink) 27%, transparent);
+  background: color-mix(in srgb, var(--color-paper) 95%, transparent);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.7) inset,
-    0 13px 28px rgba(72, 56, 37, 0.06);
+    0 1px 0 rgba(255, 255, 255, 0.76) inset,
+    0 12px 24px rgba(72, 56, 37, 0.05);
   clip-path: inset(0);
   transition:
     transform 360ms var(--ease-lume),
@@ -126,73 +128,96 @@
     box-shadow 320ms var(--ease-lume);
 }
 
-.productUnit::before,
-.productUnit::after {
+.productUnit::before {
   position: absolute;
   z-index: 2;
+  inset: 0.28rem;
+  border: 1px solid color-mix(in srgb, var(--color-bronze) 14%, transparent);
   pointer-events: none;
   content: "";
 }
 
-.productUnit::before {
-  inset: 0.3rem;
-  border: 1px solid color-mix(in srgb, var(--color-bronze) 16%, transparent);
+.edgeAccent {
+  position: absolute;
+  z-index: 4;
+  width: 0.68rem;
+  background: color-mix(in srgb, var(--color-bronze) 34%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-bronze) 10%, transparent);
+  pointer-events: none;
 }
 
-.productUnit::after {
-  top: 0;
-  left: 18%;
-  width: 1.8rem;
-  height: 22%;
-  background: color-mix(in srgb, var(--color-bronze) 20%, transparent);
-  opacity: 0.75;
+.edgeAccentLeftTop {
+  top: 3.65rem;
+  left: -0.28rem;
+  height: 5.7rem;
+}
+
+.edgeAccentLeftLower {
+  top: 47%;
+  left: -0.28rem;
+  height: 3.4rem;
+  opacity: 0.7;
+}
+
+.edgeAccentRightMid {
+  top: 22%;
+  right: -0.28rem;
+  height: 5.4rem;
+  opacity: 0.74;
+}
+
+.edgeAccentRightLower {
+  top: 52%;
+  right: -0.28rem;
+  height: 3.8rem;
+  opacity: 0.58;
 }
 
 .topRail {
   position: relative;
   z-index: 3;
   display: grid;
-  min-height: 3.1rem;
+  min-height: 2.85rem;
   grid-template-columns: auto 2rem 1fr;
-  gap: 0.75rem;
+  gap: 0.68rem;
   align-items: center;
-  padding: 0 1rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 15%, transparent);
+  padding: 0 0.9rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 13%, transparent);
 }
 
 .topIndex {
   font-family: var(--font-cormorant), serif;
-  font-size: 1.45rem;
+  font-size: 1.38rem;
   line-height: 1;
 }
 
 .topLine {
   width: 100%;
   height: 1px;
-  background: color-mix(in srgb, var(--color-bronze) 42%, transparent);
+  background: color-mix(in srgb, var(--color-bronze) 40%, transparent);
 }
 
 .wordmark {
   justify-self: end;
   color: var(--color-ash);
-  font-size: 0.55rem;
+  font-size: 0.5rem;
   font-weight: 650;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.23em;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
 .objectStage {
   position: relative;
-  margin: 0 0.7rem;
-  aspect-ratio: 0.78;
+  margin-inline: 0.62rem;
+  aspect-ratio: 0.73;
   overflow: clip;
   background: var(--color-chalk);
 }
 
 .image {
   object-fit: cover;
-  transform: scale(1.002);
+  transform: scale(1.001);
   transition:
     transform 620ms var(--ease-lume),
     filter 480ms ease;
@@ -223,15 +248,15 @@
   position: relative;
   z-index: 3;
   display: flex;
-  min-height: 10.7rem;
+  min-height: 10rem;
   flex-direction: column;
-  padding: 1.15rem 1rem 1rem;
+  padding: 1.05rem 0.9rem 0.9rem;
 }
 
 .eyebrow {
-  margin: 0 0 0.72rem;
+  margin: 0 0 0.62rem;
   color: var(--color-ash);
-  font-size: 0.58rem;
+  font-size: 0.53rem;
   font-weight: 650;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -240,22 +265,22 @@
 .nameRow {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.7rem;
+  gap: 0.65rem;
   align-items: center;
 }
 
 .nameRow h3 {
   margin: 0;
   font-family: var(--font-cormorant), serif;
-  font-size: clamp(1.55rem, 1.75vw, 2rem);
+  font-size: clamp(1.5rem, 1.6vw, 1.9rem);
   font-weight: 500;
   letter-spacing: -0.035em;
   line-height: 0.98;
 }
 
 .nameArrow {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.6rem;
+  height: 1.6rem;
   stroke-width: 1.25;
   transition: transform 360ms var(--ease-lume);
 }
@@ -264,73 +289,77 @@
   width: 100%;
   height: 1px;
   margin-top: auto;
-  margin-bottom: 0.8rem;
-  background: color-mix(in srgb, var(--color-ink) 20%, transparent);
+  margin-bottom: 0.72rem;
+  background: color-mix(in srgb, var(--color-ink) 18%, transparent);
 }
 
 .footerMeta {
   display: grid;
   grid-template-columns: auto auto 1fr;
-  gap: 0.75rem;
+  gap: 0.65rem;
   align-items: start;
 }
 
 .footerIndex {
-  color: color-mix(in srgb, var(--color-bronze) 78%, var(--color-ink));
+  color: color-mix(in srgb, var(--color-bronze) 76%, var(--color-ink));
   font-family: var(--font-cormorant), serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1;
 }
 
 .footerDivider {
   width: 1px;
-  height: 1.65rem;
-  background: color-mix(in srgb, var(--color-bronze) 35%, transparent);
+  height: 1.6rem;
+  background: color-mix(in srgb, var(--color-bronze) 32%, transparent);
 }
 
 .detail {
-  max-width: 13ch;
+  max-width: 14ch;
   color: var(--color-ash);
-  font-size: 0.52rem;
+  font-size: 0.49rem;
   font-weight: 650;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.19em;
   line-height: 1.55;
   text-transform: uppercase;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .productUnit:hover {
-    z-index: 4;
-    border-color: color-mix(in srgb, var(--color-bronze) 68%, transparent);
+    z-index: 5;
+    border-color: color-mix(in srgb, var(--color-bronze) 58%, transparent);
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.8) inset,
-      0 22px 38px rgba(72, 56, 37, 0.12);
-    transform: translateY(-0.45rem);
+      0 1px 0 rgba(255, 255, 255, 0.82) inset,
+      0 18px 30px rgba(72, 56, 37, 0.1);
+    transform: translateY(-0.3rem);
   }
 
   .productUnit:hover .image {
-    filter: saturate(1.035) contrast(1.02);
-    transform: scale(1.035);
+    filter: saturate(1.03) contrast(1.015);
+    transform: scale(1.028);
   }
 
   .productUnit:hover .nameArrow {
-    transform: translateX(0.3rem);
+    transform: translateX(0.28rem);
   }
 }
 
-@media (max-width: 82rem) {
+@media (max-width: 73.75rem) {
   .shelf {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  .objectStage {
+    aspect-ratio: 0.78;
+  }
 }
 
-@media (max-width: 68.75rem) {
+@media (max-width: 56.25rem) {
   .shelf {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .objectStage {
-    aspect-ratio: 0.9;
+    aspect-ratio: 0.82;
   }
 }
 
@@ -369,7 +398,7 @@
   .shelf {
     display: flex;
     width: calc(100% + var(--page-gutter));
-    gap: 0.85rem;
+    gap: 0.8rem;
     overflow-x: auto;
     padding: 0 0 0.8rem;
     scroll-snap-type: x proximity;
@@ -381,32 +410,32 @@
   }
 
   .productUnit {
-    width: min(82vw, 20rem);
-    min-width: min(82vw, 20rem);
+    width: min(79vw, 19rem);
+    min-width: min(79vw, 19rem);
     scroll-snap-align: start;
   }
 
   .objectStage {
-    aspect-ratio: 0.8;
+    aspect-ratio: 0.75;
   }
 
   .metadata {
-    min-height: 10.25rem;
+    min-height: 9.75rem;
   }
 }
 
 @media (max-width: 23rem) {
   .productUnit {
-    width: 84vw;
-    min-width: 84vw;
+    width: 82vw;
+    min-width: 82vw;
   }
 
   .topRail {
-    padding-inline: 0.8rem;
+    padding-inline: 0.78rem;
   }
 
   .metadata {
-    padding-inline: 0.85rem;
+    padding-inline: 0.82rem;
   }
 }
 
