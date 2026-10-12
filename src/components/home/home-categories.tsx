@@ -9,7 +9,7 @@ import { gsap, registerGsap, useGSAP } from "@/lib/motion/gsap";
 import styles from "./home-categories.module.css";
 
 const BACKGROUND_IMAGE =
-  "https://res.cloudinary.com/diometfe9/image/upload/v1791787597/6b527697-6610-41bd-874d-6b8dda58e4be_uzr6b7.png";
+  "https://res.cloudinary.com/diometfe9/image/upload/v1791809982/Sunlit_Mediterranean_Courtyard_Interior_ysf5d4.png";
 
 const MAIN_IMAGE =
   "https://res.cloudinary.com/diometfe9/image/upload/v1791785002/60ce4371-9fe6-4b71-a2b6-f5405e06ee19_ipno40.png";
