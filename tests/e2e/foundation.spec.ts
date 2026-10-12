@@ -9,17 +9,30 @@ async function expectNoHorizontalOverflow(page: import("@playwright/test").Page)
   expect(hasNoOverflow).toBe(true);
 }
 
-test("storefront shell and Phase 2 product system render", async ({ page }) => {
+test("storefront hero and shell render", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { name: "Objects for a warmer home." })).toBeVisible();
   await expect(page.getByRole("banner")).toBeVisible();
-  await expect(page.getByRole("contentinfo")).toBeVisible();
-  await expect(page.getByText("Nocturne Reading Lamp")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Explore the system" })).toHaveAttribute(
-    "href",
-    "/system",
-  );
+  await expect(page.getByRole("region", { name: "House of Lume introduction" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Refined living starts here." })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Shop now/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Pause hero autoplay" })).toBeVisible();
+});
+
+test("hero slider supports explicit controls without losing accessible content", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByRole("button", { name: "Pause hero autoplay" }).click();
+  await page
+    .getByRole("button", { name: "Show slide 2: Made for the moments that bring us together." })
+    .click();
+
+  await expect(
+    page.getByRole("heading", { name: "Made for the moments that bring us together." }),
+  ).toBeVisible();
+
+  await page.getByRole("button", { name: "Previous hero slide" }).click();
+  await expect(page.getByRole("heading", { name: "Refined living starts here." })).toBeVisible();
 });
 
 test("search and bag use accessible modal planes and restore focus", async ({ page }) => {
@@ -105,6 +118,18 @@ test("reduced motion keeps the design system usable", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: "Scroll moves the story, not the interface." }),
   ).toBeVisible();
+});
+
+test("hero respects reduced-motion preference", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
+  await expect(page.getByRole("button", { name: "Pause hero autoplay" })).toBeDisabled();
+  await page
+    .getByRole("button", { name: "Show slide 5: A warmer atmosphere, after sunset." })
+    .click();
+  await expect(page.getByRole("heading", { name: "A warmer atmosphere, after sunset." })).toBeVisible();
 });
 
 test("account and CRM foundation routes load", async ({ page }) => {
