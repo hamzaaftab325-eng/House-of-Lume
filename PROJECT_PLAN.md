@@ -400,36 +400,59 @@ Translate `design.md` into reusable production components.
 
 # 8. Phase 3 — Homepage & Brand Storytelling
 
+**Status:** ✅ Complete — current homepage scope accepted by the user on 2026-10-12.
+
 ## Goal
 
-Create a premium homepage connected to real commerce data.
+Create and ship the premium House of Lume homepage and brand-storytelling experience. Commerce-data wiring and operational features that depend on later catalogue, customer, review, email, or CRM phases are intentionally deferred and are not Phase 3 blockers.
 
-## Proposed structure
+## Completed homepage scope
 
-- [ ] Hero — Light Awakening scrub sequence
-- [ ] Featured collection introduction
-- [ ] Lighting editorial chapter
-- [ ] Product Shelf
-- [ ] Living Green / plants section
-- [ ] Room discovery feature
-- [ ] Material Story
-- [ ] New arrivals
-- [ ] Curated objects
-- [ ] Shop by category/space
-- [ ] Brand story
-- [ ] Reviews/social proof
-- [ ] Journal/inspiration feature
-- [ ] Service/trust strip
-- [ ] Newsletter
-- [ ] Footer
+- [x] Premium hero with polished slide transitions and scroll movement
+- [x] Featured collection / Explore the House introduction
+- [x] Lighting storytelling represented across the hero, category composition, and product editorial
+- [x] Product Shelf editorial presentation
+- [x] Living Green / plants storytelling represented across the hero and category composition
+- [x] Room discovery / Discover Spaces feature
+- [x] Material Story / Material Library
+- [x] Curated objects editorial treatment
+- [x] Shop by category / space presentation
+- [x] Brand story and trust presentation
+- [x] Journal / inspiration feature through House Notes
+- [x] Service / trust strip
+- [x] Newsletter presentation shell for later functional integration
+- [x] Storefront footer
+
+## Deferred to later phases
+
+These items are intentionally scheduled for later implementation when their supporting commerce systems exist:
+
+- Real Supabase-backed homepage product and collection data
+- Dedicated live New Arrivals data feed
+- Live customer reviews / social proof data
+- Functional newsletter persistence, validation, and Resend workflow
+- Final catalogue/category routes and commerce destination wiring
+- Any additional dedicated editorial chapters that become useful once real catalogue content exists
 
 ## Motion
 
-- [ ] Scroll scrub meaningful and smooth
-- [ ] No magnetic/kinetic pointer effects
-- [ ] Mobile alternate choreography
-- [ ] Reduced-motion fallback
-- [ ] No blocked ecommerce actions due to animation
+- [x] Scroll choreography is meaningful and smooth
+- [x] No magnetic / kinetic pointer effects
+- [x] Responsive and mobile motion adaptation
+- [x] Reduced-motion fallback
+- [x] No core storefront action is blocked by animation
+
+## Verification
+
+- [x] Formatting passes
+- [x] Lint passes
+- [x] TypeScript passes
+- [x] Unit tests pass
+- [x] Production build passes
+- [x] Playwright end-to-end tests pass
+- [x] Responsive no-horizontal-overflow checks pass across the supported viewport set
+
+**Phase 3 status: 100% complete for the accepted homepage scope.**
 
 ---
 
