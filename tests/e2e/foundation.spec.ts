@@ -19,6 +19,34 @@ test("storefront hero and shell render", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Pause hero autoplay" })).toBeVisible();
 });
 
+test("short mobile hero keeps copy, actions and controls inside the viewport", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 320, height: 608 });
+  await page.goto("/");
+
+  await page
+    .getByRole("button", { name: "Show slide 5: A warmer atmosphere, after sunset." })
+    .click();
+
+  const viewportHeight = await page.evaluate(() => window.innerHeight);
+  const heading = page.getByRole("heading", { name: "A warmer atmosphere, after sunset." });
+  const primary = page.getByRole("link", { name: /Shop lighting/ });
+  const secondary = page.getByRole("link", { name: /Explore the house/ });
+  const pause = page.getByRole("button", { name: "Pause hero autoplay" });
+  const next = page.getByRole("button", { name: "Next hero slide" });
+
+  for (const element of [heading, primary, secondary, pause, next]) {
+    await expect(element).toBeVisible();
+    const box = await element.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) continue;
+    expect(box.y).toBeGreaterThanOrEqual(-1);
+    expect(box.y + box.height).toBeLessThanOrEqual(viewportHeight + 1);
+  }
+
+  await expectNoHorizontalOverflow(page);
+});
+
 test("home categories render the Explore the House composition", async ({ page }) => {
   await page.goto("/#categories");
 
