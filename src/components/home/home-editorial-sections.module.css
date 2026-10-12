@@ -15,6 +15,10 @@
   background: var(--color-canvas);
 }
 
+.notesSection {
+  background: color-mix(in srgb, var(--color-paper) 84%, var(--color-canvas));
+}
+
 .centerHeader {
   width: min(100%, 48rem);
   margin: 0 auto clamp(2.5rem, 4vw, 4rem);
@@ -86,7 +90,13 @@
 .roomStage::after {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(30, 29, 26, 0.08), transparent 38%, transparent 72%, rgba(30, 29, 26, 0.08));
+  background: linear-gradient(
+    90deg,
+    rgba(30, 29, 26, 0.08),
+    transparent 38%,
+    transparent 72%,
+    rgba(30, 29, 26, 0.08)
+  );
   pointer-events: none;
   content: "";
 }
@@ -101,10 +111,10 @@
   border: 1px solid rgba(255, 255, 255, 0.86);
   border-radius: 50%;
   background: rgba(251, 248, 241, 0.86);
+  box-shadow: 0 10px 30px rgba(30, 29, 26, 0.12);
   color: var(--color-bronze);
   font-family: var(--font-interface), sans-serif;
   font-size: 1.25rem;
-  box-shadow: 0 10px 30px rgba(30, 29, 26, 0.12);
 }
 
 .hotspotOne {
@@ -338,10 +348,6 @@
   letter-spacing: 0.16em;
 }
 
-.notesSection {
-  background: color-mix(in srgb, var(--color-paper) 84%, var(--color-canvas));
-}
-
 .notesGrid {
   display: grid;
   width: min(100%, 94rem);
@@ -427,6 +433,7 @@
 }
 
 .serviceIcon {
+  z-index: 2;
   display: grid;
   width: 3.5rem;
   height: 3.5rem;
@@ -436,7 +443,6 @@
   border-radius: 50%;
   background: var(--color-paper);
   color: var(--color-bronze);
-  z-index: 2;
 }
 
 .serviceIcon svg {
@@ -469,8 +475,8 @@
 }
 
 .closingSection {
-  min-height: min(48rem, 82vh);
   display: grid;
+  min-height: min(48rem, 82vh);
   place-items: center;
 }
 
@@ -480,9 +486,14 @@
 
 .closingWash {
   position: absolute;
-  inset: 0;
   z-index: -1;
-  background: linear-gradient(90deg, rgba(242, 237, 227, 0.9), rgba(242, 237, 227, 0.73) 52%, rgba(242, 237, 227, 0.45));
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(242, 237, 227, 0.9),
+    rgba(242, 237, 227, 0.73) 52%,
+    rgba(242, 237, 227, 0.45)
+  );
 }
 
 .closingContent {
@@ -526,6 +537,7 @@
   align-items: center;
   gap: 1rem;
   padding-inline: 1.6rem;
+  border-left: 1px solid color-mix(in srgb, var(--color-bronze) 32%, transparent);
   background: var(--color-bronze);
   color: var(--color-paper);
   font-size: 0.66rem;
@@ -536,8 +548,8 @@
 
 .newsletterShell button:disabled,
 .newsletterShell input:disabled {
-  opacity: 1;
   cursor: default;
+  opacity: 1;
 }
 
 .newsletterShell button svg {
@@ -555,6 +567,27 @@
   font-weight: 650;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .primaryLink,
+  .textLink,
+  .roomObject,
+  .noteCard {
+    transition:
+      transform 320ms var(--ease-lume),
+      border-color 320ms var(--ease-lume);
+  }
+
+  .primaryLink:hover,
+  .textLink:hover {
+    transform: translateX(0.2rem);
+  }
+
+  .roomObject:hover,
+  .noteCard:hover {
+    transform: translateY(-0.18rem);
+  }
 }
 
 @media (max-width: 68.75rem) {
@@ -631,9 +664,9 @@
   }
 
   .materialLarge {
+    min-height: 20rem;
     grid-column: 1 / -1;
     grid-row: auto;
-    min-height: 20rem;
   }
 
   .materialSmall {
@@ -668,5 +701,16 @@
 
   .newsletterShell button {
     justify-content: center;
+    border-top: 1px solid color-mix(in srgb, var(--color-bronze) 32%, transparent);
+    border-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryLink,
+  .textLink,
+  .roomObject,
+  .noteCard {
+    transition: none;
   }
 }
