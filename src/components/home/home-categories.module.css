@@ -1,7 +1,7 @@
 .section {
   position: relative;
   isolation: isolate;
-  min-height: clamp(57rem, 62vw, 69rem);
+  min-height: clamp(62rem, 68vw, 76rem);
   overflow: clip;
   color: var(--color-ink, #1e1d1a);
   background: var(--color-canvas, #f2ede3);
@@ -116,7 +116,7 @@
 
 .orbit {
   position: absolute;
-  inset: clamp(13.2rem, 16.3vw, 15.8rem) clamp(2rem, 7vw, 8.5rem) 1.65rem;
+  inset: clamp(13.2rem, 16.3vw, 15.8rem) clamp(2rem, 7vw, 8.5rem) 3.25rem;
   max-width: 96rem;
   margin-inline: auto;
 }
@@ -160,10 +160,10 @@
 
 .mainStage {
   position: absolute;
-  top: 44.2%;
+  top: 43.5%;
   left: 50%;
   z-index: 3;
-  width: clamp(23rem, 32.25vw, 33rem);
+  width: clamp(21.5rem, 30vw, 30.5rem);
   aspect-ratio: 1;
   margin: 0;
   translate: -50% -50%;
@@ -321,7 +321,7 @@
 .categoryItem {
   position: absolute;
   z-index: 4;
-  width: clamp(10.25rem, 14.8vw, 14.8rem);
+  width: clamp(9.25rem, 13.2vw, 13.2rem);
   margin: 0;
   text-align: center;
 }
@@ -375,57 +375,26 @@
   filter: saturate(0.92) contrast(1.03) brightness(1.08);
 }
 
-.numberBadge {
-  position: absolute;
-  top: -0.5rem;
-  left: -0.35rem;
-  z-index: 5;
-  display: grid;
-  width: 3rem;
-  aspect-ratio: 1;
-  place-items: center;
-  border: 1px solid rgba(150, 116, 77, 0.42);
-  border-radius: 50%;
-  background: rgba(251, 248, 241, 0.98);
-  color: #4d4236;
-  font-family: var(--font-display), serif;
-  font-size: 0.94rem;
-  line-height: 1;
-  box-shadow:
-    0 8px 26px rgba(83, 65, 45, 0.12),
-    inset 0 0 0 4px rgba(251, 248, 241, 0.52);
-  transition:
-    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 420ms ease,
-    background-color 420ms ease;
-}
-
-.decor .numberBadge,
-.planters .numberBadge {
-  right: -0.35rem;
-  left: auto;
-}
-
 .categoryCopy {
-  padding-top: 0.98rem;
+  padding-top: 0.9rem;
 }
 
 .categoryCopy h3 {
   margin: 0;
   font-family: var(--font-display), serif;
-  font-size: clamp(1.82rem, 2.05vw, 2.38rem);
+  font-size: clamp(1.72rem, 1.9vw, 2.2rem);
   font-weight: 500;
   line-height: 0.98;
   letter-spacing: -0.032em;
 }
 
 .categoryCopy p {
-  margin: 0.48rem 0 0;
+  margin: 0.44rem 0 0;
   color: rgba(56, 54, 48, 0.68);
   font-family: var(--font-interface), sans-serif;
-  font-size: clamp(0.55rem, 0.59vw, 0.66rem);
+  font-size: clamp(0.53rem, 0.56vw, 0.63rem);
   font-weight: 680;
-  letter-spacing: 0.27em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
 }
 
@@ -433,37 +402,37 @@
   display: block;
   width: 2.35rem;
   height: 1px;
-  margin: 0.78rem auto 0;
+  margin: 0.72rem auto 0;
   background: rgba(150, 116, 77, 0.56);
   transform-origin: center;
   transition: width 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .lighting {
-  top: 3.5%;
-  left: 10%;
+  top: 4%;
+  left: 11%;
 }
 
 .plants {
-  top: 57%;
-  left: 14.6%;
+  top: 55.5%;
+  left: 15.5%;
 }
 
 .objects {
-  top: 70.2%;
+  top: 67.2%;
   left: 50%;
-  width: clamp(9.7rem, 13.1vw, 13rem);
+  width: clamp(8.75rem, 11.6vw, 11.6rem);
   translate: -50% 0;
 }
 
 .planters {
-  top: 57%;
-  right: 14.6%;
+  top: 55.5%;
+  right: 15.5%;
 }
 
 .decor {
-  top: 3.5%;
-  right: 10%;
+  top: 4%;
+  right: 11%;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -481,12 +450,6 @@
 
   .categoryItem:hover .circleImage {
     filter: saturate(1) contrast(1.04) brightness(1.09);
-  }
-
-  .categoryItem:hover .numberBadge {
-    border-color: rgba(150, 116, 77, 0.66);
-    background: rgba(251, 248, 241, 1);
-    transform: scale(1.055) rotate(-3deg);
   }
 
   .categoryItem:hover .categoryCopy > span {
@@ -508,26 +471,26 @@
   }
 
   .lighting {
-    left: 5.7%;
+    left: 6.7%;
   }
 
   .plants {
-    left: 9.2%;
+    left: 10.5%;
   }
 
   .planters {
-    right: 9.2%;
+    right: 10.5%;
   }
 
   .decor {
-    right: 5.7%;
+    right: 6.7%;
   }
 }
 
 @media (max-width: 1100px) {
   .section {
     min-height: 0;
-    padding: 4.25rem var(--page-gutter, 1.5rem) 4.75rem;
+    padding: 4.25rem var(--page-gutter, 1.5rem) 5.5rem;
   }
 
   .section::after {
@@ -579,7 +542,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
     column-gap: 1.5rem;
-    row-gap: 2rem;
+    row-gap: 1.8rem;
   }
 
   .orbitGraphic {
@@ -590,7 +553,7 @@
     position: relative;
     top: auto;
     left: auto;
-    width: min(70vw, 24rem);
+    width: min(66vw, 22.5rem);
     margin: 0 auto 0.45rem;
     translate: none;
     grid-column: 1 / -1;
@@ -612,7 +575,7 @@
     right: auto;
     left: auto;
     min-width: 0;
-    width: min(100%, 13.25rem);
+    width: min(100%, 12rem);
     margin-inline: auto;
     translate: none;
   }
@@ -642,47 +605,34 @@
   }
 
   .objects {
-    width: min(100%, 12.75rem);
+    width: min(100%, 11.6rem);
     grid-column: 1 / -1;
     grid-row: 4;
   }
 
-  .numberBadge {
-    top: -0.42rem;
-    left: -0.28rem;
-    width: 2.65rem;
-    font-size: 0.88rem;
-  }
-
-  .decor .numberBadge,
-  .planters .numberBadge {
-    right: -0.28rem;
-    left: auto;
-  }
-
   .categoryCopy {
-    padding-top: 0.72rem;
+    padding-top: 0.68rem;
   }
 
   .categoryCopy h3 {
-    font-size: clamp(1.7rem, 4vw, 2.15rem);
+    font-size: clamp(1.62rem, 3.8vw, 2rem);
   }
 
   .categoryCopy p {
-    margin-top: 0.4rem;
-    font-size: 0.58rem;
-    letter-spacing: 0.21em;
+    margin-top: 0.38rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.2em;
   }
 
   .categoryCopy > span {
-    margin-top: 0.62rem;
+    margin-top: 0.58rem;
   }
 }
 
 @media (max-width: 700px) {
   .section {
     padding-top: 3.55rem;
-    padding-bottom: 4.25rem;
+    padding-bottom: 4.75rem;
   }
 
   .backgroundImage {
@@ -702,21 +652,21 @@
     max-width: 35rem;
     margin-top: 2rem;
     column-gap: 0.95rem;
-    row-gap: 1.65rem;
+    row-gap: 1.5rem;
   }
 
   .mainStage {
-    width: min(76vw, 22rem);
+    width: min(72vw, 20.5rem);
     margin-bottom: 0.35rem;
   }
 
   .categoryItem,
   .objects {
-    width: min(100%, 11.5rem);
+    width: min(100%, 10.75rem);
   }
 
   .objects {
-    width: min(100%, 11.25rem);
+    width: min(100%, 10.5rem);
   }
 }
 
@@ -724,7 +674,7 @@
   .section {
     padding-top: 3.1rem;
     padding-inline: max(0.9rem, var(--page-gutter, 0.9rem));
-    padding-bottom: 3.75rem;
+    padding-bottom: 4.5rem;
   }
 
   .background,
@@ -761,11 +711,11 @@
   .orbit {
     margin-top: 1.75rem;
     column-gap: 0.6rem;
-    row-gap: 1.4rem;
+    row-gap: 1.3rem;
   }
 
   .mainStage {
-    width: min(80vw, 20rem);
+    width: min(76vw, 18.5rem);
     margin-bottom: 0.2rem;
   }
 
@@ -793,24 +743,11 @@
 
   .categoryItem,
   .objects {
-    width: min(100%, 9.8rem);
+    width: min(100%, 9.25rem);
   }
 
   .objects {
-    width: min(100%, 10rem);
-  }
-
-  .numberBadge {
-    top: -0.34rem;
-    left: -0.22rem;
-    width: 2.18rem;
-    font-size: 0.78rem;
-  }
-
-  .decor .numberBadge,
-  .planters .numberBadge {
-    right: -0.22rem;
-    left: auto;
+    width: min(100%, 9.3rem);
   }
 
   .circle,
@@ -827,23 +764,23 @@
   }
 
   .categoryCopy {
-    padding-top: 0.68rem;
+    padding-top: 0.62rem;
   }
 
   .categoryCopy h3 {
-    font-size: clamp(1.42rem, 6.5vw, 1.78rem);
+    font-size: clamp(1.36rem, 6.1vw, 1.68rem);
   }
 
   .categoryCopy p {
-    margin-top: 0.34rem;
-    font-size: 0.49rem;
+    margin-top: 0.32rem;
+    font-size: 0.47rem;
     line-height: 1.35;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.15em;
   }
 
   .categoryCopy > span {
     width: 1.95rem;
-    margin-top: 0.52rem;
+    margin-top: 0.48rem;
   }
 }
 
@@ -864,30 +801,30 @@
   .orbit {
     margin-top: 1.55rem;
     column-gap: 0.45rem;
-    row-gap: 1.28rem;
+    row-gap: 1.2rem;
   }
 
   .mainStage {
-    width: min(78vw, 18.5rem);
+    width: min(74vw, 17.5rem);
   }
 
   .categoryItem,
   .objects {
-    width: min(100%, 8.9rem);
+    width: min(100%, 8.45rem);
   }
 
   .objects {
-    width: min(100%, 9.35rem);
+    width: min(100%, 8.75rem);
   }
 
   .categoryCopy h3 {
-    font-size: 1.4rem;
+    font-size: 1.34rem;
   }
 
   .categoryCopy p {
     max-width: 7.4rem;
     margin-inline: auto;
-    font-size: 0.47rem;
+    font-size: 0.46rem;
     line-height: 1.4;
     letter-spacing: 0.14em;
   }
@@ -900,7 +837,6 @@
   .circleFrame,
   .mainImage,
   .circleImage,
-  .numberBadge,
   .categoryCopy > span,
   .exploreCue svg {
     transform: none;
