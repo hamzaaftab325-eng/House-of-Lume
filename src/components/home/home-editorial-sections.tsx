@@ -150,21 +150,21 @@ export function HomeEditorialSections() {
           words,
           {
             autoAlpha: 0,
-            xPercent: -28,
-            rotateY: -6,
+            yPercent: 72,
+            rotateX: 10,
             scale: 0.985,
             filter: "blur(14px)",
-            transformOrigin: "0% 50%",
+            transformOrigin: "50% 100%",
             willChange: "transform,filter,opacity",
           },
           {
             autoAlpha: 1,
-            xPercent: 0,
-            rotateY: 0,
+            yPercent: 0,
+            rotateX: 0,
             scale: 1,
             filter: "blur(0px)",
             duration: 1.05,
-            stagger: 0.045,
+            stagger: 0.032,
             ease: "power4.out",
             clearProps: "transform,filter,opacity,visibility,willChange",
             scrollTrigger: {
@@ -200,18 +200,14 @@ export function HomeEditorialSections() {
         gsap.fromTo(
           text,
           {
-            x: -16,
-            clipPath: "inset(0 100% 0 0)",
             filter: blurredFilter,
-            willChange: "transform,filter,clip-path",
+            willChange: "filter",
           },
           {
-            x: 0,
-            clipPath: "inset(0 0% 0 0)",
             filter: baseFilter,
-            duration: 0.82 + (index % 4) * 0.04,
+            duration: 0.78 + (index % 4) * 0.04,
             ease: "power3.out",
-            clearProps: "transform,filter,clipPath,willChange",
+            clearProps: "filter,willChange",
             scrollTrigger: {
               trigger: text,
               start: "top 92%",
@@ -236,18 +232,16 @@ export function HomeEditorialSections() {
         gsap.fromTo(
           card,
           {
-            x: -18,
             filter: "blur(9px)",
-            clipPath: "inset(0 100% 0 0)",
-            willChange: "transform,filter,clip-path",
+            clipPath: "inset(2.5% 2.5% 2.5% 2.5%)",
+            willChange: "filter,clip-path",
           },
           {
-            x: 0,
             filter: "blur(0px)",
-            clipPath: "inset(0 0% 0 0)",
-            duration: 0.96 + (index % 3) * 0.07,
+            clipPath: "inset(0% 0% 0% 0%)",
+            duration: 0.92 + (index % 3) * 0.07,
             ease: "power3.out",
-            clearProps: "transform,filter,clipPath,willChange",
+            clearProps: "filter,clipPath,willChange",
             scrollTrigger: {
               trigger: card,
               start: "top 91%",
@@ -278,18 +272,14 @@ export function HomeEditorialSections() {
         gsap.fromTo(
           media,
           {
-            xPercent: -4,
-            clipPath: "inset(0 100% 0 0)",
             filter: blurredFilter,
-            willChange: "transform,filter,clip-path",
+            willChange: "filter",
           },
           {
-            xPercent: 0,
-            clipPath: "inset(0 0% 0 0)",
             filter: baseFilter,
-            duration: 1.04 + (index % 4) * 0.06,
+            duration: 1 + (index % 4) * 0.06,
             ease: "power3.out",
-            clearProps: "transform,filter,clipPath,willChange",
+            clearProps: "filter,willChange",
             scrollTrigger: {
               trigger: media.parentElement ?? media,
               start: "top 92%",
@@ -319,7 +309,7 @@ export function HomeEditorialSections() {
           })
           .from(revealItems, {
             autoAlpha: 0,
-            x: -22,
+            y: 22,
             duration: 0.82,
             stagger: 0.07,
           })
@@ -349,18 +339,14 @@ export function HomeEditorialSections() {
         gsap.fromTo(
           media,
           {
-            xPercent: -4,
-            clipPath: "inset(0 100% 0 0)",
             filter: blurredFilter,
-            willChange: "transform,filter,clip-path",
+            willChange: "filter,transform",
           },
           {
-            xPercent: 0,
-            clipPath: "inset(0 0% 0 0)",
             filter: baseFilter,
-            duration: 1.08,
+            duration: 1.05,
             ease: "power3.out",
-            clearProps: "transform,filter,clipPath,willChange",
+            clearProps: "filter,willChange",
             scrollTrigger: {
               trigger,
               start: "top 91%",
