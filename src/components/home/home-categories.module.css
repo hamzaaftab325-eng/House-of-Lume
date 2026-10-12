@@ -377,16 +377,16 @@
 
 .numberBadge {
   position: absolute;
-  top: 0.72rem;
-  left: 0.72rem;
+  top: -0.5rem;
+  left: -0.35rem;
   z-index: 5;
   display: grid;
-  width: 2.9rem;
+  width: 3rem;
   aspect-ratio: 1;
   place-items: center;
   border: 1px solid rgba(150, 116, 77, 0.42);
   border-radius: 50%;
-  background: rgba(251, 248, 241, 0.96);
+  background: rgba(251, 248, 241, 0.98);
   color: #4d4236;
   font-family: var(--font-display), serif;
   font-size: 0.94rem;
@@ -402,7 +402,7 @@
 
 .decor .numberBadge,
 .planters .numberBadge {
-  right: 0.72rem;
+  right: -0.35rem;
   left: auto;
 }
 
@@ -527,7 +527,7 @@
 @media (max-width: 1100px) {
   .section {
     min-height: 0;
-    padding: 4.65rem var(--page-gutter, 1.5rem) 5.75rem;
+    padding: 4.25rem var(--page-gutter, 1.5rem) 4.75rem;
   }
 
   .section::after {
@@ -536,13 +536,13 @@
 
   .background,
   .backgroundWash {
-    inset: -2rem -7rem;
+    inset: -1.5rem -8rem;
   }
 
   .backgroundImage {
-    object-position: 58% center;
+    object-position: 68% center;
     filter: saturate(0.92) contrast(1) brightness(1.025);
-    transform: scale(1.015);
+    transform: none;
   }
 
   .backgroundWash {
@@ -553,20 +553,20 @@
     position: relative;
     top: auto;
     left: auto;
-    width: min(100%, 43rem);
+    width: min(100%, 39rem);
     margin-inline: auto;
     translate: none;
   }
 
   .title {
-    font-size: clamp(3.3rem, 8.2vw, 4.9rem);
+    font-size: clamp(3.2rem, 8vw, 4.75rem);
     line-height: 0.92;
   }
 
   .subtitle {
-    max-width: 35rem;
-    margin-top: 0.95rem;
-    font-size: clamp(0.92rem, 2vw, 1.05rem);
+    max-width: 33rem;
+    margin-top: 0.9rem;
+    font-size: clamp(0.91rem, 1.9vw, 1.03rem);
   }
 
   .orbit {
@@ -574,11 +574,12 @@
     inset: auto;
     display: grid;
     width: 100%;
-    max-width: 47rem;
-    margin: 3.5rem auto 0;
+    max-width: 42rem;
+    margin: 2.4rem auto 0;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
-    gap: 3.2rem 2rem;
+    column-gap: 1.5rem;
+    row-gap: 2rem;
   }
 
   .orbitGraphic {
@@ -589,14 +590,15 @@
     position: relative;
     top: auto;
     left: auto;
-    width: min(76vw, 27rem);
-    margin: 0 auto 0.7rem;
+    width: min(70vw, 24rem);
+    margin: 0 auto 0.45rem;
     translate: none;
     grid-column: 1 / -1;
+    grid-row: 1;
   }
 
   .mainHalo {
-    inset: -4.5%;
+    inset: -3.75%;
   }
 
   .categoryList {
@@ -609,7 +611,8 @@
     top: auto;
     right: auto;
     left: auto;
-    width: min(100%, 14.75rem);
+    min-width: 0;
+    width: min(100%, 13.25rem);
     margin-inline: auto;
     translate: none;
   }
@@ -618,99 +621,152 @@
     will-change: auto;
   }
 
+  .lighting {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .decor {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .plants {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .planters {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
   .objects {
-    width: min(100%, 13.5rem);
+    width: min(100%, 12.75rem);
     grid-column: 1 / -1;
+    grid-row: 4;
   }
 
   .numberBadge {
-    top: 0.62rem;
-    left: 0.62rem;
-    width: 2.75rem;
-    font-size: 0.9rem;
+    top: -0.42rem;
+    left: -0.28rem;
+    width: 2.65rem;
+    font-size: 0.88rem;
   }
 
   .decor .numberBadge,
   .planters .numberBadge {
-    right: 0.62rem;
+    right: -0.28rem;
     left: auto;
   }
 
+  .categoryCopy {
+    padding-top: 0.72rem;
+  }
+
   .categoryCopy h3 {
-    font-size: clamp(1.75rem, 4.2vw, 2.25rem);
+    font-size: clamp(1.7rem, 4vw, 2.15rem);
   }
 
   .categoryCopy p {
-    font-size: 0.6rem;
-    letter-spacing: 0.23em;
+    margin-top: 0.4rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.21em;
+  }
+
+  .categoryCopy > span {
+    margin-top: 0.62rem;
   }
 }
 
 @media (max-width: 700px) {
   .section {
-    padding-top: 4.15rem;
-    padding-bottom: 5.1rem;
+    padding-top: 3.55rem;
+    padding-bottom: 4.25rem;
+  }
+
+  .backgroundImage {
+    object-position: 72% center;
   }
 
   .title {
-    font-size: clamp(3.05rem, 11.2vw, 4.25rem);
+    font-size: clamp(3rem, 10.8vw, 4.05rem);
+  }
+
+  .subtitle {
+    max-width: 29rem;
+    line-height: 1.5;
   }
 
   .orbit {
-    max-width: 38rem;
-    margin-top: 3.15rem;
-    gap: 2.8rem 1rem;
+    max-width: 35rem;
+    margin-top: 2rem;
+    column-gap: 0.95rem;
+    row-gap: 1.65rem;
   }
 
   .mainStage {
-    width: min(84vw, 25rem);
+    width: min(76vw, 22rem);
+    margin-bottom: 0.35rem;
   }
 
   .categoryItem,
   .objects {
-    width: min(100%, 12.25rem);
+    width: min(100%, 11.5rem);
   }
 
   .objects {
-    width: min(100%, 12rem);
+    width: min(100%, 11.25rem);
   }
 }
 
 @media (max-width: 560px) {
   .section {
-    padding-top: 3.75rem;
-    padding-inline: max(1rem, var(--page-gutter, 1rem));
-    padding-bottom: 4.75rem;
+    padding-top: 3.1rem;
+    padding-inline: max(0.9rem, var(--page-gutter, 0.9rem));
+    padding-bottom: 3.75rem;
+  }
+
+  .background,
+  .backgroundWash {
+    inset-inline: -10rem;
+  }
+
+  .backgroundImage {
+    object-position: 76% center;
   }
 
   .kicker {
-    gap: 0.8rem;
-    font-size: 0.61rem;
-    letter-spacing: 0.28em;
+    gap: 0.7rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.25em;
   }
 
   .kicker::before,
   .kicker::after {
-    width: 2rem;
+    width: 1.75rem;
   }
 
   .title {
-    font-size: clamp(2.85rem, 13.5vw, 4rem);
+    font-size: clamp(2.8rem, 13vw, 3.65rem);
   }
 
   .subtitle {
-    max-width: 29rem;
-    font-size: 0.94rem;
-    line-height: 1.55;
+    max-width: 19rem;
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    line-height: 1.48;
   }
 
   .orbit {
-    margin-top: 2.9rem;
-    gap: 2.55rem 0.72rem;
+    margin-top: 1.75rem;
+    column-gap: 0.6rem;
+    row-gap: 1.4rem;
   }
 
   .mainStage {
-    width: min(90vw, 23rem);
+    width: min(80vw, 20rem);
+    margin-bottom: 0.2rem;
   }
 
   .mainCopy {
@@ -718,82 +774,122 @@
   }
 
   .mainCopy > p {
-    font-size: 0.57rem;
-    letter-spacing: 0.26em;
+    margin-bottom: 0.55rem;
+    font-size: 0.54rem;
+    letter-spacing: 0.24em;
   }
 
   .mainCopy h3 {
-    font-size: clamp(2.2rem, 10.8vw, 3.2rem);
+    max-width: 14rem;
+    font-size: clamp(2.05rem, 10vw, 2.9rem);
   }
 
   .exploreCue {
-    min-height: 2.65rem;
-    margin-top: 1.1rem;
-    padding-inline: 1.1rem;
-    font-size: 0.62rem;
+    min-height: 2.5rem;
+    margin-top: 0.9rem;
+    padding-inline: 1rem;
+    font-size: 0.58rem;
   }
 
   .categoryItem,
   .objects {
-    width: min(100%, 11.25rem);
+    width: min(100%, 9.8rem);
+  }
+
+  .objects {
+    width: min(100%, 10rem);
   }
 
   .numberBadge {
-    top: 0.48rem;
-    left: 0.48rem;
-    width: 2.35rem;
-    font-size: 0.82rem;
+    top: -0.34rem;
+    left: -0.22rem;
+    width: 2.18rem;
+    font-size: 0.78rem;
   }
 
   .decor .numberBadge,
   .planters .numberBadge {
-    right: 0.48rem;
+    right: -0.22rem;
     left: auto;
   }
 
+  .circle,
+  .mainImageWrap {
+    box-shadow:
+      0 0 0 4px rgba(251, 248, 241, 0.78),
+      0 0 0 5px rgba(150, 116, 77, 0.18),
+      0 14px 36px rgba(66, 46, 28, 0.07);
+  }
+
+  .mainImageWrap::after,
+  .circle::after {
+    inset: 5px;
+  }
+
   .categoryCopy {
-    padding-top: 0.8rem;
+    padding-top: 0.68rem;
   }
 
   .categoryCopy h3 {
-    font-size: clamp(1.5rem, 6.8vw, 1.95rem);
+    font-size: clamp(1.42rem, 6.5vw, 1.78rem);
   }
 
   .categoryCopy p {
-    margin-top: 0.42rem;
-    font-size: 0.53rem;
-    letter-spacing: 0.18em;
+    margin-top: 0.34rem;
+    font-size: 0.49rem;
+    line-height: 1.35;
+    letter-spacing: 0.16em;
+  }
+
+  .categoryCopy > span {
+    width: 1.95rem;
+    margin-top: 0.52rem;
   }
 }
 
 @media (max-width: 380px) {
   .section {
-    padding-inline: 0.9rem;
+    padding-inline: 0.75rem;
+  }
+
+  .title {
+    font-size: clamp(2.65rem, 13.7vw, 3.2rem);
+  }
+
+  .subtitle {
+    max-width: 18rem;
+    font-size: 0.86rem;
   }
 
   .orbit {
-    gap: 2.3rem 0.55rem;
+    margin-top: 1.55rem;
+    column-gap: 0.45rem;
+    row-gap: 1.28rem;
   }
 
   .mainStage {
-    width: min(91vw, 21.5rem);
+    width: min(78vw, 18.5rem);
   }
 
   .categoryItem,
   .objects {
-    width: min(100%, 9.9rem);
+    width: min(100%, 8.9rem);
+  }
+
+  .objects {
+    width: min(100%, 9.35rem);
   }
 
   .categoryCopy h3 {
-    font-size: 1.48rem;
+    font-size: 1.4rem;
   }
 
   .categoryCopy p {
-    max-width: 8rem;
+    max-width: 7.4rem;
     margin-inline: auto;
-    font-size: 0.49rem;
-    line-height: 1.45;
-    letter-spacing: 0.15em;
+    font-size: 0.47rem;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
   }
 }
 
