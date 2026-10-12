@@ -14,15 +14,17 @@ test("home product shelf renders an honest editorial preview", async ({ page }) 
   await expect(page.getByText("Product catalogue not yet published")).toBeVisible();
 
   for (const product of [
-    "Aurelia Table Lamp",
+    "Aurelia Lamp",
     "Soleto Planter",
     "Forma Object",
+    "Verdant Planter",
     "Lume Candle Bowl",
   ]) {
-    await expect(page.getByRole("heading", { name: product })).toBeVisible();
+    await expect(page.getByRole("heading", { name: product, exact: true })).toBeVisible();
   }
 
-  await expect(page.getByText("Preview only")).toHaveCount(4);
+  const productList = page.getByRole("list", { name: "Product editorial preview" });
+  await expect(productList.getByRole("listitem")).toHaveCount(5);
   await expectNoPageOverflow(page);
 });
 
@@ -36,7 +38,8 @@ test("home product shelf stays usable across responsive widths", async ({ page }
     await expect(page.getByRole("heading", { name: "Objects for a Brighter Home" })).toBeVisible();
     await expectNoPageOverflow(page);
 
-    const firstProduct = page.getByRole("heading", { name: "Aurelia Table Lamp" });
+    const firstProduct = page.getByRole("heading", { name: "Aurelia Lamp", exact: true });
+    await expect(firstProduct).toBeVisible();
     const box = await firstProduct.boundingBox();
     expect(box).not.toBeNull();
     if (!box) continue;

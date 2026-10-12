@@ -50,11 +50,19 @@ test("short mobile hero keeps copy, actions and controls inside the viewport", a
 test("home categories render the Explore the House composition", async ({ page }) => {
   await page.goto("/#categories");
 
-  await expect(page.getByRole("heading", { name: "Explore the House" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "A More Beautiful Home" })).toBeVisible();
+  const categoriesSection = page.locator("#categories");
+  await expect(categoriesSection).toBeVisible();
+  await expect(
+    categoriesSection.getByRole("heading", { name: "Explore the House", exact: true }),
+  ).toBeVisible();
+  await expect(
+    categoriesSection.getByRole("heading", { name: "A More Beautiful Home", exact: true }),
+  ).toBeVisible();
 
   for (const category of ["Lighting", "Plants", "Objects", "Planters", "Décor"]) {
-    await expect(page.getByRole("heading", { name: category })).toBeVisible();
+    await expect(
+      categoriesSection.getByRole("heading", { name: category, exact: true }),
+    ).toBeVisible();
   }
 
   await expectNoHorizontalOverflow(page);
@@ -68,8 +76,12 @@ test("category scene keeps a compact responsive visual hierarchy", async ({ page
     await page.goto("/#categories");
 
     const section = page.locator("#categories");
-    const title = page.getByRole("heading", { name: "Explore the House" });
-    const feature = page.getByLabel("House of Lume collection");
+    const title = section.getByRole("heading", { name: "Explore the House", exact: true });
+    const feature = section.getByLabel("House of Lume collection");
+
+    await expect(section).toBeVisible();
+    await expect(title).toBeVisible();
+    await expect(feature).toBeVisible();
 
     const [sectionBox, titleBox, featureBox] = await Promise.all([
       section.boundingBox(),
@@ -88,7 +100,9 @@ test("category scene keeps a compact responsive visual hierarchy", async ({ page
     expect(featureBox.width).toBeLessThanOrEqual(width * 0.82);
 
     const articleFor = (name: string) =>
-      page.getByRole("heading", { name }).locator("xpath=ancestor::article[1]");
+      section
+        .getByRole("heading", { name, exact: true })
+        .locator("xpath=ancestor::article[1]");
 
     const [lighting, decor, plants, planters, objects] = await Promise.all([
       articleFor("Lighting").boundingBox(),
