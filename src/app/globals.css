@@ -141,38 +141,6 @@ video {
   margin: -1px;
 }
 
-.foundation-page {
-  min-height: 100dvh;
-  padding-block: clamp(4rem, 10vw, 8rem);
-}
-
-.foundation-kicker {
-  margin: 0 0 1rem;
-  color: var(--color-bronze);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.foundation-title {
-  max-width: 12ch;
-  margin: 0;
-  font-family: var(--font-cormorant), serif;
-  font-size: clamp(3.5rem, 9vw, 8rem);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 0.9;
-}
-
-.foundation-copy {
-  max-width: 42rem;
-  margin: 2rem 0 0;
-  color: var(--color-ash);
-  font-size: clamp(1rem, 1.4vw, 1.125rem);
-  line-height: 1.7;
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
