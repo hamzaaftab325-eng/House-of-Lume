@@ -33,7 +33,12 @@ const roomObjects = [
   { name: "Soleto Planter", type: "Planters", image: images.decor },
 ] as const;
 
-const spaceTabs = ["Living room", "Dining room", "Entryway", "Outdoor"] as const;
+const spaceTabs = [
+  "Living room",
+  "Dining room",
+  "Entryway",
+  "Outdoor",
+] as const;
 
 const materials = [
   {
@@ -343,7 +348,9 @@ export function HomeEditorialSections() {
           {notes.map((note) => (
             <article
               key={note.title}
-              className={`${styles.noteCard} ${note.featured ? styles.noteFeatured : ""}`}
+              className={`${styles.noteCard} ${
+                note.featured ? styles.noteFeatured : ""
+              }`}
               data-reveal
             >
               <div className={styles.noteImage}>
