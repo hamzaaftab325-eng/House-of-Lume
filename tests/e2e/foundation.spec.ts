@@ -19,7 +19,9 @@ test("storefront hero and shell render", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Pause hero autoplay" })).toBeVisible();
 });
 
-test("hero slider supports explicit controls without losing accessible content", async ({ page }) => {
+test("hero slider supports explicit controls without losing accessible content", async ({
+  page,
+}) => {
   await page.goto("/");
 
   await page.getByRole("button", { name: "Pause hero autoplay" }).click();
@@ -129,7 +131,9 @@ test("hero respects reduced-motion preference", async ({ page }) => {
   await page
     .getByRole("button", { name: "Show slide 5: A warmer atmosphere, after sunset." })
     .click();
-  await expect(page.getByRole("heading", { name: "A warmer atmosphere, after sunset." })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "A warmer atmosphere, after sunset." }),
+  ).toBeVisible();
 });
 
 test("account and CRM foundation routes load", async ({ page }) => {
