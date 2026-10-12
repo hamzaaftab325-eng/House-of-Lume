@@ -9,7 +9,6 @@ import styles from "./home-products.module.css";
 
 const previewProducts = [
   {
-    index: "01",
     name: "Aurelia Lamp",
     eyebrow: "Live brighter",
     detail: "Ambient form for modern living",
@@ -18,7 +17,6 @@ const previewProducts = [
     imageClass: styles.lightingImage,
   },
   {
-    index: "02",
     name: "Soleto Planter",
     eyebrow: "Bring nature in",
     detail: "Greener spaces, brighter days",
@@ -27,7 +25,6 @@ const previewProducts = [
     imageClass: styles.planterImage,
   },
   {
-    index: "03",
     name: "Forma Object",
     eyebrow: "Curated details",
     detail: "Timeless pieces, meaningful spaces",
@@ -36,7 +33,6 @@ const previewProducts = [
     imageClass: styles.objectImage,
   },
   {
-    index: "04",
     name: "Verdant Planter",
     eyebrow: "Rooted in beauty",
     detail: "Beautiful spaces grow here",
@@ -45,7 +41,6 @@ const previewProducts = [
     imageClass: styles.verdantImage,
   },
   {
-    index: "05",
     name: "Lume Candle Bowl",
     eyebrow: "The finishing touch",
     detail: "Spaces that feel like home",
@@ -93,18 +88,18 @@ export function HomeProducts() {
           cards,
           {
             autoAlpha: 0,
-            y: 28,
-            duration: 0.86,
-            stagger: 0.08,
+            y: 24,
+            duration: 0.82,
+            stagger: 0.075,
           },
           0.12,
         )
         .from(
           images,
           {
-            scale: 1.045,
-            duration: 1.05,
-            stagger: 0.065,
+            scale: 1.035,
+            duration: 1,
+            stagger: 0.06,
             ease: "power2.out",
           },
           0.2,
@@ -154,9 +149,9 @@ export function HomeProducts() {
               />
 
               <div className={styles.topRail} aria-hidden="true">
-                <span className={styles.topIndex}>{product.index}</span>
                 <span className={styles.topLine} />
                 <span className={styles.wordmark}>House of Lume</span>
+                <span className={styles.topLine} />
               </div>
 
               <div className={styles.objectStage}>
@@ -165,7 +160,7 @@ export function HomeProducts() {
                   src={product.image}
                   alt=""
                   fill
-                  sizes="(max-width: 720px) 82vw, (max-width: 1180px) 31vw, 19vw"
+                  sizes="(max-width: 720px) 78vw, (max-width: 1180px) 31vw, 19vw"
                 />
               </div>
 
@@ -178,12 +173,7 @@ export function HomeProducts() {
                 </div>
 
                 <div className={styles.footerRule} aria-hidden="true" />
-
-                <div className={styles.footerMeta}>
-                  <span className={styles.footerIndex}>{product.index}</span>
-                  <span className={styles.footerDivider} aria-hidden="true" />
-                  <span className={styles.detail}>{product.detail}</span>
-                </div>
+                <p className={styles.detail}>{product.detail}</p>
               </div>
             </article>
           ))}
