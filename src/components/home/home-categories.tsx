@@ -81,7 +81,10 @@ export function HomeCategories() {
         section,
       );
       const categoryItems = gsap.utils.toArray<HTMLElement>(`.${styles.categoryItem}`, section);
-      const categoryFloaters = gsap.utils.toArray<HTMLElement>(`.${styles.categoryFloat}`, section);
+      const categoryFloaters = gsap.utils.toArray<HTMLElement>(
+        `.${styles.categoryFloat}`,
+        section,
+      );
       const orbitPaths = gsap.utils.toArray<SVGPathElement>(`.${styles.orbitPath}`, section);
       const orbitNodes = gsap.utils.toArray<SVGCircleElement>(`.${styles.orbitNode}`, section);
       const mainStage = section.querySelector<HTMLElement>(`.${styles.mainStage}`);
@@ -271,12 +274,30 @@ export function HomeCategories() {
           role="presentation"
           aria-hidden="true"
         >
-          <path className={`${styles.orbitArc} ${styles.orbitPath}`} d="M 265 28 C 120 170 118 465 330 592" />
-          <path className={`${styles.orbitArc} ${styles.orbitPath}`} d="M 735 28 C 880 170 882 465 670 592" />
-          <path className={`${styles.connectorLine} ${styles.orbitPath}`} d="M 145 170 L 312 228" />
-          <path className={`${styles.connectorLine} ${styles.orbitPath}`} d="M 180 475 L 340 398" />
-          <path className={`${styles.connectorLine} ${styles.orbitPath}`} d="M 855 170 L 688 228" />
-          <path className={`${styles.connectorLine} ${styles.orbitPath}`} d="M 820 475 L 660 398" />
+          <path
+            className={`${styles.orbitArc} ${styles.orbitPath}`}
+            d="M 265 28 C 120 170 118 465 330 592"
+          />
+          <path
+            className={`${styles.orbitArc} ${styles.orbitPath}`}
+            d="M 735 28 C 880 170 882 465 670 592"
+          />
+          <path
+            className={`${styles.connectorLine} ${styles.orbitPath}`}
+            d="M 145 170 L 312 228"
+          />
+          <path
+            className={`${styles.connectorLine} ${styles.orbitPath}`}
+            d="M 180 475 L 340 398"
+          />
+          <path
+            className={`${styles.connectorLine} ${styles.orbitPath}`}
+            d="M 855 170 L 688 228"
+          />
+          <path
+            className={`${styles.connectorLine} ${styles.orbitPath}`}
+            d="M 820 475 L 660 398"
+          />
           <circle className={styles.orbitNode} cx="195" cy="187" r="5" />
           <circle className={styles.orbitNode} cx="252" cy="207" r="7" />
           <circle className={styles.orbitNode} cx="216" cy="457" r="5" />
