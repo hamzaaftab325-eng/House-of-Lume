@@ -11,9 +11,9 @@ import styles from "./home-products.module.css";
 const previewProducts = [
   {
     index: "01",
-    name: "Aurelia Table Lamp",
-    descriptor: "Lighting study",
-    collection: "Lume collection preview",
+    name: "Aurelia Lamp",
+    eyebrow: "Live brighter",
+    detail: "Ambient form for modern living",
     image:
       "https://res.cloudinary.com/diometfe9/image/upload/v1791784998/f36d05ea-566c-4c14-ac8c-ccd887d8d588_vnqway.png",
     imageClass: styles.lightingImage,
@@ -21,8 +21,8 @@ const previewProducts = [
   {
     index: "02",
     name: "Soleto Planter",
-    descriptor: "Natural form",
-    collection: "Atelier collection preview",
+    eyebrow: "Bring nature in",
+    detail: "Greener spaces, brighter days",
     image:
       "https://res.cloudinary.com/diometfe9/image/upload/v1791784998/9f13fe9a-d57a-4409-8226-130fd93033f1_ahtdkz.png",
     imageClass: styles.planterImage,
@@ -30,17 +30,26 @@ const previewProducts = [
   {
     index: "03",
     name: "Forma Object",
-    descriptor: "Sculptural object",
-    collection: "Atelier collection preview",
+    eyebrow: "Curated details",
+    detail: "Timeless pieces, meaningful spaces",
     image:
       "https://res.cloudinary.com/diometfe9/image/upload/v1791785000/b686182a-6a24-46b2-bd22-1cd930e3cf8f_aedoz9.png",
     imageClass: styles.objectImage,
   },
   {
     index: "04",
+    name: "Verdant Planter",
+    eyebrow: "Rooted in beauty",
+    detail: "Beautiful spaces grow here",
+    image:
+      "https://res.cloudinary.com/diometfe9/image/upload/v1791785002/60ce4371-9fe6-4b71-a2b6-f5405e06ee19_ipno40.png",
+    imageClass: styles.verdantImage,
+  },
+  {
+    index: "05",
     name: "Lume Candle Bowl",
-    descriptor: "Decorative study",
-    collection: "Lume collection preview",
+    eyebrow: "The finishing touch",
+    detail: "Spaces that feel like home",
     image:
       "https://res.cloudinary.com/diometfe9/image/upload/v1791785000/0dbb84ad-5ad3-473e-b142-d68cb345d343_jcykjg.png",
     imageClass: styles.decorImage,
@@ -56,11 +65,10 @@ export function HomeProducts() {
 
       const section = sectionRef.current;
       if (!section) return;
-
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-      const headerParts = gsap.utils.toArray<HTMLElement>(
-        `.${styles.kickerRow}, .${styles.title}, .${styles.intro}, .${styles.status}`,
+      const headingParts = gsap.utils.toArray<HTMLElement>(
+        `.${styles.kicker}, .${styles.title}, .${styles.intro}, .${styles.status}`,
         section,
       );
       const cards = gsap.utils.toArray<HTMLElement>(`.${styles.productUnit}`, section);
@@ -76,9 +84,9 @@ export function HomeProducts() {
       });
 
       reveal
-        .from(headerParts, {
+        .from(headingParts, {
           autoAlpha: 0,
-          y: 24,
+          y: 22,
           duration: 0.78,
           stagger: 0.08,
         })
@@ -87,41 +95,22 @@ export function HomeProducts() {
           {
             autoAlpha: 0,
             y: 34,
-            clipPath: "inset(0 0 16% 0)",
-            duration: 0.95,
-            stagger: 0.1,
+            clipPath: "inset(0 0 12% 0)",
+            duration: 0.96,
+            stagger: 0.085,
           },
-          0.18,
+          0.16,
         )
         .from(
           images,
           {
-            scale: 1.075,
-            duration: 1.3,
-            stagger: 0.08,
+            scale: 1.055,
+            duration: 1.2,
+            stagger: 0.07,
             ease: "power2.out",
           },
-          0.25,
+          0.24,
         );
-
-      if (window.matchMedia("(min-width: 1101px)").matches) {
-        images.forEach((image, index) => {
-          gsap.fromTo(
-            image,
-            { yPercent: index % 2 === 0 ? -1.8 : -0.8 },
-            {
-              yPercent: index % 2 === 0 ? 2.6 : 1.8,
-              ease: "none",
-              scrollTrigger: {
-                trigger: image,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 0.7,
-              },
-            },
-          );
-        });
-      }
     },
     { scope: sectionRef },
   );
@@ -135,59 +124,50 @@ export function HomeProducts() {
     >
       <div className={styles.inner}>
         <header className={styles.header}>
-          <div className={styles.headerCopy}>
-            <div className={styles.kickerRow}>
-              <span aria-hidden="true" />
-              <p>House of Lume</p>
-            </div>
-            <h2 id="products-title" className={styles.title}>
-              Objects for a Brighter Home
-            </h2>
-            <p className={styles.intro}>
-              A first look at the product language we are building — quiet forms, natural material,
-              and objects designed to live beautifully in everyday spaces.
-            </p>
-          </div>
-
-          <p className={styles.status}>
-            <span>Editorial preview</span>
-            Product catalogue not yet published
+          <p className={styles.kicker}>House of Lume</p>
+          <h2 id="products-title" className={styles.title}>
+            Objects for a Brighter Home
+          </h2>
+          <p className={styles.intro}>
+            A considered preview of the forms, materials, and objects shaping the House of Lume
+            collection.
           </p>
+          <p className={styles.status}>Editorial preview · Product catalogue not yet published</p>
         </header>
 
         <div className={styles.shelf} role="list" aria-label="Product editorial preview">
           {previewProducts.map((product) => (
             <article key={product.name} className={styles.productUnit} role="listitem">
+              <div className={styles.topRail} aria-hidden="true">
+                <span className={styles.topIndex}>{product.index}</span>
+                <span className={styles.topLine} />
+                <span className={styles.wordmark}>House of Lume</span>
+              </div>
+
               <div className={styles.objectStage}>
                 <Image
                   className={`${styles.image} ${product.imageClass}`}
                   src={product.image}
                   alt=""
                   fill
-                  sizes="(max-width: 720px) 82vw, (max-width: 1100px) 46vw, 24vw"
+                  sizes="(max-width: 720px) 82vw, (max-width: 1100px) 42vw, 19vw"
                 />
-                <span className={styles.stageIndex} aria-hidden="true">
-                  {product.index}
-                </span>
               </div>
 
               <div className={styles.metadata}>
-                <div className={styles.indexLine} aria-hidden="true">
-                  <span>{product.index}</span>
-                  <i />
+                <p className={styles.eyebrow}>{product.eyebrow}</p>
+
+                <div className={styles.nameRow}>
+                  <h3>{product.name}</h3>
+                  <ArrowRight className={styles.nameArrow} aria-hidden="true" />
                 </div>
 
-                <h3>{product.name}</h3>
-                <p className={styles.descriptor}>
-                  {product.descriptor}
-                  <span aria-hidden="true">/</span>
-                  {product.collection}
-                </p>
+                <div className={styles.footerRule} aria-hidden="true" />
 
-                <div className={styles.previewCue} aria-label="Preview only — not yet purchasable">
-                  <span>Preview only</span>
-                  <i aria-hidden="true" />
-                  <ArrowRight aria-hidden="true" />
+                <div className={styles.footerMeta}>
+                  <span className={styles.footerIndex}>{product.index}</span>
+                  <span className={styles.footerDivider} aria-hidden="true" />
+                  <span className={styles.detail}>{product.detail}</span>
                 </div>
               </div>
             </article>
