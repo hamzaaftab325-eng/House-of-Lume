@@ -190,9 +190,15 @@ export function HomeEditorialSections() {
               className={styles.coverImage}
               sizes="(max-width: 900px) 100vw, 68vw"
             />
-            <span className={`${styles.hotspot} ${styles.hotspotOne}`} aria-hidden="true">+</span>
-            <span className={`${styles.hotspot} ${styles.hotspotTwo}`} aria-hidden="true">+</span>
-            <span className={`${styles.hotspot} ${styles.hotspotThree}`} aria-hidden="true">+</span>
+            <span className={`${styles.hotspot} ${styles.hotspotOne}`} aria-hidden="true">
+              +
+            </span>
+            <span className={`${styles.hotspot} ${styles.hotspotTwo}`} aria-hidden="true">
+              +
+            </span>
+            <span className={`${styles.hotspot} ${styles.hotspotThree}`} aria-hidden="true">
+              +
+            </span>
           </div>
 
           <aside className={styles.roomPanel} data-reveal>
