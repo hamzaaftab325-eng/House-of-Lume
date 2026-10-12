@@ -16,7 +16,6 @@ const MAIN_IMAGE =
 
 const categories = [
   {
-    index: "01",
     name: "Lighting",
     description: "Illuminate spaces",
     image:
@@ -25,7 +24,6 @@ const categories = [
     imageClass: styles.lightingImage,
   },
   {
-    index: "02",
     name: "Plants",
     description: "Bring life in",
     image:
@@ -34,7 +32,6 @@ const categories = [
     imageClass: styles.plantsImage,
   },
   {
-    index: "03",
     name: "Objects",
     description: "Curated details",
     image:
@@ -43,7 +40,6 @@ const categories = [
     imageClass: styles.objectsImage,
   },
   {
-    index: "04",
     name: "Planters",
     description: "Rooted in beauty",
     image:
@@ -52,7 +48,6 @@ const categories = [
     imageClass: styles.plantersImage,
   },
   {
-    index: "05",
     name: "Décor",
     description: "The finishing touch",
     image:
@@ -316,9 +311,6 @@ export function HomeCategories() {
                       sizes="(max-width: 560px) 44vw, (max-width: 1100px) 31vw, 16vw"
                     />
                   </div>
-                  <span className={styles.numberBadge} aria-hidden="true">
-                    {category.index}
-                  </span>
                 </div>
                 <div className={styles.categoryCopy}>
                   <h3>{category.name}</h3>
