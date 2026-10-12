@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "format": "prettier --write .",
-    "format:check": "prettier --write . && git diff -- src/components/home/home-categories.tsx src/components/home/home-categories.module.css",
+    "format:check": "prettier --check .",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
