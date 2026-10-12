@@ -153,46 +153,51 @@ export function StoreHeader() {
 
 export function StoreFooter() {
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const year = new Date().getFullYear();
 
-  if (pathname === "/") {
-    return null;
-  }
-
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} data-home={isHome}>
       <div className={styles.footerInner}>
         <div className={styles.footerTop}>
           <div className={styles.footerBrand}>
+            <p className={styles.footerEyebrow}>Objects for a brighter home</p>
             <p className={styles.footerWordmark}>House of Lume</p>
             <p className={styles.footerCopy}>
-              Considered lighting, greenery, and objects for rooms that feel lived in—not staged.
+              Warm lighting, living greenery, and considered objects for a more beautiful home —
+              inside and out.
             </p>
           </div>
+
           <nav className={styles.footerNav} aria-label="Footer navigation">
             <div className={styles.footerGroup}>
               <h2>Explore</h2>
               <Link href="/#lighting">Lighting</Link>
-              <Link href="/#plants">Living Green</Link>
+              <Link href="/#plants">Plants</Link>
               <Link href="/#objects">Objects</Link>
+              <Link href="/#decor">Décor</Link>
             </div>
+
+            <div className={styles.footerGroup}>
+              <h2>Discover</h2>
+              <Link href="/#products">The Edit</Link>
+              <Link href="/#spaces-title">Spaces</Link>
+              <Link href="/#materials-title">Materials</Link>
+              <Link href="/#notes-title">House Notes</Link>
+            </div>
+
             <div className={styles.footerGroup}>
               <h2>House</h2>
-              <Link href="/system">Design system</Link>
+              <Link href="/">Home</Link>
+              <Link href="/#why-title">Why House of Lume</Link>
               <Link href="/account">Account</Link>
-              <Link href="/crm">CRM</Link>
-            </div>
-            <div className={styles.footerGroup}>
-              <h2>Commerce</h2>
-              <span>Cash on Delivery</span>
-              <span>Pakistan-wide</span>
-              <span>PKR</span>
             </div>
           </nav>
         </div>
+
         <div className={styles.footerBottom}>
           <span>© {year} House of Lume</span>
-          <span>Built for WCAG 2.2 AA and modern Core Web Vitals</span>
+          <span>Pakistan-wide · Cash on Delivery · PKR</span>
         </div>
       </div>
     </footer>
