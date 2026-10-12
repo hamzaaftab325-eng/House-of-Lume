@@ -32,6 +32,62 @@ test("home categories render the Explore the House composition", async ({ page }
   await expectNoHorizontalOverflow(page);
 });
 
+test("category scene keeps a compact responsive visual hierarchy", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+
+  for (const width of [320, 768, 1024] as const) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/#categories");
+
+    const section = page.locator("#categories");
+    const title = page.getByRole("heading", { name: "Explore the House" });
+    const feature = page.getByLabel("House of Lume collection");
+
+    const [sectionBox, titleBox, featureBox] = await Promise.all([
+      section.boundingBox(),
+      title.boundingBox(),
+      feature.boundingBox(),
+    ]);
+
+    expect(sectionBox).not.toBeNull();
+    expect(titleBox).not.toBeNull();
+    expect(featureBox).not.toBeNull();
+
+    if (!sectionBox || !titleBox || !featureBox) continue;
+
+    expect(featureBox.y).toBeGreaterThan(titleBox.y + titleBox.height);
+    expect(featureBox.y - (titleBox.y + titleBox.height)).toBeLessThan(220);
+    expect(featureBox.width).toBeLessThanOrEqual(width * 0.82);
+
+    const articleFor = (name: string) =>
+      page.getByRole("heading", { name }).locator("xpath=ancestor::article[1]");
+
+    const [lighting, decor, plants, planters, objects] = await Promise.all([
+      articleFor("Lighting").boundingBox(),
+      articleFor("Décor").boundingBox(),
+      articleFor("Plants").boundingBox(),
+      articleFor("Planters").boundingBox(),
+      articleFor("Objects").boundingBox(),
+    ]);
+
+    for (const box of [lighting, decor, plants, planters, objects]) {
+      expect(box).not.toBeNull();
+      if (!box) continue;
+      expect(box.x).toBeGreaterThanOrEqual(sectionBox.x - 1);
+      expect(box.x + box.width).toBeLessThanOrEqual(sectionBox.x + sectionBox.width + 1);
+    }
+
+    if (lighting && decor && plants && planters && objects) {
+      expect(Math.abs(lighting.y - decor.y)).toBeLessThan(28);
+      expect(Math.abs(plants.y - planters.y)).toBeLessThan(28);
+      expect(plants.y).toBeGreaterThan(lighting.y + lighting.height - 20);
+      expect(objects.y).toBeGreaterThan(plants.y + plants.height - 20);
+    }
+
+    await expectNoHorizontalOverflow(page);
+  }
+});
+
 test("hero slider supports explicit controls without losing accessible content", async ({
   page,
 }) => {
