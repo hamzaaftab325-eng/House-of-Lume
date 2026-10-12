@@ -1,140 +1,238 @@
 .hero {
   position: relative;
-  min-height: max(42rem, 100svh);
+  min-height: max(46rem, 112svh);
   overflow: clip;
-  background: #22170f;
+  background: #21150d;
   color: var(--color-paper);
+  touch-action: pan-y;
 }
 
-.visual,
-.overlay {
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 46rem;
+  overflow: clip;
+  isolation: isolate;
+}
+
+.visualTrack,
+.visualLayer,
+.overlay,
+.vignette {
   position: absolute;
   inset: 0;
 }
 
-.visual {
+.visualTrack {
+  inset: -5% 0;
+  height: 110%;
+  will-change: transform;
+}
+
+.visualLayer {
   overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  will-change: clip-path, opacity;
+}
+
+.visualLayer:first-child {
+  z-index: 1;
+  opacity: 1;
+  visibility: visible;
 }
 
 .heroImage {
   object-fit: cover;
-  object-position: 62% center;
+  object-position: 64% center;
   transform: scale(1.035);
-  transition:
-    transform 900ms var(--ease-lume),
-    object-position 900ms var(--ease-lume),
-    filter 900ms var(--ease-lume);
+  will-change: transform;
 }
 
-.visual[data-slide="1"] .heroImage {
+.visualLayer[data-index="0"] .heroImage {
+  object-position: 65% center;
+}
+
+.visualLayer[data-index="1"] .heroImage {
+  object-position: 67% center;
+}
+
+.visualLayer[data-index="2"] .heroImage {
+  object-position: 65% center;
+}
+
+.visualLayer[data-index="3"] .heroImage {
   object-position: 69% center;
-  transform: scale(1.095);
-  filter: saturate(0.92) brightness(0.96);
 }
 
-.visual[data-slide="2"] .heroImage {
-  object-position: 55% center;
-  transform: scale(1.075);
-  filter: saturate(0.86) contrast(1.03);
+.visualLayer[data-index="4"] .heroImage {
+  object-position: 66% center;
 }
 
 .overlay {
-  z-index: 1;
+  z-index: 3;
   background:
-    linear-gradient(180deg, rgba(15, 10, 7, 0.22) 0%, rgba(15, 10, 7, 0.06) 48%, rgba(15, 10, 7, 0.28) 100%),
-    linear-gradient(90deg, rgba(14, 9, 6, 0.84) 0%, rgba(20, 13, 8, 0.69) 30%, rgba(20, 13, 8, 0.27) 55%, rgba(20, 13, 8, 0.06) 78%);
+    linear-gradient(180deg, rgba(12, 8, 5, 0.26) 0%, rgba(12, 8, 5, 0.04) 42%, rgba(12, 8, 5, 0.3) 100%),
+    linear-gradient(90deg, rgba(12, 8, 5, 0.86) 0%, rgba(15, 10, 6, 0.7) 28%, rgba(15, 10, 6, 0.34) 49%, rgba(15, 10, 6, 0.08) 72%, transparent 100%);
+  pointer-events: none;
+}
+
+.overlay[data-slide="1"] {
+  background:
+    linear-gradient(180deg, rgba(12, 8, 5, 0.24) 0%, rgba(12, 8, 5, 0.03) 48%, rgba(12, 8, 5, 0.3) 100%),
+    linear-gradient(90deg, rgba(12, 8, 5, 0.88) 0%, rgba(15, 10, 6, 0.72) 29%, rgba(15, 10, 6, 0.3) 52%, rgba(15, 10, 6, 0.04) 76%, transparent 100%);
+}
+
+.overlay[data-slide="2"],
+.overlay[data-slide="4"] {
+  background:
+    linear-gradient(180deg, rgba(12, 8, 5, 0.28) 0%, rgba(12, 8, 5, 0.04) 45%, rgba(12, 8, 5, 0.34) 100%),
+    linear-gradient(90deg, rgba(12, 8, 5, 0.9) 0%, rgba(15, 10, 6, 0.72) 30%, rgba(15, 10, 6, 0.32) 52%, rgba(15, 10, 6, 0.04) 76%, transparent 100%);
+}
+
+.vignette {
+  z-index: 4;
+  background: radial-gradient(circle at 70% 52%, transparent 36%, rgba(9, 6, 4, 0.12) 100%);
+  pointer-events: none;
 }
 
 .inner {
   position: relative;
-  z-index: 2;
+  z-index: 5;
   display: grid;
   width: min(100% - (2 * var(--page-gutter)), var(--content-max));
-  min-height: max(42rem, 100svh);
+  height: 100%;
   margin-inline: auto;
-  padding-block: clamp(8rem, 14vh, 11rem) 2rem;
+  padding-block: clamp(7.5rem, 14vh, 10.5rem) clamp(1.25rem, 3vh, 2.3rem);
   grid-template-rows: 1fr auto;
 }
 
-.copyWrap {
-  width: min(100%, 39rem);
+.copyStage {
+  display: grid;
+  width: min(100%, 43rem);
   align-self: center;
-  animation: hero-copy-in 560ms var(--ease-lume) both;
+}
+
+.copyWrap {
+  grid-area: 1 / 1;
+  width: min(100%, 43rem);
+  align-self: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.copyWrap:first-child {
+  opacity: 1;
+  visibility: visible;
+}
+
+.copyWrap[data-active="true"] {
+  pointer-events: auto;
+}
+
+.copyWrap[data-active="false"] {
+  pointer-events: none;
 }
 
 .eyebrow {
   display: flex;
-  margin: 0 0 1.2rem;
+  margin: 0 0 1.25rem;
   align-items: center;
-  gap: 0.9rem;
-  color: #d5b78d;
-  font-size: 0.68rem;
+  gap: 0.95rem;
+  color: #e1c596;
+  font-size: 0.66rem;
   font-weight: 760;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.17em;
   text-transform: uppercase;
 }
 
 .eyebrow::after {
-  width: clamp(3rem, 8vw, 7rem);
+  width: clamp(3rem, 8vw, 7.5rem);
   height: 1px;
-  background: color-mix(in srgb, #d5b78d 48%, transparent);
+  background: color-mix(in srgb, #e1c596 44%, transparent);
   content: "";
 }
 
 .title {
-  max-width: 9ch;
+  max-width: 10.5ch;
   margin: 0;
   font-family: var(--font-cormorant), serif;
-  font-size: clamp(4rem, 7vw, 7rem);
-  font-weight: 520;
-  letter-spacing: -0.045em;
+  font-size: clamp(4.15rem, 6.7vw, 7.15rem);
+  font-weight: 510;
+  letter-spacing: -0.05em;
   line-height: 0.88;
   text-wrap: balance;
+  text-shadow: 0 0.2rem 1.5rem rgba(0, 0, 0, 0.1);
 }
 
 .copy {
-  max-width: 36rem;
+  max-width: 35rem;
   margin: 1.6rem 0 0;
-  color: color-mix(in srgb, var(--color-paper) 78%, transparent);
-  font-size: clamp(0.95rem, 1.2vw, 1.08rem);
-  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-paper) 80%, transparent);
+  font-size: clamp(0.95rem, 1.1vw, 1.06rem);
+  line-height: 1.72;
+  text-wrap: pretty;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
-  margin-top: 1.8rem;
+  margin-top: 1.85rem;
 }
 
 .primaryAction,
 .secondaryAction {
+  position: relative;
   display: inline-flex;
-  min-height: 3.1rem;
+  min-height: 3.25rem;
   align-items: center;
   justify-content: center;
-  gap: 0.65rem;
-  padding: 0.8rem 1.35rem;
+  gap: 0.7rem;
+  overflow: hidden;
+  padding: 0.82rem 1.4rem;
   border: 1px solid transparent;
-  font-size: 0.78rem;
+  font-size: 0.77rem;
   font-weight: 720;
+  isolation: isolate;
   transition:
     transform var(--duration-control) var(--ease-lume),
-    background-color var(--duration-control) var(--ease-lume),
     border-color var(--duration-control) var(--ease-lume),
     color var(--duration-control) var(--ease-lume);
 }
 
+.primaryAction::before,
+.secondaryAction::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 420ms var(--ease-lume);
+}
+
 .primaryAction {
-  border-color: color-mix(in srgb, var(--color-paper) 12%, transparent);
-  background: color-mix(in srgb, var(--color-ink) 94%, transparent);
+  border-color: color-mix(in srgb, var(--color-paper) 14%, transparent);
+  background: color-mix(in srgb, var(--color-ink) 92%, transparent);
   color: var(--color-paper);
 }
 
+.primaryAction::before {
+  background: var(--color-bronze);
+}
+
 .secondaryAction {
-  border-color: color-mix(in srgb, var(--color-paper) 65%, transparent);
-  background: color-mix(in srgb, var(--color-paper) 92%, transparent);
+  border-color: color-mix(in srgb, var(--color-paper) 48%, transparent);
+  background: color-mix(in srgb, var(--color-paper) 90%, transparent);
   color: var(--color-ink);
+}
+
+.secondaryAction::before {
+  background: var(--color-paper);
 }
 
 .primaryAction svg {
@@ -147,164 +245,246 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .pagination {
   display: flex;
+  min-width: 0;
   align-items: center;
-  gap: 0.75rem;
+  gap: clamp(0.55rem, 1vw, 0.9rem);
 }
 
 .paginationItem {
   display: inline-flex;
-  min-width: 4.35rem;
+  min-width: 3.95rem;
   min-height: 2.75rem;
   align-items: center;
   gap: 0.55rem;
   padding: 0;
   border: 0;
   background: transparent;
-  color: color-mix(in srgb, var(--color-paper) 52%, transparent);
+  color: color-mix(in srgb, var(--color-paper) 48%, transparent);
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 720;
+  transition: color var(--duration-fast) ease;
 }
 
 .paginationItem i {
-  width: 2.25rem;
+  position: relative;
+  display: block;
+  width: clamp(1.55rem, 2.7vw, 2.5rem);
   height: 1px;
-  background: color-mix(in srgb, var(--color-paper) 30%, transparent);
-  transition:
-    width var(--duration-control) var(--ease-lume),
-    background-color var(--duration-control) var(--ease-lume);
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-paper) 25%, transparent);
+}
+
+.paginationItem i b {
+  position: absolute;
+  inset: 0;
+  background: #dfbd86;
+  transform: scaleX(0);
+  transform-origin: left;
 }
 
 .paginationItem[data-active="true"] {
   color: var(--color-paper);
 }
 
-.paginationItem[data-active="true"] i {
-  width: 3rem;
-  background: #d5b78d;
+.paginationItem[data-active="true"] i b {
+  animation: hero-progress 8s linear forwards;
 }
 
+.hero[data-paused="true"] .paginationItem[data-active="true"] i b {
+  animation-play-state: paused;
+}
+
+.controlCluster,
 .arrows {
   display: flex;
+  align-items: center;
   gap: 0.55rem;
 }
 
+.motionControl,
 .arrows button {
   display: grid;
   width: 3rem;
   height: 3rem;
   place-items: center;
-  border: 1px solid color-mix(in srgb, var(--color-paper) 54%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-paper) 48%, transparent);
   border-radius: 50%;
-  background: color-mix(in srgb, var(--color-ink) 16%, transparent);
+  background: color-mix(in srgb, var(--color-ink) 18%, transparent);
   color: var(--color-paper);
   cursor: pointer;
+  backdrop-filter: blur(8px);
   transition:
     transform var(--duration-control) var(--ease-lume),
     background-color var(--duration-control) var(--ease-lume),
-    border-color var(--duration-control) var(--ease-lume);
+    border-color var(--duration-control) var(--ease-lume),
+    opacity var(--duration-fast) ease;
 }
 
+.motionControl svg,
 .arrows svg {
-  width: 1.05rem;
-  height: 1.05rem;
+  width: 1rem;
+  height: 1rem;
 }
 
-@keyframes hero-copy-in {
+.motionControl:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+@keyframes hero-progress {
   from {
-    opacity: 0;
-    transform: translateY(1.1rem);
+    transform: scaleX(0);
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: scaleX(1);
   }
 }
 
 @media (hover: hover) and (pointer: fine) {
   .primaryAction:hover,
   .secondaryAction:hover,
+  .motionControl:not(:disabled):hover,
   .arrows button:hover {
     transform: translateY(-2px);
   }
 
-  .primaryAction:hover {
-    background: var(--color-bronze);
-  }
-
-  .secondaryAction:hover {
-    border-color: var(--color-paper);
-    background: var(--color-paper);
+  .primaryAction:hover::before,
+  .secondaryAction:hover::before {
+    transform: scaleX(1);
   }
 
   .primaryAction:hover svg {
     transform: translateX(4px);
   }
 
+  .motionControl:not(:disabled):hover,
   .arrows button:hover {
     border-color: var(--color-paper);
     background: color-mix(in srgb, var(--color-paper) 12%, transparent);
+  }
+
+  .paginationItem:hover {
+    color: var(--color-paper);
+  }
+}
+
+@media (max-width: 63.99rem) {
+  .inner {
+    padding-top: 7.5rem;
+  }
+
+  .copyStage {
+    width: min(100%, 38rem);
+  }
+
+  .title {
+    font-size: clamp(3.9rem, 9vw, 6rem);
   }
 }
 
 @media (max-width: 47.99rem) {
   .hero {
+    min-height: 108svh;
+  }
+
+  .stage {
     min-height: 100svh;
+  }
+
+  .visualTrack {
+    inset: -3% 0;
+    height: 106%;
   }
 
   .heroImage,
-  .visual[data-slide="1"] .heroImage,
-  .visual[data-slide="2"] .heroImage {
-    object-position: 68% center;
+  .visualLayer[data-index="0"] .heroImage,
+  .visualLayer[data-index="1"] .heroImage,
+  .visualLayer[data-index="2"] .heroImage,
+  .visualLayer[data-index="3"] .heroImage,
+  .visualLayer[data-index="4"] .heroImage {
+    object-position: 70% center;
   }
 
-  .overlay {
+  .visualLayer[data-index="3"] .heroImage {
+    object-position: 74% center;
+  }
+
+  .overlay,
+  .overlay[data-slide="1"],
+  .overlay[data-slide="2"],
+  .overlay[data-slide="4"] {
     background:
-      linear-gradient(180deg, rgba(12, 8, 5, 0.3) 0%, rgba(12, 8, 5, 0.24) 26%, rgba(12, 8, 5, 0.72) 68%, rgba(12, 8, 5, 0.9) 100%),
-      linear-gradient(90deg, rgba(14, 9, 6, 0.48), rgba(14, 9, 6, 0.08));
+      linear-gradient(180deg, rgba(12, 8, 5, 0.28) 0%, rgba(12, 8, 5, 0.12) 28%, rgba(12, 8, 5, 0.56) 61%, rgba(12, 8, 5, 0.92) 100%),
+      linear-gradient(90deg, rgba(12, 8, 5, 0.44), rgba(12, 8, 5, 0.04));
+  }
+
+  .vignette {
+    background: linear-gradient(180deg, transparent 42%, rgba(8, 5, 3, 0.28) 100%);
   }
 
   .inner {
-    min-height: 100svh;
-    padding-top: 7.5rem;
-    padding-bottom: 1.2rem;
+    padding-top: 6.8rem;
+    padding-bottom: 1rem;
   }
 
-  .copyWrap {
+  .copyStage {
     align-self: end;
-    padding-bottom: 6rem;
+    margin-bottom: clamp(3rem, 8vh, 5rem);
   }
 
   .eyebrow {
-    font-size: 0.62rem;
+    margin-bottom: 1rem;
+    font-size: 0.6rem;
+  }
+
+  .eyebrow::after {
+    width: 2.75rem;
   }
 
   .title {
-    font-size: clamp(3.35rem, 16vw, 5.2rem);
+    max-width: 10ch;
+    font-size: clamp(3.1rem, 14.8vw, 5rem);
+    line-height: 0.9;
   }
 
   .copy {
     max-width: 31rem;
-    font-size: 0.93rem;
+    margin-top: 1.2rem;
+    font-size: 0.91rem;
+    line-height: 1.62;
   }
 
   .actions {
     display: grid;
+    margin-top: 1.4rem;
     grid-template-columns: 1fr 1fr;
   }
 
   .primaryAction,
   .secondaryAction {
-    padding-inline: 0.8rem;
+    min-height: 3rem;
+    padding-inline: 0.75rem;
+    font-size: 0.7rem;
+  }
+
+  .controls {
+    gap: 0.65rem;
+  }
+
+  .pagination {
+    gap: 0.25rem;
   }
 
   .paginationItem {
-    min-width: auto;
+    min-width: 2rem;
+    min-height: 2.75rem;
+    gap: 0;
   }
 
   .paginationItem i {
@@ -312,21 +492,52 @@
   }
 
   .paginationItem:not([data-active="true"]) {
+    color: color-mix(in srgb, var(--color-paper) 34%, transparent);
+  }
+
+  .motionControl,
+  .arrows button {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+}
+
+@media (max-width: 24rem) {
+  .actions {
+    grid-template-columns: 1fr;
+  }
+
+  .secondaryAction {
+    background: color-mix(in srgb, var(--color-paper) 82%, transparent);
+  }
+
+  .paginationItem:nth-child(2),
+  .paginationItem:nth-child(3),
+  .paginationItem:nth-child(4) {
     display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .visualTrack {
+    transform: none !important;
+  }
+
   .heroImage,
+  .copyWrap,
   .primaryAction,
   .secondaryAction,
+  .primaryAction::before,
+  .secondaryAction::before,
   .primaryAction svg,
-  .paginationItem i,
+  .paginationItem,
+  .motionControl,
   .arrows button {
     transition: none;
   }
 
-  .copyWrap {
+  .paginationItem[data-active="true"] i b {
     animation: none;
+    transform: scaleX(1);
   }
 }
