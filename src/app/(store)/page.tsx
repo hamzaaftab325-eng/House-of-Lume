@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { HomeCategories } from "@/components/home/home-categories";
 import { HomeHero } from "@/components/home/home-hero";
+import { HomeProducts } from "@/components/home/home-products";
 
 export const metadata: Metadata = {
   title: "House of Lume — Refined Living for Modern Homes",
@@ -14,6 +15,7 @@ export default function StorefrontHomePage() {
     <main>
       <HomeHero />
       <HomeCategories />
+      <HomeProducts />
     </main>
   );
 }
