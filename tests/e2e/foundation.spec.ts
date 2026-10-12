@@ -100,9 +100,7 @@ test("category scene keeps a compact responsive visual hierarchy", async ({ page
     expect(featureBox.width).toBeLessThanOrEqual(width * 0.82);
 
     const articleFor = (name: string) =>
-      section
-        .getByRole("heading", { name, exact: true })
-        .locator("xpath=ancestor::article[1]");
+      section.getByRole("heading", { name, exact: true }).locator("xpath=ancestor::article[1]");
 
     const [lighting, decor, plants, planters, objects] = await Promise.all([
       articleFor("Lighting").boundingBox(),
