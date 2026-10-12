@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { HomeCategories } from "@/components/home/home-categories";
 import { HomeHero } from "@/components/home/home-hero";
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export default function StorefrontHomePage() {
   return (
     <main>
       <HomeHero />
+      <HomeCategories />
     </main>
   );
 }

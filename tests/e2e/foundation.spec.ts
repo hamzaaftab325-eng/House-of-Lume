@@ -19,6 +19,19 @@ test("storefront hero and shell render", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Pause hero autoplay" })).toBeVisible();
 });
 
+test("home categories render the Explore the House composition", async ({ page }) => {
+  await page.goto("/#categories");
+
+  await expect(page.getByRole("heading", { name: "Explore the House" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "A More Beautiful Home" })).toBeVisible();
+
+  for (const category of ["Lighting", "Plants", "Objects", "Planters", "Décor"]) {
+    await expect(page.getByRole("heading", { name: category })).toBeVisible();
+  }
+
+  await expectNoHorizontalOverflow(page);
+});
+
 test("hero slider supports explicit controls without losing accessible content", async ({
   page,
 }) => {
