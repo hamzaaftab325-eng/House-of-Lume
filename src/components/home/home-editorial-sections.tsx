@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import { ArrowRight, Headphones, PackageCheck, Truck, WalletCards } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { useRef } from "react";
+import SplitType from "split-type";
 
 import { gsap, registerGsap, useGSAP } from "@/lib/motion/gsap";
 
@@ -121,20 +123,55 @@ const services = [
 
 export function HomeEditorialSections() {
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const reducedMotion = useReducedMotion();
 
   useGSAP(
     () => {
       registerGsap();
 
       const root = rootRef.current;
-      if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!root || reducedMotion) return;
+
+      const splits: SplitType[] = [];
+      const splitTargets = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          'main [data-active="true"] h1, #categories h2, #products h2, [data-editorial-section] h2',
+        ),
+      );
+
+      splitTargets.forEach((heading) => {
+        const split = new SplitType(heading, { types: "lines,words" });
+        const lines = split.lines ?? [];
+        const words = split.words ?? [];
+
+        splits.push(split);
+        gsap.set(lines, { overflow: "hidden" });
+
+        if (words.length === 0) return;
+
+        gsap.from(words, {
+          autoAlpha: 0,
+          yPercent: 110,
+          rotateX: 7,
+          transformOrigin: "50% 100%",
+          duration: 0.9,
+          stagger: 0.028,
+          ease: "power4.out",
+          clearProps: "transform,opacity,visibility",
+          scrollTrigger: {
+            trigger: heading,
+            start: "top 88%",
+            once: true,
+          },
+        });
+      });
 
       const sections = gsap.utils.toArray<HTMLElement>("[data-editorial-section]", root);
 
       sections.forEach((section) => {
         const revealItems = gsap.utils.toArray<HTMLElement>("[data-reveal]", section);
         const media = gsap.utils.toArray<HTMLElement>(
-          `.${styles.coverImage}, .${styles.closingImage}`,
+          `.${styles.coverImage}:not([data-parallax]), .${styles.closingImage}:not([data-parallax])`,
           section,
         );
 
@@ -164,9 +201,69 @@ export function HomeEditorialSections() {
             0.08,
           );
       });
+
+      const parallaxMedia = gsap.utils.toArray<HTMLElement>("[data-parallax]", root);
+
+      parallaxMedia.forEach((media, index) => {
+        const travel = Number(media.dataset.parallax ?? 5.5);
+        const trigger = media.parentElement ?? media;
+
+        gsap.fromTo(
+          media,
+          { yPercent: -travel, scale: 1.06 },
+          {
+            yPercent: travel,
+            scale: 1.09,
+            force3D: true,
+            ease: "none",
+            scrollTrigger: {
+              trigger,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 0.8 + index * 0.05,
+            },
+          },
+        );
+      });
+
+      const hotspots = gsap.utils.toArray<HTMLElement>(`.${styles.hotspot}`, root);
+      hotspots.forEach((hotspot, index) => {
+        gsap.to(hotspot, {
+          y: index % 2 === 0 ? -6 : 5,
+          duration: 2.8 + index * 0.35,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+      });
+
+      const lines = gsap.utils.toArray<HTMLElement>(`.${styles.miniLine}`, root);
+      gsap.from(lines, {
+        scaleX: 0,
+        transformOrigin: "0% 50%",
+        duration: 0.8,
+        stagger: 0.08,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: `.${styles.whySection}`,
+          start: "top 72%",
+          once: true,
+        },
+      });
+
+      return () => {
+        splits.forEach((split) => split.revert());
+      };
     },
-    { scope: rootRef },
+    {
+      scope: rootRef,
+      dependencies: [Boolean(reducedMotion)],
+      revertOnUpdate: true,
+    },
   );
+
+  const liftSmall = reducedMotion ? undefined : { y: -5 };
+  const liftMedium = reducedMotion ? undefined : { y: -8 };
 
   return (
     <div ref={rootRef}>
@@ -193,6 +290,7 @@ export function HomeEditorialSections() {
               fill
               className={styles.coverImage}
               sizes="(max-width: 900px) 100vw, 68vw"
+              data-parallax="7"
             />
             <span className={`${styles.hotspot} ${styles.hotspotOne}`} aria-hidden="true">
               +
@@ -219,7 +317,12 @@ export function HomeEditorialSections() {
 
             <div className={styles.roomObjects}>
               {roomObjects.map((item) => (
-                <div key={item.name} className={styles.roomObject}>
+                <motion.div
+                  key={item.name}
+                  className={styles.roomObject}
+                  whileHover={liftSmall}
+                  transition={{ duration: 0.32, ease: "easeOut" }}
+                >
                   <div className={styles.roomThumb}>
                     <Image
                       src={item.image}
@@ -234,7 +337,7 @@ export function HomeEditorialSections() {
                     <span>{item.type}</span>
                   </div>
                   <ArrowRight aria-hidden="true" />
-                </div>
+                </motion.div>
               ))}
             </div>
           </aside>
@@ -271,10 +374,12 @@ export function HomeEditorialSections() {
 
         <div className={styles.materialGrid}>
           {materials.map((material, index) => (
-            <article
+            <motion.article
               key={material.name}
               className={`${styles.materialTile} ${material.className}`}
               data-reveal
+              whileHover={liftSmall}
+              transition={{ duration: 0.34, ease: "easeOut" }}
             >
               <Image
                 src={material.image}
@@ -282,6 +387,7 @@ export function HomeEditorialSections() {
                 fill
                 className={styles.coverImage}
                 sizes="(max-width: 900px) 50vw, 28vw"
+                data-parallax={index === 0 ? "6" : undefined}
               />
               <div className={styles.materialShade} aria-hidden="true" />
               <div className={styles.materialMeta}>
@@ -289,7 +395,7 @@ export function HomeEditorialSections() {
                 <strong>{material.name}</strong>
                 <small>{material.detail}</small>
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
       </section>
@@ -310,10 +416,12 @@ export function HomeEditorialSections() {
 
         <div className={styles.notesGrid}>
           {notes.map((note) => (
-            <article
+            <motion.article
               key={note.title}
               className={`${styles.noteCard} ${note.featured ? styles.noteFeatured : ""}`}
               data-reveal
+              whileHover={liftMedium}
+              transition={{ duration: 0.38, ease: "easeOut" }}
             >
               <div className={styles.noteImage}>
                 <Image
@@ -322,6 +430,7 @@ export function HomeEditorialSections() {
                   fill
                   className={styles.coverImage}
                   sizes="(max-width: 900px) 100vw, 44vw"
+                  data-parallax={note.featured ? "5" : undefined}
                 />
               </div>
               <div className={styles.noteCopy}>
@@ -330,7 +439,7 @@ export function HomeEditorialSections() {
                 <p>{note.copy}</p>
                 <ArrowRight aria-hidden="true" />
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
       </section>
@@ -350,8 +459,14 @@ export function HomeEditorialSections() {
         </header>
 
         <div className={styles.serviceGrid}>
-          {services.map(({ title, copy, image, icon: Icon }) => (
-            <article key={title} className={styles.serviceCard} data-reveal>
+          {services.map(({ title, copy, image, icon: Icon }, index) => (
+            <motion.article
+              key={title}
+              className={styles.serviceCard}
+              data-reveal
+              whileHover={liftSmall}
+              transition={{ duration: 0.34, ease: "easeOut" }}
+            >
               <div className={styles.serviceImage}>
                 <Image
                   src={image}
@@ -359,6 +474,7 @@ export function HomeEditorialSections() {
                   fill
                   className={styles.coverImage}
                   sizes="(max-width: 900px) 50vw, 23vw"
+                  data-parallax={index % 2 === 1 ? "4" : undefined}
                 />
               </div>
               <div className={styles.serviceIcon}>
@@ -367,7 +483,7 @@ export function HomeEditorialSections() {
               <h3>{title}</h3>
               <span className={styles.miniLine} aria-hidden="true" />
               <p>{copy}</p>
-            </article>
+            </motion.article>
           ))}
         </div>
       </section>
@@ -377,7 +493,14 @@ export function HomeEditorialSections() {
         data-editorial-section
         aria-labelledby="closing-title"
       >
-        <Image src={images.living} alt="" fill className={styles.closingImage} sizes="100vw" />
+        <Image
+          src={images.living}
+          alt=""
+          fill
+          className={styles.closingImage}
+          sizes="100vw"
+          data-parallax="8"
+        />
         <div className={styles.closingWash} aria-hidden="true" />
         <div className={styles.closingContent}>
           <p className={styles.kicker} data-reveal>
