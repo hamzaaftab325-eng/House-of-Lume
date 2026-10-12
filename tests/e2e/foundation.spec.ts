@@ -9,23 +9,17 @@ async function expectNoHorizontalOverflow(page: import("@playwright/test").Page)
   expect(hasNoOverflow).toBe(true);
 }
 
-test("Phase 3 homepage renders the approved gallery storytelling structure", async ({ page }) => {
+test("storefront shell and Phase 2 product system render", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { name: "A brighter, kinder home." })).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: "Find what belongs in your space." }),
-  ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Editors' picks." })).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: "Objects should earn their place." }),
-  ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Real spaces. Brighter living." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "The Material Archive." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Made to arrive well." })).toBeVisible();
-  await expect(page.getByRole("textbox", { name: "Email address" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Objects for a warmer home." })).toBeVisible();
   await expect(page.getByRole("banner")).toBeVisible();
   await expect(page.getByRole("contentinfo")).toBeVisible();
+  await expect(page.getByText("Nocturne Reading Lamp")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Explore the system" })).toHaveAttribute(
+    "href",
+    "/system",
+  );
 });
 
 test("search and bag use accessible modal planes and restore focus", async ({ page }) => {
@@ -103,14 +97,11 @@ test("design system interactions are keyboard usable", async ({ page }) => {
   await expect(dialogTrigger).toBeFocused();
 });
 
-test("reduced motion keeps the homepage and design system usable", async ({ page }) => {
+test("reduced motion keeps the design system usable", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
+  await page.goto("/system");
 
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
-  await expect(page.getByRole("heading", { name: "A brighter, kinder home." })).toBeVisible();
-
-  await page.goto("/system");
   await expect(
     page.getByRole("heading", { name: "Scroll moves the story, not the interface." }),
   ).toBeVisible();
