@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
-import { useReducedMotion } from "motion/react";
 
 import { gsap, registerGsap, useGSAP } from "@/lib/motion/gsap";
 
@@ -71,9 +70,22 @@ export function HomeHero() {
   const pointerStartRef = useRef<number | null>(null);
   const transitionLockedRef = useRef(false);
 
-  const reducedMotion = useReducedMotion();
+  const [reducedMotion, setReducedMotion] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPreference = () => setReducedMotion(mediaQuery.matches);
+
+    syncPreference();
+    mediaQuery.addEventListener("change", syncPreference);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncPreference);
+    };
+  }, []);
 
   useGSAP(
     () => {
@@ -130,10 +142,12 @@ export function HomeHero() {
         gsap.set(nextLayer, { autoAlpha: 1, zIndex: 1, clipPath: "inset(0% 0% 0% 0%)" });
         gsap.set(currentCopy, { autoAlpha: 0, y: 0 });
         gsap.set(nextCopy, { autoAlpha: 1, y: 0 });
+        setIsTransitioning(false);
         return;
       }
 
       transitionLockedRef.current = true;
+      setIsTransitioning(true);
       transitionRef.current?.kill();
 
       gsap.set(nextLayer, {
@@ -152,6 +166,7 @@ export function HomeHero() {
             gsap.set(nextLayer, { autoAlpha: 1, zIndex: 1 });
             gsap.set(currentImage, { scale: 1.035, xPercent: 0 });
             transitionLockedRef.current = false;
+            setIsTransitioning(false);
           },
         })
         .to(currentCopy, { autoAlpha: 0, y: -18, duration: 0.34, ease: "power2.in" }, 0)
@@ -229,6 +244,7 @@ export function HomeHero() {
       data-paused={paused || reducedMotion ? "true" : "false"}
       aria-label="House of Lume introduction"
       aria-roledescription="carousel"
+      aria-busy={isTransitioning}
       onKeyDown={handleKeyDown}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
@@ -309,6 +325,7 @@ export function HomeHero() {
                   onClick={() => goTo(index)}
                   aria-label={`Show slide ${index + 1}: ${slide.title}`}
                   aria-current={index === activeIndex ? "true" : undefined}
+                  disabled={isTransitioning}
                 >
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <i aria-hidden="true">
@@ -325,16 +342,26 @@ export function HomeHero() {
                 onClick={() => setPaused((current) => !current)}
                 aria-label={paused ? "Resume hero autoplay" : "Pause hero autoplay"}
                 aria-pressed={paused}
-                disabled={Boolean(reducedMotion)}
+                disabled={reducedMotion}
               >
                 {paused ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}
               </button>
 
               <div className={styles.arrows}>
-                <button type="button" onClick={showPrevious} aria-label="Previous hero slide">
+                <button
+                  type="button"
+                  onClick={showPrevious}
+                  aria-label="Previous hero slide"
+                  disabled={isTransitioning}
+                >
                   <ArrowLeft aria-hidden="true" />
                 </button>
-                <button type="button" onClick={showNext} aria-label="Next hero slide">
+                <button
+                  type="button"
+                  onClick={showNext}
+                  aria-label="Next hero slide"
+                  disabled={isTransitioning}
+                >
                   <ArrowRight aria-hidden="true" />
                 </button>
               </div>
