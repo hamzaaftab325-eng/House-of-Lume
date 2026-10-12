@@ -89,7 +89,6 @@ export function HomeCategories() {
         `.${styles.mainCopy} > p, .${styles.mainCopy} > h3, .${styles.exploreCue}`,
         section,
       );
-      const mainImage = section.querySelector<HTMLElement>(`.${styles.mainImage}`);
       const mainFloat = section.querySelector<HTMLElement>(`.${styles.mainFloat}`);
 
       orbitPaths.forEach((path) => {
@@ -191,25 +190,7 @@ export function HomeCategories() {
         );
       }
 
-      if (mainImage) {
-        gsap.fromTo(
-          mainImage,
-          { scale: 1.035, yPercent: -1.5 },
-          {
-            scale: 1.095,
-            yPercent: 2.5,
-            ease: "none",
-            scrollTrigger: {
-              trigger: section,
-              start: "top 85%",
-              end: "bottom top",
-              scrub: 1,
-            },
-          },
-        );
-      }
-
-      if (window.matchMedia("(min-width: 901px)").matches) {
+      if (window.matchMedia("(min-width: 1101px)").matches) {
         categoryFloaters.forEach((floater, index) => {
           gsap.to(floater, {
             y: index % 2 === 0 ? -7 : 6,
@@ -302,7 +283,7 @@ export function HomeCategories() {
                 src={MAIN_IMAGE}
                 alt=""
                 fill
-                sizes="(max-width: 900px) 88vw, 34vw"
+                sizes="(max-width: 1100px) 78vw, 34vw"
               />
               <div className={styles.mainShade} aria-hidden="true" />
               <div className={styles.mainCopy}>
@@ -325,15 +306,19 @@ export function HomeCategories() {
               role="listitem"
             >
               <div className={styles.categoryFloat}>
-                <div className={styles.circle}>
-                  <Image
-                    className={`${styles.circleImage} ${category.imageClass}`}
-                    src={category.image}
-                    alt=""
-                    fill
-                    sizes="(max-width: 560px) 46vw, (max-width: 900px) 31vw, 16vw"
-                  />
-                  <span className={styles.numberBadge}>{category.index}</span>
+                <div className={styles.circleFrame}>
+                  <div className={styles.circle}>
+                    <Image
+                      className={`${styles.circleImage} ${category.imageClass}`}
+                      src={category.image}
+                      alt=""
+                      fill
+                      sizes="(max-width: 560px) 44vw, (max-width: 1100px) 31vw, 16vw"
+                    />
+                  </div>
+                  <span className={styles.numberBadge} aria-hidden="true">
+                    {category.index}
+                  </span>
                 </div>
                 <div className={styles.categoryCopy}>
                   <h3>{category.name}</h3>
