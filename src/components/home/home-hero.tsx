@@ -181,7 +181,9 @@ export function HomeHero() {
     if (paused) delayedCall.pause();
     autoplayRef.current = delayedCall;
 
-    return () => delayedCall.kill();
+    return () => {
+      delayedCall.kill();
+    };
   }, [activeIndex, paused, reducedMotion, showNext]);
 
   useEffect(() => {
