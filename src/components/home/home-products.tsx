@@ -138,7 +138,10 @@ export function HomeProducts() {
         <div className={styles.shelf} role="list" aria-label="Product editorial preview">
           {previewProducts.map((product) => (
             <article key={product.name} className={styles.productUnit} role="listitem">
-              <span className={`${styles.edgeAccent} ${styles.edgeAccentLeftTop}`} aria-hidden="true" />
+              <span
+                className={`${styles.edgeAccent} ${styles.edgeAccentLeftTop}`}
+                aria-hidden="true"
+              />
               <span
                 className={`${styles.edgeAccent} ${styles.edgeAccentLeftLower}`}
                 aria-hidden="true"
