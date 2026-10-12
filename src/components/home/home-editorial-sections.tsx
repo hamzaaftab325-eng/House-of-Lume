@@ -1,7 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Headphones, PackageCheck, Truck, WalletCards } from "lucide-react";
+import {
+  ArrowRight,
+  Headphones,
+  PackageCheck,
+  Truck,
+  WalletCards,
+} from "lucide-react";
 import { useRef } from "react";
 
 import { gsap, registerGsap, useGSAP } from "@/lib/motion/gsap";
@@ -127,12 +133,22 @@ export function HomeEditorialSections() {
       registerGsap();
 
       const root = rootRef.current;
-      if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (
+        !root ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      )
+        return;
 
-      const sections = gsap.utils.toArray<HTMLElement>("[data-editorial-section]", root);
+      const sections = gsap.utils.toArray<HTMLElement>(
+        "[data-editorial-section]",
+        root,
+      );
 
       sections.forEach((section) => {
-        const revealItems = gsap.utils.toArray<HTMLElement>("[data-reveal]", section);
+        const revealItems = gsap.utils.toArray<HTMLElement>(
+          "[data-reveal]",
+          section,
+        );
         const media = gsap.utils.toArray<HTMLElement>(
           `.${styles.coverImage}, .${styles.closingImage}`,
           section,
@@ -176,9 +192,15 @@ export function HomeEditorialSections() {
         aria-labelledby="spaces-title"
       >
         <header className={styles.centerHeader}>
-          <p className={styles.kicker} data-reveal>House of Lume</p>
-          <h2 id="spaces-title" data-reveal>Discover Spaces</h2>
-          <p data-reveal>Curated lighting, decor, and greenery to bring every room to life.</p>
+          <p className={styles.kicker} data-reveal>
+            House of Lume
+          </p>
+          <h2 id="spaces-title" data-reveal>
+            Discover Spaces
+          </h2>
+          <p data-reveal>
+            Curated lighting, decor, and greenery to bring every room to life.
+          </p>
         </header>
 
         <div className={styles.spacesFrame}>
@@ -190,17 +212,32 @@ export function HomeEditorialSections() {
               className={styles.coverImage}
               sizes="(max-width: 900px) 100vw, 68vw"
             />
-            <span className={`${styles.hotspot} ${styles.hotspotOne}`} aria-hidden="true">+</span>
-            <span className={`${styles.hotspot} ${styles.hotspotTwo}`} aria-hidden="true">+</span>
-            <span className={`${styles.hotspot} ${styles.hotspotThree}`} aria-hidden="true">+</span>
+            <span
+              className={`${styles.hotspot} ${styles.hotspotOne}`}
+              aria-hidden="true"
+            >
+              +
+            </span>
+            <span
+              className={`${styles.hotspot} ${styles.hotspotTwo}`}
+              aria-hidden="true"
+            >
+              +
+            </span>
+            <span
+              className={`${styles.hotspot} ${styles.hotspotThree}`}
+              aria-hidden="true"
+            >
+              +
+            </span>
           </div>
 
           <aside className={styles.roomPanel} data-reveal>
             <p className={styles.panelKicker}>The living room</p>
             <h3>Where Comfort Meets Character</h3>
             <p className={styles.panelCopy}>
-              Layered textures, natural materials, and considered lighting create a living space
-              that feels effortless and distinctly yours.
+              Layered textures, natural materials, and considered lighting
+              create a living space that feels effortless and distinctly yours.
             </p>
             <a className={styles.primaryLink} href="#products">
               Shop the room
@@ -243,11 +280,15 @@ export function HomeEditorialSections() {
         aria-labelledby="materials-title"
       >
         <div className={styles.materialIntro}>
-          <p className={styles.kicker} data-reveal>House of Lume</p>
-          <h2 id="materials-title" data-reveal>Material Library</h2>
+          <p className={styles.kicker} data-reveal>
+            House of Lume
+          </p>
+          <h2 id="materials-title" data-reveal>
+            Material Library
+          </h2>
           <p data-reveal>
-            Natural materials, considered details, and enduring beauty — the foundations of a more
-            thoughtful home.
+            Natural materials, considered details, and enduring beauty — the
+            foundations of a more thoughtful home.
           </p>
           <a href="#products" className={styles.textLink} data-reveal>
             Explore materials
@@ -280,13 +321,21 @@ export function HomeEditorialSections() {
         </div>
       </section>
 
-      <section className={styles.notesSection} data-editorial-section aria-labelledby="notes-title">
+      <section
+        className={styles.notesSection}
+        data-editorial-section
+        aria-labelledby="notes-title"
+      >
         <header className={styles.centerHeader}>
-          <p className={styles.kicker} data-reveal>House of Lume</p>
-          <h2 id="notes-title" data-reveal>House Notes</h2>
+          <p className={styles.kicker} data-reveal>
+            House of Lume
+          </p>
+          <h2 id="notes-title" data-reveal>
+            House Notes
+          </h2>
           <p data-reveal>
-            Stories on light, living, and materials — a journal for a more beautiful home, inside
-            and out.
+            Stories on light, living, and materials — a journal for a more
+            beautiful home, inside and out.
           </p>
         </header>
 
@@ -317,13 +366,21 @@ export function HomeEditorialSections() {
         </div>
       </section>
 
-      <section className={styles.whySection} data-editorial-section aria-labelledby="why-title">
+      <section
+        className={styles.whySection}
+        data-editorial-section
+        aria-labelledby="why-title"
+      >
         <header className={styles.centerHeader}>
-          <p className={styles.kicker} data-reveal>House of Lume</p>
-          <h2 id="why-title" data-reveal>Why House of Lume</h2>
+          <p className={styles.kicker} data-reveal>
+            House of Lume
+          </p>
+          <h2 id="why-title" data-reveal>
+            Why House of Lume
+          </h2>
           <p data-reveal>
-            A more beautiful home, made effortless. From our space to yours, every detail is
-            designed with care.
+            A more beautiful home, made effortless. From our space to yours,
+            every detail is designed with care.
           </p>
         </header>
 
@@ -355,15 +412,30 @@ export function HomeEditorialSections() {
         data-editorial-section
         aria-labelledby="closing-title"
       >
-        <Image src={images.living} alt="" fill className={styles.closingImage} sizes="100vw" />
+        <Image
+          src={images.living}
+          alt=""
+          fill
+          className={styles.closingImage}
+          sizes="100vw"
+        />
         <div className={styles.closingWash} aria-hidden="true" />
         <div className={styles.closingContent}>
-          <p className={styles.kicker} data-reveal>House of Lume</p>
-          <h2 id="closing-title" data-reveal>A More Beautiful Tomorrow</h2>
-          <p data-reveal>
-            Inspiration, new arrivals, and thoughtful living — created for a calmer, brighter home.
+          <p className={styles.kicker} data-reveal>
+            House of Lume
           </p>
-          <div className={styles.newsletterShell} data-reveal aria-label="Newsletter preview">
+          <h2 id="closing-title" data-reveal>
+            A More Beautiful Tomorrow
+          </h2>
+          <p data-reveal>
+            Inspiration, new arrivals, and thoughtful living — created for a
+            calmer, brighter home.
+          </p>
+          <div
+            className={styles.newsletterShell}
+            data-reveal
+            aria-label="Newsletter preview"
+          >
             <input
               type="email"
               placeholder="Newsletter opens soon"
