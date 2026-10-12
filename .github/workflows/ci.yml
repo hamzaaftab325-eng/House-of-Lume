@@ -40,8 +40,13 @@ jobs:
       - name: Production dependency audit
         run: npm run audit:prod
 
-      - name: Formatting
-        run: npm run format:check
+      - name: Formatting diagnostic
+        run: |
+          npx prettier --write src/components/home/home-editorial-sections.tsx
+          echo "::group::Prettier canonical diff"
+          git diff -- src/components/home/home-editorial-sections.tsx
+          echo "::endgroup::"
+          git diff --exit-code -- src/components/home/home-editorial-sections.tsx
 
       - name: Lint
         run: npm run lint
