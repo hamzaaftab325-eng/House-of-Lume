@@ -33,6 +33,8 @@
   --z-header: 40;
   --z-overlay: 70;
   --z-toast: 90;
+  --home-section-heading-size: clamp(3rem, 4.8vw, 5.2rem);
+  --home-section-heading-leading: 1.06;
 }
 
 @theme inline {
@@ -127,6 +129,38 @@ video {
 
 .reading-width {
   max-width: var(--reading-max);
+}
+
+/* Homepage display typography shares one rhythm so SplitType reveals never crop letterforms. */
+main section[aria-roledescription="carousel"] h1 {
+  line-height: 1.01;
+  padding-block: 0.03em 0.08em;
+}
+
+main #categories > header h2,
+main #products h2,
+main [data-editorial-section] h2 {
+  margin-block: 0;
+  padding-block: 0.03em 0.08em;
+  font-family: var(--font-cormorant), serif;
+  font-size: var(--home-section-heading-size);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: var(--home-section-heading-leading);
+  text-wrap: balance;
+}
+
+main #categories h3,
+main #products h3,
+main [data-editorial-section] h3 {
+  line-height: 1.08;
+}
+
+main section[aria-roledescription="carousel"] .line,
+main #categories .line,
+main #products .line,
+main [data-editorial-section] .line {
+  overflow: visible !important;
 }
 
 .sr-only {
