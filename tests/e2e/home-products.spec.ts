@@ -1,0 +1,46 @@
+import { expect, test } from "@playwright/test";
+
+async function expectNoPageOverflow(page: import("@playwright/test").Page) {
+  const hasNoOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+  );
+  expect(hasNoOverflow).toBe(true);
+}
+
+test("home product shelf renders an honest editorial preview", async ({ page }) => {
+  await page.goto("/#products");
+
+  await expect(page.getByRole("heading", { name: "Objects for a Brighter Home" })).toBeVisible();
+  await expect(page.getByText("Product catalogue not yet published")).toBeVisible();
+
+  for (const product of [
+    "Aurelia Table Lamp",
+    "Soleto Planter",
+    "Forma Object",
+    "Lume Candle Bowl",
+  ]) {
+    await expect(page.getByRole("heading", { name: product })).toBeVisible();
+  }
+
+  await expect(page.getByText("Preview only")).toHaveCount(4);
+  await expectNoPageOverflow(page);
+});
+
+test("home product shelf stays usable across responsive widths", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+
+  for (const width of [320, 375, 768, 1024, 1440] as const) {
+    await page.setViewportSize({ width, height: width < 768 ? 812 : 900 });
+    await page.goto("/#products");
+
+    await expect(page.getByRole("heading", { name: "Objects for a Brighter Home" })).toBeVisible();
+    await expectNoPageOverflow(page);
+
+    const firstProduct = page.getByRole("heading", { name: "Aurelia Table Lamp" });
+    const box = await firstProduct.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) continue;
+    expect(box.x).toBeGreaterThanOrEqual(-1);
+    expect(box.x + box.width).toBeLessThanOrEqual(width + 1);
+  }
+});
