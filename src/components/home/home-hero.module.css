@@ -73,22 +73,58 @@
 .overlay {
   z-index: 3;
   background:
-    linear-gradient(180deg, rgba(12, 8, 5, 0.26) 0%, rgba(12, 8, 5, 0.04) 42%, rgba(12, 8, 5, 0.3) 100%),
-    linear-gradient(90deg, rgba(12, 8, 5, 0.86) 0%, rgba(15, 10, 6, 0.7) 28%, rgba(15, 10, 6, 0.34) 49%, rgba(15, 10, 6, 0.08) 72%, transparent 100%);
+    linear-gradient(
+      180deg,
+      rgba(12, 8, 5, 0.26) 0%,
+      rgba(12, 8, 5, 0.04) 42%,
+      rgba(12, 8, 5, 0.3) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(12, 8, 5, 0.86) 0%,
+      rgba(15, 10, 6, 0.7) 28%,
+      rgba(15, 10, 6, 0.34) 49%,
+      rgba(15, 10, 6, 0.08) 72%,
+      transparent 100%
+    );
   pointer-events: none;
 }
 
 .overlay[data-slide="1"] {
   background:
-    linear-gradient(180deg, rgba(12, 8, 5, 0.24) 0%, rgba(12, 8, 5, 0.03) 48%, rgba(12, 8, 5, 0.3) 100%),
-    linear-gradient(90deg, rgba(12, 8, 5, 0.88) 0%, rgba(15, 10, 6, 0.72) 29%, rgba(15, 10, 6, 0.3) 52%, rgba(15, 10, 6, 0.04) 76%, transparent 100%);
+    linear-gradient(
+      180deg,
+      rgba(12, 8, 5, 0.24) 0%,
+      rgba(12, 8, 5, 0.03) 48%,
+      rgba(12, 8, 5, 0.3) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(12, 8, 5, 0.88) 0%,
+      rgba(15, 10, 6, 0.72) 29%,
+      rgba(15, 10, 6, 0.3) 52%,
+      rgba(15, 10, 6, 0.04) 76%,
+      transparent 100%
+    );
 }
 
 .overlay[data-slide="2"],
 .overlay[data-slide="4"] {
   background:
-    linear-gradient(180deg, rgba(12, 8, 5, 0.28) 0%, rgba(12, 8, 5, 0.04) 45%, rgba(12, 8, 5, 0.34) 100%),
-    linear-gradient(90deg, rgba(12, 8, 5, 0.9) 0%, rgba(15, 10, 6, 0.72) 30%, rgba(15, 10, 6, 0.32) 52%, rgba(15, 10, 6, 0.04) 76%, transparent 100%);
+    linear-gradient(
+      180deg,
+      rgba(12, 8, 5, 0.28) 0%,
+      rgba(12, 8, 5, 0.04) 45%,
+      rgba(12, 8, 5, 0.34) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(12, 8, 5, 0.9) 0%,
+      rgba(15, 10, 6, 0.72) 30%,
+      rgba(15, 10, 6, 0.32) 52%,
+      rgba(15, 10, 6, 0.04) 76%,
+      transparent 100%
+    );
 }
 
 .vignette {
@@ -420,7 +456,13 @@
   .overlay[data-slide="2"],
   .overlay[data-slide="4"] {
     background:
-      linear-gradient(180deg, rgba(12, 8, 5, 0.28) 0%, rgba(12, 8, 5, 0.12) 28%, rgba(12, 8, 5, 0.56) 61%, rgba(12, 8, 5, 0.92) 100%),
+      linear-gradient(
+        180deg,
+        rgba(12, 8, 5, 0.28) 0%,
+        rgba(12, 8, 5, 0.12) 28%,
+        rgba(12, 8, 5, 0.56) 61%,
+        rgba(12, 8, 5, 0.92) 100%
+      ),
       linear-gradient(90deg, rgba(12, 8, 5, 0.44), rgba(12, 8, 5, 0.04));
   }
 

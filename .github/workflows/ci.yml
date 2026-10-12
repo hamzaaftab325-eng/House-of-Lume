@@ -40,11 +40,8 @@ jobs:
       - name: Production dependency audit
         run: npm run audit:prod
 
-      - name: Formatting diagnostics
-        run: |
-          npx prettier --write src/components/home/home-hero.module.css src/components/home/home-hero.tsx tests/e2e/foundation.spec.ts
-          git diff -- src/components/home/home-hero.module.css src/components/home/home-hero.tsx tests/e2e/foundation.spec.ts
-          exit 1
+      - name: Formatting
+        run: npm run format:check
 
       - name: Lint
         run: npm run lint
