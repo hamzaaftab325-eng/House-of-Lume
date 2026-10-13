@@ -77,6 +77,20 @@ export type ProductDetailData = {
   deliveryPolicy: ProductDeliveryPolicy;
 };
 
+export type RelatedProductSummary = {
+  id: string;
+  name: string;
+  slug: string;
+  productType: string;
+  shortDescription: string | null;
+  material: string | null;
+  minPricePkr: number | null;
+  maxPricePkr: number | null;
+  inStock: boolean;
+  mediaUrl: string | null;
+  mediaAlt: string | null;
+};
+
 export const MAX_BAG_QUANTITY = 99;
 
 const pkr = new Intl.NumberFormat("en-PK", {
