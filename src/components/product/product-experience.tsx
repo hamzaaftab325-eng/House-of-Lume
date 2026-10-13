@@ -11,7 +11,6 @@ import {
   mediaForVariant,
   normalizeQuantity,
   variantForSelectionChange,
-  variantQuantityLimit,
   type ProductDetailData,
 } from "@/lib/product-detail";
 
@@ -51,42 +50,57 @@ export function ProductExperience({ product, requestedSku }: ProductExperiencePr
     );
   };
 
-  const onAddToBag = () => {
+  const onAddToBag = async () => {
     if (!variant?.inStock || quantity < 1) return;
-    commerce.addToBag(
-      {
+    try {
+      await commerce.addToBag(
+        {
+          variantId: variant.id,
+          productSlug: product.slug,
+          productName: product.name,
+          variantTitle: variant.title,
+          displayPricePkr: variant.pricePkr,
+          mediaUrl: primaryMedia,
+        },
+        quantity,
+      );
+      toast.pushToast({
+        title: "Added to your bag",
+        message: `${product.name} · ${variant.title} · Qty ${quantity}`,
+        tone: "success",
+      });
+    } catch (error) {
+      toast.pushToast({
+        title: "Could not add to bag",
+        message: error instanceof Error ? error.message : "Please retry.",
+        tone: "error",
+      });
+    }
+  };
+
+  const onToggleWishlist = async () => {
+    if (!variant) return;
+    try {
+      const saved = await commerce.toggleWishlist({
         variantId: variant.id,
         productSlug: product.slug,
         productName: product.name,
         variantTitle: variant.title,
         displayPricePkr: variant.pricePkr,
         mediaUrl: primaryMedia,
-      },
-      quantity,
-      variantQuantityLimit(variant),
-    );
-    toast.pushToast({
-      title: "Added to your bag",
-      message: `${product.name} · ${variant.title} · Qty ${quantity}`,
-      tone: "success",
-    });
-  };
-
-  const onToggleWishlist = () => {
-    if (!variant) return;
-    const saved = commerce.toggleWishlist({
-      variantId: variant.id,
-      productSlug: product.slug,
-      productName: product.name,
-      variantTitle: variant.title,
-      displayPricePkr: variant.pricePkr,
-      mediaUrl: primaryMedia,
-    });
-    toast.pushToast({
-      title: saved ? "Saved for later" : "Removed from saved objects",
-      message: `${product.name} · ${variant.title}`,
-      tone: "info",
-    });
+      });
+      toast.pushToast({
+        title: saved ? "Saved for later" : "Removed from saved objects",
+        message: `${product.name} · ${variant.title}`,
+        tone: "info",
+      });
+    } catch (error) {
+      toast.pushToast({
+        title: "Could not update saved objects",
+        message: error instanceof Error ? error.message : "Please retry.",
+        tone: "error",
+      });
+    }
   };
 
   return (
@@ -101,6 +115,7 @@ export function ProductExperience({ product, requestedSku }: ProductExperiencePr
         variant={variant}
         quantity={quantity}
         wishlisted={wishlisted}
+        pending={commerce.pending || commerce.loading}
         onOptionChange={onOptionChange}
         onQuantityChange={(next) => {
           if (!variant) return;

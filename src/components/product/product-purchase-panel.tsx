@@ -20,6 +20,7 @@ type ProductPurchasePanelProps = {
   variant: ProductVariant | null;
   quantity: number;
   wishlisted: boolean;
+  pending: boolean;
   onOptionChange: (optionSlug: string, valueId: string) => void;
   onQuantityChange: (quantity: number) => void;
   onAddToBag: () => void;
@@ -40,6 +41,7 @@ export function ProductPurchasePanel({
   variant,
   quantity,
   wishlisted,
+  pending,
   onOptionChange,
   onQuantityChange,
   onAddToBag,
@@ -173,7 +175,7 @@ export function ProductPurchasePanel({
       <div className={styles.purchaseActions}>
         <LumeButton
           className={styles.addButton}
-          disabled={!variant?.inStock || quantity < 1}
+          disabled={pending || !variant?.inStock || quantity < 1}
           onClick={onAddToBag}
           showArrow
         >
@@ -182,7 +184,7 @@ export function ProductPurchasePanel({
         <button
           aria-pressed={wishlisted}
           className={styles.wishlistButton}
-          disabled={!variant}
+          disabled={pending || !variant}
           onClick={onToggleWishlist}
           type="button"
         >

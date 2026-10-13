@@ -74,6 +74,7 @@ export function HomeHero() {
 
   const [reducedMotion, setReducedMotion] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
   const [paused, setPaused] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -92,6 +93,11 @@ export function HomeHero() {
   useGSAP(
     () => {
       registerGsap();
+      // A late motion-preference update must preserve the manually selected slide.
+      transitionRef.current?.kill();
+      transitionLockedRef.current = false;
+      setIsTransitioning(false);
+      const selectedIndex = activeIndexRef.current;
 
       const layers = layerRefs.current.filter((node): node is HTMLDivElement => node !== null);
       const images = imageRefs.current.filter((node): node is HTMLImageElement => node !== null);
@@ -101,8 +107,8 @@ export function HomeHero() {
       gsap.set(images, { scale: reducedMotion ? 1 : 1.035, xPercent: 0 });
       gsap.set(copies, { autoAlpha: 0, y: 0 });
 
-      if (layers[0]) gsap.set(layers[0], { autoAlpha: 1, zIndex: 1 });
-      if (copies[0]) gsap.set(copies[0], { autoAlpha: 1 });
+      if (layers[selectedIndex]) gsap.set(layers[selectedIndex], { autoAlpha: 1, zIndex: 1 });
+      if (copies[selectedIndex]) gsap.set(copies[selectedIndex], { autoAlpha: 1 });
 
       if (reducedMotion || !visualTrackRef.current || !heroRef.current) return;
 
@@ -135,6 +141,7 @@ export function HomeHero() {
   const goTo = useCallback(
     (nextIndex: number, directionOverride?: 1 | -1) => {
       if (nextIndex === activeIndex || transitionLockedRef.current) return;
+      activeIndexRef.current = nextIndex;
 
       const currentLayer = layerRefs.current[activeIndex];
       const nextLayer = layerRefs.current[nextIndex];

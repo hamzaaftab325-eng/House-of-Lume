@@ -591,35 +591,57 @@ See `PHASE_5_AUDIT.md` for the complete evidence-based audit.
 
 ## Cart
 
-- [ ] Anonymous cart
-- [ ] Authenticated cart
-- [ ] Cart merge after sign-in
-- [ ] Cart persistence
-- [ ] Cart drawer
-- [ ] Full cart page
-- [ ] Quantity update
-- [ ] Remove/undo
-- [ ] Discount code
-- [ ] Delivery charge estimate
-- [ ] Server-side price recalculation
-- [ ] Server-side inventory revalidation
+- [x] Anonymous cart
+- [x] Authenticated cart
+- [x] Cart merge after sign-in
+- [x] Cart persistence
+- [x] Cart drawer
+- [x] Full cart page
+- [x] Quantity update
+- [x] Remove/undo
+- [x] Discount code
+- [x] Delivery charge estimate
+- [x] Server-side price recalculation
+- [x] Server-side inventory revalidation
 
 ## Wishlist
 
-- [ ] Guest behavior decision
-- [ ] Signed-in persistence
-- [ ] Add/remove
-- [ ] Wishlist page
-- [ ] Move to cart
+- [x] Guest behavior decision
+- [x] Signed-in persistence
+- [x] Add/remove
+- [x] Wishlist page
+- [x] Move to cart
 
 ## Inventory
 
-- [ ] On-hand quantity
-- [ ] Reserved quantity
-- [ ] Available quantity
-- [ ] Reservation policy defined
-- [ ] Release policy defined
-- [ ] Inventory ledger
+- [x] On-hand quantity
+- [x] Reserved quantity
+- [x] Available quantity
+- [x] Reservation policy defined
+- [x] Release policy defined
+- [x] Inventory ledger
+
+---
+
+## Verification and phase boundary
+
+- [x] Server-owned guest cookie; ownership derived from authenticated identity
+- [x] Canonical price/stock/discount quotes; no browser totals trusted
+- [x] Transactional inventory reservation/release and expiry job
+- [x] Idempotent legacy device-bag import and atomic account wishlist move
+- [x] Loading/empty/error/pending states and recoverable network failures
+- [x] Keyboard, native drawer focus, reduced motion and 320–1920px reflow
+- [x] 16 unit tests and 41 Playwright Chromium tests, including prior phases
+- [x] 15 transactional database checks, including ownership and RLS isolation
+- [x] Formatting, ESLint, strict TypeScript, dependency audit and production build
+
+Guest wishlist IDs persist on this device; signed-in wishlist data persists in Supabase and merges on authentication. Guest carts use a 256-bit HttpOnly token whose SHA-256 digest isolates their database rows. Cart mutations revalidate canonical catalogue values. Inventory holds last the configured reservation period (30 minutes by default), refresh on cart mutations, and are released on removal/reduction/expiry. The scheduled database cleanup runs every five minutes. Cart retention is 30 days by default. Limits: 30 distinct cart variants, 99 units per variant, 50 wishlist entries.
+
+The authentication interface remains Phase 7. Address-specific shipping, final checkout, COD order creation and checkout idempotency remain Phase 8; cart delivery amounts are estimates. The cart honestly states that order placement is not open yet. No payment gateway or placeholder order flow was added.
+
+See `PHASE_6_AUDIT.md` for evidence and operational boundaries.
+
+**Phase 6 status: 100% complete for Cart, Wishlist & Inventory Reservation implementation and verification.**
 
 ---
 

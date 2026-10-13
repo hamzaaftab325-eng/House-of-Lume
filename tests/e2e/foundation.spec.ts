@@ -22,7 +22,7 @@ test("storefront hero and shell render", async ({ page }) => {
 test("short mobile hero keeps copy, actions and controls inside the viewport", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 320, height: 608 });
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
 
   await page
     .getByRole("button", { name: "Show slide 5: A warmer atmosphere, after sunset." })

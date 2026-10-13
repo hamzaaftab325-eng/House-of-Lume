@@ -300,3 +300,12 @@ Phase 0 intentionally does **not** implement:
 Those belong to later phases defined in `PROJECT_PLAN.md`.
 
 Phase 0 exists to make those implementations consistent, testable, secure, and maintainable from the beginning.
+
+
+## Phase 6 commerce boundary
+
+`StoreCommerceProvider` owns the shared browser view of the bag and saved objects. The header drawers and `/cart` and `/wishlist` pages reuse the same line controls. `/api/commerce` validates a bounded action payload, checks mutation Origin against the request host/protocol, sends private no-store responses, and issues the HttpOnly/SameSite guest identity. `commerce.service.ts` verifies the Auth session through `getUser()` and invokes the ownership-aware Supabase RPCs; no service-role credential is used.
+
+Browser storage contains only guest wishlist IDs and a replayable legacy import receipt, never authoritative cart prices. Auth changes hide stale account data, trigger cart claiming and wishlist merging, and update all subscribed surfaces. Cross-tab events and visible-tab refresh keep quantities and reservation state current. Cart and wishlist pages use native scrolling; drawer interaction does not depend on editorial motion.
+
+`commerce.fixture.ts` is reachable only when the explicit test flag, placeholder Supabase URL and localhost site URL all match. It supplies canonical test products for browser regression tests. Production always calls Supabase. Database transaction tests separately verify the real RPC contract, stock/price changes, guest/account ownership, failed-write rollback, imports and expiry.

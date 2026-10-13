@@ -122,8 +122,18 @@ export function StoreHeader() {
               <ArrowUpRight size={16} aria-hidden="true" />
             </Link>
           ))}
-          <Link className={styles.menuLink} href="/account" onClick={() => setMenuOpen(false)}>
+          <Link className={styles.menuLink} href="/cart" onClick={() => setMenuOpen(false)}>
             <span className={styles.menuIndex}>07</span>
+            <span>Shopping bag</span>
+            <ArrowUpRight size={16} aria-hidden="true" />
+          </Link>
+          <Link className={styles.menuLink} href="/wishlist" onClick={() => setMenuOpen(false)}>
+            <span className={styles.menuIndex}>08</span>
+            <span>Wishlist</span>
+            <ArrowUpRight size={16} aria-hidden="true" />
+          </Link>
+          <Link className={styles.menuLink} href="/account" onClick={() => setMenuOpen(false)}>
+            <span className={styles.menuIndex}>09</span>
             <span>Account</span>
             <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
@@ -187,6 +197,8 @@ export function StoreFooter() {
               <Link href="/">Home</Link>
               <Link href="/#why-title">Why DWELLUNE</Link>
               <Link href="/account">Account</Link>
+              <Link href="/cart">Shopping bag</Link>
+              <Link href="/wishlist">Wishlist</Link>
             </div>
           </nav>
         </div>

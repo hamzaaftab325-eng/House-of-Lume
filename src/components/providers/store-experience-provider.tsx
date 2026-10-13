@@ -16,7 +16,7 @@ export function StoreExperienceProvider({ children }: Readonly<{ children: React
   useEffect(() => {
     document.documentElement.dataset.motion = reducedMotion ? "reduced" : "full";
 
-    if (reducedMotion) {
+    if (reducedMotion || pathname === "/cart" || pathname === "/wishlist") {
       lenisRef.current?.destroy();
       lenisRef.current = null;
       return;
@@ -45,7 +45,7 @@ export function StoreExperienceProvider({ children }: Readonly<{ children: React
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, pathname]);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {

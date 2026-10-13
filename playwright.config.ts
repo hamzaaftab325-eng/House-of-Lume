@@ -10,6 +10,7 @@ export default defineConfig({
   use: {
     baseURL: "http://127.0.0.1:3000",
     trace: "on-first-retry",
+    launchOptions: { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH },
   },
   projects: [
     {
@@ -19,6 +20,12 @@ export default defineConfig({
   ],
   webServer: {
     command: "npm run start -- --hostname 127.0.0.1",
+    env: {
+      NEXT_PUBLIC_SITE_URL: "http://127.0.0.1:3000",
+      NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_ci_placeholder_key",
+      COMMERCE_TEST_FIXTURES: "1",
+    },
     url: "http://127.0.0.1:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

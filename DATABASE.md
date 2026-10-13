@@ -227,3 +227,16 @@ npm run db:types
 ```
 
 The command uses the connected Supabase project ID and requires an authenticated Supabase CLI session. It writes the current `public` schema type definition to `src/lib/supabase/database.types.ts`. No database secret or service-role key is stored in the repository.
+
+
+## Phase 6 — Cart, wishlist and inventory reservations
+
+The Phase 6 migrations implement `inventory_reservations`, cart discount association, server-authoritative cart/wishlist RPCs, private implementation functions, and expiry scheduling. The final integrity migration adds `commerce_import_receipts` and public invoker wrappers for guest wishlist previews, replay-safe legacy imports and atomic wishlist-to-cart moves.
+
+- Guest ownership uses an unguessable server-issued token digest. Client bodies never choose a cart/customer owner.
+- Authenticated RPCs derive customer ownership from `auth.uid()` and reject unavailable customers.
+- On-hand, reserved and available stock remain distinct. Every hold/release has a ledger entry.
+- A transaction advisory lock orders commerce writes and the expiry job consistently. Inventory balances additionally use row locks and nonnegative/oversell constraints. This deliberately serializes the short reservation transactions; catalogue reads remain independent. Review throughput before a high-volume launch.
+- `dwellune-release-expired-cart-reservations` releases expired holds every five minutes; snapshot/mutation calls also clean expiry. Retired items are removable; expired cart rows do not revive stale cart lines.
+- Imports record a receipt only in the same transaction as the canonical merge. Replayed imports do not duplicate quantities. Receipts have RLS enabled and no client table privileges or policies, intentionally denying direct access. The advisor's informational `rls_enabled_no_policy` finding for this internal table reflects that default-deny design, not public access. [Advisor reference](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy).
+- `tests/database/phase6.sql` must be run within `BEGIN` / `ROLLBACK`; its products, users, discounts, inventory and carts are transactional fixtures, never production seed data.
