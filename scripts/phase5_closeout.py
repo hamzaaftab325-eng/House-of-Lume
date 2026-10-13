@@ -1,0 +1,66 @@
+from pathlib import Path
+
+path = Path("PROJECT_PLAN.md")
+text = path.read_text()
+start = text.index("# 10. Phase 5 — Product Detail Experience")
+end = text.index("# 11. Phase 6 — Cart, Wishlist & Inventory Reservation")
+
+phase5 = """# 10. Phase 5 — Product Detail Experience
+
+**Status:** ✅ Complete — the production Product Detail Experience was implemented and verified on 2026-10-13. The connected production catalogue currently has no published products, so no fake production PDP content was introduced; deterministic CI-only fixtures and rolled-back live Supabase probes verify behavior and authorization.
+
+- [x] Product gallery
+- [x] Optimized media
+- [x] Image zoom where useful
+- [x] Variant selection
+- [x] Variant-specific price
+- [x] Variant-specific inventory
+- [x] Variant-specific media where required
+- [x] Quantity control
+- [x] Add to Bag
+- [x] Wishlist
+- [x] Stock status
+- [x] COD availability message
+- [x] Delivery estimate framework
+- [x] Product story
+- [x] Dimensions
+- [x] Materials
+- [x] Care
+- [x] Shipping/returns summary
+- [x] Reviews summary
+- [x] Related products
+- [x] Recently viewed
+
+## Phase 5 production verification
+
+- [x] `/products/[slug]` is server-rendered and restricted to active published products
+- [x] Dynamic metadata, canonical URLs, Open Graph data, and Product JSON-LD are implemented
+- [x] Variant selection owns price, stock, media, quantity bounds, and URL state
+- [x] Public variant stock uses an RLS-protected projection; raw inventory balances remain private
+- [x] Live anonymous RLS verifies published-variant visibility and draft-variant denial
+- [x] Live inventory-reservation probe verifies available quantity and in-stock state update through the projection trigger
+- [x] Public COD configuration and shipping estimate rule are consumed from the existing production data model
+- [x] Bag/wishlist handoff is device-local and explicitly non-authoritative; full cart/wishlist/reservation ownership remains Phase 6
+- [x] Catalogue and predictive search product destinations connect to the PDP
+- [x] Product-detail unit tests pass
+- [x] Product-detail Playwright E2E coverage passes
+- [x] Phase 1–4 regression coverage remains green
+- [x] Production dependency audit passes with zero production vulnerabilities
+- [x] Formatting passes
+- [x] ESLint passes
+- [x] Strict TypeScript passes
+- [x] Unit tests pass
+- [x] Production build passes
+- [x] Full Playwright Chromium suite passes
+- [x] Exact-head Vercel preview build reaches READY
+- [x] Supabase security advisor reports zero security lints
+
+See `PHASE_5_AUDIT.md` for the complete evidence-based audit.
+
+**Phase 5 status: 100% complete for Product Detail Experience implementation and verification.**
+
+---
+
+"""
+
+path.write_text(text[:start] + phase5 + text[end:])
