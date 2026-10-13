@@ -276,10 +276,12 @@ export function HomeHero() {
   }, [activeIndex, paused, reducedMotion, showNext]);
 
   useEffect(() => {
+    const titleSplits = titleSplitRefs.current;
+
     return () => {
       transitionRef.current?.kill();
       autoplayRef.current?.kill();
-      titleSplitRefs.current.forEach((split) => split?.revert());
+      titleSplits.forEach((split) => split?.revert());
     };
   }, []);
 
