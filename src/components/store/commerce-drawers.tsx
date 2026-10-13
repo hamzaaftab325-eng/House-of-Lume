@@ -58,7 +58,7 @@ export function CommerceDrawers({
               <article className={styles.line} key={line.variantId}>
                 <Link
                   className={styles.productLink}
-                  href={`/products/${line.productSlug}?variant=${encodeURIComponent(line.variantTitle)}` as Route}
+                  href={`/products/${line.productSlug}` as Route}
                   onClick={() => onWishlistOpenChange(false)}
                 >
                   <ProductThumb src={line.mediaUrl} alt="" />
