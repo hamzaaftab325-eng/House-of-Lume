@@ -250,12 +250,12 @@ main #categories [role="listitem"]:nth-child(5) img {
     left: 0.75rem;
   }
 
-  main section[aria-labelledby="materials-title"] > div:last-child > article > div:last-child strong {
+  main [aria-labelledby="materials-title"] > div:last-child > article > div:last-child strong {
     font-size: 0.6rem;
     letter-spacing: 0.16em;
   }
 
-  main section[aria-labelledby="materials-title"] > div:last-child > article > div:last-child small {
+  main [aria-labelledby="materials-title"] > div:last-child > article > div:last-child small {
     font-size: 0.44rem;
     letter-spacing: 0.12em;
   }
@@ -351,12 +351,12 @@ main #categories [role="listitem"]:nth-child(5) img {
     left: 0.6rem;
   }
 
-  main section[aria-labelledby="materials-title"] > div:last-child > article > div:last-child strong {
+  main [aria-labelledby="materials-title"] > div:last-child > article > div:last-child strong {
     font-size: 0.56rem;
     letter-spacing: 0.13em;
   }
 
-  main section[aria-labelledby="materials-title"] > div:last-child > article > div:last-child small {
+  main [aria-labelledby="materials-title"] > div:last-child > article > div:last-child small {
     font-size: 0.41rem;
     letter-spacing: 0.1em;
   }
