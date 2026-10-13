@@ -55,7 +55,10 @@ test.describe("Phase 5 product detail experience", () => {
     await page.keyboard.press("Escape");
 
     await page.getByRole("button", { name: "Save" }).click();
-    await expect(page.getByRole("button", { name: "Saved" })).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByRole("button", { name: "Saved" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
     await page.getByRole("button", { name: "Wishlist" }).click();
     const wishlist = page.getByRole("dialog", { name: "Wishlist" });
     await expect(wishlist).toBeVisible();
@@ -83,7 +86,9 @@ test.describe("Phase 5 product detail experience", () => {
 
   test("unknown or unpublished-like slug resolves to not found", async ({ page }) => {
     await page.goto("/products/not-a-published-object");
-    await expect(page.getByRole("heading", { name: "This page is not in the room." })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "This page is not in the room." }),
+    ).toBeVisible();
   });
 
   test("product detail reflows without horizontal overflow", async ({ page }) => {
@@ -91,7 +96,9 @@ test.describe("Phase 5 product detail experience", () => {
     for (const width of [320, 390, 768, 1024, 1440] as const) {
       await page.setViewportSize({ width, height: width < 768 ? 812 : 900 });
       await page.goto("/products/test-aurelia-floor-lamp");
-      await expect(page.getByRole("heading", { level: 1, name: "Aurelia Floor Lamp" })).toBeVisible();
+      await expect(
+        page.getByRole("heading", { level: 1, name: "Aurelia Floor Lamp" }),
+      ).toBeVisible();
       await expectNoHorizontalOverflow(page);
     }
   });

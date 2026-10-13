@@ -45,15 +45,15 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
   const { product, relatedProducts } = result;
   const requestedSku = first(query.variant)?.trim().slice(0, 100);
-  const imageUrls = product.media.flatMap((item) => (item.mediaType === "image" && item.url ? [item.url] : []));
+  const imageUrls = product.media.flatMap((item) =>
+    item.mediaType === "image" && item.url ? [item.url] : [],
+  );
   const offers = product.variants.map((variant) => ({
     "@type": "Offer",
     sku: variant.sku,
     priceCurrency: "PKR",
     price: variant.pricePkr,
-    availability: variant.inStock
-      ? "https://schema.org/InStock"
-      : "https://schema.org/OutOfStock",
+    availability: variant.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
     url: `${env.NEXT_PUBLIC_SITE_URL}/products/${product.slug}?variant=${encodeURIComponent(variant.sku)}`,
   }));
   const structuredData = {

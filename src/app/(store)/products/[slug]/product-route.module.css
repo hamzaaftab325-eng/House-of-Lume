@@ -11,7 +11,12 @@
 
 .loadingGallery {
   aspect-ratio: 4 / 5;
-  background: linear-gradient(110deg, var(--color-chalk) 25%, var(--color-paper) 42%, var(--color-chalk) 58%);
+  background: linear-gradient(
+    110deg,
+    var(--color-chalk) 25%,
+    var(--color-paper) 42%,
+    var(--color-chalk) 58%
+  );
   background-size: 220% 100%;
   animation: product-skeleton 1.5s ease-in-out infinite;
 }

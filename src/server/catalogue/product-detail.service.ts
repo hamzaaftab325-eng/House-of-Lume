@@ -233,143 +233,145 @@ function normalizeRelated(rows: unknown[], currentProductId: string): RelatedPro
     }));
 }
 
-export const getProductDetail = cache(
-  async (slug: string): Promise<ProductDetailResult | null> => {
-    const cleanSlug = slug.trim().slice(0, 140);
-    if (!cleanSlug) return null;
-    if (isCiPlaceholder) return getProductDetailFixture(cleanSlug);
+export const getProductDetail = cache(async (slug: string): Promise<ProductDetailResult | null> => {
+  const cleanSlug = slug.trim().slice(0, 140);
+  if (!cleanSlug) return null;
+  if (isCiPlaceholder) return getProductDetailFixture(cleanSlug);
 
-    const supabase = await createClient();
-    const now = new Date().toISOString();
-    const productResult = await supabase
-      .from("products")
+  const supabase = await createClient();
+  const now = new Date().toISOString();
+  const productResult = await supabase
+    .from("products")
+    .select(
+      "id,product_type,name,slug,short_description,description,material_summary,care_instructions,seo_title,seo_description,specifications,published_at",
+    )
+    .eq("slug", cleanSlug)
+    .eq("status", "active")
+    .not("published_at", "is", null)
+    .lte("published_at", now)
+    .maybeSingle();
+
+  if (productResult.error) throw databaseError("product", productResult.error.message);
+  if (!productResult.data) return null;
+
+  const productRow = productRowSchema.parse(productResult.data);
+
+  const [
+    categoriesResult,
+    optionsResult,
+    variantsResult,
+    mediaResult,
+    stockResult,
+    reviewsResult,
+    settingsResult,
+    shippingResult,
+  ] = await Promise.all([
+    supabase
+      .from("product_categories")
+      .select("is_primary,categories(name,slug)")
+      .eq("product_id", productRow.id),
+    supabase
+      .from("product_options")
+      .select("id,name,slug,position,product_option_values(id,value,swatch_hex,position)")
+      .eq("product_id", productRow.id)
+      .order("position", { ascending: true }),
+    supabase
+      .from("product_variants")
       .select(
-        "id,product_type,name,slug,short_description,description,material_summary,care_instructions,seo_title,seo_description,specifications,published_at",
+        "id,sku,title,price_pkr,compare_at_price_pkr,weight_grams,dimensions_cm,attributes,track_inventory,variant_option_values(option_value_id)",
       )
-      .eq("slug", cleanSlug)
+      .eq("product_id", productRow.id)
       .eq("status", "active")
-      .not("published_at", "is", null)
-      .lte("published_at", now)
-      .maybeSingle();
+      .order("created_at", { ascending: true }),
+    supabase
+      .from("product_media")
+      .select("id,variant_id,media_type,storage_path,alt_text,width,height,position,is_primary")
+      .eq("product_id", productRow.id)
+      .order("is_primary", { ascending: false })
+      .order("position", { ascending: true }),
+    supabase
+      .from("product_variant_stock_status")
+      .select("variant_id,available_quantity,in_stock,low_stock")
+      .eq("product_id", productRow.id),
+    supabase
+      .from("reviews")
+      .select("rating")
+      .eq("product_id", productRow.id)
+      .eq("status", "approved"),
+    supabase
+      .from("system_settings")
+      .select("key,value")
+      .eq("is_public", true)
+      .in("key", ["payments.cod_enabled"]),
+    supabase
+      .from("shipping_rules")
+      .select(
+        "flat_fee_pkr,free_shipping_threshold_pkr,cod_min_order_pkr,cod_max_order_pkr,estimated_days_min,estimated_days_max",
+      )
+      .eq("is_active", true)
+      .lte("starts_at", now)
+      .or(`ends_at.is.null,ends_at.gt.${now}`)
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .maybeSingle(),
+  ]);
 
-    if (productResult.error) throw databaseError("product", productResult.error.message);
-    if (!productResult.data) return null;
+  const failures = [
+    ["categories", categoriesResult.error],
+    ["options", optionsResult.error],
+    ["variants", variantsResult.error],
+    ["media", mediaResult.error],
+    ["variant stock", stockResult.error],
+    ["reviews", reviewsResult.error],
+    ["settings", settingsResult.error],
+    ["shipping", shippingResult.error],
+  ] as const;
+  const failure = failures.find(([, error]) => error);
+  if (failure?.[1]) throw databaseError(failure[0], failure[1].message);
 
-    const productRow = productRowSchema.parse(productResult.data);
+  const categories = z.array(categoryRowSchema).parse(categoriesResult.data ?? []);
+  const options = normalizeOptions(z.array(optionRowSchema).parse(optionsResult.data ?? []));
+  const variants = normalizeVariants(
+    z.array(variantRowSchema).parse(variantsResult.data ?? []),
+    z.array(stockRowSchema).parse(stockResult.data ?? []),
+  );
+  const media = normalizeMedia(z.array(mediaRowSchema).parse(mediaResult.data ?? []));
+  const reviews = z.array(reviewRowSchema).parse(reviewsResult.data ?? []);
+  const settings = z.array(settingRowSchema).parse(settingsResult.data ?? []);
+  const shippingRule = shippingResult.data
+    ? shippingRuleRowSchema.parse(shippingResult.data)
+    : null;
+  const primaryCategory = categories.find((category) => category.is_primary)?.categories ?? null;
 
-    const [
-      categoriesResult,
-      optionsResult,
-      variantsResult,
-      mediaResult,
-      stockResult,
-      reviewsResult,
-      settingsResult,
-      shippingResult,
-    ] = await Promise.all([
-      supabase
-        .from("product_categories")
-        .select("is_primary,categories(name,slug)")
-        .eq("product_id", productRow.id),
-      supabase
-        .from("product_options")
-        .select("id,name,slug,position,product_option_values(id,value,swatch_hex,position)")
-        .eq("product_id", productRow.id)
-        .order("position", { ascending: true }),
-      supabase
-        .from("product_variants")
-        .select(
-          "id,sku,title,price_pkr,compare_at_price_pkr,weight_grams,dimensions_cm,attributes,track_inventory,variant_option_values(option_value_id)",
-        )
-        .eq("product_id", productRow.id)
-        .eq("status", "active")
-        .order("created_at", { ascending: true }),
-      supabase
-        .from("product_media")
-        .select("id,variant_id,media_type,storage_path,alt_text,width,height,position,is_primary")
-        .eq("product_id", productRow.id)
-        .order("is_primary", { ascending: false })
-        .order("position", { ascending: true }),
-      supabase
-        .from("product_variant_stock_status")
-        .select("variant_id,available_quantity,in_stock,low_stock")
-        .eq("product_id", productRow.id),
-      supabase.from("reviews").select("rating").eq("product_id", productRow.id).eq("status", "approved"),
-      supabase
-        .from("system_settings")
-        .select("key,value")
-        .eq("is_public", true)
-        .in("key", ["payments.cod_enabled"]),
-      supabase
-        .from("shipping_rules")
-        .select(
-          "flat_fee_pkr,free_shipping_threshold_pkr,cod_min_order_pkr,cod_max_order_pkr,estimated_days_min,estimated_days_max",
-        )
-        .eq("is_active", true)
-        .lte("starts_at", now)
-        .or(`ends_at.is.null,ends_at.gt.${now}`)
-        .order("created_at", { ascending: true })
-        .limit(1)
-        .maybeSingle(),
-    ]);
+  const relatedResult = await supabase.rpc("catalogue_products", {
+    p_category: primaryCategory?.slug ?? null,
+    p_sort: "featured",
+    p_limit: 6,
+    p_offset: 0,
+  });
+  if (relatedResult.error) throw databaseError("related products", relatedResult.error.message);
 
-    const failures = [
-      ["categories", categoriesResult.error],
-      ["options", optionsResult.error],
-      ["variants", variantsResult.error],
-      ["media", mediaResult.error],
-      ["variant stock", stockResult.error],
-      ["reviews", reviewsResult.error],
-      ["settings", settingsResult.error],
-      ["shipping", shippingResult.error],
-    ] as const;
-    const failure = failures.find(([, error]) => error);
-    if (failure?.[1]) throw databaseError(failure[0], failure[1].message);
-
-    const categories = z.array(categoryRowSchema).parse(categoriesResult.data ?? []);
-    const options = normalizeOptions(z.array(optionRowSchema).parse(optionsResult.data ?? []));
-    const variants = normalizeVariants(
-      z.array(variantRowSchema).parse(variantsResult.data ?? []),
-      z.array(stockRowSchema).parse(stockResult.data ?? []),
-    );
-    const media = normalizeMedia(z.array(mediaRowSchema).parse(mediaResult.data ?? []));
-    const reviews = z.array(reviewRowSchema).parse(reviewsResult.data ?? []);
-    const settings = z.array(settingRowSchema).parse(settingsResult.data ?? []);
-    const shippingRule = shippingResult.data
-      ? shippingRuleRowSchema.parse(shippingResult.data)
-      : null;
-    const primaryCategory = categories.find((category) => category.is_primary)?.categories ?? null;
-
-    const relatedResult = await supabase.rpc("catalogue_products", {
-      p_category: primaryCategory?.slug ?? null,
-      p_sort: "featured",
-      p_limit: 6,
-      p_offset: 0,
-    });
-    if (relatedResult.error) throw databaseError("related products", relatedResult.error.message);
-
-    return {
-      product: {
-        id: productRow.id,
-        productType: productRow.product_type,
-        name: productRow.name,
-        slug: productRow.slug,
-        shortDescription: productRow.short_description,
-        description: productRow.description,
-        materialSummary: productRow.material_summary,
-        careInstructions: productRow.care_instructions,
-        seoTitle: productRow.seo_title,
-        seoDescription: productRow.seo_description,
-        specifications: productRow.specifications,
-        publishedAt: productRow.published_at,
-        primaryCategory,
-        media,
-        options,
-        variants,
-        reviewSummary: reviewSummary(reviews),
-        deliveryPolicy: deliveryPolicy(settings, shippingRule),
-      },
-      relatedProducts: normalizeRelated(relatedResult.data ?? [], productRow.id),
-    };
-  },
-);
+  return {
+    product: {
+      id: productRow.id,
+      productType: productRow.product_type,
+      name: productRow.name,
+      slug: productRow.slug,
+      shortDescription: productRow.short_description,
+      description: productRow.description,
+      materialSummary: productRow.material_summary,
+      careInstructions: productRow.care_instructions,
+      seoTitle: productRow.seo_title,
+      seoDescription: productRow.seo_description,
+      specifications: productRow.specifications,
+      publishedAt: productRow.published_at,
+      primaryCategory,
+      media,
+      options,
+      variants,
+      reviewSummary: reviewSummary(reviews),
+      deliveryPolicy: deliveryPolicy(settings, shippingRule),
+    },
+    relatedProducts: normalizeRelated(relatedResult.data ?? [], productRow.id),
+  };
+});

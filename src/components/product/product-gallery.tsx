@@ -134,12 +134,7 @@ export function ProductGallery({ media, productName }: ProductGalleryProps) {
       >
         {active.mediaType === "image" && active.url ? (
           <div className={styles.zoomMedia}>
-            <Image
-              alt={active.altText ?? productName}
-              fill
-              sizes="90vw"
-              src={active.url}
-            />
+            <Image alt={active.altText ?? productName} fill sizes="90vw" src={active.url} />
           </div>
         ) : null}
       </LumeDialog>

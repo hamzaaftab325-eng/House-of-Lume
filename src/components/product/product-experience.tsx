@@ -91,7 +91,11 @@ export function ProductExperience({ product, requestedSku }: ProductExperiencePr
 
   return (
     <div className={styles.experience}>
-      <ProductGallery key={variant?.id ?? "product-media"} media={media} productName={product.name} />
+      <ProductGallery
+        key={variant?.id ?? "product-media"}
+        media={media}
+        productName={product.name}
+      />
       <ProductPurchasePanel
         product={product}
         variant={variant}

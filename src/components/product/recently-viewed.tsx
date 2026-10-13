@@ -95,7 +95,11 @@ export function RecentlyViewed({ current }: { current: RecentProduct }) {
       </header>
       <div className={styles.recentGrid}>
         {previous.map((product) => (
-          <Link className={styles.recentItem} href={`/products/${product.slug}` as Route} key={product.slug}>
+          <Link
+            className={styles.recentItem}
+            href={`/products/${product.slug}` as Route}
+            key={product.slug}
+          >
             <div className={styles.recentMedia}>
               {product.mediaUrl ? (
                 <Image alt="" fill sizes="(max-width: 40rem) 42vw, 16rem" src={product.mediaUrl} />

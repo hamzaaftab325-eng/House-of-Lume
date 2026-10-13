@@ -1,7 +1,4 @@
-import type {
-  ProductDetailData,
-  RelatedProductSummary,
-} from "@/lib/product-detail";
+import type { ProductDetailData, RelatedProductSummary } from "@/lib/product-detail";
 
 const lampMedia = [
   "https://res.cloudinary.com/diometfe9/image/upload/v1791784998/f36d05ea-566c-4c14-ac8c-ccd887d8d588_vnqway.png",

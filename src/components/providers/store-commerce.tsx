@@ -54,9 +54,7 @@ function parseState(raw: string | null): CommerceState {
             ((line as Record<string, unknown>).quantity as number) > 0,
         )
       : [];
-    const wishlist = Array.isArray(record.wishlist)
-      ? record.wishlist.filter(isSnapshot)
-      : [];
+    const wishlist = Array.isArray(record.wishlist) ? record.wishlist.filter(isSnapshot) : [];
     return { bag, wishlist };
   } catch {
     return EMPTY_STATE;

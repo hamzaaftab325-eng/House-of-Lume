@@ -22,11 +22,7 @@ type CommerceDrawersProps = {
 function ProductThumb({ src, alt }: { src: string | null; alt: string }) {
   return (
     <div className={styles.thumb}>
-      {src ? (
-        <Image alt={alt} fill sizes="80px" src={src} />
-      ) : (
-        <PackageOpen aria-hidden="true" />
-      )}
+      {src ? <Image alt={alt} fill sizes="80px" src={src} /> : <PackageOpen aria-hidden="true" />}
     </div>
   );
 }
@@ -97,7 +93,9 @@ export function CommerceDrawers({
             <div className={styles.summary}>
               <span>Display subtotal</span>
               <strong>{formatPkr(bagSubtotal)}</strong>
-              <p>Price and stock are revalidated server-side before checkout. Cash on Delivery only.</p>
+              <p>
+                Price and stock are revalidated server-side before checkout. Cash on Delivery only.
+              </p>
             </div>
           ) : undefined
         }

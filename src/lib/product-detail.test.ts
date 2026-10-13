@@ -83,7 +83,13 @@ describe("product detail domain", () => {
   });
 
   it("moves to the variant containing the changed option value", () => {
-    const next = variantForSelectionChange(variants, options, variants[0]!, "finish", optionValues.black);
+    const next = variantForSelectionChange(
+      variants,
+      options,
+      variants[0]!,
+      "finish",
+      optionValues.black,
+    );
     expect(next.sku).toBe("BLACK-L");
   });
 

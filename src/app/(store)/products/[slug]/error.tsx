@@ -6,7 +6,12 @@ import { LumeButton } from "@/components/ui/controls";
 
 import styles from "./product-route.module.css";
 
-export default function ProductError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function ProductError({
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
   return (
     <main className={styles.errorPage}>
       <p>House of Lume</p>

@@ -32,9 +32,7 @@ function dimensionText(dimensions: Record<string, unknown>) {
       typeof entry[1] === "string" || typeof entry[1] === "number",
   );
   if (!entries.length) return null;
-  return entries
-    .map(([key, value]) => `${key.replaceAll("_", " ")} ${value} cm`)
-    .join(" · ");
+  return entries.map(([key, value]) => `${key.replaceAll("_", " ")} ${value} cm`).join(" · ");
 }
 
 export function ProductPurchasePanel({
@@ -59,7 +57,9 @@ export function ProductPurchasePanel({
       <div className={styles.purchaseHeader}>
         <p className={styles.productType}>{product.productType.replaceAll("_", " ")}</p>
         <h1>{product.name}</h1>
-        {product.shortDescription ? <p className={styles.descriptor}>{product.shortDescription}</p> : null}
+        {product.shortDescription ? (
+          <p className={styles.descriptor}>{product.shortDescription}</p>
+        ) : null}
       </div>
 
       {variant ? (
@@ -75,8 +75,8 @@ export function ProductPurchasePanel({
         <Star aria-hidden="true" />
         {product.reviewSummary.count > 0 && product.reviewSummary.averageRating ? (
           <span>
-            <strong>{product.reviewSummary.averageRating.toFixed(1)}</strong> from {product.reviewSummary.count}{" "}
-            {product.reviewSummary.count === 1 ? "review" : "reviews"}
+            <strong>{product.reviewSummary.averageRating.toFixed(1)}</strong> from{" "}
+            {product.reviewSummary.count} {product.reviewSummary.count === 1 ? "review" : "reviews"}
           </span>
         ) : (
           <span>No reviews yet</span>
@@ -193,7 +193,11 @@ export function ProductPurchasePanel({
 
       <div className={styles.commerceAssurance}>
         <div>
-          <strong>{codEligible ? "Pay when your order arrives" : "COD eligibility depends on this selection"}</strong>
+          <strong>
+            {codEligible
+              ? "Pay when your order arrives"
+              : "COD eligibility depends on this selection"}
+          </strong>
           <p>
             {product.deliveryPolicy.codEnabled
               ? "Cash on Delivery is the launch payment method. No online payment is collected here."
@@ -214,8 +218,8 @@ export function ProductPurchasePanel({
         <div>
           <strong>Returns & support</strong>
           <p>
-            Return eligibility is confirmed against the item and order condition. Support instructions
-            are provided with your order.
+            Return eligibility is confirmed against the item and order condition. Support
+            instructions are provided with your order.
           </p>
         </div>
       </div>

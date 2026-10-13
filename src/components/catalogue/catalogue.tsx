@@ -39,7 +39,11 @@ export function ProductUnit({ product }: { product: CatalogueProduct }) {
 
   return (
     <article className={styles.productUnit} data-testid="catalogue-product">
-      <Link className={`${styles.productStage} block`} href={href} aria-label={`View ${product.name}`}>
+      <Link
+        className={`${styles.productStage} block`}
+        href={href}
+        aria-label={`View ${product.name}`}
+      >
         {image ? (
           <Image
             alt={product.primary_media_alt ?? product.name}
