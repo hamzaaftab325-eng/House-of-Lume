@@ -276,16 +276,16 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
         </div>
       ) : (
         <div className={styles.destinations}>
-          <Link href="/categories/lighting" onClick={() => onOpenChange(false)}>
+          <Link href={"/categories/lighting" as Route} onClick={() => onOpenChange(false)}>
             Lighting
           </Link>
-          <Link href="/categories/plants" onClick={() => onOpenChange(false)}>
+          <Link href={"/categories/plants" as Route} onClick={() => onOpenChange(false)}>
             Living green
           </Link>
-          <Link href="/collections/new-arrivals" onClick={() => onOpenChange(false)}>
+          <Link href={"/collections/new-arrivals" as Route} onClick={() => onOpenChange(false)}>
             New arrivals
           </Link>
-          <Link href="/shop" onClick={() => onOpenChange(false)}>
+          <Link href={"/shop" as Route} onClick={() => onOpenChange(false)}>
             Shop all
           </Link>
         </div>
