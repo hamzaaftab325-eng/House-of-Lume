@@ -9,6 +9,8 @@ import {
   type FormEvent,
   type KeyboardEvent,
 } from "react";
+import type { Route } from "next";
+import Link from "next/link";
 import { Search, X } from "lucide-react";
 
 import { LumeDialog } from "@/components/ui/overlays";
@@ -116,8 +118,11 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
 
   useEffect(() => {
     if (!open) return;
-    setRecentSearches(readRecentSearches());
-    setActiveIndex(-1);
+    const frame = window.requestAnimationFrame(() => {
+      setRecentSearches(readRecentSearches());
+      setActiveIndex(-1);
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [open]);
 
   useEffect(() => {
@@ -125,12 +130,7 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
     const normalized = query.trim().replace(/\s+/g, " ");
     requestRef.current?.abort();
 
-    if (normalized.length < 2) {
-      setSuggestions(emptySuggestions);
-      setLoading(false);
-      setActiveIndex(-1);
-      return;
-    }
+    if (normalized.length < 2) return;
 
     const controller = new AbortController();
     requestRef.current = controller;
@@ -188,10 +188,6 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
     return [...products, ...categories, ...collections, ...editorial];
   }, [suggestions]);
 
-  useEffect(() => {
-    if (activeIndex >= flatSuggestions.length) setActiveIndex(flatSuggestions.length - 1);
-  }, [activeIndex, flatSuggestions.length]);
-
   const commitSearch = (value: string) => {
     saveRecentSearch(value);
     setRecentSearches(readRecentSearches());
@@ -233,19 +229,22 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
   const hasSuggestionResults = flatSuggestions.length > 0;
   const showNoResults = normalizedQuery.length >= 2 && !loading && !hasSuggestionResults;
 
-  const renderDestination = (item: SuggestionDestination, type: "category" | "collection") => {
+  const renderDestination = (
+    item: SuggestionDestination,
+    type: "category" | "collection",
+  ) => {
     const key = `${type}-${item.id}`;
     const index = flatSuggestions.findIndex((suggestion) => suggestion.key === key);
     const href = type === "category" ? `/categories/${item.slug}` : `/collections/${item.slug}`;
 
     return (
-      <a
+      <Link
         key={item.id}
         id={`${listboxId}-option-${index}`}
         role="option"
         aria-selected={activeIndex === index}
         data-active={activeIndex === index}
-        href={href}
+        href={href as Route}
         onMouseEnter={() => setActiveIndex(index)}
         onClick={() => onOpenChange(false)}
       >
@@ -254,7 +253,7 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
           <strong>{item.name}</strong>
         </div>
         <small>Explore →</small>
-      </a>
+      </Link>
     );
   };
 
@@ -292,8 +291,12 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
               activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined
             }
             onChange={(event) => {
-              setQuery(event.target.value);
+              const nextQuery = event.target.value;
+              setQuery(nextQuery);
               setActiveIndex(-1);
+              requestRef.current?.abort();
+              setSuggestions(emptySuggestions);
+              setLoading(nextQuery.trim().length >= 2);
             }}
             onKeyDown={onInputKeyDown}
           />
@@ -302,7 +305,12 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
               type="button"
               className={styles.clearButton}
               aria-label="Clear search"
-              onClick={() => setQuery("")}
+              onClick={() => {
+                setQuery("");
+                setActiveIndex(-1);
+                setSuggestions(emptySuggestions);
+                setLoading(false);
+              }}
             >
               <X size={16} aria-hidden="true" />
             </button>
@@ -339,14 +347,14 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
               </div>
               <div className={styles.recentList}>
                 {recentSearches.map((recent) => (
-                  <a
+                  <Link
                     key={recent}
-                    href={`/search?q=${encodeURIComponent(recent)}`}
+                    href={`/search?q=${encodeURIComponent(recent)}` as Route}
                     onClick={() => onOpenChange(false)}
                   >
                     <span>{recent}</span>
                     <Search size={14} aria-hidden="true" />
-                  </a>
+                  </Link>
                 ))}
               </div>
             </section>
@@ -357,21 +365,21 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
               <h3 id="search-paths-title">Explore directly</h3>
             </div>
             <div className={styles.quickPaths}>
-              <a href="/categories/lighting" onClick={() => onOpenChange(false)}>
+              <Link href="/categories/lighting" onClick={() => onOpenChange(false)}>
                 <span>01</span>
                 <strong>Lighting</strong>
                 <small>Warmth after dark</small>
-              </a>
-              <a href="/categories/plants" onClick={() => onOpenChange(false)}>
+              </Link>
+              <Link href="/categories/plants" onClick={() => onOpenChange(false)}>
                 <span>02</span>
                 <strong>Living green</strong>
                 <small>Natural rhythm</small>
-              </a>
-              <a href="/collections/new-arrivals" onClick={() => onOpenChange(false)}>
+              </Link>
+              <Link href="/collections/new-arrivals" onClick={() => onOpenChange(false)}>
                 <span>03</span>
                 <strong>New Arrivals</strong>
                 <small>The latest edit</small>
-              </a>
+              </Link>
             </div>
           </section>
         </div>
@@ -390,13 +398,13 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
                   (item) => item.key === `product-${product.id}`,
                 );
                 return (
-                  <a
+                  <Link
                     key={product.id}
                     id={`${listboxId}-option-${index}`}
                     role="option"
                     aria-selected={activeIndex === index}
                     data-active={activeIndex === index}
-                    href={`/search?q=${encodeURIComponent(product.name)}`}
+                    href={`/search?q=${encodeURIComponent(product.name)}` as Route}
                     onMouseEnter={() => setActiveIndex(index)}
                     onClick={() => {
                       commitSearch(product.name);
@@ -408,7 +416,7 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
                       <strong>{product.name}</strong>
                     </div>
                     <small>{product.inStock ? "In stock" : "Unavailable"}</small>
-                  </a>
+                  </Link>
                 );
               })}
             </section>
@@ -438,13 +446,13 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
                   (suggestion) => suggestion.key === `editorial-${item.id}`,
                 );
                 return (
-                  <a
+                  <Link
                     key={item.id}
                     id={`${listboxId}-option-${index}`}
                     role="option"
                     aria-selected={activeIndex === index}
                     data-active={activeIndex === index}
-                    href={item.href}
+                    href={item.href as Route}
                     onMouseEnter={() => setActiveIndex(index)}
                     onClick={() => onOpenChange(false)}
                   >
@@ -453,7 +461,7 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
                       <strong>{item.name}</strong>
                     </div>
                     <small>Read →</small>
-                  </a>
+                  </Link>
                 );
               })}
             </section>
@@ -464,15 +472,15 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
               <p>No direct match for “{normalizedQuery}”.</p>
               <span>Try a broader material, room, category, collection, or story.</span>
               <div>
-                <a href="/categories/lighting" onClick={() => onOpenChange(false)}>
+                <Link href="/categories/lighting" onClick={() => onOpenChange(false)}>
                   Lighting
-                </a>
-                <a href="/collections/new-arrivals" onClick={() => onOpenChange(false)}>
+                </Link>
+                <Link href="/collections/new-arrivals" onClick={() => onOpenChange(false)}>
                   New Arrivals
-                </a>
-                <a href="/shop" onClick={() => onOpenChange(false)}>
+                </Link>
+                <Link href="/shop" onClick={() => onOpenChange(false)}>
                   Shop all
-                </a>
+                </Link>
               </div>
             </div>
           ) : null}

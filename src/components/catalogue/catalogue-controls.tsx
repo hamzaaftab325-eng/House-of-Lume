@@ -1,10 +1,16 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import type { Route } from "next";
+import Link from "next/link";
 import { SlidersHorizontal } from "lucide-react";
 
 import { Drawer } from "@/components/ui/overlays";
-import type { CatalogueCategory, CatalogueFacets, CatalogueQuery } from "@/server/catalogue/types";
+import type {
+  CatalogueCategory,
+  CatalogueFacets,
+  CatalogueQuery,
+} from "@/server/catalogue/types";
 
 import styles from "./catalogue.module.css";
 
@@ -59,7 +65,12 @@ function FilterFields({
       <fieldset className={styles.filterGroup}>
         <legend>Availability</legend>
         <label className={styles.radioRow}>
-          <input type="radio" name="availability" value="" defaultChecked={!query.availability} />
+          <input
+            type="radio"
+            name="availability"
+            value=""
+            defaultChecked={!query.availability}
+          />
           <span>All availability</span>
         </label>
         <label className={styles.radioRow}>
@@ -138,7 +149,7 @@ function FilterFields({
 }
 
 function FilterForm(props: CatalogueControlsProps & { onApplied?: () => void }) {
-  const { basePath, query, facets, categories, resultCount, showCategoryFilter, onApplied } = props;
+  const { basePath, query, facets, categories, showCategoryFilter, onApplied } = props;
   return (
     <form className={styles.filterForm} action={basePath} method="get" onSubmit={onApplied}>
       <HiddenQueryState
@@ -153,7 +164,9 @@ function FilterForm(props: CatalogueControlsProps & { onApplied?: () => void }) 
       />
       <div className={styles.filterActions}>
         <button type="submit">Apply filters</button>
-        <a href={query.q ? `${basePath}?q=${encodeURIComponent(query.q)}` : basePath}>Clear</a>
+        <Link href={(query.q ? `${basePath}?q=${encodeURIComponent(query.q)}` : basePath) as Route}>
+          Clear
+        </Link>
       </div>
     </form>
   );

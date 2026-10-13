@@ -1,4 +1,6 @@
+import type { Route } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
 import type {
   CatalogueCategory,
@@ -125,7 +127,7 @@ function buildPageHref(basePath: string, query: CatalogueQuery, page: number) {
   if (query.q) params.set("q", query.q);
   if (page > 1) params.set("page", String(page));
   const search = params.toString();
-  return search ? `${basePath}?${search}` : basePath;
+  return (search ? `${basePath}?${search}` : basePath) as Route;
 }
 
 function DiscoveryResults({ discovery }: { discovery: CatalogueDiscoveryResults }) {
@@ -148,10 +150,10 @@ function DiscoveryResults({ discovery }: { discovery: CatalogueDiscoveryResults 
           <div className={styles.discoveryGroup}>
             <h3>Categories</h3>
             {discovery.categories.map((category) => (
-              <a key={category.id} href={`/categories/${category.slug}`}>
+              <Link key={category.id} href={`/categories/${category.slug}` as Route}>
                 <span>{category.name}</span>
                 <span aria-hidden="true">↗</span>
-              </a>
+              </Link>
             ))}
           </div>
         ) : null}
@@ -159,10 +161,10 @@ function DiscoveryResults({ discovery }: { discovery: CatalogueDiscoveryResults 
           <div className={styles.discoveryGroup}>
             <h3>Collections</h3>
             {discovery.collections.map((collection) => (
-              <a key={collection.id} href={`/collections/${collection.slug}`}>
+              <Link key={collection.id} href={`/collections/${collection.slug}` as Route}>
                 <span>{collection.name}</span>
                 <span aria-hidden="true">↗</span>
-              </a>
+              </Link>
             ))}
           </div>
         ) : null}
@@ -170,10 +172,10 @@ function DiscoveryResults({ discovery }: { discovery: CatalogueDiscoveryResults 
           <div className={styles.discoveryGroup}>
             <h3>Editorial</h3>
             {discovery.editorial.map((item) => (
-              <a key={item.id} href={item.href}>
+              <Link key={item.id} href={item.href as Route}>
                 <span>{item.name}</span>
                 <span aria-hidden="true">↗</span>
-              </a>
+              </Link>
             ))}
           </div>
         ) : null}
@@ -196,12 +198,12 @@ export function CatalogueView({
   const isSearch = Boolean(query.q);
   const hasFilters = Boolean(
     query.q ||
-    query.category ||
-    query.availability ||
-    query.minPrice !== undefined ||
-    query.maxPrice !== undefined ||
-    query.material ||
-    query.color,
+      query.category ||
+      query.availability ||
+      query.minPrice !== undefined ||
+      query.maxPrice !== undefined ||
+      query.material ||
+      query.color,
   );
 
   return (
@@ -285,8 +287,12 @@ export function CatalogueView({
                     : "House of Lume is keeping unpublished inventory private until real products, pricing, and stock are ready for customers."}
               </p>
               <div className={styles.emptyActions}>
-                {hasFilters ? <a href={basePath}>Clear filters</a> : <a href="/">Return home</a>}
-                <a href="/collections/new-arrivals">View New Arrivals</a>
+                {hasFilters ? (
+                  <Link href={basePath as Route}>Clear filters</Link>
+                ) : (
+                  <Link href="/">Return home</Link>
+                )}
+                <Link href="/collections/new-arrivals">View New Arrivals</Link>
               </div>
             </div>
           )}
@@ -294,7 +300,7 @@ export function CatalogueView({
           {result.totalPages > 1 ? (
             <nav className={styles.pagination} aria-label="Catalogue pages">
               {result.page > 1 ? (
-                <a href={buildPageHref(basePath, query, result.page - 1)}>← Previous</a>
+                <Link href={buildPageHref(basePath, query, result.page - 1)}>← Previous</Link>
               ) : (
                 <span aria-disabled="true">← Previous</span>
               )}
@@ -302,7 +308,7 @@ export function CatalogueView({
                 Page <strong>{result.page}</strong> of {result.totalPages}
               </p>
               {result.page < result.totalPages ? (
-                <a href={buildPageHref(basePath, query, result.page + 1)}>Next →</a>
+                <Link href={buildPageHref(basePath, query, result.page + 1)}>Next →</Link>
               ) : (
                 <span aria-disabled="true">Next →</span>
               )}
