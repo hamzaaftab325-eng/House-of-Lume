@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
+import SplitType from "split-type";
 
 import { gsap, registerGsap, useGSAP } from "@/lib/motion/gsap";
 
@@ -65,6 +66,7 @@ export function HomeHero() {
   const layerRefs = useRef<Array<HTMLDivElement | null>>([]);
   const imageRefs = useRef<Array<HTMLImageElement | null>>([]);
   const copyRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const titleSplitRefs = useRef<Array<SplitType | null>>([]);
   const transitionRef = useRef<ReturnType<typeof gsap.timeline> | null>(null);
   const autoplayRef = useRef<ReturnType<typeof gsap.delayedCall> | null>(null);
   const pointerStartRef = useRef<number | null>(null);
@@ -118,6 +120,18 @@ export function HomeHero() {
     { scope: heroRef, dependencies: [reducedMotion] },
   );
 
+  const getTitleWords = useCallback((index: number, copy: HTMLDivElement) => {
+    const title = copy.querySelector<HTMLElement>(`h1.${styles.title}`);
+    if (!title) return [];
+
+    const existingWords = Array.from(title.querySelectorAll<HTMLElement>(".word"));
+    if (existingWords.length > 0) return existingWords;
+
+    const split = new SplitType(title, { types: "lines,words" });
+    titleSplitRefs.current[index] = split;
+    return split.words ?? [];
+  }, []);
+
   const goTo = useCallback(
     (nextIndex: number, directionOverride?: 1 | -1) => {
       if (nextIndex === activeIndex || transitionLockedRef.current) return;
@@ -150,13 +164,35 @@ export function HomeHero() {
       setIsTransitioning(true);
       transitionRef.current?.kill();
 
+      const titleWords = getTitleWords(nextIndex, nextCopy);
+      const supportingText = [
+        nextCopy.querySelector<HTMLElement>(`.${styles.eyebrow}`),
+        nextCopy.querySelector<HTMLElement>(`.${styles.copy}`),
+        nextCopy.querySelector<HTMLElement>(`.${styles.actions}`),
+      ].filter((node): node is HTMLElement => node !== null);
+
       gsap.set(nextLayer, {
         autoAlpha: 1,
         zIndex: 2,
         clipPath: direction > 0 ? "inset(0% 0% 0% 8%)" : "inset(0% 8% 0% 0%)",
       });
       gsap.set(nextImage, { scale: 1.085, xPercent: direction * 1.25 });
-      gsap.set(nextCopy, { autoAlpha: 0, y: 30 });
+      gsap.set(nextCopy, { autoAlpha: 1, y: 0, filter: "none" });
+      gsap.set(titleWords, {
+        autoAlpha: 0,
+        yPercent: 72,
+        rotateX: 10,
+        scale: 0.985,
+        filter: "blur(14px)",
+        transformOrigin: "50% 100%",
+        willChange: "transform,filter,opacity",
+      });
+      gsap.set(supportingText, {
+        autoAlpha: 0,
+        y: 14,
+        filter: "blur(8px)",
+        willChange: "transform,filter,opacity",
+      });
 
       transitionRef.current = gsap
         .timeline({
@@ -165,17 +201,59 @@ export function HomeHero() {
             gsap.set(currentLayer, { autoAlpha: 0, zIndex: 0, clipPath: "inset(0% 0% 0% 0%)" });
             gsap.set(nextLayer, { autoAlpha: 1, zIndex: 1 });
             gsap.set(currentImage, { scale: 1.035, xPercent: 0 });
+            gsap.set(currentCopy, { autoAlpha: 0, y: 0, clearProps: "filter" });
             transitionLockedRef.current = false;
             setIsTransitioning(false);
           },
         })
-        .to(currentCopy, { autoAlpha: 0, y: -18, duration: 0.34, ease: "power2.in" }, 0)
+        .to(
+          currentCopy,
+          {
+            autoAlpha: 0,
+            y: -18,
+            filter: "blur(8px)",
+            duration: 0.38,
+            ease: "power2.in",
+          },
+          0,
+        )
         .to(currentLayer, { autoAlpha: 0, duration: 0.72, ease: "power2.out" }, 0.18)
-        .to(nextLayer, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.05, ease: "power3.inOut" }, 0)
+        .to(
+          nextLayer,
+          { clipPath: "inset(0% 0% 0% 0%)", duration: 1.05, ease: "power3.inOut" },
+          0,
+        )
         .to(nextImage, { scale: 1.025, xPercent: 0, duration: 1.45, ease: "power3.out" }, 0)
-        .to(nextCopy, { autoAlpha: 1, y: 0, duration: 0.72, ease: "power3.out" }, 0.32);
+        .to(
+          titleWords,
+          {
+            autoAlpha: 1,
+            yPercent: 0,
+            rotateX: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 1.05,
+            stagger: 0.032,
+            ease: "power4.out",
+            clearProps: "transform,filter,opacity,visibility,willChange",
+          },
+          0.28,
+        )
+        .to(
+          supportingText,
+          {
+            autoAlpha: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.78,
+            stagger: 0.07,
+            ease: "power3.out",
+            clearProps: "transform,filter,opacity,visibility,willChange",
+          },
+          0.38,
+        );
     },
-    [activeIndex, reducedMotion],
+    [activeIndex, getTitleWords, reducedMotion],
   );
 
   const showPrevious = useCallback(() => {
@@ -205,6 +283,7 @@ export function HomeHero() {
     return () => {
       transitionRef.current?.kill();
       autoplayRef.current?.kill();
+      titleSplitRefs.current.forEach((split) => split?.revert());
     };
   }, []);
 
