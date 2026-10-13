@@ -1,4 +1,10 @@
-export const catalogueSorts = ["featured", "newest", "price-asc", "price-desc", "name-asc"] as const;
+export const catalogueSorts = [
+  "featured",
+  "newest",
+  "price-asc",
+  "price-desc",
+  "name-asc",
+] as const;
 export const catalogueAvailability = ["in-stock", "out-of-stock"] as const;
 
 export type CatalogueSort = (typeof catalogueSorts)[number];
@@ -18,8 +24,7 @@ export type CatalogueFilters = {
   page: number;
 };
 
-const first = (value: string | string[] | undefined) =>
-  Array.isArray(value) ? value[0] : value;
+const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
 
 function cleanText(value: string | undefined, max = 80) {
   const cleaned = value?.trim();

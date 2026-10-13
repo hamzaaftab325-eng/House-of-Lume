@@ -11,7 +11,10 @@ test.describe("Phase 4 catalogue discovery", () => {
     await expect(page.getByLabel("Availability").first()).toBeVisible();
 
     await page.getByLabel("Availability").first().selectOption("in-stock");
-    await page.getByRole("button", { name: /apply filters/i }).first().click();
+    await page
+      .getByRole("button", { name: /apply filters/i })
+      .first()
+      .click();
     await expect(page).toHaveURL(/availability=in-stock/);
     await expect(page.getByTestId("catalogue-empty")).toBeVisible();
   });
@@ -29,7 +32,9 @@ test.describe("Phase 4 catalogue discovery", () => {
   test("search surface routes to a full results page", async ({ page }) => {
     await page.goto("/shop");
     await page.getByRole("button", { name: "Search" }).click();
-    await page.getByRole("searchbox", { name: /search house of lume/i }).fill("unlikely-object-query");
+    await page
+      .getByRole("searchbox", { name: /search house of lume/i })
+      .fill("unlikely-object-query");
     await page.getByRole("button", { name: /^search$/i }).click();
 
     await expect(page).toHaveURL(/\/search\?q=unlikely-object-query/);

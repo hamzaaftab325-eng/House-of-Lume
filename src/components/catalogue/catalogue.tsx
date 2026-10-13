@@ -164,9 +164,7 @@ export function CatalogueView({
               Page {page} of {pageCount}
             </span>
             {page < pageCount ? (
-              <Link href={catalogueHref(basePath, filters, { page: page + 1 }) as Route}>
-                Next
-              </Link>
+              <Link href={catalogueHref(basePath, filters, { page: page + 1 }) as Route}>Next</Link>
             ) : (
               <span aria-disabled="true">Next</span>
             )}

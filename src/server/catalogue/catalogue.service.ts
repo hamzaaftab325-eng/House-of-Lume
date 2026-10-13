@@ -225,8 +225,10 @@ export async function getSearchSuggestions(query: string): Promise<SearchSuggest
   ]);
 
   if (productsResult.error) throw databaseError("search products", productsResult.error.message);
-  if (categoriesResult.error) throw databaseError("search categories", categoriesResult.error.message);
-  if (collectionsResult.error) throw databaseError("search collections", collectionsResult.error.message);
+  if (categoriesResult.error)
+    throw databaseError("search categories", categoriesResult.error.message);
+  if (collectionsResult.error)
+    throw databaseError("search collections", collectionsResult.error.message);
 
   return {
     products: z.array(suggestionProductSchema).parse(productsResult.data ?? []),

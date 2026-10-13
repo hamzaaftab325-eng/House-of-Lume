@@ -17,8 +17,7 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
 
   return {
     title: `${category.name} | House of Lume`,
-    description:
-      category.description ?? `Explore ${category.name.toLowerCase()} at House of Lume.`,
+    description: category.description ?? `Explore ${category.name.toLowerCase()} at House of Lume.`,
     alternates: { canonical: `/categories/${category.slug}` },
   };
 }
@@ -36,8 +35,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       eyebrow="Shop by category"
       title={category.name}
       description={
-        category.description ??
-        `A considered edit of ${category.name.toLowerCase()} for the House.`
+        category.description ?? `A considered edit of ${category.name.toLowerCase()} for the House.`
       }
       basePath="/shop"
       filters={filters}

@@ -6,11 +6,7 @@ import { SlidersHorizontal, X } from "lucide-react";
 import { useState } from "react";
 
 import { Drawer } from "@/components/ui/overlays";
-import {
-  activeFilterCount,
-  catalogueQueryString,
-  type CatalogueFilters,
-} from "@/lib/catalogue";
+import { activeFilterCount, catalogueQueryString, type CatalogueFilters } from "@/lib/catalogue";
 import type { CatalogueCategory, CatalogueFacets } from "@/server/catalogue/catalogue.service";
 
 import styles from "./catalogue.module.css";
@@ -127,11 +123,7 @@ function FilterForm({
 
       <fieldset>
         <legend>Color / finish</legend>
-        <select
-          aria-label="Color or finish"
-          name="color"
-          defaultValue={filters.color ?? ""}
-        >
+        <select aria-label="Color or finish" name="color" defaultValue={filters.color ?? ""}>
           <option value="">All colors</option>
           {facets.colors.map((color) => (
             <option key={color} value={color}>
