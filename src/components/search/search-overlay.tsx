@@ -229,10 +229,7 @@ export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
   const hasSuggestionResults = flatSuggestions.length > 0;
   const showNoResults = normalizedQuery.length >= 2 && !loading && !hasSuggestionResults;
 
-  const renderDestination = (
-    item: SuggestionDestination,
-    type: "category" | "collection",
-  ) => {
+  const renderDestination = (item: SuggestionDestination, type: "category" | "collection") => {
     const key = `${type}-${item.id}`;
     const index = flatSuggestions.findIndex((suggestion) => suggestion.key === key);
     const href = type === "category" ? `/categories/${item.slug}` : `/collections/${item.slug}`;

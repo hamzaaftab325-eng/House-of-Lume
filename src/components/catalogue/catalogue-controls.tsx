@@ -6,11 +6,7 @@ import Link from "next/link";
 import { SlidersHorizontal } from "lucide-react";
 
 import { Drawer } from "@/components/ui/overlays";
-import type {
-  CatalogueCategory,
-  CatalogueFacets,
-  CatalogueQuery,
-} from "@/server/catalogue/types";
+import type { CatalogueCategory, CatalogueFacets, CatalogueQuery } from "@/server/catalogue/types";
 
 import styles from "./catalogue.module.css";
 
@@ -65,12 +61,7 @@ function FilterFields({
       <fieldset className={styles.filterGroup}>
         <legend>Availability</legend>
         <label className={styles.radioRow}>
-          <input
-            type="radio"
-            name="availability"
-            value=""
-            defaultChecked={!query.availability}
-          />
+          <input type="radio" name="availability" value="" defaultChecked={!query.availability} />
           <span>All availability</span>
         </label>
         <label className={styles.radioRow}>
