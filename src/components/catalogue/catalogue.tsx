@@ -67,7 +67,7 @@ export function ProductUnit({ product }: { product: CatalogueProduct }) {
         ) : null}
         <div className={styles.productFooter}>
           <strong>{productPrice(product)}</strong>
-          <span className={styles.serviceNote}>Cash on Delivery</span>
+          <span className={styles.phaseNote}>Cash on Delivery</span>
         </div>
       </div>
     </article>
