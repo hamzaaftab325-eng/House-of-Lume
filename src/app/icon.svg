@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+<title>DWELLUNE favicon</title>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#4b260f"/>
+    <stop offset=".45" stop-color="#281103"/>
+    <stop offset="1" stop-color="#140905"/>
+  </linearGradient>
+  <linearGradient id="bronze" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#fff2d7"/>
+    <stop offset=".18" stop-color="#e9b96d"/>
+    <stop offset=".45" stop-color="#c77c2d"/>
+    <stop offset=".72" stop-color="#8b4d1f"/>
+    <stop offset="1" stop-color="#f1c179"/>
+  </linearGradient>
+  <linearGradient id="sage" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#d7e2cb"/>
+    <stop offset=".55" stop-color="#8fa984"/>
+    <stop offset="1" stop-color="#637d57"/>
+  </linearGradient>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#090402" flood-opacity=".58"/>
+  </filter>
+  <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="2.8" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+<rect x="18" y="18" width="476" height="476" rx="96" fill="url(#bg)" stroke="url(#bronze)" stroke-width="8"/>
+<g filter="url(#shadow)">
+  <path d="M85 225 L238 98 L353 188" fill="none" stroke="url(#bronze)" stroke-width="28" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M126 228 L238 137 L333 211" fill="none" stroke="url(#bronze)" stroke-width="16" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M116 234 L116 382 Q116 423 78 446 Q132 426 160 399 L160 248 Z" fill="url(#bronze)"/>
+  <path d="M151 235 H241 C326 235 373 286 373 340 C373 399 322 442 245 442 H114 C176 416 202 395 202 363 V277 H151 Z" fill="none" stroke="url(#bronze)" stroke-width="24" stroke-linejoin="round"/>
+  <g fill="url(#bronze)" filter="url(#glow)">
+    <path d="M226 239 q0-22 22-22 q22 0 22 22 v22 h-44z"/>
+    <rect x="226" y="270" width="19" height="22" rx="2"/>
+    <rect x="251" y="270" width="19" height="22" rx="2"/>
+    <rect x="246" y="217" width="4" height="75" fill="#2a1207"/>
+    <rect x="226" y="256" width="44" height="4" fill="#2a1207"/>
+  </g>
+  <path d="M362 218 C391 174 416 152 443 149 C440 183 422 214 382 239 C374 244 367 237 362 218Z" fill="url(#sage)" stroke="#d6d3a5" stroke-width="3"/>
+  <path d="M350 225 C342 179 347 142 368 113 C391 140 393 177 375 218 C369 231 358 232 350 225Z" fill="url(#bronze)" stroke="#f6d198" stroke-width="3"/>
+  <path d="M371 260 C408 231 440 224 466 235 C449 267 421 287 382 293 C368 295 363 278 371 260Z" fill="url(#bronze)" stroke="#f6d198" stroke-width="3"/>
+</g>
+</svg>
