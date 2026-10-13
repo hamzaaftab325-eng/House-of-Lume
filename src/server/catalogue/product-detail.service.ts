@@ -309,8 +309,6 @@ export const getProductDetail = cache(async (slug: string): Promise<ProductDetai
         "flat_fee_pkr,free_shipping_threshold_pkr,cod_min_order_pkr,cod_max_order_pkr,estimated_days_min,estimated_days_max",
       )
       .eq("is_active", true)
-      .lte("starts_at", now)
-      .or(`ends_at.is.null,ends_at.gt.${now}`)
       .order("created_at", { ascending: true })
       .limit(1)
       .maybeSingle(),
