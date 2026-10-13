@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, Heart, Menu, Search, ShoppingBag, UserRound } from "lucide-react";
+import { useEffect, useState } from "react";
 
-import { Drawer, EmptyDrawerState, SearchOverlay } from "@/components/ui/overlays";
+import { SearchOverlay } from "@/components/search/search-overlay";
 import { IconButton, LumeButton } from "@/components/ui/controls";
+import { Drawer, EmptyDrawerState } from "@/components/ui/overlays";
 
 import styles from "./store-shell.module.css";
 
@@ -18,11 +19,11 @@ type StoreNavItem = {
 
 const navItems: readonly StoreNavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Lighting", href: "/#lighting" },
-  { label: "Plants", href: "/#plants" },
-  { label: "Objects", href: "/#objects" },
-  { label: "Décor", href: "/#decor" },
-  { label: "Shop All", href: "/#shop" },
+  { label: "Lighting", href: "/categories/lighting" },
+  { label: "Plants", href: "/categories/plants" },
+  { label: "Objects", href: "/shop?category=decor" },
+  { label: "Décor", href: "/categories/decor" },
+  { label: "Shop All", href: "/shop" },
 ];
 
 export function StoreHeader() {
@@ -172,18 +173,18 @@ export function StoreFooter() {
           <nav className={styles.footerNav} aria-label="Footer navigation">
             <div className={styles.footerGroup}>
               <h2>Explore</h2>
-              <Link href="/#lighting">Lighting</Link>
-              <Link href="/#plants">Plants</Link>
-              <Link href="/#objects">Objects</Link>
-              <Link href="/#decor">Décor</Link>
+              <Link href="/categories/lighting">Lighting</Link>
+              <Link href="/categories/plants">Plants</Link>
+              <Link href="/categories/planters">Planters</Link>
+              <Link href="/categories/decor">Décor</Link>
             </div>
 
             <div className={styles.footerGroup}>
               <h2>Discover</h2>
-              <Link href="/#products">The Edit</Link>
-              <Link href="/#spaces-title">Spaces</Link>
-              <Link href="/#materials-title">Materials</Link>
-              <Link href="/#notes-title">House Notes</Link>
+              <Link href="/collections/new-arrivals">New arrivals</Link>
+              <Link href="/collections/warm-lighting">Warm lighting</Link>
+              <Link href="/collections/living-green">Living green</Link>
+              <Link href="/shop">Shop all</Link>
             </div>
 
             <div className={styles.footerGroup}>
