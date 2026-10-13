@@ -1,15 +1,15 @@
 name: Phase 4 Plan Closeout
 
 on:
-  push:
-    branches: [phase-4-catalogue]
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: write
 
 jobs:
   closeout:
-    if: github.actor != 'github-actions[bot]'
+    if: github.head_ref == 'phase-4-catalogue' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -113,4 +113,4 @@ See `PHASE_4_AUDIT.md` for the complete evidence-based audit.
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add PROJECT_PLAN.md
           git commit -m "docs: close phase 4 catalogue discovery"
-          git push
+          git push origin HEAD:phase-4-catalogue
