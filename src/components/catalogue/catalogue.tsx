@@ -35,10 +35,15 @@ function cloudinaryImage(path: string | null) {
 export function ProductUnit({ product }: { product: CatalogueProduct }) {
   const image = cloudinaryImage(product.primary_media_path);
   const material = product.materials[0] ?? product.material_summary ?? product.product_type;
+  const href = `/products/${product.slug}` as Route;
 
   return (
     <article className={styles.productUnit} data-testid="catalogue-product">
-      <div className={styles.productStage}>
+      <Link
+        className={`${styles.productStage} block`}
+        href={href}
+        aria-label={`View ${product.name}`}
+      >
         {image ? (
           <Image
             alt={product.primary_media_alt ?? product.name}
@@ -56,12 +61,14 @@ export function ProductUnit({ product }: { product: CatalogueProduct }) {
         <span className={styles.stockState} data-stock={product.in_stock ? "in" : "out"}>
           {product.in_stock ? "In stock" : "Currently unavailable"}
         </span>
-      </div>
+      </Link>
 
       <div className={styles.productMeta}>
         <div className={styles.productRail} aria-hidden="true" />
         <p className={styles.productContext}>{material}</p>
-        <h2>{product.name}</h2>
+        <h2>
+          <Link href={href}>{product.name}</Link>
+        </h2>
         {product.short_description ? (
           <p className={styles.productDescription}>{product.short_description}</p>
         ) : null}

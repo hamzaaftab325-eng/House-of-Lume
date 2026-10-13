@@ -103,7 +103,7 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
       ...payload.products.map((item) => ({
         kind: "product" as const,
         label: item.name,
-        href: `/search?q=${encodeURIComponent(item.name)}` as Route,
+        href: `/products/${item.slug}` as Route,
         meta: item.product_type,
       })),
       ...payload.categories.map((item) => ({

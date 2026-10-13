@@ -6,10 +6,12 @@ import { usePathname } from "next/navigation";
 import { ArrowUpRight, Heart, Menu, Search, ShoppingBag, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { useStoreCommerce } from "@/components/providers/store-commerce";
 import { SearchOverlay } from "@/components/search/search-overlay";
-import { IconButton, LumeButton } from "@/components/ui/controls";
-import { Drawer, EmptyDrawerState } from "@/components/ui/overlays";
+import { IconButton } from "@/components/ui/controls";
+import { Drawer } from "@/components/ui/overlays";
 
+import { CommerceDrawers } from "./commerce-drawers";
 import styles from "./store-shell.module.css";
 
 type StoreNavItem = {
@@ -29,6 +31,7 @@ const navItems: readonly StoreNavItem[] = [
 export function StoreHeader() {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const commerce = useStoreCommerce();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -76,7 +79,7 @@ export function StoreHeader() {
                 <IconButton
                   label="Wishlist"
                   icon={<Heart />}
-                  count={0}
+                  count={commerce.wishlistCount}
                   onClick={() => setWishlistOpen(true)}
                 />
               </span>
@@ -84,7 +87,7 @@ export function StoreHeader() {
             <IconButton
               label="Shopping bag"
               icon={<ShoppingBag />}
-              count={0}
+              count={commerce.bagCount}
               onClick={() => setBagOpen(true)}
             />
           </div>
@@ -121,33 +124,12 @@ export function StoreHeader() {
       </Drawer>
 
       <SearchOverlay open={searchOpen} onOpenChange={setSearchOpen} />
-
-      <Drawer
-        open={wishlistOpen}
-        onOpenChange={setWishlistOpen}
-        eyebrow="Saved objects"
-        title="Wishlist"
-      >
-        <EmptyDrawerState title="Nothing saved yet.">
-          Wishlist persistence connects to customer data in the commerce phase.
-        </EmptyDrawerState>
-      </Drawer>
-
-      <Drawer
-        open={bagOpen}
-        onOpenChange={setBagOpen}
-        eyebrow="Your selection"
-        title="Shopping bag"
-        footer={
-          <LumeButton showArrow onClick={() => setBagOpen(false)}>
-            Continue exploring
-          </LumeButton>
-        }
-      >
-        <EmptyDrawerState title="Your bag is quiet.">
-          Cart persistence and inventory-aware line items connect in Phase 6.
-        </EmptyDrawerState>
-      </Drawer>
+      <CommerceDrawers
+        bagOpen={bagOpen}
+        onBagOpenChange={setBagOpen}
+        wishlistOpen={wishlistOpen}
+        onWishlistOpenChange={setWishlistOpen}
+      />
     </>
   );
 }
