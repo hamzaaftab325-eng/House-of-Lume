@@ -1,12 +1,11 @@
 "use client";
 
+import { ChevronDown, X } from "lucide-react";
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import Link from "next/link";
-import { ChevronDown, Search, X } from "lucide-react";
 
 import { cx } from "@/lib/cx";
 
-import { IconButton, LumeButton } from "./controls";
+import { IconButton } from "./controls";
 import styles from "./overlays.module.css";
 
 function useNativeDialog(open: boolean, onOpenChange: (open: boolean) => void) {
@@ -224,64 +223,6 @@ export function Tabs({ label, items, defaultValue }: TabsProps) {
         </div>
       ) : null}
     </div>
-  );
-}
-
-type SearchOverlayProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-};
-
-const searchDestinations = [
-  ["01", "Warm lighting", "/#lighting"],
-  ["02", "Living green", "/#plants"],
-  ["03", "Objects & materials", "/#objects"],
-] as const;
-
-export function SearchOverlay({ open, onOpenChange }: SearchOverlayProps) {
-  return (
-    <LumeDialog
-      open={open}
-      onOpenChange={onOpenChange}
-      eyebrow="Search House of Lume"
-      title="Find an object by mood, room, or material."
-      description="The predictive data layer arrives in the catalogue phase; this production shell already has the final accessible overlay and keyboard behavior."
-      size="search"
-    >
-      <form className={styles.searchForm} action="/system" method="get">
-        <div>
-          <label className="sr-only" htmlFor="global-search">
-            Search House of Lume
-          </label>
-          <input
-            autoFocus
-            className={styles.searchInput}
-            id="global-search"
-            name="q"
-            type="search"
-            placeholder="Try ‘warm reading light’"
-            autoComplete="off"
-          />
-        </div>
-        <LumeButton type="submit" showArrow>
-          Search
-        </LumeButton>
-      </form>
-      <nav className={styles.searchSuggestions} aria-label="Quick search destinations">
-        {searchDestinations.map(([index, label, href]) => (
-          <Link
-            key={index}
-            className={styles.searchSuggestion}
-            href={href}
-            onClick={() => onOpenChange(false)}
-          >
-            <span className={styles.searchIndex}>{index}</span>
-            <span>{label}</span>
-            <Search aria-hidden="true" size={16} />
-          </Link>
-        ))}
-      </nav>
-    </LumeDialog>
   );
 }
 
