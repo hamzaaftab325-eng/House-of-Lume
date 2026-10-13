@@ -1,4 +1,4 @@
-import styles from "@/components/product/product-detail.module.css";
+import styles from "./product-route.module.css";
 
 export default function ProductLoading() {
   return (
