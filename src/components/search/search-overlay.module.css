@@ -1,0 +1,268 @@
+.form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.85rem;
+  align-items: stretch;
+}
+
+.inputWrap {
+  position: relative;
+  display: flex;
+  min-height: 4.5rem;
+  border-bottom: 1px solid var(--color-ink);
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.inputWrap > svg {
+  flex: 0 0 auto;
+  color: var(--color-bronze);
+}
+
+.inputWrap input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(1.7rem, 3.2vw, 3rem);
+  letter-spacing: -0.025em;
+}
+
+.inputWrap input::placeholder {
+  color: color-mix(in srgb, var(--color-ash) 70%, transparent);
+}
+
+.clearButton {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-chalk) 65%, transparent);
+  color: var(--color-ink);
+  cursor: pointer;
+  place-items: center;
+}
+
+.status {
+  min-height: 1.6rem;
+  padding-top: 0.55rem;
+  color: var(--color-ash);
+  font-size: 0.7rem;
+}
+
+.startState {
+  display: grid;
+  margin-top: 1.25rem;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+.sectionHeading {
+  display: flex;
+  min-height: 2.8rem;
+  border-bottom: 1px solid var(--color-line-strong);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionHeading h3,
+.results section > h3 {
+  margin: 0;
+  color: var(--color-ash);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sectionHeading button {
+  border: 0;
+  background: transparent;
+  color: var(--color-bronze);
+  font-size: 0.68rem;
+  cursor: pointer;
+}
+
+.recentList {
+  display: grid;
+}
+
+.recentList a {
+  display: flex;
+  min-height: 3.25rem;
+  border-bottom: 1px solid var(--color-line);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.quickPaths {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.quickPaths a {
+  display: grid;
+  min-height: 9rem;
+  padding: 1rem;
+  border: 1px solid var(--color-line);
+  background: linear-gradient(150deg, color-mix(in srgb, var(--color-paper) 90%, transparent), var(--color-chalk));
+  align-content: space-between;
+  transition: transform var(--duration-control) var(--ease-lume), border-color var(--duration-fast) ease;
+}
+
+.quickPaths span {
+  color: var(--color-bronze);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+}
+
+.quickPaths strong {
+  align-self: end;
+  font-family: var(--font-cormorant), serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+}
+
+.quickPaths small {
+  color: var(--color-ash);
+  font-size: 0.68rem;
+}
+
+.results {
+  display: grid;
+  margin-top: 0.5rem;
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 0.8fr));
+  gap: clamp(1.25rem, 3vw, 3rem);
+}
+
+.results section {
+  min-width: 0;
+}
+
+.results section > h3 {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-line-strong);
+}
+
+.results section > a {
+  display: flex;
+  min-height: 4.35rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--color-line);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: padding var(--duration-fast) var(--ease-lume), background var(--duration-fast) ease;
+}
+
+.results section > a[data-active="true"] {
+  padding-inline: 0.55rem;
+  background: color-mix(in srgb, var(--color-chalk) 52%, transparent);
+}
+
+.results section > a div {
+  display: grid;
+  min-width: 0;
+  gap: 0.22rem;
+}
+
+.results section > a div span,
+.results section > a small {
+  color: var(--color-ash);
+  font-size: 0.61rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.results section > a strong {
+  overflow: hidden;
+  font-family: var(--font-cormorant), serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.noResults {
+  grid-column: 1 / -1;
+  padding: clamp(2rem, 5vw, 4rem) 0;
+  border-block: 1px solid var(--color-line-strong);
+  text-align: center;
+}
+
+.noResults p {
+  margin: 0;
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  letter-spacing: -0.035em;
+}
+
+.noResults > span {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--color-ash);
+}
+
+.noResults > div {
+  display: flex;
+  margin-top: 1.35rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.noResults a {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-control);
+  font-size: 0.73rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .quickPaths a:hover {
+    border-color: var(--color-bronze);
+    transform: translateY(-3px);
+  }
+}
+
+@media (max-width: 54rem) {
+  .startState,
+  .results {
+    grid-template-columns: 1fr;
+  }
+
+  .quickPaths {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 38rem) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .inputWrap {
+    min-height: 3.7rem;
+  }
+
+  .quickPaths {
+    grid-template-columns: 1fr;
+  }
+
+  .quickPaths a {
+    min-height: 6.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quickPaths a,
+  .results section > a {
+    transition: none;
+  }
+}
