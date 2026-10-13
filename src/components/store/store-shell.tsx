@@ -19,11 +19,11 @@ type StoreNavItem = {
 
 const navItems: readonly StoreNavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Lighting", href: "/categories/lighting" },
-  { label: "Plants", href: "/categories/plants" },
-  { label: "Objects", href: "/shop?category=decor" },
-  { label: "Décor", href: "/categories/decor" },
-  { label: "Shop All", href: "/shop" },
+  { label: "Lighting", href: "/categories/lighting" as Route },
+  { label: "Plants", href: "/categories/plants" as Route },
+  { label: "Objects", href: "/shop?category=decor" as Route },
+  { label: "Décor", href: "/categories/decor" as Route },
+  { label: "Shop All", href: "/shop" as Route },
 ];
 
 export function StoreHeader() {
@@ -173,18 +173,18 @@ export function StoreFooter() {
           <nav className={styles.footerNav} aria-label="Footer navigation">
             <div className={styles.footerGroup}>
               <h2>Explore</h2>
-              <Link href="/categories/lighting">Lighting</Link>
-              <Link href="/categories/plants">Plants</Link>
-              <Link href="/categories/planters">Planters</Link>
-              <Link href="/categories/decor">Décor</Link>
+              <Link href={"/categories/lighting" as Route}>Lighting</Link>
+              <Link href={"/categories/plants" as Route}>Plants</Link>
+              <Link href={"/categories/planters" as Route}>Planters</Link>
+              <Link href={"/categories/decor" as Route}>Décor</Link>
             </div>
 
             <div className={styles.footerGroup}>
               <h2>Discover</h2>
-              <Link href="/collections/new-arrivals">New arrivals</Link>
-              <Link href="/collections/warm-lighting">Warm lighting</Link>
-              <Link href="/collections/living-green">Living green</Link>
-              <Link href="/shop">Shop all</Link>
+              <Link href={"/collections/new-arrivals" as Route}>New arrivals</Link>
+              <Link href={"/collections/warm-lighting" as Route}>Warm lighting</Link>
+              <Link href={"/collections/living-green" as Route}>Living green</Link>
+              <Link href={"/shop" as Route}>Shop all</Link>
             </div>
 
             <div className={styles.footerGroup}>
