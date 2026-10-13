@@ -1,0 +1,44 @@
+alter function public.commerce_cart_snapshot(text) set schema app_private;
+alter function public.commerce_cart_set_quantity(text,uuid,integer) set schema app_private;
+alter function public.commerce_cart_add(text,uuid,integer) set schema app_private;
+alter function public.commerce_cart_merge_lines(text,jsonb) set schema app_private;
+alter function public.commerce_cart_apply_discount(text,text) set schema app_private;
+alter function public.commerce_wishlist_snapshot() set schema app_private;
+alter function public.commerce_wishlist_set(uuid,boolean) set schema app_private;
+alter function public.commerce_wishlist_merge(uuid[]) set schema app_private;
+
+grant usage on schema app_private to anon, authenticated;
+grant execute on function app_private.commerce_cart_snapshot(text) to anon, authenticated;
+grant execute on function app_private.commerce_cart_set_quantity(text,uuid,integer) to anon, authenticated;
+grant execute on function app_private.commerce_cart_add(text,uuid,integer) to anon, authenticated;
+grant execute on function app_private.commerce_cart_merge_lines(text,jsonb) to anon, authenticated;
+grant execute on function app_private.commerce_cart_apply_discount(text,text) to anon, authenticated;
+grant execute on function app_private.commerce_wishlist_snapshot() to authenticated;
+grant execute on function app_private.commerce_wishlist_set(uuid,boolean) to authenticated;
+grant execute on function app_private.commerce_wishlist_merge(uuid[]) to authenticated;
+
+create function public.commerce_cart_snapshot(p_guest_token_hash text default null) returns jsonb language sql volatile security invoker set search_path='' as $$ select app_private.commerce_cart_snapshot(p_guest_token_hash); $$;
+create function public.commerce_cart_set_quantity(p_guest_token_hash text,p_variant_id uuid,p_quantity integer) returns jsonb language sql volatile security invoker set search_path='' as $$ select app_private.commerce_cart_set_quantity(p_guest_token_hash,p_variant_id,p_quantity); $$;
+create function public.commerce_cart_add(p_guest_token_hash text,p_variant_id uuid,p_quantity integer) returns jsonb language sql volatile security invoker set search_path='' as $$ select app_private.commerce_cart_add(p_guest_token_hash,p_variant_id,p_quantity); $$;
+create function public.commerce_cart_merge_lines(p_guest_token_hash text,p_lines jsonb) returns jsonb language sql volatile security invoker set search_path='' as $$ select app_private.commerce_cart_merge_lines(p_guest_token_hash,p_lines); $$;
+create function public.commerce_cart_apply_discount(p_guest_token_hash text,p_code text) returns jsonb language sql volatile security invoker set search_path='' as $$ select app_private.commerce_cart_apply_discount(p_guest_token_hash,p_code); $$;
+create function public.commerce_wishlist_snapshot() returns jsonb language sql volatile security invoker set search_path='' as $$ select app_private.commerce_wishlist_snapshot(); $$;
+create function public.commerce_wishlist_set(p_variant_id uuid,p_saved boolean) returns jsonb language sql volatile security invoker set search_path='' as $$ select app_private.commerce_wishlist_set(p_variant_id,p_saved); $$;
+create function public.commerce_wishlist_merge(p_variant_ids uuid[]) returns jsonb language sql volatile security invoker set search_path='' as $$ select app_private.commerce_wishlist_merge(p_variant_ids); $$;
+
+revoke all on function public.commerce_cart_snapshot(text) from public;
+revoke all on function public.commerce_cart_set_quantity(text,uuid,integer) from public;
+revoke all on function public.commerce_cart_add(text,uuid,integer) from public;
+revoke all on function public.commerce_cart_merge_lines(text,jsonb) from public;
+revoke all on function public.commerce_cart_apply_discount(text,text) from public;
+revoke all on function public.commerce_wishlist_snapshot() from public;
+revoke all on function public.commerce_wishlist_set(uuid,boolean) from public;
+revoke all on function public.commerce_wishlist_merge(uuid[]) from public;
+grant execute on function public.commerce_cart_snapshot(text) to anon,authenticated;
+grant execute on function public.commerce_cart_set_quantity(text,uuid,integer) to anon,authenticated;
+grant execute on function public.commerce_cart_add(text,uuid,integer) to anon,authenticated;
+grant execute on function public.commerce_cart_merge_lines(text,jsonb) to anon,authenticated;
+grant execute on function public.commerce_cart_apply_discount(text,text) to anon,authenticated;
+grant execute on function public.commerce_wishlist_snapshot() to authenticated;
+grant execute on function public.commerce_wishlist_set(uuid,boolean) to authenticated;
+grant execute on function public.commerce_wishlist_merge(uuid[]) to authenticated;

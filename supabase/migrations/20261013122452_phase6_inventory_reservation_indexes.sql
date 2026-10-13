@@ -1,0 +1,2 @@
+create index if not exists inventory_reservations_variant_idx on public.inventory_reservations(variant_id);
+create index if not exists inventory_reservations_location_idx on public.inventory_reservations(location_id);
