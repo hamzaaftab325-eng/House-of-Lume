@@ -235,9 +235,9 @@
   font-weight: 720;
   isolation: isolate;
   transition:
-    transform var(--duration-control) var(--ease-lume),
-    border-color var(--duration-control) var(--ease-lume),
-    color var(--duration-control) var(--ease-lume);
+    transform var(--duration-control) var(--ease-dwellune),
+    border-color var(--duration-control) var(--ease-dwellune),
+    color var(--duration-control) var(--ease-dwellune);
 }
 
 .primaryAction::before,
@@ -248,7 +248,7 @@
   content: "";
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 420ms var(--ease-lume);
+  transition: transform 420ms var(--ease-dwellune);
 }
 
 .primaryAction {
@@ -274,7 +274,7 @@
 .primaryAction svg {
   width: 1rem;
   height: 1rem;
-  transition: transform var(--duration-control) var(--ease-lume);
+  transition: transform var(--duration-control) var(--ease-dwellune);
 }
 
 .controls {
@@ -356,9 +356,9 @@
   cursor: pointer;
   backdrop-filter: blur(8px);
   transition:
-    transform var(--duration-control) var(--ease-lume),
-    background-color var(--duration-control) var(--ease-lume),
-    border-color var(--duration-control) var(--ease-lume),
+    transform var(--duration-control) var(--ease-dwellune),
+    background-color var(--duration-control) var(--ease-dwellune),
+    border-color var(--duration-control) var(--ease-dwellune),
     opacity var(--duration-fast) ease;
 }
 

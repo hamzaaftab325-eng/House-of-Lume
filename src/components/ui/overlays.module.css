@@ -126,7 +126,7 @@
 
 .accordionChevron {
   width: 1rem;
-  transition: transform var(--duration-control) var(--ease-lume);
+  transition: transform var(--duration-control) var(--ease-dwellune);
 }
 
 .accordionItem[open] .accordionChevron {
@@ -175,7 +175,7 @@
   content: "";
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform var(--duration-control) var(--ease-lume);
+  transition: transform var(--duration-control) var(--ease-dwellune);
 }
 
 .tab[aria-selected="true"] {

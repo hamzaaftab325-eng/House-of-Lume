@@ -16,8 +16,8 @@ values
   (
     'lamp',
     'active',
-    'Lume Arc Floor Lamp',
-    'dev-lume-arc-floor-lamp',
+    'DWELLUNE Arc Floor Lamp',
+    'dev-dwellune-arc-floor-lamp',
     'A warm floor lamp for layered evening light.',
     'Representative development product for validating lighting variants and inventory flows.',
     'Powder-coated metal, linen shade',
@@ -42,10 +42,10 @@ select p.id, c.id, true
 from public.products p
 join public.categories c
   on c.slug = case
-    when p.slug = 'dev-lume-arc-floor-lamp' then 'lighting'
+    when p.slug = 'dev-dwellune-arc-floor-lamp' then 'lighting'
     when p.slug = 'dev-monstera-deliciosa' then 'plants'
   end
-where p.slug in ('dev-lume-arc-floor-lamp', 'dev-monstera-deliciosa')
+where p.slug in ('dev-dwellune-arc-floor-lamp', 'dev-monstera-deliciosa')
 on conflict (product_id, category_id) do nothing;
 
 insert into public.product_options (product_id, name, slug, position)
@@ -53,9 +53,9 @@ select p.id, v.name, v.slug, v.position
 from public.products p
 join (
   values
-    ('dev-lume-arc-floor-lamp', 'Finish', 'finish', 10),
-    ('dev-lume-arc-floor-lamp', 'Size', 'size', 20),
-    ('dev-lume-arc-floor-lamp', 'Light Temperature', 'light-temperature', 30),
+    ('dev-dwellune-arc-floor-lamp', 'Finish', 'finish', 10),
+    ('dev-dwellune-arc-floor-lamp', 'Size', 'size', 20),
+    ('dev-dwellune-arc-floor-lamp', 'Light Temperature', 'light-temperature', 30),
     ('dev-monstera-deliciosa', 'Plant Size', 'plant-size', 10),
     ('dev-monstera-deliciosa', 'Pot', 'pot', 20)
 ) as v(product_slug, name, slug, position)
@@ -68,11 +68,11 @@ from public.product_options po
 join public.products p on p.id = po.product_id
 join (
   values
-    ('dev-lume-arc-floor-lamp', 'finish', 'Warm Brass', '#96744D', 10),
-    ('dev-lume-arc-floor-lamp', 'finish', 'Ink Black', '#1E1D1A', 20),
-    ('dev-lume-arc-floor-lamp', 'size', 'Medium', null, 10),
-    ('dev-lume-arc-floor-lamp', 'size', 'Large', null, 20),
-    ('dev-lume-arc-floor-lamp', 'light-temperature', '2700K Warm', null, 10),
+    ('dev-dwellune-arc-floor-lamp', 'finish', 'Warm Brass', '#96744D', 10),
+    ('dev-dwellune-arc-floor-lamp', 'finish', 'Ink Black', '#1E1D1A', 20),
+    ('dev-dwellune-arc-floor-lamp', 'size', 'Medium', null, 10),
+    ('dev-dwellune-arc-floor-lamp', 'size', 'Large', null, 20),
+    ('dev-dwellune-arc-floor-lamp', 'light-temperature', '2700K Warm', null, 10),
     ('dev-monstera-deliciosa', 'plant-size', 'Medium', null, 10),
     ('dev-monstera-deliciosa', 'plant-size', 'Large', null, 20),
     ('dev-monstera-deliciosa', 'pot', 'Nursery Pot', null, 10),
@@ -95,7 +95,7 @@ from public.products p
 join (
   values
     (
-      'dev-lume-arc-floor-lamp',
+      'dev-dwellune-arc-floor-lamp',
       'DEV-LAMP-ARC-BRASS-M',
       'Warm Brass / Medium / 2700K Warm',
       18900::bigint,
@@ -104,7 +104,7 @@ join (
       '{"finish":"Warm Brass","size":"Medium","light_temperature":"2700K Warm"}'::jsonb
     ),
     (
-      'dev-lume-arc-floor-lamp',
+      'dev-dwellune-arc-floor-lamp',
       'DEV-LAMP-ARC-BLACK-L',
       'Ink Black / Large / 2700K Warm',
       21900::bigint,
@@ -161,14 +161,14 @@ insert into public.customers (
   whatsapp_number
 )
 select
-  'development-customer@houseoflume.test',
+  'development-customer@dwellune.test',
   'Development Customer',
   '+923000000000',
   '+923000000000'
 where not exists (
   select 1
   from public.customers
-  where email = 'development-customer@houseoflume.test'
+  where email = 'development-customer@dwellune.test'
 );
 
 insert into public.orders (
@@ -205,7 +205,7 @@ select
   19150,
   'development-seed-order-1'
 from public.customers c
-where c.email = 'development-customer@houseoflume.test'
+where c.email = 'development-customer@dwellune.test'
   and not exists (
     select 1 from public.orders where idempotency_key = 'development-seed-order-1'
   );

@@ -1,4 +1,4 @@
-# House of Lume — Production Design System
+# DWELLUNE — Production Design System
 
 **Status:** Final production baseline  
 **Version:** 2.1  
@@ -12,7 +12,7 @@
 
 ## 1. Design Thesis
 
-House of Lume is a modern home-living brand built around **light, greenery, material, shadow, quiet movement, and domestic atmosphere**.
+DWELLUNE is a modern home-living brand built around **light, greenery, material, shadow, quiet movement, and domestic atmosphere**.
 
 The digital experience should feel closer to a curated interior publication and physical showroom than a template ecommerce site.
 
@@ -20,7 +20,7 @@ The core principle is:
 
 > **Objects are not placed inside cards. They live in space.**
 
-House of Lume must avoid repetitive rounded-card UI, generic SaaS composition, decorative glassmorphism, and animation added only to demonstrate technology.
+DWELLUNE must avoid repetitive rounded-card UI, generic SaaS composition, decorative glassmorphism, and animation added only to demonstrate technology.
 
 The product should feel intentional because its composition, typography, materials, motion, and operational states are coherent.
 
@@ -78,9 +78,9 @@ The product should feel intentional because its composition, typography, materia
 
 ## 3. Signature Visual Language
 
-House of Lume uses five signature visual devices.
+DWELLUNE uses five signature visual devices.
 
-### 3.1 Lume Line
+### 3.1 DWELLUNE Line
 
 A fine architectural rule is the primary graphic motif.
 
@@ -96,7 +96,7 @@ Use it for:
 - timeline continuity
 - CTA hover reveals
 
-The Lume Line may reveal, extend, brighten, or move subtly. It must never become a neon glow.
+The DWELLUNE Line may reveal, extend, brighten, or move subtly. It must never become a neon glow.
 
 ### 3.2 Object Stage
 
@@ -123,7 +123,7 @@ Rules:
 - metadata aligns consistently
 - rows may be offset
 - whitespace controls rhythm
-- a subtle Lume Line may anchor the shelf
+- a subtle DWELLUNE Line may anchor the shelf
 - mobile collapses into clear vertical reading order
 
 ### 3.4 Split Plane
@@ -161,7 +161,7 @@ The palette references plaster, linen, aged bronze, olive leaves, clay, warm woo
 
 | Token | Hex | Role |
 |---|---|---|
-| Lume Canvas | `#F2EDE3` | Primary storefront background |
+| DWELLUNE Canvas | `#F2EDE3` | Primary storefront background |
 | Paper | `#FBF8F1` | Functional/elevated light surface |
 | Chalk | `#E6DED0` | Secondary material plane |
 | Ink | `#1E1D1A` | Primary text / dark surface |
@@ -335,18 +335,18 @@ Do not shadow every content module.
 
 ---
 
-## 9. Lume Control System
+## 9. DWELLUNE Control System
 
 Buttons must feel distinctive through structure and restrained light behavior—not cursor tricks.
 
-### Primary — Lume Fill
+### Primary — DWELLUNE Fill
 
 - Ink background
 - Paper text
 - 8px radius or square editorial variant
 - stable label
 - optional right-side arrow
-- thin lower Lume Line
+- thin lower DWELLUNE Line
 
 Hover:
 
@@ -368,7 +368,7 @@ Hover:
 - text transitions to inverse once contrast is safe
 - border width remains stable
 
-### Text CTA — Lume Link
+### Text CTA — DWELLUNE Link
 
 Example:
 
@@ -404,7 +404,7 @@ Header states:
 1. integrated hero state where contrast permits
 2. compact sticky Paper/Canvas state
 
-Nav hover uses Lume Line expansion—not vertical jumping.
+Nav hover uses DWELLUNE Line expansion—not vertical jumping.
 
 ### Mobile
 
@@ -652,7 +652,7 @@ Preferred structure:
 
 - compact header with unread count
 - filter row: All / Unread / Orders / Returns / Account
-- chronological list separated by Lume Lines
+- chronological list separated by DWELLUNE Lines
 - icon or small status marker
 - title
 - concise message
@@ -949,7 +949,7 @@ unless the design system is intentionally revised later.
 
 ## 25. Scroll Scrub Language
 
-Scrub is a signature House of Lume storytelling tool.
+Scrub is a signature DWELLUNE storytelling tool.
 
 Use for:
 
@@ -1005,7 +1005,7 @@ As scroll progresses:
 
 - crop opens
 - object moves a few percent
-- Lume Line reveals
+- DWELLUNE Line reveals
 - metadata remains readable
 
 ### Material Transition
@@ -1145,9 +1145,9 @@ Do not create differently named classes with materially identical declarations.
 
 ### Primitives
 
-- Button / LumeButton
+- Button / DwelluneButton
 - IconButton
-- Link / LumeLink
+- Link / DwelluneLink
 - Input
 - Select
 - Checkbox
@@ -1177,8 +1177,8 @@ Do not create differently named classes with materially identical declarations.
 
 ### Editorial
 
-- LumeHero
-- LumeLine
+- DwelluneHero
+- DwelluneLine
 - SplitPlane
 - CropWindow
 - EditorialChapter
@@ -1235,7 +1235,7 @@ It is complete only when applicable items are verified:
 - visual language follows Luminous Domesticity
 - typography/tokens correct
 - no generic card drift
-- Lume Controls used correctly
+- DWELLUNE Controls used correctly
 - COD information is truthful and unambiguous
 - notifications/statuses use the defined hierarchy
 - desktop/tablet/mobile compositions intentional
@@ -1266,8 +1266,8 @@ When choosing between:
 - decorative checkout vs COD clarity → choose clarity
 - pretty status UI vs operational truth → choose truth
 
-House of Lume should be memorable because **light, material, composition, typography, motion and operational precision form one coherent system**.
+DWELLUNE should be memorable because **light, material, composition, typography, motion and operational precision form one coherent system**.
 
 ---
 
-**House of Lume Design System v2.1 — Production Baseline**
+**DWELLUNE Design System v2.1 — Production Baseline**

@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Expand, ImageOff } from "lucide-react";
 import { useState, type TouchEvent } from "react";
 
 import { IconButton } from "@/components/ui/controls";
-import { LumeDialog } from "@/components/ui/overlays";
+import { DwelluneDialog } from "@/components/ui/overlays";
 import type { ProductMediaItem } from "@/lib/product-detail";
 
 import styles from "./product-detail.module.css";
@@ -125,7 +125,7 @@ export function ProductGallery({ media, productName }: ProductGalleryProps) {
         </div>
       ) : null}
 
-      <LumeDialog
+      <DwelluneDialog
         open={zoomOpen}
         onOpenChange={setZoomOpen}
         eyebrow="Object detail"
@@ -137,7 +137,7 @@ export function ProductGallery({ media, productName }: ProductGalleryProps) {
             <Image alt={active.altText ?? productName} fill sizes="90vw" src={active.url} />
           </div>
         ) : null}
-      </LumeDialog>
+      </DwelluneDialog>
     </section>
   );
 }

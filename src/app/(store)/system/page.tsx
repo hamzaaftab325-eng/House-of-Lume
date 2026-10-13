@@ -18,7 +18,7 @@ import {
   FormShowcase,
   ScrollScrubShowcase,
 } from "@/components/design-system/interactive-showcase";
-import { IconButton, LumeLink } from "@/components/ui/controls";
+import { IconButton, DwelluneLink } from "@/components/ui/controls";
 
 import styles from "@/components/design-system/showcase.module.css";
 
@@ -98,7 +98,7 @@ export default function DesignSystemPage() {
             eyebrow="Editorial Chapter"
             title="Light changes the room before it changes the object."
             body="Phase 3 will choreograph real product and room imagery through this composition. The component already preserves hierarchy, readable measure, and a non-card editorial rhythm."
-            action={<LumeLink href="/#lighting">Explore lighting</LumeLink>}
+            action={<DwelluneLink href="/#lighting">Explore lighting</DwelluneLink>}
             media={
               <ProductStage ratio="landscape" tone="ink" label="Evening light">
                 <DemoLampArt />

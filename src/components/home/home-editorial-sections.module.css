@@ -575,8 +575,8 @@
   .roomObject,
   .noteCard {
     transition:
-      transform 320ms var(--ease-lume),
-      border-color 320ms var(--ease-lume);
+      transform 320ms var(--ease-dwellune),
+      border-color 320ms var(--ease-dwellune);
   }
 
   .primaryLink:hover,

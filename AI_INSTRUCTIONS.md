@@ -207,7 +207,7 @@ Use names such as:
 
 - `ProductStage`
 - `ShelfGrid`
-- `LumeButton`
+- `DwelluneButton`
 - `OrderStatusTimeline`
 - `NotificationCenter`
 - `CodSettlementPanel`

@@ -30,7 +30,7 @@
   text-decoration: underline;
   text-decoration-color: transparent;
   text-underline-offset: 0.25em;
-  transition: text-decoration-color var(--duration-control) var(--ease-lume);
+  transition: text-decoration-color var(--duration-control) var(--ease-dwellune);
 }
 
 .breadcrumbs a:hover,
@@ -66,7 +66,7 @@
 }
 
 .heroImage {
-  transition: transform 650ms var(--ease-lume);
+  transition: transform 650ms var(--ease-dwellune);
 }
 
 .galleryActions {
@@ -288,8 +288,8 @@
   color: var(--color-ink);
   cursor: pointer;
   transition:
-    border-color var(--duration-control) var(--ease-lume),
-    background var(--duration-control) var(--ease-lume);
+    border-color var(--duration-control) var(--ease-dwellune),
+    background var(--duration-control) var(--ease-dwellune);
 }
 
 .optionButton[aria-pressed="true"] {
@@ -596,7 +596,7 @@
 
 .relatedStage img {
   object-fit: cover;
-  transition: transform var(--duration-control) var(--ease-lume);
+  transition: transform var(--duration-control) var(--ease-dwellune);
 }
 
 .relatedStage > svg {
@@ -653,7 +653,7 @@
 
 .relatedCue svg {
   width: 0.9rem;
-  transition: transform var(--duration-control) var(--ease-lume);
+  transition: transform var(--duration-control) var(--ease-dwellune);
 }
 
 .recentGrid {

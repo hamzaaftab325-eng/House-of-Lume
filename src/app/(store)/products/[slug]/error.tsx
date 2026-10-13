@@ -2,7 +2,7 @@
 
 import { RotateCcw } from "lucide-react";
 
-import { LumeButton } from "@/components/ui/controls";
+import { DwelluneButton } from "@/components/ui/controls";
 
 import styles from "./product-route.module.css";
 
@@ -14,12 +14,12 @@ export default function ProductError({
 }) {
   return (
     <main className={styles.errorPage}>
-      <p>House of Lume</p>
+      <p>DWELLUNE</p>
       <h1>This object could not be prepared.</h1>
       <span>The catalogue is still available. Retry the product view when you’re ready.</span>
-      <LumeButton onClick={reset}>
+      <DwelluneButton onClick={reset}>
         <RotateCcw aria-hidden="true" /> Retry product
-      </LumeButton>
+      </DwelluneButton>
     </main>
   );
 }

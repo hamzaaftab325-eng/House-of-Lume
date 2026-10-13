@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 
-import { LumeButton } from "@/components/ui/controls";
-import { LumeDialog } from "@/components/ui/overlays";
+import { DwelluneButton } from "@/components/ui/controls";
+import { DwelluneDialog } from "@/components/ui/overlays";
 
 import styles from "./search-overlay.module.css";
 
@@ -152,7 +152,7 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
   };
 
   return (
-    <LumeDialog
+    <DwelluneDialog
       open={open}
       onOpenChange={onOpenChange}
       eyebrow="Search DWELLUNE"
@@ -200,9 +200,9 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
             </button>
           ) : null}
         </div>
-        <LumeButton type="submit" showArrow disabled={!query.trim()}>
+        <DwelluneButton type="submit" showArrow disabled={!query.trim()}>
           Search
-        </LumeButton>
+        </DwelluneButton>
       </form>
 
       <p className={styles.status} role="status" aria-live="polite">
@@ -290,6 +290,6 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
           </Link>
         </div>
       )}
-    </LumeDialog>
+    </DwelluneDialog>
   );
 }

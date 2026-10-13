@@ -1,4 +1,4 @@
-# House of Lume — Production Build Plan
+# DWELLUNE — Production Build Plan
 
 **Status:** Approved planning baseline  
 **Product:** Production ecommerce storefront + internal commerce CRM  
@@ -11,7 +11,7 @@
 
 # 1. Product Goal
 
-House of Lume is a production-grade home décor ecommerce platform for lighting, plants, planters, decorative objects, candles, mirrors, and future home categories.
+DWELLUNE is a production-grade home décor ecommerce platform for lighting, plants, planters, decorative objects, candles, mirrors, and future home categories.
 
 It is not a prototype. It must be capable of real customer ordering, real inventory handling, real Cash on Delivery operations, real internal order management, real notifications, real customer accounts, and real production deployment.
 
@@ -262,7 +262,7 @@ Create a production-quality base that later phases do not need to rewrite.
 
 # 6. Phase 1 — Database, Domain Model & Security Foundation
 
-**Status:** ✅ Complete — schema, authorization policies, public/private boundaries, and live RLS behavior were verified against the connected House of Lume Supabase project on 2026-10-13.
+**Status:** ✅ Complete — schema, authorization policies, public/private boundaries, and live RLS behavior were verified against the connected DWELLUNE Supabase project on 2026-10-13.
 
 ## Goal
 
@@ -331,7 +331,7 @@ Build the real commerce schema before hardcoding product/business logic into UI.
 - [x] Staff authorization policies
 - [x] Admin-only policies
 - [x] Service-role usage server-only
-- [x] Policy tests — live anonymous catalogue visibility, draft-product denial, private-order denial, and catalogue RPC behavior verified against the connected House of Lume Supabase project on 2026-10-13
+- [x] Policy tests — live anonymous catalogue visibility, draft-product denial, private-order denial, and catalogue RPC behavior verified against the connected DWELLUNE Supabase project on 2026-10-13
 
 ## Seed data
 
@@ -357,10 +357,10 @@ Translate `design.md` into reusable production components.
 
 ## Components
 
-- [x] LumeButton
-- [x] LumeLink
+- [x] DwelluneButton
+- [x] DwelluneLink
 - [x] IconButton
-- [x] LumeLine
+- [x] DwelluneLine
 - [x] ProductStage
 - [x] ProductUnit
 - [x] ShelfGrid
@@ -423,7 +423,7 @@ Translate `design.md` into reusable production components.
 
 ## Goal
 
-Create and ship the premium House of Lume homepage and brand-storytelling experience. Commerce-data wiring and operational features that depend on later catalogue, customer, review, email, or CRM phases are intentionally deferred and are not Phase 3 blockers.
+Create and ship the premium DWELLUNE homepage and brand-storytelling experience. Commerce-data wiring and operational features that depend on later catalogue, customer, review, email, or CRM phases are intentionally deferred and are not Phase 3 blockers.
 
 ## Completed homepage scope
 
@@ -1372,7 +1372,7 @@ Do not accumulate huge unreviewable commits across unrelated domains.
 
 # 35. Launch Scope Principles
 
-At launch, House of Lume should prioritize reliable core commerce over optional complexity.
+At launch, DWELLUNE should prioritize reliable core commerce over optional complexity.
 
 Mandatory launch-quality areas:
 
@@ -1417,4 +1417,4 @@ A phase may be called **100% complete only when every required item is verified 
 
 ---
 
-**House of Lume Production Plan — COD Launch Baseline**
+**DWELLUNE Production Plan — COD Launch Baseline**

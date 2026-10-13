@@ -11,7 +11,7 @@ export default function GlobalError({
       <body>
         <main className="foundation-page">
           <div className="site-shell reading-width">
-            <p className="foundation-kicker">House of Lume</p>
+            <p className="foundation-kicker">DWELLUNE</p>
             <h1 className="foundation-title">The application hit an unexpected error.</h1>
             <div className="foundation-links">
               <button className="foundation-link" type="button" onClick={reset}>

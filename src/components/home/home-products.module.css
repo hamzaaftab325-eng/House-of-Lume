@@ -108,9 +108,9 @@
   background: rgba(249, 245, 237, 0.97);
   clip-path: inset(0);
   transition:
-    transform 340ms var(--ease-lume),
-    border-color 300ms var(--ease-lume),
-    background-color 300ms var(--ease-lume);
+    transform 340ms var(--ease-dwellune),
+    border-color 300ms var(--ease-dwellune),
+    background-color 300ms var(--ease-dwellune);
 }
 
 .productUnit::before {
@@ -199,7 +199,7 @@
   object-fit: cover;
   transform: scale(1.001);
   transition:
-    transform 560ms var(--ease-lume),
+    transform 560ms var(--ease-dwellune),
     filter 420ms ease;
   will-change: transform;
 }
@@ -266,7 +266,7 @@
   width: 1.2rem;
   height: 0.68rem;
   justify-self: end;
-  transition: transform 320ms var(--ease-lume);
+  transition: transform 320ms var(--ease-dwellune);
 }
 
 .nameArrow::before {

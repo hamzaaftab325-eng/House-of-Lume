@@ -1,6 +1,10 @@
-# House of Lume
+# DWELLUNE
 
-Production ecommerce storefront and internal commerce CRM for House of Lume.
+Production ecommerce storefront and internal commerce CRM for DWELLUNE.
+
+Production storefront: https://dwellune.vercel.app. Set `NEXT_PUBLIC_SITE_URL` to this origin in the Vercel production environment; local development uses its own localhost origin.
+
+The Vercel project has a permanent, host-specific routing rule that directs former store addresses to this origin while preserving paths and query parameters. This project-level rule survives deployments.
 
 ## Launch model
 

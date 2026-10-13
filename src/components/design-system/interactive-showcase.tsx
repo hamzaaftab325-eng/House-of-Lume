@@ -5,7 +5,7 @@ import { Bell, Heart } from "lucide-react";
 
 import { useScrollScene } from "@/lib/motion/use-scroll-scene";
 import { useSplitText } from "@/lib/motion/use-split-text";
-import { Accordion, AccordionItem, LumeDialog, Tabs } from "@/components/ui/overlays";
+import { Accordion, AccordionItem, DwelluneDialog, Tabs } from "@/components/ui/overlays";
 import {
   CheckboxField,
   RadioGroup,
@@ -13,7 +13,7 @@ import {
   TextAreaField,
   TextField,
 } from "@/components/ui/forms";
-import { IconButton, LumeButton, LumeLink } from "@/components/ui/controls";
+import { IconButton, DwelluneButton, DwelluneLink } from "@/components/ui/controls";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { useToast } from "@/components/ui/toast";
 
@@ -39,12 +39,12 @@ export function InteractiveShowcase() {
             </p>
           </div>
           <div className={styles.controlRow}>
-            <LumeButton showArrow>Explore collection</LumeButton>
-            <LumeButton variant="frame" showArrow>
+            <DwelluneButton showArrow>Explore collection</DwelluneButton>
+            <DwelluneButton variant="frame" showArrow>
               View materials
-            </LumeButton>
-            <LumeButton variant="quiet">Quiet action</LumeButton>
-            <LumeLink href="/#lighting">Explore lighting</LumeLink>
+            </DwelluneButton>
+            <DwelluneButton variant="quiet">Quiet action</DwelluneButton>
+            <DwelluneLink href="/#lighting">Explore lighting</DwelluneLink>
             <IconButton label="Save example object" icon={<Heart />} emphasis="soft" />
           </div>
           <div className={styles.badgeRow}>
@@ -101,17 +101,17 @@ export function InteractiveShowcase() {
                   assistive-technology support without shipping a fragile custom focus manager.
                 </AccordionItem>
                 <AccordionItem title="Why no magnetic buttons?">
-                  Pointer attraction adds movement but no commerce value. House of Lume uses stable
+                  Pointer attraction adds movement but no commerce value. DWELLUNE uses stable
                   controls with deliberate fill and line reveals.
                 </AccordionItem>
               </Accordion>
             </div>
           </div>
           <div className={styles.controlRow}>
-            <LumeButton variant="frame" onClick={() => setDialogOpen(true)}>
+            <DwelluneButton variant="frame" onClick={() => setDialogOpen(true)}>
               Open dialog
-            </LumeButton>
-            <LumeButton
+            </DwelluneButton>
+            <DwelluneButton
               variant="quiet"
               onClick={() =>
                 pushToast({
@@ -124,12 +124,12 @@ export function InteractiveShowcase() {
             >
               <Bell size={16} aria-hidden="true" />
               Test toast
-            </LumeButton>
+            </DwelluneButton>
           </div>
         </div>
       </section>
 
-      <LumeDialog
+      <DwelluneDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         eyebrow="Native modal plane"
@@ -140,7 +140,7 @@ export function InteractiveShowcase() {
           Drawers, search, and confirmation surfaces share this native-accessible modal foundation
           instead of each inventing its own focus system.
         </p>
-      </LumeDialog>
+      </DwelluneDialog>
     </>
   );
 }
@@ -219,13 +219,13 @@ export function FormShowcase() {
 export function ScrollScrubShowcase() {
   const sceneRef = useScrollScene<HTMLDivElement>(({ gsap, mode }) => {
     gsap.fromTo(
-      "[data-lume-scrub-line]",
+      "[data-dwellune-scrub-line]",
       { scaleX: mode === "desktop" ? 0.08 : 0.18 },
       {
         scaleX: 1,
         ease: "none",
         scrollTrigger: {
-          trigger: "[data-lume-scrub-scene]",
+          trigger: "[data-dwellune-scrub-scene]",
           start: "top 72%",
           end: "bottom 42%",
           scrub: mode === "desktop" ? 0.6 : 0.25,
@@ -238,7 +238,7 @@ export function ScrollScrubShowcase() {
     <section
       ref={sceneRef}
       className={styles.scrubScene}
-      data-lume-scrub-scene
+      data-dwellune-scrub-scene
       aria-labelledby="scrub-title"
     >
       <div className="site-shell">
@@ -248,7 +248,7 @@ export function ScrollScrubShowcase() {
             Scroll moves the story, not the interface.
           </h2>
           <div className={styles.scrubTrack} aria-hidden="true">
-            <div className={styles.scrubLine} data-lume-scrub-line />
+            <div className={styles.scrubLine} data-dwellune-scrub-line />
           </div>
           <p className={styles.sectionCopy}>
             This scrub scene uses one owned transform, responsive timing, automatic GSAP cleanup,

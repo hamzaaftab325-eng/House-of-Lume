@@ -4,7 +4,7 @@ export default function ShopLoading() {
   return (
     <main className={styles.loading} aria-busy="true" aria-label="Loading catalogue">
       <div className={styles.loadingInner}>
-        <p>House of Lume</p>
+        <p>DWELLUNE</p>
         <div aria-hidden="true" />
         <span>Preparing the catalogue…</span>
       </div>

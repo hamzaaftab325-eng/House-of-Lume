@@ -2,7 +2,7 @@
 
 import { Heart, Minus, Plus, Star } from "lucide-react";
 
-import { LumeButton } from "@/components/ui/controls";
+import { DwelluneButton } from "@/components/ui/controls";
 import {
   formatPkr,
   isCodEligible,
@@ -173,14 +173,14 @@ export function ProductPurchasePanel({
       </div>
 
       <div className={styles.purchaseActions}>
-        <LumeButton
+        <DwelluneButton
           className={styles.addButton}
           disabled={pending || !variant?.inStock || quantity < 1}
           onClick={onAddToBag}
           showArrow
         >
           {variant?.inStock ? "Add to Bag" : "Currently unavailable"}
-        </LumeButton>
+        </DwelluneButton>
         <button
           aria-pressed={wishlisted}
           className={styles.wishlistButton}

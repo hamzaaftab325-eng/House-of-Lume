@@ -54,7 +54,7 @@ export function ProductUnit({ product }: { product: CatalogueProduct }) {
           />
         ) : (
           <div className={styles.productPlaceholder} aria-hidden="true">
-            <span>House of Lume</span>
+            <span>DWELLUNE</span>
             <PackageOpen />
           </div>
         )}
@@ -140,7 +140,7 @@ export function CatalogueView({
             </div>
           ) : (
             <div className={styles.empty} data-testid="catalogue-empty">
-              <p className={styles.emptyEyebrow}>House of Lume catalogue</p>
+              <p className={styles.emptyEyebrow}>DWELLUNE catalogue</p>
               <h2>{emptyTitle}</h2>
               <p>
                 {filters.q ||

@@ -58,7 +58,7 @@
 - [x] Variant status/inventory-tracking changes refresh the stock projection
 - [x] Phase 5 schema changes are committed as reproducible migrations
 - [x] A follow-up migration explicitly binds the public stock policy to both the exact variant and exact product
-- [x] Product media is restricted to the existing trusted House of Lume Cloudinary host before being rendered as remote media
+- [x] Product media is restricted to the existing trusted DWELLUNE Cloudinary host before being rendered as remote media
 - [x] Related products exclude the current product
 
 ## Security / Authorization
@@ -78,10 +78,10 @@
 
 ## Design System
 
-- [x] PDP follows the House of Lume asymmetric editorial composition rather than a generic ecommerce-card layout
+- [x] PDP follows the DWELLUNE asymmetric editorial composition rather than a generic ecommerce-card layout
 - [x] Existing Canvas/Paper/Chalk/Ink/Bronze/Ash semantic tokens are reused
 - [x] Existing Cormorant/Manrope hierarchy is preserved
-- [x] Lume Line / spatial metadata rhythm is preserved for related products
+- [x] DWELLUNE Line / spatial metadata rhythm is preserved for related products
 - [x] Purchase controls use the existing control language and tokenized radii/spacing
 - [x] Product story, material, care, and specification sections continue the editorial system
 - [x] Bag/wishlist drawers use the existing dialog/drawer system
@@ -169,7 +169,7 @@
 - [x] Next.js production build passes and includes dynamic `/products/[slug]`
 - [x] Full Playwright Chromium suite passes
 - [x] Exact-head Vercel preview reaches `READY`
-- [x] Live House of Lume Supabase stock/RLS behavior verified transactionally
+- [x] Live DWELLUNE Supabase stock/RLS behavior verified transactionally
 
 ## Repository / Commit Gate
 
@@ -183,9 +183,9 @@
 
 ## Production Content State
 
-The connected House of Lume production Supabase project currently contains **0 published active products, 0 active product variants, 0 product media rows, and 0 approved reviews**. Phase 5 deliberately does not fabricate production products, prices, inventory, reviews, or media. Real PDP routes will become available automatically when products are published through the catalogue/content workflow.
+The connected DWELLUNE production Supabase project currently contains **0 published active products, 0 active product variants, 0 product media rows, and 0 approved reviews**. Phase 5 deliberately does not fabricate production products, prices, inventory, reviews, or media. Real PDP routes will become available automatically when products are published through the catalogue/content workflow.
 
-The Phase 5 PDP is behaviorally verified in CI with deterministic fixtures that activate only when `NEXT_PUBLIC_SUPABASE_URL` is the repository's CI placeholder (`https://example.supabase.co`). Database authorization/stock behavior was separately verified against the real House of Lume Supabase project with transactional probe data that was rolled back; a subsequent query confirmed no Phase 5 probe products remained.
+The Phase 5 PDP is behaviorally verified in CI with deterministic fixtures that activate only when `NEXT_PUBLIC_SUPABASE_URL` is the repository's CI placeholder (`https://example.supabase.co`). Database authorization/stock behavior was separately verified against the real DWELLUNE Supabase project with transactional probe data that was rolled back; a subsequent query confirmed no Phase 5 probe products remained.
 
 Vercel's deployment state for the exact Phase 5 branch head is `READY`. Direct protected-preview fetching from the connected Vercel tool is not authorized for this team/project, so preview-page content inspection through that connector is not claimed. Product route behavior itself is covered by the full Playwright browser suite in CI.
 

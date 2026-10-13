@@ -293,7 +293,7 @@
 
 .productImage {
   object-fit: cover;
-  transition: transform var(--duration-control) var(--ease-lume);
+  transition: transform var(--duration-control) var(--ease-dwellune);
 }
 
 .productPlaceholder {
@@ -355,7 +355,7 @@
   margin-bottom: 0.9rem;
   background: var(--color-line-strong);
   transform-origin: left;
-  transition: transform var(--duration-control) var(--ease-lume);
+  transition: transform var(--duration-control) var(--ease-dwellune);
 }
 
 .productContext {

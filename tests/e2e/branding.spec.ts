@@ -21,6 +21,13 @@ test.describe("DWELLUNE brand shell", () => {
   });
 
   test("store metadata and search use DWELLUNE branding", async ({ page }) => {
+    await page.goto("/");
+    await expect(page).toHaveTitle("DWELLUNE — Refined Living for Modern Homes");
+    await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute(
+      "content",
+      "DWELLUNE",
+    );
+
     await page.goto("/shop");
     await expect(page).toHaveTitle(/DWELLUNE/i);
 

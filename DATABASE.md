@@ -1,4 +1,6 @@
-# House of Lume — Database Contract
+# DWELLUNE — Database Contract
+
+Active role and collection descriptions use DWELLUNE. The `dwellune_brand_descriptions` migration updates the existing seeded rows; applied historical migrations remain immutable.
 
 **Phase:** 1 — Database, Domain Model & Security Foundation  
 **Database:** Supabase PostgreSQL 17  

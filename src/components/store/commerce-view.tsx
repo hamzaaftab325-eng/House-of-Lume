@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { Heart, Minus, PackageOpen, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { useStoreCommerce } from "@/components/providers/store-commerce";
-import { IconButton, LumeButton, LumeButtonLink } from "@/components/ui/controls";
+import { IconButton, DwelluneButton, DwelluneButtonLink } from "@/components/ui/controls";
 import { useToast } from "@/components/ui/toast";
 import { mediaUrl, type CartLine, type SavedLine } from "@/lib/commerce";
 import { formatPkr } from "@/lib/product-detail";
@@ -45,7 +45,7 @@ function CommerceStatus() {
       {commerce.error ? (
         <div className={styles.error} role="alert">
           <p>{commerce.error}</p>
-          <LumeButton
+          <DwelluneButton
             variant="quiet"
             disabled={commerce.pending}
             onClick={() => {
@@ -53,7 +53,7 @@ function CommerceStatus() {
             }}
           >
             Retry
-          </LumeButton>
+          </DwelluneButton>
         </div>
       ) : null}
       <span className={styles.srOnly} role="status" aria-live="polite">
@@ -72,9 +72,9 @@ function EmptySelection({ wishlist = false }: { wishlist?: boolean }) {
           ? "Save a finish or size you love and return to it whenever you are ready."
           : "Find an object that belongs in your home. Your selection will be saved for your next visit."}
       </p>
-      <LumeButtonLink href="/shop" variant="frame" showArrow>
+      <DwelluneButtonLink href="/shop" variant="frame" showArrow>
         Explore the collection
-      </LumeButtonLink>
+      </DwelluneButtonLink>
     </div>
   );
 }
@@ -106,7 +106,7 @@ export function CartContents({
       {removed ? (
         <div className={styles.undo} role="status">
           <span>{removed.product_name} removed.</span>
-          <LumeButton
+          <DwelluneButton
             variant="quiet"
             disabled={commerce.pending}
             onClick={() => {
@@ -117,10 +117,10 @@ export function CartContents({
             }}
           >
             Undo
-          </LumeButton>
-          <LumeButton variant="quiet" onClick={() => setRemoved(null)}>
+          </DwelluneButton>
+          <DwelluneButton variant="quiet" onClick={() => setRemoved(null)}>
             Dismiss
-          </LumeButton>
+          </DwelluneButton>
         </div>
       ) : null}
       {cart?.lines.length ? (
@@ -223,7 +223,7 @@ export function CartSummary() {
             {quote.discount_code}
             {quote.discount_error ? ` · ${quote.discount_error}` : " applied"}
           </span>
-          <LumeButton
+          <DwelluneButton
             variant="quiet"
             disabled={commerce.pending}
             onClick={() => {
@@ -231,7 +231,7 @@ export function CartSummary() {
             }}
           >
             Remove code
-          </LumeButton>
+          </DwelluneButton>
         </div>
       ) : null}
       <form className={styles.discount} onSubmit={submit}>
@@ -246,9 +246,9 @@ export function CartSummary() {
             autoComplete="off"
             disabled={commerce.pending}
           />
-          <LumeButton type="submit" variant="frame" disabled={commerce.pending || !code.trim()}>
+          <DwelluneButton type="submit" variant="frame" disabled={commerce.pending || !code.trim()}>
             Apply
-          </LumeButton>
+          </DwelluneButton>
         </div>
       </form>
       <p className={styles.delivery}>
@@ -269,13 +269,13 @@ export function CartSummary() {
         </strong>
         <p>Cash on Delivery. No online payment is collected.</p>
       </div>
-      <LumeButton className={styles.checkout} disabled>
+      <DwelluneButton className={styles.checkout} disabled>
         Ordering opens soon
-      </LumeButton>
+      </DwelluneButton>
       <p className={styles.delivery}>Your bag is saved. Order placement is not available yet.</p>
-      <LumeButtonLink href="/shop" variant="quiet" showArrow>
+      <DwelluneButtonLink href="/shop" variant="quiet" showArrow>
         Continue exploring
-      </LumeButtonLink>
+      </DwelluneButtonLink>
     </aside>
   );
 }
@@ -315,7 +315,7 @@ export function WishlistContents({
             <article className={styles.line} key={line.variant_id}>
               <ProductIdentity line={line} onNavigate={onNavigate} />
               <div className={styles.savedControls}>
-                <LumeButton
+                <DwelluneButton
                   variant="frame"
                   disabled={commerce.pending || line.max_quantity === 0}
                   onClick={() => {
@@ -323,7 +323,7 @@ export function WishlistContents({
                   }}
                 >
                   {line.max_quantity === 0 ? "Out of stock" : "Move to bag"}
-                </LumeButton>
+                </DwelluneButton>
                 <IconButton
                   label={`Remove ${line.product_name} from wishlist`}
                   icon={<Trash2 />}

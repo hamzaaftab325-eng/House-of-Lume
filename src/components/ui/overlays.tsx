@@ -31,7 +31,7 @@ function useNativeDialog(open: boolean, onOpenChange: (open: boolean) => void) {
   return ref;
 }
 
-type LumeDialogProps = {
+type DwelluneDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
@@ -41,7 +41,7 @@ type LumeDialogProps = {
   size?: "default" | "search";
 };
 
-export function LumeDialog({
+export function DwelluneDialog({
   open,
   onOpenChange,
   title,
@@ -49,7 +49,7 @@ export function LumeDialog({
   description,
   children,
   size = "default",
-}: LumeDialogProps) {
+}: DwelluneDialogProps) {
   const ref = useNativeDialog(open, onOpenChange);
   const titleId = useId();
   const descriptionId = useId();
@@ -83,7 +83,7 @@ export function LumeDialog({
   );
 }
 
-type DrawerProps = Omit<LumeDialogProps, "size"> & {
+type DrawerProps = Omit<DwelluneDialogProps, "size"> & {
   side?: "left" | "right";
   footer?: ReactNode;
 };

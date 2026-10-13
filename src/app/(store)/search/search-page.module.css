@@ -38,7 +38,7 @@
   align-items: center;
   min-height: 3.9rem;
   border-top: 1px solid var(--color-line);
-  transition: padding var(--duration-fast) var(--ease-lume);
+  transition: padding var(--duration-fast) var(--ease-dwellune);
 }
 
 .related a span {

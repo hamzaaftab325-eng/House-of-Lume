@@ -10,16 +10,8 @@ const id = "11111111-1111-4111-8111-111111111301";
 describe("Phase 6 commerce boundaries", () => {
   it("matches the request host without weakening cross-site protection", () => {
     expect(sameOrigin("http://127.0.0.1:3000", "127.0.0.1:3000", "http:")).toBe(true);
-    expect(
-      sameOrigin(
-        "https://house-of-lume-liart.vercel.app",
-        "house-of-lume-liart.vercel.app",
-        "https:",
-      ),
-    ).toBe(true);
-    expect(sameOrigin("https://evil.example", "house-of-lume-liart.vercel.app", "https:")).toBe(
-      false,
-    );
+    expect(sameOrigin("https://dwellune.vercel.app", "dwellune.vercel.app", "https:")).toBe(true);
+    expect(sameOrigin("https://evil.example", "dwellune.vercel.app", "https:")).toBe(false);
     expect(sameOrigin(null, "localhost:3000", "http:")).toBe(false);
   });
   it("rejects client prices, owner IDs, invalid quantities and malformed identifiers", () => {

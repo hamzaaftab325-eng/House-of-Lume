@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, PackageOpen } from "lucide-react";
 
-import { LumeLine } from "@/components/ui/controls";
+import { DwelluneLine } from "@/components/ui/controls";
 import {
   formatPkr,
   type ProductDetailData,
@@ -70,7 +70,7 @@ function RelatedProducts({ products }: { products: RelatedProductSummary[] }) {
                 <span>{product.inStock ? "In stock" : "Unavailable"}</span>
               </div>
               <div className={styles.relatedCopy}>
-                <LumeLine />
+                <DwelluneLine />
                 <p>{product.material ?? product.productType}</p>
                 <h3>{product.name}</h3>
                 <strong>{displayPrice(product)}</strong>

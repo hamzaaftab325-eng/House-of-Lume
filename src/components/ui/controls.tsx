@@ -35,11 +35,11 @@ type ButtonVisualProps = VariantProps<typeof buttonVariants> & {
   showArrow?: boolean;
 };
 
-type LumeButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & ButtonVisualProps;
+type DwelluneButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & ButtonVisualProps;
 
 type TypedLinkProps = LinkProps<Route>;
 
-export function LumeButton({
+export function DwelluneButton({
   className,
   variant,
   shape,
@@ -48,7 +48,7 @@ export function LumeButton({
   children,
   type = "button",
   ...props
-}: LumeButtonProps) {
+}: DwelluneButtonProps) {
   return (
     <button
       className={cx(buttonVariants({ variant, shape, size }), className)}
@@ -61,13 +61,13 @@ export function LumeButton({
   );
 }
 
-type LumeButtonLinkProps = TypedLinkProps &
+type DwelluneButtonLinkProps = TypedLinkProps &
   ButtonVisualProps & {
     children: ReactNode;
     className?: string;
   };
 
-export function LumeButtonLink({
+export function DwelluneButtonLink({
   className,
   variant,
   shape,
@@ -75,7 +75,7 @@ export function LumeButtonLink({
   showArrow = false,
   children,
   ...props
-}: LumeButtonLinkProps) {
+}: DwelluneButtonLinkProps) {
   return (
     <Link className={cx(buttonVariants({ variant, shape, size }), className)} {...props}>
       <span>{children}</span>
@@ -84,12 +84,12 @@ export function LumeButtonLink({
   );
 }
 
-type LumeLinkProps = TypedLinkProps & {
+type DwelluneLinkProps = TypedLinkProps & {
   children: ReactNode;
   className?: string;
 };
 
-export function LumeLink({ className, children, ...props }: LumeLinkProps) {
+export function DwelluneLink({ className, children, ...props }: DwelluneLinkProps) {
   return (
     <Link className={cx(styles.link, className)} {...props}>
       <span>{children}</span>
@@ -133,13 +133,13 @@ export function IconButton({
   );
 }
 
-type LumeLineProps = {
+type DwelluneLineProps = {
   axis?: "horizontal" | "vertical";
   tone?: "ink" | "bronze" | "olive";
   className?: string;
 };
 
-export function LumeLine({ axis = "horizontal", tone = "ink", className }: LumeLineProps) {
+export function DwelluneLine({ axis = "horizontal", tone = "ink", className }: DwelluneLineProps) {
   return (
     <span
       className={cx(

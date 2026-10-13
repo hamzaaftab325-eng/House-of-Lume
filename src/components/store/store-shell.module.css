@@ -23,10 +23,10 @@
   background: color-mix(in srgb, var(--color-canvas) 88%, transparent);
   backdrop-filter: blur(14px) saturate(1.08);
   transition:
-    background-color var(--duration-control) var(--ease-lume),
-    border-color var(--duration-control) var(--ease-lume),
-    box-shadow var(--duration-control) var(--ease-lume),
-    color var(--duration-control) var(--ease-lume);
+    background-color var(--duration-control) var(--ease-dwellune),
+    border-color var(--duration-control) var(--ease-dwellune),
+    box-shadow var(--duration-control) var(--ease-dwellune),
+    color var(--duration-control) var(--ease-dwellune);
 }
 
 .header[data-home="true"] {
@@ -71,8 +71,8 @@
   height: auto;
   filter: drop-shadow(0 0.18rem 0.7rem color-mix(in srgb, var(--color-ink) 36%, transparent));
   transition:
-    filter var(--duration-control) var(--ease-lume),
-    transform var(--duration-control) var(--ease-lume);
+    filter var(--duration-control) var(--ease-dwellune),
+    transform var(--duration-control) var(--ease-dwellune);
 }
 
 .header[data-home="true"]:not([data-scrolled="true"]) .logoImage {
@@ -109,7 +109,7 @@
   content: "";
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform var(--duration-control) var(--ease-lume);
+  transition: transform var(--duration-control) var(--ease-dwellune);
 }
 
 .header[data-home="true"]:not([data-scrolled="true"]) .navLink::after {
@@ -289,7 +289,7 @@
   line-height: 2.1rem;
   transition:
     color var(--duration-fast) ease,
-    transform var(--duration-fast) var(--ease-lume);
+    transform var(--duration-fast) var(--ease-dwellune);
 }
 
 .footerBottom {

@@ -74,8 +74,8 @@
   border-bottom: 1px solid var(--color-line);
   padding: 0.4rem 0;
   transition:
-    padding var(--duration-fast) var(--ease-lume),
-    background var(--duration-fast) var(--ease-lume);
+    padding var(--duration-fast) var(--ease-dwellune),
+    background var(--duration-fast) var(--ease-dwellune);
 }
 
 .result {

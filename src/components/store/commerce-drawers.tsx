@@ -1,6 +1,6 @@
 "use client";
 import { useStoreCommerce } from "@/components/providers/store-commerce";
-import { LumeButtonLink } from "@/components/ui/controls";
+import { DwelluneButtonLink } from "@/components/ui/controls";
 import { Drawer } from "@/components/ui/overlays";
 import { formatPkr } from "@/lib/product-detail";
 import { CartContents, WishlistContents } from "./commerce-view";
@@ -25,9 +25,13 @@ export function CommerceDrawers({
         eyebrow="Saved objects"
         title="Wishlist"
         footer={
-          <LumeButtonLink href="/wishlist" showArrow onClick={() => onWishlistOpenChange(false)}>
+          <DwelluneButtonLink
+            href="/wishlist"
+            showArrow
+            onClick={() => onWishlistOpenChange(false)}
+          >
             View saved objects
-          </LumeButtonLink>
+          </DwelluneButtonLink>
         }
       >
         <WishlistContents compact onNavigate={() => onWishlistOpenChange(false)} />
@@ -42,9 +46,9 @@ export function CommerceDrawers({
             <p>
               Subtotal <strong>{formatPkr(commerce.data?.cart.quote.subtotal_pkr ?? 0)}</strong>
             </p>
-            <LumeButtonLink href="/cart" showArrow onClick={() => onBagOpenChange(false)}>
+            <DwelluneButtonLink href="/cart" showArrow onClick={() => onBagOpenChange(false)}>
               Review your bag
-            </LumeButtonLink>
+            </DwelluneButtonLink>
           </>
         }
       >

@@ -29,7 +29,7 @@
   --duration-fast: 180ms;
   --duration-control: 360ms;
   --duration-section: 760ms;
-  --ease-lume: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-dwellune: cubic-bezier(0.2, 0.8, 0.2, 1);
   --shadow-float: 0 1.25rem 4rem color-mix(in srgb, var(--color-ink) 16%, transparent);
   --focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-bronze) 36%, transparent);
   --z-header: 40;

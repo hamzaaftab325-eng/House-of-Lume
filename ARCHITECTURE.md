@@ -1,11 +1,11 @@
-# House of Lume — Application Architecture
+# DWELLUNE — Application Architecture
 
 **Status:** Phase 0 production baseline  
 **Applies with:** `AI_INSTRUCTIONS.md`, `design.md`, `PROJECT_PLAN.md`, `PHASE_EXECUTION_TEMPLATE.md`, and `SECURITY.md`
 
 ## 1. Architectural Principle
 
-House of Lume uses a layered Next.js App Router architecture. UI, domain rules, server orchestration, and persistence must remain distinct so later commerce phases can grow without page-level business logic or duplicated data access.
+DWELLUNE uses a layered Next.js App Router architecture. UI, domain rules, server orchestration, and persistence must remain distinct so later commerce phases can grow without page-level business logic or duplicated data access.
 
 Default flow:
 

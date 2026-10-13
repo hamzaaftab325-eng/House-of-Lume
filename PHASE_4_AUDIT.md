@@ -50,7 +50,7 @@
 ## Security / Authorization
 
 - [x] Public catalogue remains governed by existing RLS policies
-- [x] Live anonymous RLS verification completed against the connected House of Lume Supabase project
+- [x] Live anonymous RLS verification completed against the connected DWELLUNE Supabase project
 - [x] Anonymous user can read active categories and active collections
 - [x] Anonymous user can read an active published product
 - [x] Anonymous user cannot read a draft product
@@ -62,11 +62,11 @@
 
 ## Design System
 
-- [x] Catalogue follows House of Lume Object Stage / quiet-grid language
+- [x] Catalogue follows DWELLUNE Object Stage / quiet-grid language
 - [x] No generic rounded ecommerce-card treatment introduced
 - [x] Existing Canvas, Paper, Chalk, Ink, Bronze, Ash, and semantic tokens are reused
 - [x] Cormorant/Manrope hierarchy remains consistent with `design.md`
-- [x] Lume Lines and flat architectural metadata rhythm are used for catalogue hierarchy
+- [x] DWELLUNE Lines and flat architectural metadata rhythm are used for catalogue hierarchy
 - [x] Product metadata remains spatially stable
 - [x] Empty/loading/search states use the same visual language
 - [x] No inline styles introduced

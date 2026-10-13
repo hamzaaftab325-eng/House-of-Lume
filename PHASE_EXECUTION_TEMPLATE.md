@@ -1,4 +1,4 @@
-# House of Lume — Phase Execution Template
+# DWELLUNE — Phase Execution Template
 
 **Purpose:** Mandatory reusable template for every implementation phase.  
 **Applies with:** `AI_INSTRUCTIONS.md`, `design.md`, and `PROJECT_PLAN.md`.
@@ -58,7 +58,7 @@ The goal must describe working product capability, not only visual output.
 - [ ] No inline styles
 - [ ] No duplicated class systems
 - [ ] Reusable patterns extracted appropriately
-- [ ] Lume Controls used correctly
+- [ ] DWELLUNE Controls used correctly
 - [ ] Typography hierarchy correct
 - [ ] Spacing/grid/radius rules respected
 - [ ] CRM and storefront visual roles remain distinct where applicable

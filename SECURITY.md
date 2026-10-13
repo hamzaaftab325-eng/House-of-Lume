@@ -1,4 +1,4 @@
-# House of Lume — Dependency Security Policy
+# DWELLUNE — Dependency Security Policy
 
 **Status:** Phase 0 production baseline  
 **Last reviewed:** 2026-10-05

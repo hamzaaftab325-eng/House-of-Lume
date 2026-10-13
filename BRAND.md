@@ -2,7 +2,7 @@
 
 **Status:** Active brand source of truth  
 **Version:** 1.0  
-**Supersedes:** legacy `House of Lume` naming and legacy color values wherever they conflict
+**Production URL:** https://dwellune.vercel.app
 
 ## Brand identity
 
@@ -37,6 +37,8 @@ Use semantic tokens from `src/app/globals.css`; do not scatter these hex values 
 - Existing product, category and collection names remain data-driven and must not be fabricated during rebranding.
 - The established editorial layout, typography, motion and component principles in `design.md` remain active unless this file explicitly overrides them.
 
-## Migration rule
+## Naming rule
 
-Legacy `House of Lume` references are considered cleanup debt after the DWELLUNE rebrand and should not be introduced in new production code. Internal technical component names such as `LumeButton` may remain temporarily when renaming them would create unnecessary churn; they should be addressed only in an explicit cleanup/refactor pass.
+Use `DWELLUNE` for visible brand mentions, `Dwellune` for named component prefixes and `dwellune` for package names, CSS tokens and domain labels. Keep all active code, development fixtures and documentation aligned with this brand system.
+
+The canonical production origin is `https://dwellune.vercel.app`, configured through `NEXT_PUBLIC_SITE_URL` in the Vercel production environment.

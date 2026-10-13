@@ -385,8 +385,8 @@
 @media (hover: hover) and (pointer: fine) {
   .productUnit .stageContent {
     transition:
-      transform 600ms var(--ease-lume),
-      filter 600ms var(--ease-lume);
+      transform 600ms var(--ease-dwellune),
+      filter 600ms var(--ease-dwellune);
   }
 
   .productUnit:hover .stageContent {
