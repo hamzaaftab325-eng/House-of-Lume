@@ -1,0 +1,123 @@
+.loadingPage {
+  width: min(calc(100% - (var(--page-gutter) * 2)), 1440px);
+  min-height: 78vh;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(20rem, 5fr);
+  align-items: start;
+  gap: clamp(2.5rem, 5vw, 6rem);
+  margin-inline: auto;
+  padding: clamp(8rem, 12vw, 10rem) 0 5rem;
+}
+
+.loadingGallery {
+  aspect-ratio: 4 / 5;
+  background: linear-gradient(110deg, var(--color-chalk) 25%, var(--color-paper) 42%, var(--color-chalk) 58%);
+  background-size: 220% 100%;
+  animation: product-skeleton 1.5s ease-in-out infinite;
+}
+
+.loadingPanel {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.loadingPanel span {
+  display: block;
+  height: 1px;
+  background: var(--color-line-strong);
+}
+
+.loadingPanel span:first-child {
+  width: 35%;
+  height: 0.75rem;
+  background: var(--color-chalk);
+}
+
+.loadingPanel span:nth-child(2) {
+  width: 82%;
+  height: 4rem;
+  background: var(--color-chalk);
+}
+
+.loadingPanel span:nth-child(3) {
+  width: 65%;
+  height: 1rem;
+  background: var(--color-chalk);
+}
+
+.loadingPage > p {
+  grid-column: 2;
+  margin: -2rem 0 0;
+  color: var(--color-ash);
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.errorPage {
+  width: min(calc(100% - (var(--page-gutter) * 2)), 760px);
+  min-height: 72vh;
+  display: grid;
+  place-items: start;
+  align-content: center;
+  gap: 1rem;
+  margin-inline: auto;
+  padding: 8rem 0 5rem;
+}
+
+.errorPage > p {
+  margin: 0;
+  color: var(--color-bronze);
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.errorPage h1 {
+  max-width: 12ch;
+  margin: 0;
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+.errorPage > span {
+  max-width: 38rem;
+  color: var(--color-ash);
+  line-height: 1.7;
+}
+
+@keyframes product-skeleton {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (max-width: 62rem) {
+  .loadingPage {
+    grid-template-columns: 1fr;
+  }
+
+  .loadingGallery {
+    width: min(100%, 46rem);
+    margin-inline: auto;
+  }
+
+  .loadingPage > p {
+    grid-column: 1;
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loadingGallery {
+    animation: none;
+  }
+}
