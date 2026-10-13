@@ -1,5 +1,5 @@
-import Image from "next/image";
 import type { Route } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, PackageOpen } from "lucide-react";
 
@@ -67,7 +67,7 @@ export function ProductUnit({ product }: { product: CatalogueProduct }) {
         ) : null}
         <div className={styles.productFooter}>
           <strong>{productPrice(product)}</strong>
-          <span className={styles.phaseNote}>Details in the next product chapter</span>
+          <span className={styles.serviceNote}>Cash on Delivery</span>
         </div>
       </div>
     </article>
@@ -142,7 +142,7 @@ export function CatalogueView({
                 filters.material ||
                 filters.color
                   ? "Try clearing a filter or exploring another room, material, or collection."
-                  : "The catalogue structure is live and ready for published House of Lume products."}
+                  : "Our online shelves are being prepared. Explore the House while the first objects arrive."}
               </p>
               <Link className={styles.emptyLink} href="/shop">
                 Explore the full catalogue <ArrowRight aria-hidden="true" />
