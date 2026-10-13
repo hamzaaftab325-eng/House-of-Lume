@@ -20,7 +20,9 @@ test.describe("Phase 5 product detail experience", () => {
 
     const jsonLd = page.locator('script[type="application/ld+json"]');
     await expect(jsonLd).toHaveCount(1);
-    await expect(jsonLd).toContainText("Aurelia Floor Lamp");
+    const structuredData = await jsonLd.textContent();
+    expect(structuredData).toContain("Aurelia Floor Lamp");
+    expect(structuredData).toContain('"@type":"Product"');
     await expectNoHorizontalOverflow(page);
   });
 
@@ -45,7 +47,7 @@ test.describe("Phase 5 product detail experience", () => {
     await page.getByRole("button", { name: "Increase quantity" }).click();
     await expect(page.getByLabel("Quantity 2")).toHaveText("2");
     await page.getByRole("button", { name: "Add to Bag" }).click();
-    await expect(page.getByRole("status")).toContainText("Added to your bag");
+    await expect(page.getByText("Added to your bag", { exact: true })).toBeVisible();
 
     await page.getByRole("button", { name: "Shopping bag" }).click();
     const bag = page.getByRole("dialog", { name: "Shopping bag" });
@@ -78,6 +80,11 @@ test.describe("Phase 5 product detail experience", () => {
 
   test("recently viewed excludes current product and recalls prior object", async ({ page }) => {
     await page.goto("/products/test-aurelia-floor-lamp");
+    await page.waitForFunction(() =>
+      window.localStorage
+        .getItem("house-of-lume-recently-viewed-v1")
+        ?.includes("test-aurelia-floor-lamp"),
+    );
     await page.goto("/products/test-sable-planter");
 
     await expect(page.getByRole("heading", { name: "Recently viewed" })).toBeVisible();
