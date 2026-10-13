@@ -3,7 +3,8 @@
 import { RotateCcw } from "lucide-react";
 
 import { LumeButton } from "@/components/ui/controls";
-import styles from "@/components/product/product-detail.module.css";
+
+import styles from "./product-route.module.css";
 
 export default function ProductError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
