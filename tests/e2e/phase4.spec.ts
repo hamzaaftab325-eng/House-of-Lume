@@ -32,10 +32,11 @@ test.describe("Phase 4 catalogue discovery", () => {
   test("search surface routes to a full results page", async ({ page }) => {
     await page.goto("/shop");
     await page.getByRole("button", { name: "Search" }).click();
-    await page
+    const searchDialog = page.getByRole("dialog");
+    await searchDialog
       .getByRole("searchbox", { name: /search house of lume/i })
       .fill("unlikely-object-query");
-    await page.getByRole("button", { name: /^search$/i }).click();
+    await searchDialog.getByRole("button", { name: "Search", exact: true }).click();
 
     await expect(page).toHaveURL(/\/search\?q=unlikely-object-query/);
     await expect(page.getByRole("heading", { level: 1, name: /results for/i })).toBeVisible();
