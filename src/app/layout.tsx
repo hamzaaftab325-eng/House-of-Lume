@@ -21,10 +21,10 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
   title: {
-    default: "House of Lume",
-    template: "%s | House of Lume",
+    default: "DWELLUNE",
+    template: "%s | DWELLUNE",
   },
-  description: "Lighting, greenery, and considered objects for warmer homes.",
+  description: "Lighting, greenery, and considered home décor for warmer, more personal spaces.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

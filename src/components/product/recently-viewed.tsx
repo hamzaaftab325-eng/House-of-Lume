@@ -10,7 +10,7 @@ import { formatPkr } from "@/lib/product-detail";
 
 import styles from "./product-detail.module.css";
 
-const STORAGE_KEY = "house-of-lume-recently-viewed-v1";
+const STORAGE_KEY = "dwellune-recently-viewed-v1";
 const EMPTY: RecentProduct[] = [];
 let snapshot: RecentProduct[] = EMPTY;
 let hydrated = false;

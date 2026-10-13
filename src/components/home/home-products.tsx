@@ -42,7 +42,7 @@ const previewProducts = [
     imageClass: styles.verdantImage,
   },
   {
-    name: "Lume Candle Bowl",
+    name: "Dwellune Candle Bowl",
     eyebrow: "The finishing touch",
     detail: "Spaces that feel like home",
     image:
@@ -118,13 +118,12 @@ export function HomeProducts() {
     >
       <div className={styles.inner}>
         <header className={styles.header}>
-          <p className={styles.kicker}>House of Lume</p>
+          <p className={styles.kicker}>DWELLUNE</p>
           <h2 id="products-title" className={styles.title}>
             Objects for a Brighter Home
           </h2>
           <p className={styles.intro}>
-            A considered preview of forms, materials, and objects shaping the House of Lume
-            collection.
+            A considered preview of forms, materials, and objects shaping the DWELLUNE collection.
           </p>
           <p className={styles.status}>Editorial preview · The catalogue is now open</p>
           <LumeLink href="/shop">Explore the catalogue</LumeLink>
@@ -152,7 +151,7 @@ export function HomeProducts() {
 
               <div className={styles.topRail} aria-hidden="true">
                 <span className={styles.topLine} />
-                <span className={styles.wordmark}>House of Lume</span>
+                <span className={styles.wordmark}>DWELLUNE</span>
                 <span className={styles.topLine} />
               </div>
 

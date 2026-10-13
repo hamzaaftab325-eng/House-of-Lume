@@ -82,7 +82,7 @@ test.describe("Phase 5 product detail experience", () => {
     await page.goto("/products/test-aurelia-floor-lamp");
     await page.waitForFunction(() =>
       window.localStorage
-        .getItem("house-of-lume-recently-viewed-v1")
+        .getItem("dwellune-recently-viewed-v1")
         ?.includes("test-aurelia-floor-lamp"),
     );
     await page.goto("/products/test-sable-planter");

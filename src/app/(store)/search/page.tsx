@@ -8,8 +8,8 @@ import { getCatalogue, getSearchSuggestions } from "@/server/catalogue/catalogue
 import styles from "./search-page.module.css";
 
 export const metadata: Metadata = {
-  title: "Search | House of Lume",
-  description: "Search the House of Lume catalogue, categories, and curated collections.",
+  title: "Search | DWELLUNE",
+  description: "Search the DWELLUNE catalogue, categories, and curated collections.",
   alternates: { canonical: "/search" },
   robots: { index: false, follow: true },
 };

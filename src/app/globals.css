@@ -2,19 +2,21 @@
 
 :root {
   color-scheme: light;
-  --color-canvas: #f2ede3;
-  --color-paper: #fbf8f1;
-  --color-chalk: #e6ded0;
-  --color-ink: #1e1d1a;
-  --color-graphite: #383630;
-  --color-ash: #716c63;
-  --color-bronze: #96744d;
-  --color-olive: #66705b;
-  --color-clay: #a9654c;
+  --color-canvas: #f7f0e5;
+  --color-paper: #fff8ee;
+  --color-chalk: #eadcc8;
+  --color-ink: #281103;
+  --color-graphite: #502a0d;
+  --color-ash: #75634e;
+  --color-bronze: #a97034;
+  --color-bronze-soft: #d09653;
+  --color-olive: #637d57;
+  --color-sage: #8fa984;
+  --color-clay: #8a5733;
   --color-success: #526849;
-  --color-warning: #9b6d2f;
-  --color-error: #9e493d;
-  --color-info: #536b73;
+  --color-warning: #9a642d;
+  --color-error: #8f4338;
+  --color-info: #5d7161;
   --color-line: color-mix(in srgb, var(--color-ink) 12%, transparent);
   --color-line-strong: color-mix(in srgb, var(--color-ink) 20%, transparent);
   --page-gutter: clamp(1.25rem, 3vw, 3.5rem);
@@ -177,7 +179,7 @@ main #categories article {
   will-change: transform, filter, opacity;
 }
 
-main #categories article[aria-label="House of Lume collection"] img {
+main #categories article[aria-label="DWELLUNE collection"] img {
   filter: saturate(0.96) contrast(1.03) brightness(1.03) !important;
 }
 
@@ -210,7 +212,7 @@ main #categories [role="listitem"]:nth-child(5) img {
     filter: saturate(1) contrast(1.04) brightness(1.09) !important;
   }
 
-  main #categories article[aria-label="House of Lume collection"]:hover img {
+  main #categories article[aria-label="DWELLUNE collection"]:hover img {
     filter: saturate(1) contrast(1.035) brightness(1.055) !important;
   }
 }

@@ -13,7 +13,7 @@ test("storefront hero and shell render", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.getByRole("banner")).toBeVisible();
-  await expect(page.getByRole("region", { name: "House of Lume introduction" })).toBeVisible();
+  await expect(page.getByRole("region", { name: "DWELLUNE introduction" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Refined living starts here." })).toBeVisible();
   await expect(page.getByRole("link", { name: /Shop now/ })).toBeVisible();
   await expect(page.getByRole("button", { name: "Pause hero autoplay" })).toBeVisible();
@@ -78,7 +78,7 @@ test("category scene keeps a compact responsive visual hierarchy", async ({ page
 
     const section = page.locator("#categories");
     const title = section.getByRole("heading", { name: "Explore the House", exact: true });
-    const feature = section.getByLabel("House of Lume collection");
+    const feature = section.getByLabel("DWELLUNE collection");
 
     await expect(section).toBeVisible();
     await expect(title).toBeVisible();
@@ -155,7 +155,7 @@ test("search and bag use accessible modal planes and restore focus", async ({ pa
   await expect(
     page.getByRole("dialog", { name: "Find an object by mood, room, or material." }),
   ).toBeVisible();
-  await expect(page.getByRole("searchbox", { name: "Search House of Lume" })).toBeFocused();
+  await expect(page.getByRole("searchbox", { name: "Search DWELLUNE" })).toBeFocused();
   await page
     .getByRole("button", { name: "Close Find an object by mood, room, or material." })
     .click();

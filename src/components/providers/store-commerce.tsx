@@ -2,7 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 
-const STORAGE_KEY = "house-of-lume-commerce-v1";
+const STORAGE_KEY = "dwellune-commerce-v1";
 
 export type CommerceProductSnapshot = {
   variantId: string;

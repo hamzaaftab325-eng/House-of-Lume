@@ -34,7 +34,7 @@ test.describe("Phase 4 catalogue discovery", () => {
     await page.getByRole("button", { name: "Search" }).click();
     const searchDialog = page.getByRole("dialog");
     await searchDialog
-      .getByRole("searchbox", { name: /search house of lume/i })
+      .getByRole("searchbox", { name: /search dwellune/i })
       .fill("unlikely-object-query");
     await searchDialog.getByRole("button", { name: "Search", exact: true }).click();
 

@@ -421,7 +421,7 @@ export function HomeEditorialSections() {
       >
         <header className={styles.centerHeader}>
           <p className={styles.kicker} data-reveal>
-            House of Lume
+            DWELLUNE
           </p>
           <h2 id="spaces-title" data-reveal>
             Discover Spaces
@@ -433,7 +433,7 @@ export function HomeEditorialSections() {
           <div className={styles.roomStage} data-reveal>
             <Image
               src={images.living}
-              alt="Warm House of Lume living room"
+              alt="Warm DWELLUNE living room"
               fill
               className={styles.coverImage}
               sizes="(max-width: 900px) 100vw, 68vw"
@@ -504,7 +504,7 @@ export function HomeEditorialSections() {
       >
         <div className={styles.materialIntro}>
           <p className={styles.kicker} data-reveal>
-            House of Lume
+            DWELLUNE
           </p>
           <h2 id="materials-title" data-reveal>
             Material Library
@@ -550,7 +550,7 @@ export function HomeEditorialSections() {
       <section className={styles.notesSection} data-editorial-section aria-labelledby="notes-title">
         <header className={styles.centerHeader}>
           <p className={styles.kicker} data-reveal>
-            House of Lume
+            DWELLUNE
           </p>
           <h2 id="notes-title" data-reveal>
             House Notes
@@ -594,10 +594,10 @@ export function HomeEditorialSections() {
       <section className={styles.whySection} data-editorial-section aria-labelledby="why-title">
         <header className={styles.centerHeader}>
           <p className={styles.kicker} data-reveal>
-            House of Lume
+            DWELLUNE
           </p>
           <h2 id="why-title" data-reveal>
-            Why House of Lume
+            Why DWELLUNE
           </h2>
           <p data-reveal>
             A more beautiful home, made effortless. From our space to yours, every detail is
@@ -651,7 +651,7 @@ export function HomeEditorialSections() {
         <div className={styles.closingWash} aria-hidden="true" />
         <div className={styles.closingContent}>
           <p className={styles.kicker} data-reveal>
-            House of Lume
+            DWELLUNE
           </p>
           <h2 id="closing-title" data-reveal>
             A More Beautiful Tomorrow

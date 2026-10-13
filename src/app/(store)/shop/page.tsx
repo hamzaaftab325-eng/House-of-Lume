@@ -5,9 +5,9 @@ import { parseCatalogueFilters, type SearchParamsInput } from "@/lib/catalogue";
 import { getCatalogue } from "@/server/catalogue/catalogue.service";
 
 export const metadata: Metadata = {
-  title: "Shop the House | House of Lume",
+  title: "Shop the House | DWELLUNE",
   description:
-    "Explore House of Lume lighting, greenery, planters, décor, candles, mirrors, and considered objects for modern homes.",
+    "Explore DWELLUNE lighting, greenery, planters, décor, candles, mirrors, and considered objects for modern homes.",
   alternates: { canonical: "/shop" },
 };
 

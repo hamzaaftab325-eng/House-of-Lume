@@ -28,7 +28,7 @@ type Props = {
   onOpenChange: (open: boolean) => void;
 };
 
-const RECENTS_KEY = "house-of-lume-recent-searches";
+const RECENTS_KEY = "dwellune-recent-searches";
 
 function loadRecents() {
   try {
@@ -155,7 +155,7 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
     <LumeDialog
       open={open}
       onOpenChange={onOpenChange}
-      eyebrow="Search House of Lume"
+      eyebrow="Search DWELLUNE"
       title="Find an object by mood, room, or material."
       description="Search published objects, categories, and curated collections."
       size="search"
@@ -167,7 +167,7 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
         onSubmit={() => saveRecent(query)}
       >
         <label className="sr-only" htmlFor="global-search">
-          Search House of Lume
+          Search DWELLUNE
         </label>
         <div className={styles.inputWrap}>
           <Search aria-hidden="true" />

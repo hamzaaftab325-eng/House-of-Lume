@@ -13,12 +13,11 @@ type Props = {
 export async function generateMetadata({ params }: Pick<Props, "params">): Promise<Metadata> {
   const { slug } = await params;
   const collection = await getCollection(slug);
-  if (!collection) return { title: "Collection not found | House of Lume" };
+  if (!collection) return { title: "Collection not found | DWELLUNE" };
 
   return {
-    title: `${collection.name} | House of Lume`,
-    description:
-      collection.description ?? `Explore the ${collection.name} collection at House of Lume.`,
+    title: `${collection.name} | DWELLUNE`,
+    description: collection.description ?? `Explore the ${collection.name} collection at DWELLUNE.`,
     alternates: { canonical: `/collections/${collection.slug}` },
   };
 }

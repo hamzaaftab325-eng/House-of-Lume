@@ -16,7 +16,7 @@ const slides = [
   {
     image:
       "https://res.cloudinary.com/diometfe9/image/upload/v1791785002/60ce4371-9fe6-4b71-a2b6-f5405e06ee19_ipno40.png",
-    eyebrow: "House of Lume · Curated Living",
+    eyebrow: "DWELLUNE · Curated Living",
     title: "Refined living starts here.",
     copy: "Discover considered lighting, greenery, and objects designed to bring warmth, calm, and character to modern homes.",
     primaryLabel: "Shop now",
@@ -25,7 +25,7 @@ const slides = [
   {
     image:
       "https://res.cloudinary.com/diometfe9/image/upload/v1791785000/0dbb84ad-5ad3-473e-b142-d68cb345d343_jcykjg.png",
-    eyebrow: "House of Lume · Gather",
+    eyebrow: "DWELLUNE · Gather",
     title: "Made for the moments that bring us together.",
     copy: "Warm woods, soft light, and thoughtful forms for dining spaces that invite people to stay a little longer.",
     primaryLabel: "Explore dining",
@@ -34,7 +34,7 @@ const slides = [
   {
     image:
       "https://res.cloudinary.com/diometfe9/image/upload/v1791785000/b686182a-6a24-46b2-bd22-1cd930e3cf8f_aedoz9.png",
-    eyebrow: "House of Lume · Quiet Living",
+    eyebrow: "DWELLUNE · Quiet Living",
     title: "Comfort, considered down to the last detail.",
     copy: "A softer approach to modern living, built from tactile materials, balanced proportions, and warm ambient light.",
     primaryLabel: "Shop living",
@@ -43,7 +43,7 @@ const slides = [
   {
     image:
       "https://res.cloudinary.com/diometfe9/image/upload/v1791784998/9f13fe9a-d57a-4409-8226-130fd93033f1_ahtdkz.png",
-    eyebrow: "House of Lume · Living Green",
+    eyebrow: "DWELLUNE · Living Green",
     title: "Bring a little more life indoors.",
     copy: "Layered greenery and natural textures designed to make bright rooms feel calmer, fresher, and more grounded.",
     primaryLabel: "Shop plants",
@@ -52,7 +52,7 @@ const slides = [
   {
     image:
       "https://res.cloudinary.com/diometfe9/image/upload/v1791784998/f36d05ea-566c-4c14-ac8c-ccd887d8d588_vnqway.png",
-    eyebrow: "House of Lume · Evening Light",
+    eyebrow: "DWELLUNE · Evening Light",
     title: "A warmer atmosphere, after sunset.",
     copy: "Sculptural lighting, layered glow, and quiet objects that change how a room feels when the day slows down.",
     primaryLabel: "Shop lighting",
@@ -319,7 +319,7 @@ export function HomeHero() {
       ref={heroRef}
       className={styles.hero}
       data-paused={paused || reducedMotion ? "true" : "false"}
-      aria-label="House of Lume introduction"
+      aria-label="DWELLUNE introduction"
       aria-roledescription="carousel"
       aria-busy={isTransitioning}
       onKeyDown={handleKeyDown}

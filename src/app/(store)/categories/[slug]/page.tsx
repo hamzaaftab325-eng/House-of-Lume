@@ -13,11 +13,11 @@ type Props = {
 export async function generateMetadata({ params }: Pick<Props, "params">): Promise<Metadata> {
   const { slug } = await params;
   const category = await getCategory(slug);
-  if (!category) return { title: "Category not found | House of Lume" };
+  if (!category) return { title: "Category not found | DWELLUNE" };
 
   return {
-    title: `${category.name} | House of Lume`,
-    description: category.description ?? `Explore ${category.name.toLowerCase()} at House of Lume.`,
+    title: `${category.name} | DWELLUNE`,
+    description: category.description ?? `Explore ${category.name.toLowerCase()} at DWELLUNE.`,
     alternates: { canonical: `/categories/${category.slug}` },
   };
 }

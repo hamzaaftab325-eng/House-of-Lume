@@ -30,17 +30,23 @@
 }
 
 .header[data-home="true"] {
-  position: absolute;
+  position: fixed;
   inset: 0 0 auto;
   color: var(--color-paper);
-  background: linear-gradient(180deg, rgba(16, 10, 6, 0.42), transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-ink) 58%, transparent),
+    transparent
+  );
   backdrop-filter: none;
 }
 
-.header[data-scrolled="true"]:not([data-home="true"]) {
-  border-color: var(--color-line);
-  background: color-mix(in srgb, var(--color-paper) 95%, transparent);
-  box-shadow: 0 0.45rem 1.5rem color-mix(in srgb, var(--color-ink) 5%, transparent);
+.header[data-scrolled="true"] {
+  border-color: color-mix(in srgb, var(--color-bronze) 24%, transparent);
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-paper) 96%, transparent);
+  box-shadow: 0 0.45rem 1.5rem color-mix(in srgb, var(--color-ink) 8%, transparent);
+  backdrop-filter: blur(14px) saturate(1.08);
 }
 
 .headerInner {
@@ -54,24 +60,23 @@
 }
 
 .logo {
-  display: grid;
+  display: inline-flex;
   justify-self: center;
-  gap: 0.25rem;
-  text-align: center;
-  font-family: var(--font-cormorant), serif;
-  font-size: clamp(1.55rem, 2vw, 2rem);
-  font-weight: 650;
-  letter-spacing: -0.04em;
-  line-height: 0.92;
+  align-items: center;
+  line-height: 0;
 }
 
-.logo small {
-  color: color-mix(in srgb, currentColor 65%, transparent);
-  font-family: var(--font-manrope), sans-serif;
-  font-size: 0.48rem;
-  font-weight: 720;
-  letter-spacing: 0.17em;
-  text-transform: uppercase;
+.logoImage {
+  width: clamp(7.9rem, 15vw, 10.75rem);
+  height: auto;
+  filter: drop-shadow(0 0.18rem 0.7rem color-mix(in srgb, var(--color-ink) 36%, transparent));
+  transition:
+    filter var(--duration-control) var(--ease-lume),
+    transform var(--duration-control) var(--ease-lume);
+}
+
+.header[data-scrolled="true"] .logoImage {
+  filter: none;
 }
 
 .desktopNav {
@@ -103,8 +108,8 @@
   transition: transform var(--duration-control) var(--ease-lume);
 }
 
-.header[data-home="true"] .navLink::after {
-  background: #d5b78d;
+.header[data-home="true"]:not([data-scrolled="true"]) .navLink::after {
+  background: color-mix(in srgb, var(--color-bronze) 52%, var(--color-paper));
 }
 
 .actions {
@@ -114,8 +119,8 @@
   gap: 0.15rem;
 }
 
-.header[data-home="true"] .actions button,
-.header[data-home="true"] .accountLink {
+.header[data-home="true"]:not([data-scrolled="true"]) .actions button,
+.header[data-home="true"]:not([data-scrolled="true"]) .accountLink {
   color: var(--color-paper);
 }
 
@@ -145,7 +150,7 @@
   justify-self: start;
 }
 
-.header[data-home="true"] .mobileMenu button {
+.header[data-home="true"]:not([data-scrolled="true"]) .mobileMenu button {
   color: var(--color-paper);
 }
 
@@ -233,14 +238,10 @@
   content: "";
 }
 
-.footerWordmark {
-  margin: 0;
-  color: var(--color-ink);
-  font-family: var(--font-cormorant), serif;
-  font-size: clamp(3.8rem, 7vw, 7.25rem);
-  font-weight: 520;
-  letter-spacing: -0.06em;
-  line-height: 0.84;
+.footerLogo {
+  display: block;
+  width: min(100%, 20rem);
+  height: auto;
 }
 
 .footerCopy {
@@ -306,7 +307,6 @@
 
   .logo {
     justify-self: start;
-    text-align: left;
   }
 
   .desktopNav {
@@ -335,19 +335,22 @@
   }
 }
 
-@media (max-width: 63.99rem) {
-  .logo small {
-    display: none;
-  }
-}
-
 @media (max-width: 38rem) {
+  .headerInner {
+    min-height: 4.75rem;
+    gap: 0.35rem;
+  }
+
+  .logoImage {
+    width: clamp(7.15rem, 31vw, 8.4rem);
+  }
+
   .footerNav {
     grid-template-columns: 1fr;
   }
 
-  .footerWordmark {
-    font-size: clamp(3.3rem, 16vw, 5.2rem);
+  .footerLogo {
+    width: min(100%, 17rem);
   }
 }
 
@@ -361,8 +364,13 @@
     background: color-mix(in srgb, var(--color-paper) 10%, transparent);
   }
 
-  .header:not([data-home="true"]) .accountLink:hover {
+  .header:not([data-home="true"]) .accountLink:hover,
+  .header[data-scrolled="true"] .accountLink:hover {
     background: var(--color-paper);
+  }
+
+  .logo:hover .logoImage {
+    transform: translateY(-1px);
   }
 
   .footerGroup a:hover {
@@ -373,6 +381,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .header,
+  .logoImage,
   .navLink::after,
   .accountLink,
   .footerGroup a {

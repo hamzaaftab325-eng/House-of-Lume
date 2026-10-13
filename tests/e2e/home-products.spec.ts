@@ -23,7 +23,7 @@ test("home product shelf renders an honest editorial preview", async ({ page }) 
     "Soleto Planter",
     "Forma Object",
     "Verdant Planter",
-    "Lume Candle Bowl",
+    "Dwellune Candle Bowl",
   ]) {
     await expect(page.getByRole("heading", { name: product, exact: true })).toBeVisible();
   }

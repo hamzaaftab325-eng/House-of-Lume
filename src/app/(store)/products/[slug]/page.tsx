@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const image = product.media.find((item) => item.mediaType === "image" && item.url)?.url;
 
   return {
-    title: product.seoTitle ?? `${product.name} | House of Lume`,
+    title: product.seoTitle ?? `${product.name} | DWELLUNE`,
     description:
       product.seoDescription ?? product.shortDescription ?? product.description ?? undefined,
     alternates: { canonical },
@@ -62,7 +62,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
     name: product.name,
     description: product.shortDescription ?? product.description ?? undefined,
     image: imageUrls.length ? imageUrls : undefined,
-    brand: { "@type": "Brand", name: "House of Lume" },
+    brand: { "@type": "Brand", name: "DWELLUNE" },
     category: product.primaryCategory?.name,
     offers: offers.length ? offers : undefined,
     aggregateRating:

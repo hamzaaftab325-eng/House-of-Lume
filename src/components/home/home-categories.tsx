@@ -231,7 +231,7 @@ export function HomeCategories() {
       <div className={styles.backgroundWash} aria-hidden="true" />
 
       <header className={styles.header}>
-        <p className={styles.kicker}>House of Lume</p>
+        <p className={styles.kicker}>DWELLUNE</p>
         <h2 id="categories-title" className={styles.title}>
           Explore the House
         </h2>
@@ -269,7 +269,7 @@ export function HomeCategories() {
           <circle className={styles.orbitNode} cx="728" cy="430" r="7" />
         </svg>
 
-        <article className={styles.mainStage} aria-label="House of Lume collection">
+        <article className={styles.mainStage} aria-label="DWELLUNE collection">
           <div className={styles.mainFloat}>
             <span className={styles.mainHalo} aria-hidden="true" />
             <div className={styles.mainImageWrap}>
@@ -282,7 +282,7 @@ export function HomeCategories() {
               />
               <div className={styles.mainShade} aria-hidden="true" />
               <div className={styles.mainCopy}>
-                <p>House of Lume</p>
+                <p>DWELLUNE</p>
                 <h3>A More Beautiful Home</h3>
                 <span className={styles.exploreCue}>
                   Explore all

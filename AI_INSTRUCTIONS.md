@@ -1,7 +1,7 @@
-# House of Lume — AI Engineering Instructions
+# DWELLUNE — AI Engineering Instructions
 
 **Status:** Mandatory  
-**Version:** 2.0  
+**Version:** 2.1  
 **Product:** Production ecommerce storefront + internal commerce CRM  
 **Launch payment model:** Cash on Delivery only  
 **Quality expectation:** Production-grade; no prototype shortcuts
@@ -13,13 +13,15 @@
 Before changing code, read these files in this order:
 
 1. `AI_INSTRUCTIONS.md`
-2. `design.md`
-3. `PROJECT_PLAN.md`
-4. the current repository structure and existing implementation
+2. `BRAND.md`
+3. `design.md`
+4. `PROJECT_PLAN.md`
+5. the current repository structure and existing implementation
 
 When instructions conflict, the user's latest explicit request wins. Otherwise:
 
 - `AI_INSTRUCTIONS.md` controls engineering discipline and completion rules.
+- `BRAND.md` controls active brand identity, approved logo usage and brand palette overrides.
 - `design.md` controls visual language, motion, layout, components and interaction style.
 - `PROJECT_PLAN.md` controls scope, architecture, phase sequence and launch requirements.
 
@@ -98,6 +100,7 @@ Run the relevant verification:
 Perform a separate final audit against:
 
 - the phase checklist
+- `BRAND.md`
 - `design.md`
 - `PROJECT_PLAN.md`
 - this file
@@ -171,7 +174,7 @@ Do not introduce random:
 - generic cards
 - motion patterns
 
-that conflict with `design.md`.
+that conflict with `BRAND.md` or `design.md`.
 
 ---
 
@@ -265,7 +268,7 @@ Never rely on hidden UI controls as authorization.
 
 ## 10. Launch Payment Rule — COD Only
 
-House of Lume launches with **Cash on Delivery only**.
+DWELLUNE launches with **Cash on Delivery only**.
 
 Do not add Stripe, PayPal, card checkout, wallet checkout or another online payment gateway unless the user explicitly changes the launch scope.
 
@@ -666,9 +669,29 @@ Do not add overlapping libraries without a clear documented reason.
 
 ---
 
-## 24. Git and File Hygiene
+## 24. Git, Deployment and File Hygiene
 
-Use meaningful scoped commits such as:
+### Single production-push workflow — mandatory
+
+Unless the user's latest explicit request says otherwise, this repository uses a **single final production push** workflow.
+
+- Do **not** create phase branches, feature branches, temporary branches or preview branches.
+- Do **not** create Preview deployments for routine implementation, testing or documentation work.
+- Do **not** make repeated intermediate pushes to GitHub or Vercel while iterating.
+- Do **not** create temporary workflow commits merely to format files, edit documentation, trigger CI or close out a phase.
+- Perform implementation, static review, local/off-remote verification and preparation before moving the production branch.
+- Prepare one final verified commit for `main` containing the complete requested batch.
+- Move/push `main` only once after the requested work is ready for the production gate.
+- Let that final `main` commit produce the production deployment; if a manual deployment is required, create exactly one deployment with `target=production` from the same verified `main` SHA.
+- Read-only status checks, log inspection and polling are allowed and do not count as deployment attempts.
+- If Vercel or another production service rejects a deploy because of quota, permissions or an external blocker, diagnose read-only first. Never probe the limit by repeatedly creating deployments.
+- Never claim a preview deployment is a production deployment.
+
+The only exception is when the user explicitly asks for a branch/PR/preview workflow for that task.
+
+### Commit quality
+
+For the single final production commit, use a meaningful scoped message such as:
 
 - `feat: add COD order workflow`
 - `feat: add notification event pipeline`
@@ -691,8 +714,9 @@ Do not commit secrets, local environment files, debug artifacts or unnecessary b
 
 ## 25. Documentation Rule
 
-When architecture, schema, environment or workflows change materially, update the relevant documentation in the same phase.
+When architecture, schema, environment, brand system or workflows change materially, update the relevant documentation in the same phase.
 
+- `BRAND.md` → active brand name, approved logo and palette source of truth
 - `design.md` → design/motion/UI source of truth
 - `PROJECT_PLAN.md` → scope/architecture/phase source of truth
 - `AI_INSTRUCTIONS.md` → execution/completion source of truth

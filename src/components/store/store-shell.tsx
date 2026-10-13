@@ -1,6 +1,7 @@
 "use client";
 
 import type { Route } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, Heart, Menu, Search, ShoppingBag, UserRound } from "lucide-react";
@@ -56,9 +57,15 @@ export function StoreHeader() {
             <IconButton label="Open navigation" icon={<Menu />} onClick={() => setMenuOpen(true)} />
           </div>
 
-          <Link className={styles.logo} href="/" aria-label="House of Lume home">
-            <span>House of Lume</span>
-            <small>Light spaces · brighter lives</small>
+          <Link className={styles.logo} href="/" aria-label="DWELLUNE home">
+            <Image
+              className={styles.logoImage}
+              src="/logo.svg"
+              alt="DWELLUNE Home Décor"
+              width={941}
+              height={396}
+              priority
+            />
           </Link>
 
           <nav className={styles.desktopNav} aria-label="Primary navigation">
@@ -98,7 +105,7 @@ export function StoreHeader() {
         open={menuOpen}
         onOpenChange={setMenuOpen}
         side="left"
-        eyebrow="House of Lume"
+        eyebrow="DWELLUNE"
         title="Explore"
         description="Lighting, greenery, objects, and considered spaces for a warmer home."
       >
@@ -145,7 +152,13 @@ export function StoreFooter() {
         <div className={styles.footerTop}>
           <div className={styles.footerBrand}>
             <p className={styles.footerEyebrow}>Objects for a brighter home</p>
-            <p className={styles.footerWordmark}>House of Lume</p>
+            <Image
+              className={styles.footerLogo}
+              src="/logo.svg"
+              alt="DWELLUNE Home Décor"
+              width={941}
+              height={396}
+            />
             <p className={styles.footerCopy}>
               Warm lighting, living greenery, and considered objects for a more beautiful home —
               inside and out.
@@ -172,14 +185,14 @@ export function StoreFooter() {
             <div className={styles.footerGroup}>
               <h2>House</h2>
               <Link href="/">Home</Link>
-              <Link href="/#why-title">Why House of Lume</Link>
+              <Link href="/#why-title">Why DWELLUNE</Link>
               <Link href="/account">Account</Link>
             </div>
           </nav>
         </div>
 
         <div className={styles.footerBottom}>
-          <span>© {year} House of Lume</span>
+          <span>© {year} DWELLUNE</span>
           <span>Pakistan-wide · Cash on Delivery · PKR</span>
         </div>
       </div>
