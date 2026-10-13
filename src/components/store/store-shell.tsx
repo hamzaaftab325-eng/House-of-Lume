@@ -14,7 +14,7 @@ import styles from "./store-shell.module.css";
 
 type StoreNavItem = {
   label: string;
-  href: Route;
+  href: string;
 };
 
 const navItems: readonly StoreNavItem[] = [
@@ -60,7 +60,7 @@ export function StoreHeader() {
 
           <nav className={styles.desktopNav} aria-label="Primary navigation">
             {navItems.map((item) => (
-              <Link key={item.label} className={styles.navLink} href={item.href}>
+              <Link key={item.label} className={styles.navLink} href={item.href as Route}>
                 {item.label}
               </Link>
             ))}
@@ -104,7 +104,7 @@ export function StoreHeader() {
             <Link
               key={item.label}
               className={styles.menuLink}
-              href={item.href}
+              href={item.href as Route}
               onClick={() => setMenuOpen(false)}
             >
               <span className={styles.menuIndex}>{String(index + 1).padStart(2, "0")}</span>
