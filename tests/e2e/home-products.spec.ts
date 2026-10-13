@@ -8,6 +8,7 @@ async function expectNoPageOverflow(page: import("@playwright/test").Page) {
 }
 
 test("home product shelf renders an honest editorial preview", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/#products");
 
   await expect(page.getByRole("heading", { name: "Objects for a Brighter Home" })).toBeVisible();
