@@ -87,8 +87,10 @@ test.describe("Phase 5 product detail experience", () => {
     );
     await page.goto("/products/test-sable-planter");
 
-    await expect(page.getByRole("heading", { name: "Recently viewed" })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Aurelia Floor Lamp/ })).toBeVisible();
+    const recentHeading = page.getByRole("heading", { name: "Recently viewed" });
+    await expect(recentHeading).toBeVisible();
+    const recentSection = recentHeading.locator("xpath=ancestor::section[1]");
+    await expect(recentSection.getByRole("link", { name: /Aurelia Floor Lamp/ })).toBeVisible();
   });
 
   test("unknown or unpublished-like slug resolves to not found", async ({ page }) => {
