@@ -373,7 +373,13 @@ export function HomeHero() {
                 <div className={styles.actions}>
                   <Link
                     className={styles.primaryAction}
-                    href="/#shop"
+                    href={
+                      index === 3
+                        ? "/categories/plants"
+                        : index === 4
+                          ? "/categories/lighting"
+                          : "/shop"
+                    }
                     tabIndex={index === activeIndex ? 0 : -1}
                   >
                     {slide.primaryLabel}
@@ -381,7 +387,15 @@ export function HomeHero() {
                   </Link>
                   <Link
                     className={styles.secondaryAction}
-                    href="/#collection"
+                    href={
+                      index === 0
+                        ? "/collections/new-arrivals"
+                        : index === 3
+                          ? "/collections/living-green"
+                          : index === 4
+                            ? "/collections/warm-lighting"
+                            : "/collections/house-essentials"
+                    }
                     tabIndex={index === activeIndex ? 0 : -1}
                   >
                     {slide.secondaryLabel}

@@ -4,11 +4,7 @@ import { useMemo, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 
 import { Drawer } from "@/components/ui/overlays";
-import type {
-  CatalogueCategory,
-  CatalogueFacets,
-  CatalogueQuery,
-} from "@/server/catalogue/types";
+import type { CatalogueCategory, CatalogueFacets, CatalogueQuery } from "@/server/catalogue/types";
 
 import styles from "./catalogue.module.css";
 
@@ -63,12 +59,7 @@ function FilterFields({
       <fieldset className={styles.filterGroup}>
         <legend>Availability</legend>
         <label className={styles.radioRow}>
-          <input
-            type="radio"
-            name="availability"
-            value=""
-            defaultChecked={!query.availability}
-          />
+          <input type="radio" name="availability" value="" defaultChecked={!query.availability} />
           <span>All availability</span>
         </label>
         <label className={styles.radioRow}>
@@ -150,7 +141,10 @@ function FilterForm(props: CatalogueControlsProps & { onApplied?: () => void }) 
   const { basePath, query, facets, categories, resultCount, showCategoryFilter, onApplied } = props;
   return (
     <form className={styles.filterForm} action={basePath} method="get" onSubmit={onApplied}>
-      <HiddenQueryState query={query} omit={["category", "availability", "minPrice", "maxPrice", "material", "color", "page"]} />
+      <HiddenQueryState
+        query={query}
+        omit={["category", "availability", "minPrice", "maxPrice", "material", "color", "page"]}
+      />
       <FilterFields
         query={query}
         facets={facets}
@@ -158,7 +152,7 @@ function FilterForm(props: CatalogueControlsProps & { onApplied?: () => void }) 
         showCategoryFilter={showCategoryFilter}
       />
       <div className={styles.filterActions}>
-        <button type="submit">Show {resultCount} objects</button>
+        <button type="submit">Apply filters</button>
         <a href={query.q ? `${basePath}?q=${encodeURIComponent(query.q)}` : basePath}>Clear</a>
       </div>
     </form>
@@ -184,7 +178,11 @@ export function CatalogueControls(props: CatalogueControlsProps) {
   return (
     <aside className={styles.controls} aria-label="Catalogue controls">
       <div className={styles.mobileToolbar}>
-        <button type="button" className={styles.mobileFilterButton} onClick={() => setFiltersOpen(true)}>
+        <button
+          type="button"
+          className={styles.mobileFilterButton}
+          onClick={() => setFiltersOpen(true)}
+        >
           <SlidersHorizontal size={17} aria-hidden="true" />
           Filters{activeFilters > 0 ? ` (${activeFilters})` : ""}
         </button>

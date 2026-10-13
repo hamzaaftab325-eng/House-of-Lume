@@ -10,7 +10,11 @@
   overflow: clip;
   border-bottom: 1px solid var(--color-line-strong);
   background:
-    radial-gradient(circle at 85% 18%, color-mix(in srgb, var(--color-bronze) 15%, transparent), transparent 28rem),
+    radial-gradient(
+      circle at 85% 18%,
+      color-mix(in srgb, var(--color-bronze) 15%, transparent),
+      transparent 28rem
+    ),
     linear-gradient(112deg, var(--color-paper) 0 58%, var(--color-chalk) 58% 100%);
 }
 
@@ -149,7 +153,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  transition: padding var(--duration-fast) var(--ease-lume), color var(--duration-fast) ease;
+  transition:
+    padding var(--duration-fast) var(--ease-lume),
+    color var(--duration-fast) ease;
 }
 
 .catalogueShell {
@@ -279,7 +285,9 @@
   background: var(--color-ink);
   color: var(--color-paper);
   cursor: pointer;
-  transition: background var(--duration-control) var(--ease-lume), color var(--duration-control) var(--ease-lume);
+  transition:
+    background var(--duration-control) var(--ease-lume),
+    color var(--duration-control) var(--ease-lume);
 }
 
 .filterActions a {
@@ -388,7 +396,9 @@
 
 .productImage {
   object-fit: cover;
-  transition: transform 700ms var(--ease-lume), filter 700ms var(--ease-lume);
+  transition:
+    transform 700ms var(--ease-lume),
+    filter 700ms var(--ease-lume);
 }
 
 .stageStatus {
@@ -680,8 +690,12 @@
 }
 
 @keyframes catalogue-shimmer {
-  0% { background-position: 100% 0; }
-  100% { background-position: -120% 0; }
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -120% 0;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {

@@ -111,9 +111,15 @@
   min-height: 9rem;
   padding: 1rem;
   border: 1px solid var(--color-line);
-  background: linear-gradient(150deg, color-mix(in srgb, var(--color-paper) 90%, transparent), var(--color-chalk));
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--color-paper) 90%, transparent),
+    var(--color-chalk)
+  );
   align-content: space-between;
-  transition: transform var(--duration-control) var(--ease-lume), border-color var(--duration-fast) ease;
+  transition:
+    transform var(--duration-control) var(--ease-lume),
+    border-color var(--duration-fast) ease;
 }
 
 .quickPaths span {
@@ -158,7 +164,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  transition: padding var(--duration-fast) var(--ease-lume), background var(--duration-fast) ease;
+  transition:
+    padding var(--duration-fast) var(--ease-lume),
+    background var(--duration-fast) ease;
 }
 
 .results section > a[data-active="true"] {

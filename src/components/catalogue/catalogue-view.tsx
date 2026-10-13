@@ -196,12 +196,12 @@ export function CatalogueView({
   const isSearch = Boolean(query.q);
   const hasFilters = Boolean(
     query.q ||
-      query.category ||
-      query.availability ||
-      query.minPrice !== undefined ||
-      query.maxPrice !== undefined ||
-      query.material ||
-      query.color,
+    query.category ||
+    query.availability ||
+    query.minPrice !== undefined ||
+    query.maxPrice !== undefined ||
+    query.material ||
+    query.color,
   );
 
   return (

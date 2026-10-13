@@ -9,8 +9,7 @@ import {
 
 export type RawSearchParams = Record<string, string | string[] | undefined>;
 
-const first = (value: string | string[] | undefined) =>
-  Array.isArray(value) ? value[0] : value;
+const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
 
 const cleanText = (value: string | string[] | undefined, maxLength = 80) => {
   const parsed = first(value)?.trim();

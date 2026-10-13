@@ -23,7 +23,7 @@ test("catalogue filters are URL synchronized and clearable", async ({ page }) =>
 
   await page.getByRole("combobox", { name: "Category" }).selectOption("lighting");
   await page.getByRole("radio", { name: "In stock" }).check();
-  await page.getByRole("button", { name: /Show 0 objects/ }).click();
+  await page.getByRole("button", { name: "Apply filters" }).click();
 
   await expect(page).toHaveURL(/category=lighting/);
   await expect(page).toHaveURL(/availability=in-stock/);

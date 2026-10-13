@@ -6,7 +6,8 @@ import { parseCatalogueQuery, type RawSearchParams } from "@/server/catalogue/va
 
 export const metadata: Metadata = {
   title: "Search",
-  description: "Search House of Lume products, categories, curated collections, and editorial stories.",
+  description:
+    "Search House of Lume products, categories, curated collections, and editorial stories.",
   alternates: { canonical: "/search" },
   robots: { index: false, follow: true },
 };
