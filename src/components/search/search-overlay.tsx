@@ -62,19 +62,12 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
   const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [activeIndex, setActiveIndex] = useState(-1);
   const abortRef = useRef<AbortController | null>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    setRecents(loadRecents());
-    setActiveIndex(-1);
-  }, [open]);
+  const hasSearchQuery = query.trim().length >= 2;
 
   useEffect(() => {
     const q = query.trim();
     if (q.length < 2) {
       abortRef.current?.abort();
-      setPayload({ products: [], categories: [], collections: [] });
-      setStatus("idle");
       return;
     }
 
@@ -103,8 +96,10 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
     return () => window.clearTimeout(timer);
   }, [query]);
 
-  const items = useMemo<SuggestionItem[]>(
-    () => [
+  const items = useMemo<SuggestionItem[]>(() => {
+    if (!hasSearchQuery) return [];
+
+    return [
       ...payload.products.map((item) => ({
         kind: "product" as const,
         label: item.name,
@@ -123,9 +118,20 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
         href: `/collections/${item.slug}` as Route,
         meta: "Collection",
       })),
-    ],
-    [payload],
-  );
+    ];
+  }, [hasSearchQuery, payload]);
+
+  const refreshRecents = () => {
+    setRecents(loadRecents());
+    setActiveIndex(-1);
+  };
+
+  const clearQuery = () => {
+    abortRef.current?.abort();
+    setQuery("");
+    setStatus("idle");
+    setActiveIndex(-1);
+  };
 
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (!items.length) return;
@@ -173,7 +179,11 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
             autoComplete="off"
             id="global-search"
             name="q"
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setActiveIndex(-1);
+            }}
+            onFocus={refreshRecents}
             onKeyDown={onKeyDown}
             placeholder="Try ‘warm reading light’"
             type="search"
@@ -184,7 +194,7 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
               aria-label="Clear search"
               className={styles.clear}
               type="button"
-              onClick={() => setQuery("")}
+              onClick={clearQuery}
             >
               <X aria-hidden="true" />
             </button>
@@ -196,13 +206,11 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
       </form>
 
       <p className={styles.status} role="status" aria-live="polite">
-        {status === "loading" ? "Searching the house…" : null}
-        {status === "error"
+        {hasSearchQuery && status === "loading" ? "Searching the house…" : null}
+        {hasSearchQuery && status === "error"
           ? "Search is temporarily unavailable. Use the full catalogue instead."
           : null}
-        {status === "ready" && query.trim().length >= 2 && !items.length
-          ? "No close matches yet."
-          : null}
+        {hasSearchQuery && status === "ready" && !items.length ? "No close matches yet." : null}
       </p>
 
       {items.length ? (
@@ -240,7 +248,7 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
             View all results for “{query.trim()}”
           </Link>
         </div>
-      ) : query.trim().length < 2 && recents.length ? (
+      ) : !hasSearchQuery && recents.length ? (
         <div className={styles.recents}>
           <div className={styles.recentHeading}>
             <h3>Recent searches</h3>
