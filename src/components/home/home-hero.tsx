@@ -218,11 +218,7 @@ export function HomeHero() {
           0,
         )
         .to(currentLayer, { autoAlpha: 0, duration: 0.72, ease: "power2.out" }, 0.18)
-        .to(
-          nextLayer,
-          { clipPath: "inset(0% 0% 0% 0%)", duration: 1.05, ease: "power3.inOut" },
-          0,
-        )
+        .to(nextLayer, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.05, ease: "power3.inOut" }, 0)
         .to(nextImage, { scale: 1.025, xPercent: 0, duration: 1.45, ease: "power3.out" }, 0)
         .to(
           titleWords,
