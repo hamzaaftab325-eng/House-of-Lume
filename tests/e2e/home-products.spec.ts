@@ -11,7 +11,11 @@ test("home product shelf renders an honest editorial preview", async ({ page }) 
   await page.goto("/#products");
 
   await expect(page.getByRole("heading", { name: "Objects for a Brighter Home" })).toBeVisible();
-  await expect(page.getByText("Product catalogue not yet published")).toBeVisible();
+  await expect(page.getByText(/the catalogue is now open/i)).toBeVisible();
+  await expect(page.getByRole("link", { name: /explore the catalogue/i })).toHaveAttribute(
+    "href",
+    "/shop",
+  );
 
   for (const product of [
     "Aurelia Lamp",

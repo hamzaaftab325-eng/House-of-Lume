@@ -262,7 +262,7 @@ Create a production-quality base that later phases do not need to rewrite.
 
 # 6. Phase 1 — Database, Domain Model & Security Foundation
 
-**Status:** ⚠️ Implementation is present in the repository, but final live RLS/policy verification is still required before Phase 1 can be marked 100% complete.
+**Status:** ✅ Complete — schema, authorization policies, public/private boundaries, and live RLS behavior were verified against the connected House of Lume Supabase project on 2026-10-13.
 
 ## Goal
 
@@ -331,7 +331,7 @@ Build the real commerce schema before hardcoding product/business logic into UI.
 - [x] Staff authorization policies
 - [x] Admin-only policies
 - [x] Service-role usage server-only
-- [ ] Policy tests — final live verification against the House of Lume Supabase project is still required
+- [x] Policy tests — live anonymous catalogue visibility, draft-product denial, private-order denial, and catalogue RPC behavior verified against the connected House of Lume Supabase project on 2026-10-13
 
 ## Seed data
 
@@ -343,7 +343,7 @@ Build the real commerce schema before hardcoding product/business logic into UI.
 - [x] Staff roles
 - [x] Example customers/orders for development
 
-**Phase 1 status: not yet 100% complete — implementation is complete, but the required live policy-test evidence is not currently verifiable.**
+**Phase 1 status: 100% complete.**
 
 ---
 
@@ -477,33 +477,57 @@ These items are intentionally scheduled for later implementation when their supp
 
 # 9. Phase 4 — Catalogue, Collections, Search & Discovery
 
+**Status:** ✅ Complete — production catalogue, collections, URL-synchronized filtering/sorting, and search/discovery were implemented and verified on 2026-10-13. The connected production project currently has no published products, so the verified live storefront correctly renders the production empty state without fabricated catalogue data.
+
 ## Catalogue
 
-- [ ] `/shop`
-- [ ] Category pages
-- [ ] Collection pages
-- [ ] Product count
-- [ ] Sort
-- [ ] Availability filter
-- [ ] Price filter
-- [ ] Material filter
-- [ ] Color filter
-- [ ] Category filter
-- [ ] URL-synchronized filter state
-- [ ] Mobile filter drawer
-- [ ] Clear filters
-- [ ] Empty states
+- [x] `/shop`
+- [x] Category pages
+- [x] Collection pages
+- [x] Product count
+- [x] Sort
+- [x] Availability filter
+- [x] Price filter
+- [x] Material filter
+- [x] Color filter
+- [x] Category filter
+- [x] URL-synchronized filter state
+- [x] Mobile filter drawer
+- [x] Clear filters
+- [x] Empty states
 
 ## Search
 
-- [ ] Predictive search
-- [ ] Product results
-- [ ] Category results
-- [ ] Editorial results
-- [ ] Recent searches
-- [ ] Keyboard navigation
-- [ ] No-results suggestions
-- [ ] Search result page
+- [x] Predictive search
+- [x] Product results
+- [x] Category results
+- [x] Editorial/collection discovery results
+- [x] Recent searches
+- [x] Keyboard navigation
+- [x] No-results suggestions
+- [x] Search result page
+
+## Phase 4 production verification
+
+- [x] Catalogue reads are centralized in the server-side catalogue service
+- [x] `catalogue_product_index`, stock projection, catalogue RPCs, facets, and search indexes are committed as reproducible migrations
+- [x] Live anonymous RLS verifies published-product visibility and draft/private-data denial
+- [x] Live compound catalogue query verifies category, collection, stock, price, material, color, and text-search constraints together
+- [x] Search requests are bounded, debounced, abortable, and keyboard accessible
+- [x] Store navigation and Phase 3 homepage destinations connect to the live catalogue without redesigning the accepted homepage
+- [x] Metadata/canonical behavior is implemented for shop, category, collection, and search surfaces
+- [x] Production dependency audit passes
+- [x] Formatting passes
+- [x] ESLint passes
+- [x] TypeScript passes
+- [x] Unit tests pass
+- [x] Production build passes
+- [x] Playwright regression and Phase 4 E2E coverage passes
+- [x] Vercel preview build succeeds
+
+See `PHASE_4_AUDIT.md` for the complete evidence-based audit.
+
+**Phase 4 status: 100% complete.**
 
 ---
 

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef } from "react";
 
+import { LumeLink } from "@/components/ui/controls";
 import { gsap, registerGsap, useGSAP } from "@/lib/motion/gsap";
 
 import styles from "./home-products.module.css";
@@ -125,7 +126,8 @@ export function HomeProducts() {
             A considered preview of forms, materials, and objects shaping the House of Lume
             collection.
           </p>
-          <p className={styles.status}>Editorial preview · Product catalogue not yet published</p>
+          <p className={styles.status}>Editorial preview · The catalogue is now open</p>
+          <LumeLink href="/shop">Explore the catalogue</LumeLink>
         </header>
 
         <div className={styles.shelf} role="list" aria-label="Product editorial preview">

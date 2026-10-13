@@ -48,6 +48,7 @@ test("short mobile hero keeps copy, actions and controls inside the viewport", a
 });
 
 test("home categories render the Explore the House composition", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/#categories");
 
   const categoriesSection = page.locator("#categories");

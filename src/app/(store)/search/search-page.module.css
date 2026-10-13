@@ -1,0 +1,75 @@
+.related {
+  width: min(100% - (2 * var(--page-gutter)), var(--content-max));
+  margin: -3.25rem auto clamp(5rem, 8vw, 8rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-top: 1px solid var(--color-ink);
+  border-bottom: 1px solid var(--color-line-strong);
+  background: var(--color-paper);
+}
+
+.related > div > p {
+  margin: 0 0 0.35rem;
+  color: var(--color-bronze);
+  font-size: 0.68rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+
+.related h2 {
+  margin: 0;
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(2rem, 3.4vw, 3.25rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.related nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1.5rem;
+  column-gap: clamp(1rem, 3vw, 3rem);
+}
+
+.related a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  min-height: 3.9rem;
+  border-top: 1px solid var(--color-line);
+  transition: padding var(--duration-fast) var(--ease-lume);
+}
+
+.related a span {
+  font-weight: 700;
+}
+
+.related a small {
+  color: var(--color-ash);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .related a:hover {
+    padding-inline: 0.65rem;
+  }
+}
+
+@media (max-width: 42rem) {
+  .related {
+    margin-top: -2rem;
+  }
+
+  .related nav {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .related a {
+    transition: none;
+  }
+}
