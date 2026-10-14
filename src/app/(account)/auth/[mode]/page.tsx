@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Route } from "next";
 import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
 import { AuthForm, type AuthMode } from "@/components/account/auth-form";
 import styles from "@/components/account/account.module.css";
+import { accountIdentity } from "@/server/account/account.service";
+import { safeAccountRedirect } from "@/lib/account";
 const modes: Record<string, { mode: AuthMode; title: string; intro: string }> = {
   signin: {
     mode: "signin",
@@ -43,6 +45,18 @@ export default async function AuthPage({
   if (!Object.hasOwn(modes, mode)) notFound();
   const route = modes[mode];
   if (!route) notFound();
+  const query = await searchParams;
+  if (mode === "signup" || mode === "signin") {
+    let authenticated = false;
+    try {
+      await accountIdentity();
+      authenticated = true;
+    } catch {
+      // Visitors and unavailable sessions can still use the access form.
+    }
+    if (authenticated)
+      redirect((mode === "signup" ? "/account" : safeAccountRedirect(query.next)) as Route);
+  }
   return (
     <main className={`${styles.page} ${styles.auth}`}>
       <p className={styles.eyebrow}>DWELLUNE · Your account</p>
@@ -50,7 +64,7 @@ export default async function AuthPage({
       <p className={styles.intro}>{route.intro}</p>
       <AuthForm
         mode={route.mode}
-        next={(await searchParams).next}
+        next={query.next}
         emailReady={process.env.AUTH_EMAIL_READY === "true"}
       />
     </main>

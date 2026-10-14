@@ -1,6 +1,31 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Phase 7 public access and security", () => {
+  test("successful signup goes directly to profile instead of a saved section", async ({
+    page,
+  }) => {
+    await page.route("**/api/auth", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ saved: true, authenticated: true }),
+      }),
+    );
+    await page.route("**/account", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "text/html",
+        body: "<main><h1>Profile</h1></main>",
+      }),
+    );
+    await page.goto("/auth/signup?next=%2Faccount%2Faddresses");
+    await page.getByLabel("Full name", { exact: true }).fill("Test customer");
+    await page.getByLabel("Email address", { exact: true }).fill("owner@example.invalid");
+    await page.getByLabel("New password", { exact: true }).fill("long-test-password");
+    await page.getByRole("button", { name: "Create account", exact: true }).click();
+    await expect(page).toHaveURL(/\/account$/);
+    await expect(page.getByRole("heading", { name: "Profile", exact: true })).toBeVisible();
+  });
   test("private account redirects visitors to accessible sign-in", async ({ page }) => {
     await page.goto("/account");
     await expect(page).toHaveURL(/\/auth\/signin\?next=/);

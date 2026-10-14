@@ -1,9 +1,13 @@
 "use client";
 export function broadcastAccountChange() {
-  if (typeof BroadcastChannel !== "undefined") {
-    const channel = new BroadcastChannel("dwellune-account");
-    channel.postMessage("session-changed");
-    channel.close();
+  try {
+    if (typeof BroadcastChannel !== "undefined") {
+      const channel = new BroadcastChannel("dwellune-account");
+      channel.postMessage("session-changed");
+      channel.close();
+    }
+  } catch {
+    /* Optional cross-tab messaging must not prevent account navigation. */
   }
   try {
     localStorage.setItem("dwellune-auth-change", String(Date.now()));

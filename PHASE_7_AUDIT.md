@@ -86,3 +86,8 @@ Signup first checks public Auth settings and returns an honest temporary-unavail
 Password recovery and email changes retain secure email-based ownership checks. They are distinct from signup and their inbox delivery remains unverified. Auth logs showed successful signup responses, invalid login credentials and a one-time token not found; the inspected fields did not establish an SMTP delivery failure.
 
 The correction is tested with unit/route behavior and a production build. Browser acceptance remains unavailable in this environment. Overall Phase 7 is not 100% accepted until the provider configuration and live acceptance checks are completed.
+
+
+## Post-signup account landing correction
+
+The owner reports signup works and supplied a screenshot showing an authenticated address book. Successful signup now always replaces the form with `/account` (Profile), irrespective of a saved `next` section. Signed-in visitors to signup are redirected to Profile on the server after verified account identity; sign-in retains safe return destinations. Optional browser cross-tab messaging/storage failures no longer interrupt navigation. The profile/account authorization rules are unchanged. Unit tests cover signed-in/visitor access and blocked messaging, and a browser scenario covers the saved-section signup redirect; the browser scenario has not been executed because Chromium installation remains unavailable.

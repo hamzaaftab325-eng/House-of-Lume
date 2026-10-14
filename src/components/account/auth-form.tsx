@@ -54,7 +54,7 @@ export function AuthForm({
         throw new Error(typeof data.error === "string" ? data.error : "Please try again.");
       if (mode === "signin" || (mode === "signup" && data.authenticated === true)) {
         broadcastAccountChange();
-        window.location.assign(safeAccountRedirect(next));
+        window.location.replace(mode === "signup" ? "/account" : safeAccountRedirect(next));
         return;
       }
       setMessage(data.message);
