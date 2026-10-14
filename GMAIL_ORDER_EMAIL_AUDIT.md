@@ -21,6 +21,6 @@ Owner authorization: use `dwellunestore@gmail.com` for store emails and replies;
 
 ## Live acceptance and operating limits
 
-After the single production push, verify SMTP authentication on the live worker, submit one clearly labelled setup-test email to the owner inbox, and inspect the minute scheduler. Owner must confirm actual receipt and reply behavior; SMTP acceptance alone is insufficient. Live order receipt/totals acceptance also needs a merchant-confirmed real product.
+The Gmail update was deployed to production at commit `f5e2f4f`. Live worker authentication passed, Gmail accepted one clearly labelled setup-test email to the owner inbox, and minute scheduler invocations returned successful responses. The owner confirmed receipt on 14 October 2026. Reply behavior and real order receipt/totals acceptance remain merchant tests once a real product is added. SMTP acceptance alone is not an inbox-delivery claim.
 
 The worker handles at most one claimed order email per minute. Gmail account quotas and shared Auth usage must be monitored; this is a small-store transactional adapter, not a bulk-mail facility. During temporary rejection, jobs back off. After five attempts or 22 hours they require operator attention. Before real ordering is enabled, agree a send budget and monitoring against the account's actual quota and test guest/customer checkout with confirmed inventory and merchant return arrangements. No Phase 8 100% claim is made.

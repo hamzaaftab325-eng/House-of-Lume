@@ -1,0 +1,76 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2rem;
+  padding: 1.25rem var(--page-gutter);
+  border-bottom: 1px solid var(--color-line);
+}
+.header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.header a,
+.orderLink {
+  text-underline-offset: 0.3rem;
+}
+.identity {
+  overflow-wrap: anywhere;
+  color: var(--color-ash);
+}
+.queue {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.queueRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--color-line);
+}
+.queueRow p {
+  margin: 0.5rem 0;
+}
+.queueRow time {
+  color: var(--color-ash);
+  font-size: 0.875rem;
+}
+.orderLink {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.note {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+.fieldset {
+  display: grid;
+  gap: 1.25rem;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.fieldset legend {
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+.totals {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem 1rem;
+  margin-top: 1.5rem;
+}
+.totals dd {
+  margin: 0;
+}
+@media (max-width: 45rem) {
+  .queueRow {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}

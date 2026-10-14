@@ -121,3 +121,7 @@ Checkout details and validated COD quotes are available at `/checkout`. Order pl
 ## Phase 8 Part 2 release preparation
 
 Order creation, secure confirmation and a durable transactional email queue are deployed with checkout disabled. The Super Admin is configured. The owner selected Gmail SMTP for order emails using `dwellunestore@gmail.com`; the protected worker uses Production `SMTP_APP_PASSWORD` and `ORDER_EMAIL_WORKER_SECRET`. Auth SMTP remains independently configured in Supabase. Real inventory, merchant operating details and live checkout/mailbox acceptance remain launch gates. See `PHASE_8_PART_2_AUDIT.md` and `GMAIL_ORDER_EMAIL_AUDIT.md`; do not enable checkout before these checks pass.
+
+## Phase 9 Part 1 — COD verification
+
+Super Admin can open `/crm/verification` to review pending orders, record actual phone/WhatsApp/email contact, confirm orders, or reject/cancel eligible orders before shipment and COD collection. Required private notes, staff timestamps, stale-order protection and idempotent retries safeguard the workflow. Customer account status/progress and in-app notices update without exposing staff notes. Product management is still later work, and checkout remains closed pending real-product acceptance. See `PHASE_9_PART_1_AUDIT.md`; Part 2 fraud/abuse controls are pending.

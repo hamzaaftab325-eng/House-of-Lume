@@ -6,9 +6,11 @@ import { DwelluneButton } from "@/components/ui/controls";
 export function AccountSessionGuard({
   customerId,
   children,
+  sessionEndpoint = "/api/account",
 }: {
   customerId: string;
   children: React.ReactNode;
+  sessionEndpoint?: "/api/account" | "/api/admin/session";
 }) {
   const [valid, setValid] = useState(true);
   const [retry, setRetry] = useState(0);
@@ -23,7 +25,7 @@ export function AccountSessionGuard({
         return;
       }
       try {
-        const r = await fetch("/api/account", {
+        const r = await fetch(sessionEndpoint, {
           cache: "no-store",
           signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]),
         });
@@ -76,7 +78,7 @@ export function AccountSessionGuard({
       document.removeEventListener("visibilitychange", onVisibility);
       window.clearInterval(timer);
     };
-  }, [customerId, retry]);
+  }, [customerId, retry, sessionEndpoint]);
   return (
     <>
       <div hidden={!valid}>{children}</div>

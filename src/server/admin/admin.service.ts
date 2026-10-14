@@ -1,5 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
-export async function adminIdentity() {
+import { cache } from "react";
+import { staffFixtureEnabled, staffFixtureIdentity } from "./verification.fixture";
+export const adminIdentity = cache(async () => {
+  if (staffFixtureEnabled()) return staffFixtureIdentity();
   const client = await createClient();
   const {
     data: { user },
@@ -25,4 +28,4 @@ export async function adminIdentity() {
     .single();
   if (customer.error || !customer.data) throw new Error("admin_account_unavailable");
   return { email: user.email ?? "", customerId: customer.data.id };
-}
+});

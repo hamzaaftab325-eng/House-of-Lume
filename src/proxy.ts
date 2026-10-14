@@ -37,6 +37,7 @@ export const config = {
     "/crm/:path*",
     "/auth/:path*",
     "/api/account",
+    "/api/admin/:path*",
     "/api/commerce",
     "/checkout/:path*",
     "/api/checkout/:path*",

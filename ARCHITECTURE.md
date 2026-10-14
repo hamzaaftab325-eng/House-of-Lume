@@ -323,3 +323,7 @@ The checkout UI uses a private context endpoint and strict same-origin quote end
 ## Phase 8 Part 2 prepared application
 
 COD order submission is deployed with a closed database release gate. The database atomically validates and snapshots orders, transfers inventory holds and emits in-app/email events. The owner selected Gmail SMTP (`dwellunestore@gmail.com`) in place of Resend for order confirmations. Supabase cron invokes a protected Node worker once per minute; Vault contains only its scoped capability and canonical HTTPS URL. The Gmail App Password remains server-only in Vercel. No application service-role credential is required. Owner/cookie-scoped attempt recovery supports ambiguous order network results. See `GMAIL_ORDER_EMAIL_AUDIT.md` and `PHASE_8_PART_2_AUDIT.md` for email behavior and pending launch gates.
+
+## Staff COD verification
+
+`/crm/verification` and its order pages use active Super Admin/live-session checks and guarded database RPCs. The queue uses 20-row keyset pagination. Manual contact logs, confirmation and eligible cancellation record private notes, staff attribution and audit entries. Actor/request receipts deduplicate retries, while an order revision rejects stale decisions. Cancellation shares checkout's commerce lock ordering and existing reservation-release trigger; settlement remains independent. Customer notifications/history carry safe status only. `/api/admin/session` supplements cross-tab account invalidation with fresh staff-role checks. See `PHASE_9_PART_1_AUDIT.md` for tests and deferred launch acceptance.

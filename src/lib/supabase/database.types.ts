@@ -409,6 +409,8 @@ export type Database = {
       cod_verifications: {
         Row: {
           attempt_number: number;
+          contact_channel: string | null;
+          contact_outcome: string | null;
           created_at: string;
           id: string;
           initiated_by: string | null;
@@ -418,12 +420,15 @@ export type Database = {
           provider_message_id: string | null;
           responded_at: string | null;
           sent_at: string | null;
+          staff_action: string | null;
           status: Database["public"]["Enums"]["verification_status"];
           verified_at: string | null;
           verified_by: string | null;
         };
         Insert: {
           attempt_number: number;
+          contact_channel?: string | null;
+          contact_outcome?: string | null;
           created_at?: string;
           id?: string;
           initiated_by?: string | null;
@@ -433,12 +438,15 @@ export type Database = {
           provider_message_id?: string | null;
           responded_at?: string | null;
           sent_at?: string | null;
+          staff_action?: string | null;
           status?: Database["public"]["Enums"]["verification_status"];
           verified_at?: string | null;
           verified_by?: string | null;
         };
         Update: {
           attempt_number?: number;
+          contact_channel?: string | null;
+          contact_outcome?: string | null;
           created_at?: string;
           id?: string;
           initiated_by?: string | null;
@@ -448,6 +456,7 @@ export type Database = {
           provider_message_id?: string | null;
           responded_at?: string | null;
           sent_at?: string | null;
+          staff_action?: string | null;
           status?: Database["public"]["Enums"]["verification_status"];
           verified_at?: string | null;
           verified_by?: string | null;
@@ -1549,6 +1558,7 @@ export type Database = {
           tax_pkr: number;
           total_pkr: number;
           updated_at: string;
+          verification_revision: number;
           verification_status: Database["public"]["Enums"]["verification_status"];
         };
         Insert: {
@@ -1579,6 +1589,7 @@ export type Database = {
           tax_pkr?: number;
           total_pkr: number;
           updated_at?: string;
+          verification_revision?: number;
           verification_status?: Database["public"]["Enums"]["verification_status"];
         };
         Update: {
@@ -1609,6 +1620,7 @@ export type Database = {
           tax_pkr?: number;
           total_pkr?: number;
           updated_at?: string;
+          verification_revision?: number;
           verification_status?: Database["public"]["Enums"]["verification_status"];
         };
         Relationships: [
@@ -2941,6 +2953,19 @@ export type Database = {
         Returns: Json;
       };
       commerce_wishlist_snapshot: { Args: never; Returns: Json };
+      order_email_worker: {
+        Args: { p_input: Json; p_secret: string };
+        Returns: Json;
+      };
+      staff_verification_action: {
+        Args: { p_input: Json; p_order_id: string; p_request_id: string };
+        Returns: Json;
+      };
+      staff_verification_detail: { Args: { p_order_id: string }; Returns: Json };
+      staff_verification_queue: {
+        Args: { p_before?: string; p_filter?: string };
+        Returns: Json;
+      };
     };
     Enums: {
       abandoned_cart_status: "detected" | "notified" | "recovered" | "expired" | "suppressed";

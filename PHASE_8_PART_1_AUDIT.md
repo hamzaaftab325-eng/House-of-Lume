@@ -18,7 +18,7 @@ Reuses the active Pakistan nationwide standard delivery rule: PKR 250, free deli
 
 COD remains the only checkout payment method. JazzCash and bank transfer are manual refund methods in the existing returns policy, not payment gateways. No emails are sent by this part. No package dependencies were added.
 
-Migration: `20261014070034_checkout_validated_quotes.sql`, applied to production project `hahlsfuxdyymrwinekjt`. Public SECURITY INVOKER wrapper calls a narrowly granted private SECURITY DEFINER function with empty search path, explicit identity guards and canonical cart access. Generated public database types include the RPC.
+Migration: `20261014072115_checkout_validated_quotes.sql`, applied to production project `hahlsfuxdyymrwinekjt`. Public SECURITY INVOKER wrapper calls a narrowly granted private SECURITY DEFINER function with empty search path, explicit identity guards and canonical cart access. Generated public database types include the RPC.
 
 ## Verification
 

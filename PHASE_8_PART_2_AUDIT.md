@@ -15,7 +15,7 @@ Date: 2026-10-14. Application code is prepared for a gated production update; re
 
 ## Applied database changes
 
-`20261014094842_phase8_cod_order_creation.sql`, `20261014100953_phase8_order_attempt_recovery.sql` and `20261014102616_phase8_address_discount_validation.sql` were applied to production with `checkout.orders_enabled=false`. Production cannot place orders through these functions while the gate is closed. Applied migrations are immutable.
+`20261014100811_phase8_cod_order_creation.sql`, `20261014101115_phase8_order_attempt_recovery.sql` and `20261014102712_phase8_address_discount_validation.sql` were applied to production with `checkout.orders_enabled=false`. Production cannot place orders through these functions while the gate is closed. Applied migrations are immutable.
 
 Private receipt and email-outbox tables have RLS enabled and no anonymous/customer grants or policies, intentionally denying direct access. Order inventory reservations expose only staff reads. Public RPCs are invoker wrappers around explicit guarded private functions with empty search paths. New advisor information for the private deny-all tables is intentional; the pre-existing disabled leaked-password-protection warning remains.
 
