@@ -114,7 +114,7 @@ These state machines must be separate in the database and application logic.
 
 ## Email
 
-- Resend for transactional email
+- Owner-selected Gmail SMTP (`dwellunestore@gmail.com`) for transactional order email; Auth SMTP is configured separately in Supabase. This 14 October 2026 owner decision supersedes the original Resend/domain requirement.
 
 ## Hosting
 
@@ -814,7 +814,7 @@ No fake AI fraud scoring should be added unless real data/modeling exists.
 
 # 16. Phase 11 — Transactional Email
 
-Use Resend.
+Use the owner-selected Gmail SMTP adapter for transactional email. Reconsider a dedicated provider when volume requires it; a Resend domain purchase is not a current launch prerequisite. SMTP acceptance and inbox delivery are separate statuses, and ambiguous sends require operator review.
 
 - [ ] Branded base email template
 - [ ] Order placed

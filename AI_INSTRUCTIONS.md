@@ -369,7 +369,7 @@ Notifications are a first-class subsystem, not scattered `sendEmail()` calls.
 
 - customer in-app notifications when authenticated
 - CRM/admin in-app notifications
-- transactional email through Resend
+- transactional email through the owner-selected Gmail SMTP adapter (14 October 2026 owner override of the original Resend requirement)
 
 Browser push/SMS may be added later through an adapter, but are not launch dependencies unless explicitly requested.
 

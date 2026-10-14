@@ -13,7 +13,7 @@ The Vercel project has a permanent, host-specific routing rule that directs form
 - React + strict TypeScript
 - Tailwind CSS design tokens
 - Supabase/PostgreSQL in the database phase
-- Resend in the transactional-email phase
+- Owner-selected Gmail SMTP for order confirmations; Supabase SMTP for Auth emails
 - Vercel production deployment
 
 ## Production contracts
@@ -120,4 +120,4 @@ Checkout details and validated COD quotes are available at `/checkout`. Order pl
 
 ## Phase 8 Part 2 release preparation
 
-Order creation, secure confirmation and a durable transactional email queue are implemented but not yet released in the application. Database submission stays closed pending the chosen Super Admin, verified Resend sender/key, a real product and live acceptance. See `PHASE_8_PART_2_AUDIT.md`; do not enable the gate before these checks pass.
+Order creation, secure confirmation and a durable transactional email queue are deployed with checkout disabled. The Super Admin is configured. The owner selected Gmail SMTP for order emails using `dwellunestore@gmail.com`; the protected worker uses Production `SMTP_APP_PASSWORD` and `ORDER_EMAIL_WORKER_SECRET`. Auth SMTP remains independently configured in Supabase. Real inventory, merchant operating details and live checkout/mailbox acceptance remain launch gates. See `PHASE_8_PART_2_AUDIT.md` and `GMAIL_ORDER_EMAIL_AUDIT.md`; do not enable checkout before these checks pass.
