@@ -124,4 +124,8 @@ Order creation, secure confirmation and a durable transactional email queue are 
 
 ## Phase 9 Part 1 — COD verification
 
-Super Admin can open `/crm/verification` to review pending orders, record actual phone/WhatsApp/email contact, confirm orders, or reject/cancel eligible orders before shipment and COD collection. Required private notes, staff timestamps, stale-order protection and idempotent retries safeguard the workflow. Customer account status/progress and in-app notices update without exposing staff notes. Product management is still later work, and checkout remains closed pending real-product acceptance. See `PHASE_9_PART_1_AUDIT.md`; Part 2 fraud/abuse controls are pending.
+Super Admin can open `/crm/verification` to review pending orders, record actual phone/WhatsApp/email contact, confirm orders, or reject/cancel eligible orders before shipment and COD collection. Required private notes, staff timestamps, stale-order protection and idempotent retries safeguard the workflow. Customer account status/progress and in-app notices update without exposing staff notes. Product management is still later work, and checkout remains closed pending real-product acceptance. See `PHASE_9_PART_1_AUDIT.md`; Part 2 adds editable verification rules, deterministic review signals, mandatory review clearance and rolling phone/account/guest order limits. See `PHASE_9_PART_2_AUDIT.md`.
+
+## Phase 9 Part 2 — review controls
+
+Open `/crm/verification/settings` as Super Admin to edit rules with an audit reason. Defaults: PKR 25,000 high-value threshold, 24-hour duplicate window, two prior failed/RTO orders within 180 days, three orders per hour and five per 24 hours. Possible duplicates match normalized phone and canonical total. Signals require staff review; they do not automatically reject customers. Clear manual review with a private note, then confirm separately. Settings never enable checkout. Real-product merchant acceptance remains deferred.

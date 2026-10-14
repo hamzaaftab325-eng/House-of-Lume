@@ -12,11 +12,13 @@ export function VerificationForm({
   revision,
   canVerify,
   canCancel,
+  reviewStatus = "not_required",
 }: {
   orderId: string;
   revision: number;
   canVerify: boolean;
   canCancel: boolean;
+  reviewStatus?: string;
 }) {
   const router = useRouter();
   const [action, setAction] = useState("contact");
@@ -35,7 +37,12 @@ export function VerificationForm({
     ...(canVerify
       ? [
           { value: "contact", label: "Record contact attempt" },
-          { value: "confirm", label: "Confirm order" },
+          ...(reviewStatus === "pending"
+            ? [{ value: "clear_review", label: "Clear manual review" }]
+            : [
+                { value: "confirm", label: "Confirm order" },
+                { value: "request_review", label: "Flag for manual review" },
+              ]),
           ...(canCancel ? [{ value: "reject", label: "Reject order and release stock" }] : []),
         ]
       : []),
@@ -162,9 +169,13 @@ export function VerificationForm({
           </>
         ) : (
           <p className={styles.intro}>
-            {selectedAction === "confirm"
-              ? "Confirm only after reviewing the customer, delivery address and order. This does not mark COD money collected."
-              : "This closes the order and releases its active stock reservations. This decision cannot be undone here."}
+            {selectedAction === "clear_review"
+              ? "Review every recorded signal with the customer and record why this order can proceed. Clearing review does not confirm the order."
+              : selectedAction === "request_review"
+                ? "Record the concern requiring manual review. The order cannot be confirmed until review is cleared."
+                : selectedAction === "confirm"
+                  ? "Confirm only after reviewing the customer, delivery address and order. This does not mark COD money collected."
+                  : "This closes the order and releases its active stock reservations. This decision cannot be undone here."}
           </p>
         )}
         <TextAreaField

@@ -6,6 +6,9 @@ import {
   verificationQueueSchema,
   type QueueFilter,
   type VerificationAction,
+  reviewSchema,
+  policySchema,
+  type PolicyAction,
 } from "@/lib/verification";
 export const fixtureOrderId = "94000000-0000-4000-8000-000000000001";
 const fixtureStaffId = "94000000-0000-4000-8000-000000000002";
@@ -23,6 +26,13 @@ export async function staffFixtureIdentity() {
   return { email: "staff-fixture@example.invalid", customerId: fixtureStaffId };
 }
 const stateSchema = z.object({
+  review: reviewSchema.default({
+    status: "not_required",
+    flags: [],
+    reviewed_by: null,
+    reviewed_at: null,
+    note: null,
+  }),
   revision: z.number().int(),
   status: z.enum(["pending_verification", "confirmed", "cancelled"]),
   verification: z.enum(["pending", "admin_approved", "rejected"]),
@@ -55,6 +65,7 @@ export async function fixtureDetail(id: string) {
   const state = await readState();
   const date = "2026-10-14T00:00:00+00:00";
   return verificationDetailSchema.parse({
+    review: state.review,
     order: {
       id,
       order_number: 900001,
@@ -113,7 +124,7 @@ export async function fixtureDetail(id: string) {
       }))
       .reverse(),
     history: state.notes
-      .filter((entry) => entry.action !== "contact")
+      .filter((entry) => ["confirm", "reject", "cancel"].includes(entry.action))
       .map((entry, index) => ({
         id: index + 1,
         from_status: "pending_verification",
@@ -129,9 +140,19 @@ export async function fixtureQueue(filter: QueueFilter) {
   const detail = await fixtureDetail(fixtureOrderId);
   const show =
     filter === "all" ||
+    (filter === "review" && detail.review.status === "pending") ||
     detail.order.status === (filter === "pending" ? "pending_verification" : filter);
   return verificationQueueSchema.parse({
-    items: show ? [{ ...detail.order, city: "Lahore" }] : [],
+    items: show
+      ? [
+          {
+            ...detail.order,
+            city: "Lahore",
+            review_status: detail.review.status,
+            review_flag_count: detail.review.flags.length,
+          },
+        ]
+      : [],
     next_cursor: null,
   });
 }
@@ -149,6 +170,10 @@ export async function fixtureAction(action: VerificationAction) {
     };
   }
   if (action.input.expectedRevision !== state.revision) throw new Error("verification_changed");
+  if (action.input.action === "confirm" && state.review.status === "pending")
+    throw new Error("manual_review_required");
+  if (action.input.action === "clear_review" && state.review.status !== "pending")
+    throw new Error("verification_transition_invalid");
   if (!detail.can_cancel || (action.input.action !== "cancel" && !detail.can_verify))
     throw new Error("verification_transition_invalid");
   state.status =
@@ -164,6 +189,34 @@ export async function fixtureAction(action: VerificationAction) {
         ? "rejected"
         : state.verification;
   state.revision++;
+  if (action.input.action === "request_review")
+    state.review = {
+      status: "pending",
+      flags: state.review.flags.some((flag) => flag.code === "staff_review")
+        ? state.review.flags
+        : [
+            ...state.review.flags,
+            {
+              code: "staff_review",
+              label: "Staff requested manual review.",
+              count: 1,
+              threshold: 1,
+            },
+          ],
+      reviewed_at: null,
+      reviewed_by: null,
+      note: action.input.note,
+    };
+  if (action.input.action === "clear_review")
+    state.review = {
+      ...state.review,
+      status: "cleared",
+      reviewed_by: fixtureStaffId,
+      reviewed_at: "2026-10-14T00:00:00+00:00",
+      note: action.input.note,
+    };
+  if (state.status === "cancelled" && state.review.status === "pending")
+    state.review.status = "closed";
   state.notes.push(action.input);
   state.lastRequest = action.requestId;
   state.lastInput = input;
@@ -179,4 +232,38 @@ export async function fixtureAction(action: VerificationAction) {
     verification_status: state.verification,
     verification_revision: state.revision,
   };
+}
+
+export async function fixturePolicy(action?: PolicyAction) {
+  const store = await cookies();
+  const defaults = {
+    revision: 0,
+    verificationRequired: true,
+    highValuePkr: 25000,
+    duplicateWindowHours: 24,
+    failedDeliveryCount: 2,
+    failedDeliveryLookbackDays: 180,
+    maxOrders24h: 5,
+    maxOrdersHour: 3,
+  };
+  let policy = policySchema.parse(defaults);
+  try {
+    policy = policySchema.parse(JSON.parse(store.get("dwellune-test-policy")?.value ?? ""));
+  } catch {
+    /* Initial fixture policy. */
+  }
+  if (!action) return policy;
+  const input = JSON.stringify(action);
+  if (store.get("dwellune-test-policy-request")?.value === action.requestId) {
+    if (store.get("dwellune-test-policy-input")?.value !== input)
+      throw new Error("verification_idempotency_conflict");
+    return policy;
+  }
+  if (action.expectedRevision !== policy.revision) throw new Error("verification_changed");
+  const next = policySchema.parse({ ...action.values, revision: policy.revision + 1 });
+  const options = { httpOnly: true, sameSite: "lax" as const, path: "/", maxAge: 3600 };
+  store.set("dwellune-test-policy", JSON.stringify(next), options);
+  store.set("dwellune-test-policy-request", action.requestId, options);
+  store.set("dwellune-test-policy-input", input, options);
+  return next;
 }

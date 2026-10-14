@@ -327,3 +327,9 @@ COD order submission is deployed with a closed database release gate. The databa
 ## Staff COD verification
 
 `/crm/verification` and its order pages use active Super Admin/live-session checks and guarded database RPCs. The queue uses 20-row keyset pagination. Manual contact logs, confirmation and eligible cancellation record private notes, staff attribution and audit entries. Actor/request receipts deduplicate retries, while an order revision rejects stale decisions. Cancellation shares checkout's commerce lock ordering and existing reservation-release trigger; settlement remains independent. Customer notifications/history carry safe status only. `/api/admin/session` supplements cross-tab account invalidation with fresh staff-role checks. See `PHASE_9_PART_1_AUDIT.md` for tests and deferred launch acceptance.
+
+## COD review policy and signals
+
+`/crm/verification/settings` loads guarded policy data on the server. Its same-origin private API accepts a strict policy action with expected revision, staff reason and immutable request ID. Ambiguous writes freeze the original values for a safe retry; stale conflicts require reload. Policy receipts and audit entries share the database transaction. Settings cannot alter roles, SMTP or checkout enablement.
+
+Queue/detail RPCs expose recorded review state to staff. Signal snapshots include canonical total threshold, recent matching normalized-phone/total orders and distinct prior failed-delivery/RTO orders. No score or automatic rejection is fabricated. Staff may flag a pending order, clear it with a note, then confirm separately. Confirmation/fulfillment/active-shipment guards enforce pending review in the database. Customer views retain only safe status/history; review notes and signals remain private. Admin review alerts use existing in-app notification records without sending extra contact emails.

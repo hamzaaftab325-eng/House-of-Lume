@@ -721,7 +721,7 @@ Quote-time recalculation is implemented in Part 1 and repeated in the Part 2 ord
 
 # 14. Phase 9 — COD Verification & Fraud/Abuse Controls
 
-- [ ] Configurable verification requirement
+- [x] Configurable verification requirement
 - [x] Verification status
 - [x] Staff verification queue
 - [x] Customer contact workflow (manual app links and actual outcome recording)
@@ -731,16 +731,16 @@ Quote-time recalculation is implemented in Part 1 and repeated in the Part 2 ord
 - [x] Verified timestamp
 - [x] Reject/cancel flow (before shipment/collection)
 - [x] Stock release on rejection/cancellation
-- [ ] Duplicate order detection signals
-- [ ] High-value COD threshold
-- [ ] Repeated failed-delivery customer signal
-- [ ] Rate limit order creation
-- [ ] Suspicious order flag
-- [ ] Manual review state
+- [x] Duplicate order detection signals
+- [x] High-value COD threshold
+- [x] Repeated failed-delivery customer signal
+- [x] Rate limit order creation
+- [x] Suspicious order flag
+- [x] Manual review state
 
 No fake AI fraud scoring should be added unless real data/modeling exists.
 
-Part 1 implementation and rollback evidence are recorded in `PHASE_9_PART_1_AUDIT.md`. Part 2 controls remain pending. The owner deferred real-product launch acceptance; checkout remains closed. This is not a full Phase 9 completion claim.
+Part 1 implementation and rollback evidence are recorded in `PHASE_9_PART_1_AUDIT.md`. Part 2 configuration, deterministic review signals, manual review and identity limits are implemented and verified in `PHASE_9_PART_2_AUDIT.md`. The owner deferred real-product launch acceptance; checkout remains closed. This is not a full Phase 9 completion claim.
 
 ---
 

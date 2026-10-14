@@ -35,6 +35,7 @@ export default async function CrmLayout({ children }: { children: React.ReactNod
         <nav aria-label="Administrator navigation">
           <Link href="/crm">DWELLUNE admin</Link>
           <Link href={"/crm/verification" as Route}>COD verification</Link>
+          <Link href={"/crm/verification/settings" as Route}>Verification rules</Link>
           <Link href="/account">My account</Link>
         </nav>
         <span className={styles.identity}>{admin.email}</span>

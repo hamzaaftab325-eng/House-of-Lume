@@ -1,5 +1,5 @@
 import { z } from "zod";
-export const queueFilters = ["pending", "confirmed", "cancelled", "all"] as const;
+export const queueFilters = ["pending", "review", "confirmed", "cancelled", "all"] as const;
 export const queueFilterSchema = z.enum(queueFilters);
 export type QueueFilter = z.infer<typeof queueFilterSchema>;
 const revision = z.number().int().min(0).max(9_999_999_999);
@@ -19,13 +19,58 @@ export const verificationInputSchema = z.discriminatedUnion("action", [
     })
     .strict(),
   z
-    .object({ action: z.enum(["confirm", "reject", "cancel"]), expectedRevision: revision, note })
+    .object({
+      action: z.enum(["confirm", "reject", "cancel", "request_review", "clear_review"]),
+      expectedRevision: revision,
+      note,
+    })
     .strict(),
 ]);
 export const verificationActionSchema = z
   .object({ orderId: z.uuid(), requestId: z.uuid(), input: verificationInputSchema })
   .strict();
 export type VerificationAction = z.infer<typeof verificationActionSchema>;
+export const reviewStatusSchema = z.enum(["not_required", "pending", "cleared", "closed"]);
+export const reviewFlagSchema = z.object({
+  code: z.enum(["high_value", "possible_duplicate", "failed_delivery_history", "staff_review"]),
+  label: z.string().max(200),
+  count: z.number().int().nonnegative(),
+  threshold: z.number().int().positive(),
+  window: z.number().int().positive().optional(),
+});
+export const reviewSchema = z.object({
+  status: reviewStatusSchema,
+  flags: z.array(reviewFlagSchema).max(4),
+  reviewed_by: z.string().nullable(),
+  reviewed_at: z.string().nullable(),
+  note: z.string().nullable(),
+});
+export const policyValuesSchema = z
+  .object({
+    verificationRequired: z.boolean(),
+    highValuePkr: z.number().int().min(1000).max(1_000_000),
+    duplicateWindowHours: z.number().int().min(1).max(72),
+    failedDeliveryCount: z.number().int().min(1).max(10),
+    failedDeliveryLookbackDays: z.number().int().min(1).max(365),
+    maxOrders24h: z.number().int().min(1).max(20),
+    maxOrdersHour: z.number().int().min(1).max(10),
+  })
+  .strict()
+  .refine((values) => values.maxOrdersHour <= values.maxOrders24h, {
+    message: "The hourly limit must not exceed the 24-hour limit.",
+    path: ["maxOrdersHour"],
+  });
+export const policySchema = policyValuesSchema.safeExtend({ revision });
+export const policyActionSchema = z
+  .object({
+    requestId: z.uuid(),
+    expectedRevision: revision,
+    note: z.string().trim().min(3).max(1000),
+    values: policyValuesSchema,
+  })
+  .strict();
+export type VerificationPolicy = z.infer<typeof policySchema>;
+export type PolicyAction = z.infer<typeof policyActionSchema>;
 const nullableText = z.string().nullable();
 const status = z.string();
 const summary = z.object({
@@ -39,10 +84,23 @@ const summary = z.object({
   placed_at: z.iso.datetime({ offset: true }),
 });
 export const verificationQueueSchema = z.object({
-  items: z.array(summary.extend({ city: nullableText })),
+  items: z.array(
+    summary.extend({
+      city: nullableText,
+      review_status: reviewStatusSchema.default("not_required"),
+      review_flag_count: z.number().int().min(0).default(0),
+    }),
+  ),
   next_cursor: z.uuid().nullable(),
 });
 export const verificationDetailSchema = z.object({
+  review: reviewSchema.default({
+    status: "not_required",
+    flags: [],
+    reviewed_by: null,
+    reviewed_at: null,
+    note: null,
+  }),
   order: summary.extend({
     contact_email: nullableText,
     contact_whatsapp: nullableText,
@@ -127,6 +185,9 @@ export function verificationError(code: string) {
       "This order has moved beyond this cancellation workflow. Review its fulfillment and settlement first.",
     verification_attempt_limit: "This order has reached the verification attempt limit.",
     invalid_verification_input: "Check the action and add a verification note.",
+    manual_review_required:
+      "Clear the recorded manual review with a note before confirming this order.",
+    invalid_verification_policy: "Check the rule values and limits before saving.",
   };
   return (
     messages[code] ??

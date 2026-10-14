@@ -1551,6 +1551,11 @@ export type Database = {
           internal_note: string | null;
           order_number: number;
           placed_at: string;
+          review_flags: Json;
+          review_note: string | null;
+          review_status: string;
+          reviewed_at: string | null;
+          reviewed_by: string | null;
           shipping_pkr: number;
           shipping_rule_id: string | null;
           status: Database["public"]["Enums"]["order_status"];
@@ -1582,6 +1587,11 @@ export type Database = {
           internal_note?: string | null;
           order_number?: number;
           placed_at?: string;
+          review_flags?: Json;
+          review_note?: string | null;
+          review_status?: string;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
           shipping_pkr?: number;
           shipping_rule_id?: string | null;
           status?: Database["public"]["Enums"]["order_status"];
@@ -1613,6 +1623,11 @@ export type Database = {
           internal_note?: string | null;
           order_number?: number;
           placed_at?: string;
+          review_flags?: Json;
+          review_note?: string | null;
+          review_status?: string;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
           shipping_pkr?: number;
           shipping_rule_id?: string | null;
           status?: Database["public"]["Enums"]["order_status"];
@@ -2962,6 +2977,10 @@ export type Database = {
         Returns: Json;
       };
       staff_verification_detail: { Args: { p_order_id: string }; Returns: Json };
+      staff_verification_policy: {
+        Args: { p_input?: Json; p_request_id?: string };
+        Returns: Json;
+      };
       staff_verification_queue: {
         Args: { p_before?: string; p_filter?: string };
         Returns: Json;

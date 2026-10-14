@@ -37,6 +37,44 @@ export default async function VerificationOrder({ params }: { params: Promise<{ 
         <time dateTime={order.placed_at}>{verificationDate(order.placed_at)}</time> · Cash on
         Delivery · Settlement: {order.cod_settlement_status.replaceAll("_", " ")}
       </p>
+      <section className={styles.section}>
+        <h2>Manual review</h2>
+        <p>{data.review.status.replaceAll("_", " ")}</p>
+        {data.review.flags.length ? (
+          <>
+            <p className={styles.intro}>
+              Review each recorded signal with the customer before deciding. These are recorded rule
+              matches.
+            </p>
+            <ul>
+              {data.review.flags.map((flag) => (
+                <li key={flag.code}>
+                  <strong>{flag.label}</strong>
+                  <p>
+                    {flag.code === "high_value"
+                      ? `Threshold: ${verificationMoney(flag.threshold)}`
+                      : `Recorded count: ${flag.count} · Threshold: ${flag.threshold}`}
+                    {flag.window
+                      ? ` · Window: ${flag.window} ${flag.code === "possible_duplicate" ? "hours" : "days"}`
+                      : ""}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p>No review flags were recorded for this order.</p>
+        )}
+        {data.review.note ? <p className={adminStyles.note}>{data.review.note}</p> : null}
+        {data.review.reviewed_at ? (
+          <p>
+            Cleared by {data.review.reviewed_by} ·{" "}
+            <time dateTime={data.review.reviewed_at}>
+              {verificationDate(data.review.reviewed_at)}
+            </time>
+          </p>
+        ) : null}
+      </section>
       <div className={styles.grid}>
         <section className={styles.section}>
           <h2>Customer and delivery</h2>
@@ -121,6 +159,7 @@ export default async function VerificationOrder({ params }: { params: Promise<{ 
           revision={order.verification_revision}
           canVerify={data.can_verify}
           canCancel={data.can_cancel}
+          reviewStatus={data.review.status}
         />
       </section>
       <section className={styles.section}>

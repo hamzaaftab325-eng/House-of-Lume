@@ -262,3 +262,11 @@ The order-creation and attempt-recovery migrations add guarded RPCs, private rec
 ## Phase 9 Part 1 staff contracts
 
 `20261014115449_phase9_staff_cod_verification.sql` adds a nonnegative order revision, structured verification contact/action fields, private actor/request idempotency receipts and protected queue/detail/action RPCs. All staff calls independently validate live Auth session and the active Super Admin row. Contact notes are never customer-readable. Actions lock commerce before the order row, reject stale revisions, write staff/time attribution and safe customer status/history, and reuse cancellation's once-only inventory release. Fulfillment or collected COD prevents this cancellation path. See rollback tests `tests/database/phase9-part1.sql` and `tests/database/phase9-boundaries.sql`.
+
+## Phase 9 Part 2 review controls
+
+`20261014150802_phase9_review_controls.sql` is applied and immutable. Private singleton policy and actor/request policy receipts have deny-all client access. The guarded `staff_verification_policy` RPC validates live active Super Admin, bounded values, audit reason, revision and replay. Order review columns remain outside customer grants; regenerated public types describe the schema, not customer authorization. Rule changes apply to future order snapshots.
+
+Before order creation, the commerce lock serializes normalized-phone duplicate/high-value/recorded-failed-delivery checks and hourly/day identity caps. Cancelled orders count toward limits but not possible duplicates. Guest receipts and customer IDs prevent phone rotation within an identity; this is not IP/device bot detection. Existing checkout replay precedes quotas and the release gate. Flagged orders override routine auto-confirmation, keeping initial history, COD verification and email text consistent. Review clearance records actor/time/note; confirmation remains a separate action. Database triggers block fulfillment and active shipments while review is pending.
+
+Rollback integration evidence: `tests/database/phase9-part2.sql`, `phase9-checkout-controls.sql`, `phase9-identity-limits.sql`, `phase9-privacy.sql` and `phase9-boundaries.sql`. All passed against the hosted project. No test order, credential, product, email or policy change persists. Checkout remains closed.

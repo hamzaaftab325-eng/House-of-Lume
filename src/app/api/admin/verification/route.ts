@@ -17,6 +17,7 @@ const conflicts = [
   "cancellation_unavailable",
   "verification_attempt_limit",
   "invalid_verification_input",
+  "manual_review_required",
 ];
 export async function POST(request: NextRequest) {
   if (

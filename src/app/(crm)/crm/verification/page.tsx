@@ -44,9 +44,11 @@ export default async function VerificationQueue({
           >
             {value === "pending"
               ? "Awaiting verification"
-              : value === "all"
-                ? "All orders"
-                : value[0].toUpperCase() + value.slice(1)}
+              : value === "review"
+                ? "Manual review"
+                : value === "all"
+                  ? "All orders"
+                  : value[0].toUpperCase() + value.slice(1)}
           </Link>
         ))}
       </nav>
@@ -71,6 +73,11 @@ export default async function VerificationQueue({
                 <strong>{verificationMoney(order.total_pkr)}</strong>
                 <p>{order.status.replaceAll("_", " ")}</p>
                 <p>Verification: {order.verification_status.replaceAll("_", " ")}</p>
+                {order.review_status === "pending" ? (
+                  <p>
+                    <strong>Manual review · {order.review_flag_count} recorded flags</strong>
+                  </p>
+                ) : null}
               </div>
             </li>
           ))}

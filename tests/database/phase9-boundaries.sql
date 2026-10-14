@@ -4,7 +4,7 @@ insert into p9b_admin select user_id from public.staff_profiles where is_active 
 grant select on p9b_admin to authenticated;
 insert into auth.sessions(id,user_id,created_at,not_after) select '95000000-0000-4000-8000-000000000001',user_id,now(),now()+interval '1 hour' from p9b_admin;
 insert into public.orders(id,guest_checkout,contact_name,contact_phone,subtotal_pkr,total_pkr,idempotency_key,placed_at)
- select ('95100000-0000-4000-8000-'||lpad(i::text,12,'0'))::uuid,true,'Rollback page fixture','+923001234567',1000,1000,'p9b-page-'||i,now()-i*interval '1 second' from generate_series(1,21) i;
+ select ('95100000-0000-4000-8000-'||lpad(i::text,12,'0'))::uuid,true,'Rollback page fixture','+92300'||lpad(i::text,7,'0'),1000,1000,'p9b-page-'||i,now()-i*interval '1 second' from generate_series(1,21) i;
 set local role authenticated;
 select set_config('request.jwt.claims',jsonb_build_object('sub',(select user_id from p9b_admin),'role','authenticated','session_id','95000000-0000-4000-8000-000000000001')::text,true);
 do $$ declare x jsonb;y jsonb;begin
@@ -27,7 +27,10 @@ end $$;
 reset role;
 update public.staff_profiles set is_active=false where user_id=(select user_id from p9b_admin);
 set local role authenticated;
-do $$ begin begin perform public.staff_verification_queue();raise exception 'revoked role accepted';exception when others then if sqlerrm<>'staff_access_required' then raise;end if;end;end $$;
+do $$ begin
+ begin perform public.staff_verification_policy();raise exception 'inactive staff policy accepted';exception when others then if sqlerrm<>'staff_access_required' then raise;end if;end;
+ begin perform public.staff_verification_queue();raise exception 'revoked role accepted';exception when others then if sqlerrm<>'staff_access_required' then raise;end if;end;
+end $$;
 reset role;
 select 'PASS: bounded keyset pagination, invalid inputs, unavailable order, shipped/collected cancellation denial, fulfillment transition guard, inactive staff denial' as result;
 rollback;
