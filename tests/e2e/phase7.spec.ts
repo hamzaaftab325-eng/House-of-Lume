@@ -11,13 +11,24 @@ test.describe("Phase 7 public access and security", () => {
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
   });
   test("unconfigured email flows are honest and disabled", async ({ page }) => {
-    for (const route of ["signup", "reset", "resend"]) {
+    for (const route of ["reset"]) {
       await page.goto(`/auth/${route}`);
       await expect(
         page.getByText("Account email delivery is being prepared.", { exact: false }),
       ).toBeVisible();
       await expect(page.getByRole("main").locator('button[type="submit"]')).toBeDisabled();
     }
+  });
+  test("signup stays available without email and old resend routes return to sign-in", async ({
+    page,
+  }) => {
+    await page.goto("/auth/signup");
+    await expect(page.getByRole("button", { name: "Create account", exact: true })).toBeEnabled();
+    await expect(
+      page.getByText("No verification email is needed.", { exact: false }),
+    ).toBeVisible();
+    await page.goto("/auth/resend");
+    await expect(page).toHaveURL(/\/auth\/signin$/);
   });
   test("invalid verification links recover without exposing errors", async ({ page }) => {
     await page.goto("/auth/callback?token_hash=invalid&type=unsupported");

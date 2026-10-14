@@ -73,3 +73,16 @@ On 14 October 2026 the owner supplied two controlled inboxes, authorized creatio
 - Published the seven-day customer return-request policy with manual JazzCash/bank refunds and support-confirmed return destination. No refund transfer or courier booking is implemented in Phase 7.
 - Enabled AUTH_EMAIL_READY for the requested live acceptance after the saved SMTP screenshot. Actual delivery, callback/template configuration, email-change/recovery and signed-in UI acceptance remain pending owner confirmation.
 - Phase 7 implementation is prepared for the single production push. Overall acceptance remains partial; do not report 100% while the live checks are pending.
+
+
+## Signup simplification — owner-requested correction
+
+The owner explicitly removed signup-email verification from the Phase 7 scope on 14 October 2026. New signup is intended to create a password account, install its real Supabase session into SSR cookies and open the account immediately. Signup does not depend on AUTH_EMAIL_READY and sends no verification email when provider autoconfirm is enabled. The old resend page redirects to sign-in.
+
+The password signup client uses a nonpersisting implicit flow because SSR PKCE signup is incompatible with automatic email confirmation. The temporary client session is transferred into the existing SSR cookie client; tokens are never returned in API JSON. Live-session, anonymous-user, ownership and revocation guards remain unchanged. Supabase automatically sets email confirmation when the provider toggle is disabled, so no database authorization weakening is required.
+
+Signup first checks public Auth settings and returns an honest temporary-unavailability response before creating an account if Confirm Email is still on. The connected Supabase plugin cannot change hosted Auth configuration; CLI management authentication is unavailable. The owner must turn Confirm Email OFF under Authentication > Sign In / Providers > Email. The last settings check still showed mailer_autoconfirm=false. No real immediate-signup acceptance is claimed before that setting changes and a live account is tested.
+
+Password recovery and email changes retain secure email-based ownership checks. They are distinct from signup and their inbox delivery remains unverified. Auth logs showed successful signup responses, invalid login credentials and a one-time token not found; the inspected fields did not establish an SMTP delivery failure.
+
+The correction is tested with unit/route behavior and a production build. Browser acceptance remains unavailable in this environment. Overall Phase 7 is not 100% accepted until the provider configuration and live acceptance checks are completed.

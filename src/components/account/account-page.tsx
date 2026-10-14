@@ -218,7 +218,7 @@ export async function AccountPage({
               <AuthForm mode="password" emailReady={process.env.AUTH_EMAIL_READY === "true"} />
             </section>
             <section className={styles.section}>
-              <h2>Change verified email</h2>
+              <h2>Change email address</h2>
               <AuthForm mode="email" emailReady={process.env.AUTH_EMAIL_READY === "true"} />
             </section>
           </>

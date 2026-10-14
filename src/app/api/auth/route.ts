@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { env } from "@/lib/env";
 import { sameOrigin } from "@/lib/commerce";
 import { verifyRecoveryGrant } from "@/server/account/recovery";
+import { passwordSignUp } from "@/server/account/password-signup";
 
 export const dynamic = "force-dynamic";
 const password = z.string().min(12).max(128);
@@ -80,10 +81,7 @@ export async function POST(request: NextRequest) {
       );
     const values = parsed.data;
     const emailReady = process.env.AUTH_EMAIL_READY === "true";
-    if (
-      ["signup", "reset", "resend", "email", "reauthenticate"].includes(values.action) &&
-      !emailReady
-    )
+    if (["reset", "email", "reauthenticate"].includes(values.action) && !emailReady)
       return response("Account email delivery is being prepared. Please try again later.", 503);
     if (
       (values.action === "recover" || values.action === "password") &&
@@ -93,13 +91,22 @@ export async function POST(request: NextRequest) {
     const client = await createClient();
     const callback = `${env.NEXT_PUBLIC_SITE_URL}/auth/callback`;
     let result;
-    if (values.action === "signup")
-      result = await client.auth.signUp({
-        email: values.email,
-        password: values.password,
-        options: { data: { full_name: values.name }, emailRedirectTo: callback },
-      });
-    else if (values.action === "signin")
+    if (values.action === "signup") {
+      result = await passwordSignUp(values.email, values.password, values.name);
+      if (!result.error) {
+        if (!result.data.session)
+          return response(
+            "Your account session could not be started. Please sign in or try again.",
+            409,
+          );
+        const installed = await client.auth.setSession({
+          access_token: result.data.session.access_token,
+          refresh_token: result.data.session.refresh_token,
+        });
+        if (installed.error)
+          return response("Your account was created. Please sign in to continue.", 502);
+      }
+    } else if (values.action === "signin")
       result = await client.auth.signInWithPassword({
         email: values.email,
         password: values.password,
@@ -110,11 +117,10 @@ export async function POST(request: NextRequest) {
         redirectTo: `${callback}?flow=recovery`,
       });
     else if (values.action === "resend")
-      result = await client.auth.resend({
-        type: "signup",
-        email: values.email,
-        options: { emailRedirectTo: callback },
-      });
+      return response(
+        "Signup no longer needs a verification email. Please sign in to continue.",
+        409,
+      );
     else {
       const {
         data: { user },
@@ -175,28 +181,38 @@ export async function POST(request: NextRequest) {
         return response("Too many attempts. Please wait before trying again.", 429);
       return response(
         values.action === "signin"
-          ? "We could not sign you in. Check your details and email verification."
-          : "We could not complete this request. Check your details, request a fresh link or verification code, and try again.",
+          ? "We could not sign you in. Check your email address and password."
+          : values.action === "signup"
+            ? "We could not create your account. Check your details, or sign in if you already have an account."
+            : "We could not complete this request. Check your details, request a fresh link or verification code, and try again.",
         400,
       );
     }
     const final = NextResponse.json(
       {
         saved: true,
-        message: ["signup", "reset", "resend"].includes(values.action)
-          ? "If the address is eligible, an email with the next steps will arrive shortly."
-          : values.action === "email"
-            ? "Confirm the email change using the verification messages."
-            : values.action === "reauthenticate"
-              ? "Check your email for a verification code."
-              : "Your change has been saved.",
+        authenticated: values.action === "signup" || values.action === "signin",
+        message:
+          values.action === "signup"
+            ? "Your account is ready. Taking you to your account…"
+            : ["reset", "resend"].includes(values.action)
+              ? "If the address is eligible, an email with the next steps will arrive shortly."
+              : values.action === "email"
+                ? "Confirm the email change using the verification messages."
+                : values.action === "reauthenticate"
+                  ? "Check your email for a verification code."
+                  : "Your change has been saved.",
       },
       { headers },
     );
     if (values.action === "recover" || values.action === "signout")
       final.cookies.delete("dwellune-recovery");
     return final;
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "signup_confirmation_enabled")
+      return response("Instant signup is being enabled. Please try again shortly.", 503);
+    if (error instanceof Error && error.message === "signup_configuration_unavailable")
+      return response("Account signup is temporarily unavailable. Please try again shortly.", 503);
     return response("We could not complete this request. Please try again.", 400);
   }
 }

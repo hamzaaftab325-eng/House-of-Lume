@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { AuthForm, type AuthMode } from "@/components/account/auth-form";
 import styles from "@/components/account/account.module.css";
 const modes: Record<string, { mode: AuthMode; title: string; intro: string }> = {
@@ -11,8 +12,7 @@ const modes: Record<string, { mode: AuthMode; title: string; intro: string }> = 
   signup: {
     mode: "signup",
     title: "Make yourself at home.",
-    intro:
-      "Create your DWELLUNE account. Browsing and future guest checkout remain available without an account.",
+    intro: "Create your DWELLUNE account and sign in immediately. No verification email is needed.",
   },
   reset: {
     mode: "reset",
@@ -39,6 +39,7 @@ export default async function AuthPage({
   searchParams: Promise<{ next?: string }>;
 }) {
   const { mode } = await params;
+  if (mode === "resend") redirect("/auth/signin");
   if (!Object.hasOwn(modes, mode)) notFound();
   const route = modes[mode];
   if (!route) notFound();

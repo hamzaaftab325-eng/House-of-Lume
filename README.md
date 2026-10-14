@@ -108,3 +108,8 @@ A phase cannot be marked 100% complete if an applicable quality gate is failing 
 ## Node.js
 
 Use Node.js 24 LTS. `.nvmrc` is committed and `package.json` constrains the supported major version.
+
+
+### Immediate password signup
+
+The owner requested signup without a verification email. In the hosted Supabase project, turn **Confirm Email OFF** under Authentication > Sign In / Providers > Email. Signup uses a nonpersisting password Auth client and installs the returned session through the SSR cookie client. The endpoint checks the setting before signup, preventing an unintended verification email while configuration is pending. Recovery and email changes still require functioning SMTP and production callback URLs.

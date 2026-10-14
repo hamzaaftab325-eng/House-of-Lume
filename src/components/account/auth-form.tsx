@@ -33,7 +33,7 @@ export function AuthForm({
     password: "Change password",
     email: "Change email",
   };
-  const blocked = !emailReady && ["signup", "reset", "resend", "email"].includes(mode);
+  const blocked = !emailReady && ["reset", "email"].includes(mode);
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (pending) return;
@@ -52,7 +52,7 @@ export function AuthForm({
       const data = await response.json();
       if (!response.ok)
         throw new Error(typeof data.error === "string" ? data.error : "Please try again.");
-      if (mode === "signin") {
+      if (mode === "signin" || (mode === "signup" && data.authenticated === true)) {
         broadcastAccountChange();
         window.location.assign(safeAccountRedirect(next));
         return;
@@ -188,8 +188,10 @@ export function AuthForm({
         <nav className={styles.actions} aria-label="Sign-in help">
           <Link href={"/auth/signup" as Route}>Create account</Link>
           <Link href={"/auth/reset" as Route}>Forgot password?</Link>
-          <Link href={"/auth/resend" as Route}>Verify email</Link>
         </nav>
+      ) : null}
+      {mode === "signup" ? (
+        <Link href={"/auth/signin" as Route}>Already have an account? Sign in</Link>
       ) : null}
       <Link href="/shop">Continue browsing</Link>
     </>
