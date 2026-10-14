@@ -62,7 +62,7 @@ it("sends only the claimed snapshot and acknowledges Gmail acceptance", async ()
     expect.objectContaining({
       to: job.payload.to,
       replyTo: "dwellunestore@gmail.com",
-      messageId: `<dwellune-order.placed-v1-${job.id}@gmail.com>`,
+      messageId: `<dwellune-order.placed-v2-${job.id}@gmail.com>`,
       html: expect.stringContaining("Due on delivery: PKR 1000"),
       text: expect.stringContaining("Due on delivery: PKR 1000"),
     }),

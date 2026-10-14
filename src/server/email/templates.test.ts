@@ -17,7 +17,7 @@ it.each(emailEventSchema.options)("renders accessible HTML and text for %s", (ev
   expect(email.html).toContain('alt="DWELLUNE Home Décor"');
   expect(email.html).not.toContain('style="');
   expect(email.html).toContain(`https://dwellune.vercel.app/account/orders/${input.orderId}`);
-  expect(email.html).toContain("Due on delivery: PKR 5050");
+  expect(email.html).toContain('scope="row">Due on delivery</th><td>PKR 5050');
   expect(email.text).toContain(input.text);
   expect(email.text).toContain("Guest customers can reply with their order number");
   expect(email.subject).toBe(input.subject);

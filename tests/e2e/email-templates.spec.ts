@@ -4,7 +4,7 @@ import { emailEventSchema, renderTransactionalEmail } from "../../src/server/ema
 for (const width of [320, 375, 768, 1440]) {
   test(`transactional emails remain readable at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 1000 });
-    await page.route("**/email-logo.png", (route) =>
+    await page.route("**/email-logo.png*", (route) =>
       route.fulfill({ path: "public/email-logo.png", contentType: "image/png" }),
     );
     for (const event of emailEventSchema.options) {
@@ -44,19 +44,44 @@ test("email has readable dark mode and stripped-CSS fallbacks", async ({ page })
     text: "Order #100001",
     siteUrl: "https://dwellune.vercel.app",
   });
-  await page.route("**/email-logo.png", (route) =>
+  await page.route("**/email-logo.png*", (route) =>
     route.fulfill({ path: "public/email-logo.png", contentType: "image/png" }),
   );
   await page.emulateMedia({ colorScheme: "dark" });
   await page.setContent(email.html);
-  await expect(page.getByRole("heading")).toHaveCSS("color", "rgb(255, 248, 238)");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCSS("color", "rgb(255, 248, 238)");
   await expect(page.getByRole("link", { name: "Visit your account" })).toHaveCSS(
     "color",
     "rgb(40, 17, 3)",
   );
   await page.screenshot({ path: "../phase11-email-dark.png", fullPage: true });
   await page.setContent(email.html.replace(/<style>[\s\S]*?<\/style>/, ""));
-  await expect(page.getByRole("heading")).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("link", { name: "Visit your account" })).toBeVisible();
   await expect(page.getByText("No COD payment is due", { exact: false })).toBeVisible();
 });
+
+for (const theme of ["light", "dark"] as const)
+  test(`button and body text resist webmail link overrides in ${theme} mode`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: theme });
+    await page.setContent(
+      renderTransactionalEmail({
+        event: "order.placed",
+        subject: "Order received",
+        siteUrl: "https://dwellune.vercel.app",
+        text: "Subtotal: PKR 1000\nDelivery: PKR 250\nDue on delivery: PKR 1250",
+      }).html,
+    );
+    // Reproduce a host stylesheet that recolors links after inserting the mail.
+    await page.addStyleTag({ content: "a[href] { color:rgb(26,115,232) !important; }" });
+    const button = page.getByRole("link", { name: "Visit your account" });
+    const foreground = theme === "light" ? "rgb(255, 248, 238)" : "rgb(40, 17, 3)";
+    const background = theme === "light" ? "rgb(40, 17, 3)" : "rgb(255, 248, 238)";
+    await expect(button).toHaveCSS("color", foreground);
+    await expect(button.locator("span")).toHaveCSS("color", foreground);
+    await expect(button).toHaveCSS("background-color", background);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCSS("color", background);
+    await expect(page.locator(".brand")).toHaveCSS("background-color", "rgb(255, 248, 238)");
+    await expect(page.getByRole("rowheader", { name: "Due on delivery" })).toBeVisible();
+    await expect(page.getByRole("cell", { name: "PKR 1250" })).toBeVisible();
+  });
