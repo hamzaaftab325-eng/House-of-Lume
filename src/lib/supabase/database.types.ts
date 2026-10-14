@@ -2798,6 +2798,10 @@ export type Database = {
           total_count: number;
         }[];
       };
+      checkout_quote: {
+        Args: { p_address: Json; p_guest_token_hash: string };
+        Returns: Json;
+      };
       commerce_cart_add: {
         Args: {
           p_guest_token_hash: string;

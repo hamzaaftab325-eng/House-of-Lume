@@ -248,3 +248,7 @@ The Phase 6 migrations implement `inventory_reservations`, cart discount associa
 - `dwellune-release-expired-cart-reservations` releases expired holds every five minutes; snapshot/mutation calls also clean expiry. Retired items are removable; expired cart rows do not revive stale cart lines.
 - Imports record a receipt only in the same transaction as the canonical merge. Replayed imports do not duplicate quantities. Receipts have RLS enabled and no client table privileges or policies, intentionally denying direct access. The advisor's informational `rls_enabled_no_policy` finding for this internal table reflects that default-deny design, not public access. [Advisor reference](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy).
 - `tests/database/phase6.sql` must be run within `BEGIN` / `ROLLBACK`; its products, users, discounts, inventory and carts are transactional fixtures, never production seed data.
+
+## Phase 8 Part 1 quote RPC
+
+`20261014070034_checkout_validated_quotes.sql` adds public invoker `checkout_quote` over private guarded quote logic. It reuses cart ownership, current catalog/discount/inventory and active shipping/COD settings. It returns an expiring canonical quote; no order tables, inventory holds or notification queues are created by this migration. Regression transactions: `tests/database/phase8-part1.sql`. Quote revision is a change fingerprint, never order authorization.

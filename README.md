@@ -113,3 +113,7 @@ Use Node.js 24 LTS. `.nvmrc` is committed and `package.json` constrains the supp
 ### Immediate password signup
 
 The owner requested signup without a verification email. In the hosted Supabase project, turn **Confirm Email OFF** under Authentication > Sign In / Providers > Email. Signup uses a nonpersisting password Auth client and installs the returned session through the SSR cookie client. The endpoint checks the setting before signup, preventing an unintended verification email while configuration is pending. Recovery and email changes still require functioning SMTP and production callback URLs.
+
+## Phase 8 Part 1
+
+Checkout details and validated COD quotes are available at `/checkout`. Order placement remains disabled until Part 2 delivers atomic order creation and confirmation. Verification evidence and remaining acceptance are in `PHASE_8_PART_1_AUDIT.md`.

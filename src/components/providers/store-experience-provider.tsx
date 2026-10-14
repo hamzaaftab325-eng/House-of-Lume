@@ -19,6 +19,7 @@ export function StoreExperienceProvider({ children }: Readonly<{ children: React
     if (
       reducedMotion ||
       pathname === "/cart" ||
+      pathname === "/checkout" ||
       pathname === "/wishlist" ||
       pathname.startsWith("/account") ||
       pathname.startsWith("/auth")

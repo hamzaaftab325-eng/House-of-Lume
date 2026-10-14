@@ -315,3 +315,7 @@ Phase 0 exists to make those implementations consistent, testable, secure, and m
 Browser storage contains only guest wishlist IDs and a replayable legacy import receipt, never authoritative cart prices. Auth changes hide stale account data, trigger cart claiming and wishlist merging, and update all subscribed surfaces. Cross-tab events and visible-tab refresh keep quantities and reservation state current. Cart and wishlist pages use native scrolling; drawer interaction does not depend on editorial motion.
 
 `commerce.fixture.ts` is reachable only when the explicit test flag, placeholder Supabase URL and localhost site URL all match. It supplies canonical test products for browser regression tests. Production always calls Supabase. Database transaction tests separately verify the real RPC contract, stock/price changes, guest/account ownership, failed-write rollback, imports and expiry.
+
+## Phase 8 Part 1 checkout
+
+The checkout UI uses a private context endpoint and strict same-origin quote endpoint. Server session/customer checks resolve saved addresses; the database computes canonical totals through `checkout_quote`. Quotes expire and are invalidated by cart/contact/address changes. Checkout does not submit orders; Part 2 must repeat validation inside its atomic order transaction. See `PHASE_8_PART_1_AUDIT.md`.

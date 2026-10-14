@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import type { Route } from "next";
 import { useState, type FormEvent } from "react";
 import { Heart, Minus, PackageOpen, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { useStoreCommerce } from "@/components/providers/store-commerce";
@@ -269,10 +270,12 @@ export function CartSummary() {
         </strong>
         <p>Cash on Delivery. No online payment is collected.</p>
       </div>
-      <DwelluneButton className={styles.checkout} disabled>
-        Ordering opens soon
-      </DwelluneButton>
-      <p className={styles.delivery}>Your bag is saved. Order placement is not available yet.</p>
+      <DwelluneButtonLink className={styles.checkout} href={"/checkout" as Route}>
+        Review checkout
+      </DwelluneButtonLink>
+      <p className={styles.delivery}>
+        Review your address and delivery total. Order placement opens soon.
+      </p>
       <DwelluneButtonLink href="/shop" variant="quiet" showArrow>
         Continue exploring
       </DwelluneButtonLink>

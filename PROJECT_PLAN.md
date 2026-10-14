@@ -674,22 +674,26 @@ Guest COD checkout should remain possible unless business rules later require an
 
 # 13. Phase 8 — COD Checkout & Order Creation
 
+Part 1 implements checkout details and validated quotes. Part 2 remains open for transactional order submission, confirmation and notifications. See `PHASE_8_PART_1_AUDIT.md` for evidence and acceptance limits. No orders can be submitted in Part 1.
+
 ## Checkout
 
-- [ ] Guest checkout
-- [ ] Signed-in checkout
-- [ ] Contact details
-- [ ] Shipping address
-- [ ] Address validation rules
-- [ ] Delivery area eligibility
-- [ ] Delivery fee calculation
-- [ ] Order notes
-- [ ] Discount validation
-- [ ] Order summary
-- [ ] COD-only payment presentation
-- [ ] Terms acknowledgement where appropriate
+- [x] Guest checkout
+- [x] Signed-in checkout
+- [x] Contact details
+- [x] Shipping address
+- [x] Address validation rules
+- [x] Delivery area eligibility
+- [x] Delivery fee calculation
+- [x] Order notes
+- [x] Discount validation
+- [x] Order summary
+- [x] COD-only payment presentation
+- [x] Terms acknowledgement where appropriate
 
 ## Server validation before order creation
+
+Quote-time recalculation is implemented in Part 1. These gates remain unchecked until Part 2 repeats them inside the final order transaction.
 
 - [ ] Re-fetch product/variant state
 - [ ] Recalculate prices
