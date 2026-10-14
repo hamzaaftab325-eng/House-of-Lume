@@ -84,6 +84,17 @@ export async function NotificationPage({
           <Link href="/account/settings">Account settings</Link>
         </nav>
       ) : null}
+      <div className={styles.actions}>
+        <Link
+          href={
+            (audience === "staff"
+              ? "/crm/notifications/delivery"
+              : "/account/notifications/preferences") as Route
+          }
+        >
+          {audience === "staff" ? "Delivery status and event registry" : "Notification preferences"}
+        </Link>
+      </div>
       <NotificationCenter
         key={`${parsed.data.read}/${parsed.data.category}/${parsed.data.priority}`}
         feed={feed}

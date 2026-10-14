@@ -133,3 +133,9 @@ Open `/crm/verification/settings` as Super Admin to edit rules with an audit rea
 ## Phase 10 Part 1 — notification centers
 
 Customer inbox: `/account/notifications`. Staff inbox: `/crm/notifications`. Both support all/unread, category filters, bounded cursor pages, single-read and whole-inbox mark-all. Staff additionally filter priority and see operational urgency. Inboxes are recipient-scoped, including for Super Admin; staff and customer notices stay separate. Badges refresh after reads, cross-tab changes, visible-tab return and a 60-second visible-page poll. Reading notices does not alter orders or imply email delivery. Part 2 event coverage/preferences remain separate. See `PHASE_10_PART_1_AUDIT.md`.
+
+## Phase 10 Part 2 — events and delivery controls
+
+`/account/notifications/preferences` controls optional product notices and marketing consent. Essential order/verification/account notices and transactional emails remain enabled; product subscriptions and marketing campaigns do not start from this screen. `/crm/notifications/delivery` shows bounded email-job views, full queue counts, SMTP health and active/deferred event coverage. SMTP acceptance is separate from inbox delivery. Uncertain sends have no automatic resend action.
+
+Current producers include order placement/confirmation/cancellation, verification/manual review, return requests, eligible inventory threshold crossings, email job failure and SMTP authentication failure. Durable per-recipient receipts prevent replay and preserve optional suppression. Existing email lease/backoff safeguards remain intact. Future fulfillment/RTO/moderation/support/settlement/product-subscription events stay deferred. See `PHASE_10_PART_2_AUDIT.md`.

@@ -341,3 +341,9 @@ A shared server-rendered notification page loads a bounded, recipient-scoped fee
 A small client boundary handles read controls and keeps an immutable action/cutoff during uncertain results. Local/cross-tab read signals refresh counts; only event markers are stored, never notice content. Visible-page polling/return and manual refresh update inboxes without a Realtime dependency. Auth generation checks/abort cleanup prevent outdated badge requests from applying after identity changes. Staff session guards hide stale private screens after revocation. Header badges display unknown counts honestly after failures.
 
 Only existing order/return/product/account routes become links; unimplemented CRM return/product-management routes have no fabricated links. Part 2 remains responsible for complete event coverage, preferences and notification delivery operations.
+
+## Notification producers and operations
+
+A private registry holds event/audience/category/priority/essential status and active/deferred producer dependencies. Only trusted database producers invoke `emit_notification`; it atomically claims a recipient receipt before recording or suppressing an optional notice. Current state transitions reuse real order/return/inventory/worker records. No public event-emission endpoint or fake future fulfillment event is provided.
+
+Preferences derive customer identity from the live session and cannot select recipients or disable essential updates. The client freezes choices during uncertain saves and retries those same values. The staff delivery view uses a guarded bounded RPC and exposes job IDs, status, attempts and safe error codes, never SMTP secrets, payloads or guest email addresses. It reports latest matching jobs plus full queue counts and registry dependencies. It offers no resend action for uncertain SMTP acceptance. Existing scheduler, durable leases, bounded retry rules and readiness checks remain the delivery authority.

@@ -1,0 +1,55 @@
+begin;
+insert into auth.users(id,email,email_confirmed_at,raw_user_meta_data) values('a4000000-0000-4000-8000-000000000001','p102@example.invalid',now(),'{"role":"super_admin"}');
+insert into auth.sessions(id,user_id,created_at,not_after) values('a4100000-0000-4000-8000-000000000001','a4000000-0000-4000-8000-000000000001',now(),now()+interval '1 hour'),('a4100000-0000-4000-8000-000000000002','13ea3052-462e-473f-b023-346a163eaf3a',now(),now()+interval '1 hour');
+set local role authenticated;
+select set_config('request.jwt.claims','{"sub":"a4000000-0000-4000-8000-000000000001","role":"authenticated","session_id":"a4100000-0000-4000-8000-000000000001"}',true);
+do $$declare x jsonb;begin
+ x:=public.notification_preferences('{"productUpdates":false,"emailMarketing":false}');if x->>'essentialUpdates'<>'true' then raise exception 'essential updates missing';end if;
+ begin perform public.notification_preferences('{"productUpdates":false,"emailMarketing":false,"essentialUpdates":false}');raise exception 'essential override accepted';exception when others then if sqlerrm<>'invalid_notification_input' then raise;end if;end;
+ begin perform public.notification_operations();raise exception 'customer received operations';exception when others then if sqlerrm<>'staff_access_required' then raise;end if;end;
+ begin perform count(*) from app_private.notification_event_receipts;raise exception 'private receipts exposed';exception when insufficient_privilege then null;end;
+ begin perform app_private.emit_notification('order.placed',gen_random_uuid(),'staff','order',null);raise exception 'customer emitted events';exception when insufficient_privilege then null;end;
+ -- Exact query columns used by account unread counts must be readable.
+ perform count(*) from public.notifications where audience='customer' and read_at is null;
+end $$;
+reset role;
+insert into public.orders(id,customer_id,contact_name,contact_phone,subtotal_pkr,total_pkr,idempotency_key) select 'a4200000-0000-4000-8000-000000000001',id,'Rollback event customer','+923006666661',1000,1000,'p102-order' from public.customers where user_id='a4000000-0000-4000-8000-000000000001';
+do $$declare c uuid;begin select id into c from public.customers where user_id='a4000000-0000-4000-8000-000000000001';
+ if app_private.emit_notification('order.verification_required','a4200000-0000-4000-8000-000000000001','customer','order','a4200000-0000-4000-8000-000000000001',c)<>0 then raise exception 'event replay duplicated notice';end if;
+ if (select count(*) from public.notifications where event_key='order.verification_required' and entity_id='a4200000-0000-4000-8000-000000000001')<>2 then raise exception 'verification recipients missing';end if;
+ if (select count(*) from public.notification_deliveries d join public.notifications n on n.id=d.notification_id where n.entity_id='a4200000-0000-4000-8000-000000000001' and d.channel='in_app' and d.status='sent' and d.provider='database')<>2 then raise exception 'in-app records missing';end if;
+ begin perform app_private.emit_notification('product.back_in_stock',gen_random_uuid(),'customer','product',null,c);raise exception 'deferred event emitted';exception when others then if sqlerrm<>'notification_event_inactive' then raise;end if;end;
+end $$;
+-- Temporarily activate only inside this rollback to prove optional suppression and replay.
+update app_private.notification_types set state='active' where event_key='product.back_in_stock';
+select app_private.emit_notification('product.back_in_stock','a4300000-0000-4000-8000-000000000001','customer','product',null,id) from public.customers where user_id='a4000000-0000-4000-8000-000000000001';
+set local role authenticated;
+select public.notification_preferences('{"productUpdates":true,"emailMarketing":false}');
+reset role;
+do $$declare c uuid;begin select id into c from public.customers where user_id='a4000000-0000-4000-8000-000000000001';
+ if app_private.emit_notification('product.back_in_stock','a4300000-0000-4000-8000-000000000001','customer','product',null,c)<>0 then raise exception 'suppressed old event resurrected';end if;
+ if app_private.emit_notification('product.back_in_stock','a4300000-0000-4000-8000-000000000002','customer','product',null,c)<>1 then raise exception 'new optional event missing';end if;
+end $$;
+insert into public.returns(id,order_id,customer_id,reason_code) select 'a4400000-0000-4000-8000-000000000001','a4200000-0000-4000-8000-000000000001',id,'damaged' from public.customers where user_id='a4000000-0000-4000-8000-000000000001';
+insert into public.products(id,product_type,status,name,slug,published_at) values('a4500000-0000-4000-8000-000000000001','lamp','active','Rollback stock event','p102-stock-event',now());
+insert into public.product_variants(id,product_id,sku,title,price_pkr,track_inventory) values('a4600000-0000-4000-8000-000000000001','a4500000-0000-4000-8000-000000000001','P102-ROLLBACK','Fixture',1000,true);
+insert into public.inventory_balances(variant_id,location_id,on_hand) select 'a4600000-0000-4000-8000-000000000001',id,20 from public.inventory_locations where code='MAIN-PK';
+update public.inventory_balances set on_hand=5 where variant_id='a4600000-0000-4000-8000-000000000001';
+update public.inventory_balances set on_hand=5 where variant_id='a4600000-0000-4000-8000-000000000001';
+update public.inventory_balances set reserved=5 where variant_id='a4600000-0000-4000-8000-000000000001';
+do $$begin
+ if (select count(*) from public.notifications where event_key='inventory.low_stock' and entity_id='a4500000-0000-4000-8000-000000000001')<>1 or (select count(*) from public.notifications where event_key='inventory.out_of_stock' and entity_id='a4500000-0000-4000-8000-000000000001')<>1 then raise exception 'threshold duplicates/missing';end if;
+ if (select count(*) from public.notifications where event_key='return.requested' and entity_id='a4400000-0000-4000-8000-000000000001')<>2 then raise exception 'return recipients missing';end if;
+end $$;
+update app_private.order_email_worker_state set last_error_code='smtp_verification_failed',verified_at=null;
+update app_private.order_email_worker_state set last_error_code='smtp_verification_failed';
+set local role authenticated;
+select set_config('request.jwt.claims','{"sub":"13ea3052-462e-473f-b023-346a163eaf3a","role":"authenticated","session_id":"a4100000-0000-4000-8000-000000000002"}',true);
+do $$declare x jsonb;begin x:=public.notification_operations('failed');
+ if not exists(select 1 from jsonb_array_elements(x->'types') t where t->>'key'='order.shipped' and t->>'state'='deferred') then raise exception 'registry dependency hidden';end if;
+ if x->'health'->>'error'<>'smtp_verification_failed' then raise exception 'SMTP health hidden';end if;
+ if (select count(*) from public.notifications where event_key='email.health_failed')<>1 then raise exception 'health alert duplicated';end if;
+end $$;
+reset role;
+select 'PASS: mandatory notices, scoped preferences/grant, spoof/private producer denial, deferred producer denial, durable optional suppression/replay, in-app metadata, return recipients, threshold dedupe and SMTP health/operations view' as result;
+rollback;

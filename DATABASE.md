@@ -278,3 +278,13 @@ Rollback integration evidence: `tests/database/phase9-part2.sql`, `phase9-checko
 Public invoker wrappers call private guarded feed/count/read functions. Feed pages contain at most 20 entries with one extra row used to determine the next cursor; timestamp/UUID ordering handles ties. Cursors must belong to the same owned audience. Category/priority/read filters execute in SQL. Single-read retries preserve the original server timestamp. Mark-all uses a server-issued page cutoff across all categories/pages; newer notices remain unread. Arbitrary `data.href` values are ignored: links derive only from implemented routes and owned/published entities.
 
 Rollback tests `tests/database/phase10-part1.sql` and `phase10-event-regression.sql` passed real Auth/session/role/recipient boundaries, pagination, filters, safe links, read timestamps, cutoff behavior and existing confirmation/cancellation events. No fixture user, order, notice or email survives. Checkout remains closed.
+
+## Phase 10 Part 2 event contracts
+
+`20261014164133_phase10_event_delivery_controls.sql` adds private event types, per-event/per-audience/per-recipient receipts, inventory alert episode state and guarded preferences/operations RPCs. Optional suppression is recorded before delivery, so a later opt-in cannot replay an old suppressed event. Required notices ignore optional preferences. Existing order event producers retain their established order/action receipt protection. Every committed notice receives one in-app channel record, with `sent` meaning database availability and `read_at` remaining separate.
+
+Inventory alerts apply only to active tracked variants of published, non-test products. A balance entering low/out-of-stock emits once per episode; repeated writes in the same band do not alert again. Available counts, SKU, location and threshold are recorded without changing stock. Return and initial verification producers emit safe audience-specific notices. SMTP health alerts emit on failure-state entry, not every scheduler invocation.
+
+`20261014165030_phase10_manual_review_events.sql` emits a stable revision-derived manual-review event and narrows preference RLS to the active owner, including Super Admin. Essential order preference columns cannot be disabled; optional choices use a strict own-account RPC. An explicit audience SELECT grant fixes the account unread-count filter under Phase 7's column grants. Applied migration SQL is immutable; generated public types were refreshed.
+
+Rollback evidence: `phase10-part2.sql`, `phase10-part2-boundaries.sql`, Part 1/event regression suites and the existing Gmail worker suite. All passed without surviving users/orders/notifications/queue jobs or sending an SMTP email.

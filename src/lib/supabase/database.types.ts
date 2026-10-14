@@ -1200,6 +1200,7 @@ export type Database = {
           email_marketing: boolean;
           email_order_updates: boolean;
           in_app_order_updates: boolean;
+          in_app_product_updates: boolean;
           updated_at: string;
           whatsapp_marketing: boolean;
           whatsapp_order_updates: boolean;
@@ -1210,6 +1211,7 @@ export type Database = {
           email_marketing?: boolean;
           email_order_updates?: boolean;
           in_app_order_updates?: boolean;
+          in_app_product_updates?: boolean;
           updated_at?: string;
           whatsapp_marketing?: boolean;
           whatsapp_order_updates?: boolean;
@@ -1220,6 +1222,7 @@ export type Database = {
           email_marketing?: boolean;
           email_order_updates?: boolean;
           in_app_order_updates?: boolean;
+          in_app_product_updates?: boolean;
           updated_at?: string;
           whatsapp_marketing?: boolean;
           whatsapp_order_updates?: boolean;
@@ -2981,6 +2984,8 @@ export type Database = {
         };
         Returns: Json;
       };
+      notification_operations: { Args: { p_status?: string }; Returns: Json };
+      notification_preferences: { Args: { p_values?: Json }; Returns: Json };
       notification_read: {
         Args: { p_audience: string; p_cutoff?: string; p_id?: string };
         Returns: Json;

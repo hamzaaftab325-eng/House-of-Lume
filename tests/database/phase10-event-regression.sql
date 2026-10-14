@@ -9,9 +9,9 @@ select public.staff_verification_action('a2200000-0000-4000-8000-000000000001','
 select public.staff_verification_action('a2200000-0000-4000-8000-000000000001','a2300000-0000-4000-8000-000000000002','{"action":"cancel","expectedRevision":1,"note":"Rollback cancelled before dispatch."}');
 select set_config('request.jwt.claims','{"sub":"a2000000-0000-4000-8000-000000000001","role":"authenticated","session_id":"a2100000-0000-4000-8000-000000000002"}',true);
 do $$declare x jsonb;begin x:=public.notification_feed('customer','all','orders');
- if jsonb_array_length(x->'items')<>2 or (x->>'unread')::int<>2 then raise exception 'workflow notification count/dedupe failed';end if;
+ if jsonb_array_length(x->'items')<>2 or (x->>'unread')::int<>3 then raise exception 'workflow notification count/dedupe failed';end if;
  if exists(select 1 from jsonb_array_elements(x->'items') n where n->>'href' is distinct from '/account/orders/a2200000-0000-4000-8000-000000000001') then raise exception 'safe owned order link absent';end if;
- perform public.notification_read('customer',(x->'items'->0->>'id')::uuid);if public.notification_unread('customer')<>1 then raise exception 'workflow read did not update count';end if;
+ perform public.notification_read('customer',(x->'items'->0->>'id')::uuid);if public.notification_unread('customer')<>2 then raise exception 'workflow read did not update count';end if;
  if (select status from public.orders where id='a2200000-0000-4000-8000-000000000001')<>'cancelled' then raise exception 'read changed order status';end if;
 end $$;
 reset role;

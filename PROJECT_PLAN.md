@@ -749,7 +749,7 @@ Part 1 implementation and rollback evidence are recorded in `PHASE_9_PART_1_AUDI
 ## Core architecture
 
 - [x] Persistent notification table
-- [ ] Notification type registry
+- [x] Notification type registry
 - [x] Recipient model
 - [x] Entity/deep-link model
 - [x] Priority
@@ -758,7 +758,7 @@ Part 1 implementation and rollback evidence are recorded in `PHASE_9_PART_1_AUDI
 - [x] Delivery channel
 - [x] Delivery status
 - [x] Retry/error metadata
-- [ ] Notification preferences
+- [x] Notification preferences
 
 ## Customer notification center
 
@@ -784,37 +784,38 @@ Part 1 implementation and rollback evidence are recorded in `PHASE_9_PART_1_AUDI
 
 ## Customer events
 
-- [ ] Order placed
-- [ ] Verification requested
-- [ ] Order confirmed
+- [x] Order placed
+- [x] Verification requested
+- [x] Order confirmed
 - [ ] Packed
 - [ ] Shipped
 - [ ] Out for delivery
 - [ ] Delivered
 - [ ] Delivery failed
-- [ ] Cancelled
+- [x] Cancelled
 - [ ] Return update
 - [ ] RTO update where appropriate
 - [ ] Back-in-stock when implemented
 
 ## Staff events
 
-- [ ] New COD order
-- [ ] Verification required
-- [ ] Suspicious order
-- [ ] Low stock
-- [ ] Out of stock
+- [x] New COD order
+- [x] Verification required
+- [x] Suspicious order
+- [x] Low stock
+- [x] Out of stock
 - [ ] Delivery failure
 - [ ] RTO initiated
-- [ ] Return request
+- [x] Return request
 - [ ] Review requiring moderation
 - [ ] Support escalation
 - [ ] Settlement discrepancy
-- [ ] Failed background job/email
+- [x] Existing email job failure and SMTP-health alerts
+- [ ] Other background jobs when their producers exist
 
 ---
 
-Part 1 notification centers and recipient-scoped read controls are implemented; evidence and acceptance limits are in `PHASE_10_PART_1_AUDIT.md`. Delivery metadata reuses the existing Phase 8 worker. Part 2 still owns the full event registry, preferences and expanded event/reliability coverage; future workflow events will activate with their actual business workflows.
+Part 1 notification centers and recipient-scoped read controls are implemented; evidence and acceptance limits are in `PHASE_10_PART_1_AUDIT.md`. Delivery metadata reuses the existing Phase 8 worker. Part 2 registry, scoped preferences, verification/manual-review/return-request/inventory/SMTP alerts and delivery visibility are verified in `PHASE_10_PART_2_AUDIT.md`. Shipping, return decisions, RTO, moderation, support, settlements and product subscriptions remain deferred registry entries until their validated workflows exist. These unchecked future producers are not presented as complete. Live owner acceptance follows deployment.
 
 # 16. Phase 11 — Transactional Email
 
