@@ -2,6 +2,12 @@ import { createClient } from "@supabase/supabase-js";
 import nodemailer from "nodemailer";
 import { z } from "zod";
 import { env } from "@/lib/env";
+import {
+  emailEventSchema,
+  emailTemplateVersion,
+  renderOwnerTestEmail,
+  renderTransactionalEmail,
+} from "./templates";
 
 export const storeEmail = "dwellunestore@gmail.com";
 const jobSchema = z.object({
@@ -16,6 +22,7 @@ const jobSchema = z.object({
       .max(200)
       .regex(/^[^\r\n]+$/),
     text: z.string().min(1).max(100_000),
+    event: emailEventSchema.default("order.placed"),
   }),
 });
 const claimSchema = z.object({ job: jobSchema.nullable(), verify_due: z.boolean() });
@@ -92,8 +99,7 @@ export async function runOrderEmails(secret: string, action: "dispatch" | "verif
           from: { name: "DWELLUNE", address: storeEmail },
           replyTo: storeEmail,
           to: "hamzaaftab325@gmail.com",
-          subject: "DWELLUNE — store email connection test",
-          text: "This is a DWELLUNE email setup test, not an order. Gmail accepted the connection from dwellunestore@gmail.com. Please confirm that you received this message. No payment or action is required.",
+          ...renderOwnerTestEmail(env.NEXT_PUBLIC_SITE_URL),
         });
         if (result.accepted.length !== 1) throw new Error("smtp_test_rejected");
         return { status: "accepted" };
@@ -121,9 +127,14 @@ export async function runOrderEmails(secret: string, action: "dispatch" | "verif
         from: { name: "DWELLUNE", address: storeEmail },
         replyTo: storeEmail,
         to: job.payload.to,
-        subject: job.payload.subject,
-        text: job.payload.text,
-        messageId: `<dwellune-order-placed-v1-${job.order_id}@gmail.com>`,
+        ...renderTransactionalEmail({
+          event: job.payload.event,
+          subject: job.payload.subject,
+          text: job.payload.text,
+          orderId: job.order_id,
+          siteUrl: env.NEXT_PUBLIC_SITE_URL,
+        }),
+        messageId: `<dwellune-${job.payload.event}-${emailTemplateVersion}-${job.id}@gmail.com>`,
       });
       outcome = result.accepted.length === 1 ? "sent" : "failed";
       if (outcome === "sent") messageId = result.messageId;

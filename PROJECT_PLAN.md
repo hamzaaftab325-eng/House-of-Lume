@@ -821,8 +821,8 @@ Part 1 notification centers and recipient-scoped read controls are implemented; 
 
 Use the owner-selected Gmail SMTP adapter for transactional email. Reconsider a dedicated provider when volume requires it; a Resend domain purchase is not a current launch prerequisite. SMTP acceptance and inbox delivery are separate statuses, and ambiguous sends require operator review.
 
-- [ ] Branded base email template
-- [ ] Order placed
+- [x] Branded base email template (Phase 11 Part 1: HTML + text, approved logo, responsive/dark-mode fallback)
+- [x] Order placed template and existing Gmail receipt sender integration; real-product checkout acceptance remains deferred
 - [ ] Verification request
 - [ ] Order confirmed
 - [ ] Packed/dispatch update where useful
@@ -843,6 +843,8 @@ Reliability:
 - [ ] Retry handling
 - [ ] Failure visibility in CRM
 - [ ] No duplicate email from retry
+
+Phase 11 Part 1 prepares versioned templates for COD verification, confirmation, cancellation and return-request receipt. Their event-to-email queue producers are Part 2 work; they are not yet automatic outgoing emails. The fixed owner test action now sends a clearly labelled branded sample to `hamzaaftab325@gmail.com`. Signup retains automatic login without email verification. Application recovery/email-change callbacks are production-safe; hosted Supabase Auth template/allowlist inspection and real recovery acceptance remain external checks. See `PHASE_11_PART_1_AUDIT.md`.
 
 ---
 

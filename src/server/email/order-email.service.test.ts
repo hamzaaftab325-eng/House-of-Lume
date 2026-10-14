@@ -9,6 +9,7 @@ const mocks = vi.hoisted(() => ({
 vi.mock("@supabase/supabase-js", () => ({ createClient: () => ({ rpc: mocks.rpc }) }));
 vi.mock("@/lib/env", () => ({
   env: {
+    NEXT_PUBLIC_SITE_URL: "https://dwellune.vercel.app",
     NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "public-key",
   },
@@ -61,7 +62,9 @@ it("sends only the claimed snapshot and acknowledges Gmail acceptance", async ()
     expect.objectContaining({
       to: job.payload.to,
       replyTo: "dwellunestore@gmail.com",
-      messageId: `<dwellune-order-placed-v1-${job.order_id}@gmail.com>`,
+      messageId: `<dwellune-order.placed-v1-${job.id}@gmail.com>`,
+      html: expect.stringContaining("Due on delivery: PKR 1000"),
+      text: expect.stringContaining("Due on delivery: PKR 1000"),
     }),
   );
   expect(mocks.rpc).toHaveBeenLastCalledWith("order_email_worker", {
@@ -117,7 +120,9 @@ it("limits diagnostic email to the fixed owner recipient", async () => {
   expect(mocks.sendMail).toHaveBeenCalledWith(
     expect.objectContaining({
       to: "hamzaaftab325@gmail.com",
-      subject: "DWELLUNE — store email connection test",
+      subject: "DWELLUNE — branded email test (no order)",
+      html: expect.stringContaining("TEST EMAIL"),
+      text: expect.stringContaining("No order was created"),
     }),
   );
 });
