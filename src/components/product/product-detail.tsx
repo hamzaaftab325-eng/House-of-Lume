@@ -22,6 +22,7 @@ type ProductDetailViewProps = {
 
 function specificationEntries(specifications: Record<string, unknown>) {
   return Object.entries(specifications).flatMap(([key, value]) => {
+    if (key === "test_product") return [];
     if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
       return [[key, String(value)] as const];
     }

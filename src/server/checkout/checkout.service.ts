@@ -1,6 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
 import {
   checkoutContextSchema,
+  orderConfirmationSchema,
+  type PlaceOrderInput,
+  type CheckoutDiscountInput,
   checkoutQuoteSchema,
   deliveryAddressSchema,
   type CheckoutInput,
@@ -58,7 +61,9 @@ export async function checkoutContext() {
     if (result.error) throw new Error("checkout_unavailable");
     addresses = z.array(addressRowSchema).parse(result.data);
   }
+  const readiness = await client.rpc("checkout_release_ready");
   return checkoutContextSchema.parse({
+    ordersEnabled: !readiness.error && readiness.data === true,
     authenticated: Boolean(user),
     email: user?.email ?? "",
     name,
@@ -71,13 +76,59 @@ export async function checkoutContext() {
 }
 export async function checkoutQuote(guestHash: string, input: CheckoutInput) {
   const { client, user } = await identity();
+  const address = await resolveAddress(client, user?.id ?? null, input);
+  const { data, error } = await client.rpc("checkout_quote", {
+    p_guest_token_hash: guestHash,
+    p_address: address,
+  });
+  if (error) throw new Error(error.message);
+  return checkoutQuoteSchema.parse(data);
+}
+
+export async function placeOrder(guestHash: string, payload: PlaceOrderInput) {
+  const { client, user } = await identity();
+  const { data, error } = await client.rpc("checkout_place_order", {
+    p_guest_hash: guestHash,
+    p_key: payload.idempotencyKey,
+    p_revision: payload.revision,
+    p_input: { ...payload.input, ...(user ? { email: user.email ?? "" } : {}) },
+  });
+  if (error) throw new Error(error.message);
+  const result = orderConfirmationSchema.safeParse(data);
+  if (!result.success) throw new Error("order_result_unavailable");
+  return result.data;
+}
+export async function orderConfirmation(orderId: string, guestHash: string) {
+  const { client } = await identity();
+  const { data, error } = await client.rpc("checkout_confirmation", {
+    p_order_id: orderId,
+    p_guest_hash: guestHash,
+  });
+  if (error) throw new Error(error.message);
+  return orderConfirmationSchema.parse(data);
+}
+export async function recoverOrderAttempt(guestHash: string, key: string) {
+  const { client } = await identity();
+  const { data, error } = await client.rpc("checkout_recover_attempt", {
+    p_guest_hash: guestHash,
+    p_key: key,
+  });
+  if (error) throw new Error(error.message);
+  return data === null ? null : orderConfirmationSchema.parse(data);
+}
+
+async function resolveAddress(
+  client: Awaited<ReturnType<typeof createClient>>,
+  userId: string | null,
+  input: Pick<CheckoutInput, "address" | "savedAddressId">,
+) {
   let address = input.address;
   if (input.savedAddressId) {
-    if (!user) throw new Error("saved_address_unavailable");
+    if (!userId) throw new Error("saved_address_unavailable");
     const customer = await client
       .from("customers")
       .select("id")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .eq("status", "active")
       .maybeSingle();
     if (customer.error || !customer.data) throw new Error("authentication_required");
@@ -97,9 +148,15 @@ export async function checkoutQuote(guestHash: string, input: CheckoutInput) {
       country: "PK",
     });
   }
-  const { data, error } = await client.rpc("checkout_quote", {
-    p_guest_token_hash: guestHash,
+  return address;
+}
+export async function applyCheckoutDiscount(guestHash: string, input: CheckoutDiscountInput) {
+  const { client, user } = await identity();
+  const address = await resolveAddress(client, user?.id ?? null, input);
+  const { data, error } = await client.rpc("checkout_apply_discount", {
+    p_guest_hash: guestHash,
     p_address: address,
+    p_code: input.code,
   });
   if (error) throw new Error(error.message);
   return checkoutQuoteSchema.parse(data);

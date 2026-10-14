@@ -1,5 +1,6 @@
 import type { Route } from "next";
 import Image from "next/image";
+import { productMediaUrl } from "@/lib/product-media";
 import Link from "next/link";
 import { ArrowRight, PackageOpen } from "lucide-react";
 
@@ -28,12 +29,8 @@ function productPrice(product: CatalogueProduct) {
   return money.format(product.min_price_pkr);
 }
 
-function cloudinaryImage(path: string | null) {
-  return path?.startsWith("https://res.cloudinary.com/diometfe9/") ? path : null;
-}
-
 export function ProductUnit({ product }: { product: CatalogueProduct }) {
-  const image = cloudinaryImage(product.primary_media_path);
+  const image = productMediaUrl(product.primary_media_path);
   const material = product.materials[0] ?? product.material_summary ?? product.product_type;
   const href = `/products/${product.slug}` as Route;
 

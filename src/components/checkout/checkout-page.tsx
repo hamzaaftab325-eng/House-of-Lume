@@ -1,11 +1,16 @@
 "use client";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import type { Route } from "next";
 import { useStoreCommerce } from "@/components/providers/store-commerce";
 import { DwelluneButton, DwelluneButtonLink } from "@/components/ui/controls";
 import { TextField, TextAreaField, SelectField, CheckboxField } from "@/components/ui/forms";
 import {
   checkoutContextSchema,
+  placeOrderSchema,
+  orderConfirmationSchema,
+  type PlaceOrderInput,
   checkoutQuoteSchema,
   provinces,
   type CheckoutContext,
@@ -31,6 +36,40 @@ const empty = {
 type Values = typeof empty;
 export function CheckoutPage() {
   const commerce = useStoreCommerce();
+  const router = useRouter();
+  const [orderBusy, setOrderBusy] = useState(false);
+  const [uncertain, setUncertain] = useState(false);
+  const attemptKey = useRef<string | null>(null);
+  const attemptPayload = useRef<PlaceOrderInput | null>(null);
+  const orderLock = useRef(false);
+  useEffect(() => {
+    let saved: string | null = null;
+    try {
+      saved = sessionStorage.getItem("dwellune-order-attempt");
+    } catch {
+      /* Cookie-backed replay remains available. */
+    }
+    if (!saved) return;
+    attemptKey.current = saved;
+    const controller = new AbortController();
+    void fetch(`/api/checkout/orders?attempt=${encodeURIComponent(saved)}`, {
+      cache: "no-store",
+      signal: controller.signal,
+    })
+      .then(async (r) => {
+        if (!r.ok) return;
+        const data = await r.json();
+        if (data.order) {
+          const result = orderConfirmationSchema.parse(data.order);
+          try {
+            sessionStorage.removeItem("dwellune-order-attempt");
+          } catch {}
+          router.replace(`/checkout/confirmation/${result.id}` as Route);
+        }
+      })
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, [router]);
   const [context, setContext] = useState<CheckoutContext | null>(null);
   const [contextError, setContextError] = useState("");
   const [retry, setRetry] = useState(0);
@@ -48,6 +87,12 @@ export function CheckoutPage() {
   const validUntil = useRef(0);
   useEffect(() => {
     const invalidateAccount = () => {
+      attemptKey.current = null;
+      attemptPayload.current = null;
+      setUncertain(false);
+      try {
+        sessionStorage.removeItem("dwellune-order-attempt");
+      } catch {}
       edited.current = false;
       version.current++;
       request.current?.abort();
@@ -235,20 +280,129 @@ export function CheckoutPage() {
       if (request.current === controller) setPending(false);
     }
   }
+  function currentInput() {
+    return {
+      name: values.name,
+      email: context?.authenticated ? context.email : values.email,
+      phone: values.phone,
+      address: {
+        line1: values.line1,
+        line2: values.line2,
+        city: values.city,
+        province: values.province,
+        postalCode: values.postalCode,
+        country: "PK",
+      },
+      notes: values.notes,
+      terms: values.terms,
+      ...(values.savedAddressId ? { savedAddressId: values.savedAddressId } : {}),
+    };
+  }
+  async function submitOrder() {
+    if (orderLock.current || (!attemptPayload.current && (!quote || !context?.ordersEnabled)))
+      return;
+    const generation = version.current;
+    orderLock.current = true;
+    setOrderBusy(true);
+    setMessage("");
+    try {
+      const payload =
+        attemptPayload.current ??
+        placeOrderSchema.parse({
+          input: currentInput(),
+          revision: quote?.revision,
+          idempotencyKey: attemptKey.current ?? crypto.randomUUID(),
+        });
+      attemptKey.current = payload.idempotencyKey;
+      attemptPayload.current = payload;
+      try {
+        sessionStorage.setItem("dwellune-order-attempt", payload.idempotencyKey);
+      } catch {}
+      const response = await fetch("/api/checkout/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(20000),
+      });
+      const data = await response.json();
+      if (generation !== version.current) return;
+      if (!response.ok) {
+        if (data.code === "idempotency_conflict") {
+          const recovered = await fetch(`/api/checkout/orders?attempt=${payload.idempotencyKey}`, {
+            cache: "no-store",
+            signal: AbortSignal.timeout(15000),
+          });
+          if (recovered.ok) {
+            const found = await recovered.json();
+            if (found.order) {
+              const order = orderConfirmationSchema.parse(found.order);
+              router.replace(`/checkout/confirmation/${order.id}` as Route);
+              return;
+            }
+          }
+        }
+        if (response.status < 500 && data.code !== "idempotency_conflict") {
+          attemptPayload.current = null;
+          attemptKey.current = null;
+          setUncertain(false);
+          setQuote(null);
+          try {
+            sessionStorage.removeItem("dwellune-order-attempt");
+          } catch {}
+        } else setUncertain(true);
+        throw new Error(data.error ?? "Your order result is uncertain. Retry the same attempt.");
+      }
+      const order = orderConfirmationSchema.parse(data);
+      try {
+        sessionStorage.removeItem("dwellune-order-attempt");
+      } catch {}
+      router.replace(`/checkout/confirmation/${order.id}` as Route);
+      void commerce.refresh();
+    } catch (e) {
+      if (generation !== version.current) return;
+      if (attemptPayload.current) setUncertain(true);
+      setMessage(e instanceof Error ? e.message : "Retry the same order attempt.");
+    } finally {
+      orderLock.current = false;
+      setOrderBusy(false);
+    }
+  }
   async function applyDiscount(code: string) {
-    version.current++;
+    const generation = ++version.current;
     request.current?.abort();
-    setPending(false);
+    const controller = new AbortController();
+    request.current = controller;
+    setPending(true);
     setQuote(null);
     try {
-      await commerce.applyDiscount(code);
+      const response = await fetch("/api/checkout/discount", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+        signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]),
+        body: JSON.stringify({
+          address: currentInput().address,
+          ...(values.savedAddressId ? { savedAddressId: values.savedAddressId } : {}),
+          code,
+        }),
+      });
+      const data = await response.json();
+      if (generation !== version.current) return;
+      if (!response.ok)
+        throw new Error(data.error ?? "Please check your delivery address and discount.");
+      checkoutQuoteSchema.parse(data);
+      await commerce.refresh();
       setMessage(
         code
           ? "Discount updated. Review checkout again."
           : "Discount removed. Review checkout again.",
       );
     } catch (e) {
-      setMessage(e instanceof Error ? e.message : "Please retry your discount.");
+      if (generation === version.current && !controller.signal.aborted)
+        setMessage(e instanceof Error ? e.message : "Please retry your discount.");
+    } finally {
+      if (request.current === controller) setPending(false);
     }
   }
   const cart = quote?.cart ?? commerce.data?.cart;
@@ -281,7 +435,13 @@ export function CheckoutPage() {
         </p>
       </main>
     );
-  if (!cart?.lines.length)
+  if (!cart)
+    return (
+      <main className={styles.page}>
+        <h1 className={styles.title}>Preparing checkout…</h1>
+      </main>
+    );
+  if (!cart.lines.length && !uncertain && !orderBusy)
     return (
       <main className={styles.page}>
         <h1 className={styles.title}>Your bag is empty.</h1>
@@ -302,8 +462,9 @@ export function CheckoutPage() {
         Review your delivery details and current totals. Your bag stays saved throughout checkout.
       </p>
       <div className={styles.banner}>
-        <strong>Checkout review is open.</strong> Order placement is being prepared. No order,
-        payment or delivery booking is made on this page.
+        {context?.ordersEnabled
+          ? "Review the current total, then place your Cash on Delivery order. No online payment is collected."
+          : "Checkout review is open. Order placement awaits store configuration; your bag remains saved."}
       </div>
       <div className={styles.layout}>
         <form className={styles.form} onSubmit={review} aria-busy={pending}>
@@ -317,7 +478,7 @@ export function CheckoutPage() {
               </>
             )}
           </p>
-          <fieldset className={styles.section}>
+          <fieldset className={styles.section} disabled={orderBusy || uncertain}>
             <legend>Contact details</legend>
             <TextField
               label="Full name"
@@ -350,7 +511,7 @@ export function CheckoutPage() {
               />
             </div>
           </fieldset>
-          <fieldset className={styles.section}>
+          <fieldset className={styles.section} disabled={orderBusy || uncertain}>
             <legend>Delivery address</legend>
             {context?.addresses.length ? (
               <SelectField
@@ -426,7 +587,7 @@ export function CheckoutPage() {
               hint="Delivery instructions only. Never include bank details or passwords."
             />
           </fieldset>
-          <fieldset className={styles.section}>
+          <fieldset className={styles.section} disabled={orderBusy || uncertain}>
             <legend>Payment and returns</legend>
             <p className={styles.notice}>
               <strong>Cash on Delivery</strong> — pay the final amount when your order arrives. No
@@ -449,7 +610,10 @@ export function CheckoutPage() {
             ) : null}
           </fieldset>
           <div className={styles.actions}>
-            <DwelluneButton type="submit" disabled={pending || commerce.pending}>
+            <DwelluneButton
+              type="submit"
+              disabled={pending || commerce.pending || orderBusy || uncertain}
+            >
               {pending ? "Checking your selection…" : "Review checkout"}
             </DwelluneButton>
             <Link href="/cart">Edit your bag</Link>
@@ -506,11 +670,12 @@ export function CheckoutPage() {
               setQuote(null);
             }}
             maxLength={80}
+            disabled={orderBusy || uncertain}
           />
           <div className={styles.actions}>
             <DwelluneButton
               variant="frame"
-              disabled={commerce.pending || pending || !discount.trim()}
+              disabled={commerce.pending || pending || orderBusy || uncertain || !discount.trim()}
               onClick={() => void applyDiscount(discount)}
             >
               Apply
@@ -518,7 +683,7 @@ export function CheckoutPage() {
             {cart.quote.discount_code ? (
               <DwelluneButton
                 variant="quiet"
-                disabled={commerce.pending || pending}
+                disabled={commerce.pending || pending || orderBusy || uncertain}
                 onClick={() => {
                   setDiscount("");
                   void applyDiscount("");
@@ -554,7 +719,29 @@ export function CheckoutPage() {
               Enter your address and review checkout to confirm delivery eligibility and total.
             </p>
           )}
-          <DwelluneButton disabled>Order placement opens soon</DwelluneButton>
+          <DwelluneButton
+            onClick={() => void submitOrder()}
+            disabled={
+              orderBusy ||
+              pending ||
+              commerce.pending ||
+              (!uncertain && (!quote || !context?.ordersEnabled || quote.contains_test_product))
+            }
+          >
+            {orderBusy
+              ? "Placing your order…"
+              : uncertain
+                ? "Retry same order attempt"
+                : context?.ordersEnabled
+                  ? "Place Cash on Delivery order"
+                  : "Order placement awaits configuration"}
+          </DwelluneButton>
+          {uncertain ? (
+            <p role="alert">
+              The result is uncertain. Retry this same attempt to check or complete it without
+              creating a duplicate. Do not place another order from a different browser.
+            </p>
+          ) : null}
         </aside>
       </div>
     </main>

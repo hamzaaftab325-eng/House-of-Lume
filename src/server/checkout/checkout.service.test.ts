@@ -67,3 +67,19 @@ it("rejects a missing or foreign saved address before quoting", async () => {
   expect(conditions).toContainEqual(["customer_addresses", "customer_id", "customer-a"]);
   expect(sdk.rpc).toHaveBeenCalledTimes(1);
 });
+it("verifies account sessions before order placement", async () => {
+  sdk.getUser.mockResolvedValue({
+    data: { user: { id: "a", email: "a@example.invalid" } },
+    error: null,
+  });
+  sdk.rpc.mockResolvedValue({ data: false, error: null });
+  const { placeOrder } = await import("./checkout.service");
+  await expect(
+    placeOrder("", {
+      input,
+      idempotencyKey: "89500000-0000-4000-8000-000000000001",
+      revision: "a".repeat(64),
+    }),
+  ).rejects.toThrow("authentication_required");
+  expect(sdk.rpc).toHaveBeenCalledTimes(1);
+});

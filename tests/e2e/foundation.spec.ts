@@ -246,11 +246,12 @@ test("hero respects reduced-motion preference", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("customer account access and CRM foundation routes load", async ({ page }) => {
+test("customer and administrator routes require sign-in", async ({ page }) => {
   await page.goto("/account");
   await expect(page).toHaveURL(/\/auth\/signin\?next=/);
   await expect(page.getByRole("heading", { name: "Welcome home." })).toBeVisible();
 
   await page.goto("/crm");
-  await expect(page.getByRole("heading", { name: "CRM foundation." })).toBeVisible();
+  await expect(page).toHaveURL(/\/auth\/signin\?next=%2Fcrm/);
+  await expect(page.getByRole("heading", { name: "Welcome home." })).toBeVisible();
 });

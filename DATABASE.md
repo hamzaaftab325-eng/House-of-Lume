@@ -252,3 +252,7 @@ The Phase 6 migrations implement `inventory_reservations`, cart discount associa
 ## Phase 8 Part 1 quote RPC
 
 `20261014070034_checkout_validated_quotes.sql` adds public invoker `checkout_quote` over private guarded quote logic. It reuses cart ownership, current catalog/discount/inventory and active shipping/COD settings. It returns an expiring canonical quote; no order tables, inventory holds or notification queues are created by this migration. Regression transactions: `tests/database/phase8-part1.sql`. Quote revision is a change fingerprint, never order authorization.
+
+## Phase 8 Part 2 applied closed contracts
+
+The order-creation and attempt-recovery migrations add guarded RPCs, private receipts/outbox and staff-readable order inventory reservations. They fix delivery-zone-specific discount evaluation for checkout. `checkout.orders_enabled=false` keeps submission closed until operator and email infrastructure are configured and accepted. Cart hold conversion does not add to reserved balances; cancellation releases order holds once. The dispatcher runs once per minute with Resend credentials in Vault, stable idempotency keys and a 22-hour retry bound. See `PHASE_8_PART_2_AUDIT.md`.

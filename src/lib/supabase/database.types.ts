@@ -1340,6 +1340,74 @@ export type Database = {
           },
         ];
       };
+      order_inventory_reservations: {
+        Row: {
+          created_at: string;
+          id: string;
+          location_id: string;
+          order_id: string;
+          order_item_id: string;
+          quantity: number;
+          released_at: string | null;
+          source_cart_reservation_id: string;
+          status: string;
+          variant_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          location_id: string;
+          order_id: string;
+          order_item_id: string;
+          quantity: number;
+          released_at?: string | null;
+          source_cart_reservation_id: string;
+          status?: string;
+          variant_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          location_id?: string;
+          order_id?: string;
+          order_item_id?: string;
+          quantity?: number;
+          released_at?: string | null;
+          source_cart_reservation_id?: string;
+          status?: string;
+          variant_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "order_inventory_reservations_location_id_fkey";
+            columns: ["location_id"];
+            isOneToOne: false;
+            referencedRelation: "inventory_locations";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "order_inventory_reservations_order_id_fkey";
+            columns: ["order_id"];
+            isOneToOne: false;
+            referencedRelation: "orders";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "order_inventory_reservations_order_item_id_fkey";
+            columns: ["order_item_id"];
+            isOneToOne: false;
+            referencedRelation: "order_items";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "order_inventory_reservations_variant_id_fkey";
+            columns: ["variant_id"];
+            isOneToOne: false;
+            referencedRelation: "product_variants";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       order_items: {
         Row: {
           created_at: string;
@@ -2798,10 +2866,32 @@ export type Database = {
           total_count: number;
         }[];
       };
+      checkout_apply_discount: {
+        Args: { p_address: Json; p_code: string; p_guest_hash: string };
+        Returns: Json;
+      };
+      checkout_confirmation: {
+        Args: { p_guest_hash: string; p_order_id: string };
+        Returns: Json;
+      };
+      checkout_place_order: {
+        Args: {
+          p_guest_hash: string;
+          p_input: Json;
+          p_key: string;
+          p_revision: string;
+        };
+        Returns: Json;
+      };
       checkout_quote: {
         Args: { p_address: Json; p_guest_token_hash: string };
         Returns: Json;
       };
+      checkout_recover_attempt: {
+        Args: { p_guest_hash: string; p_key: string };
+        Returns: Json;
+      };
+      checkout_release_ready: { Args: never; Returns: boolean };
       commerce_cart_add: {
         Args: {
           p_guest_token_hash: string;

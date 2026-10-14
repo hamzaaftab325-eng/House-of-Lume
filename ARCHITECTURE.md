@@ -319,3 +319,7 @@ Browser storage contains only guest wishlist IDs and a replayable legacy import 
 ## Phase 8 Part 1 checkout
 
 The checkout UI uses a private context endpoint and strict same-origin quote endpoint. Server session/customer checks resolve saved addresses; the database computes canonical totals through `checkout_quote`. Quotes expire and are invalidated by cart/contact/address changes. Checkout does not submit orders; Part 2 must repeat validation inside its atomic order transaction. See `PHASE_8_PART_1_AUDIT.md`.
+
+## Phase 8 Part 2 prepared application
+
+COD order submission is implemented locally, with an applied closed database release gate. The database atomically validates and snapshots orders, transfers inventory holds and emits in-app/email events. A private cron-driven Resend outbox uses Vault secrets and bounded retries; no application service-role credential is required. Owner/cookie-scoped attempt recovery supports ambiguous network results. See `PHASE_8_PART_2_AUDIT.md` for pending production gates.

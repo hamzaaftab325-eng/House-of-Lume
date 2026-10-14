@@ -674,7 +674,7 @@ Guest COD checkout should remain possible unless business rules later require an
 
 # 13. Phase 8 — COD Checkout & Order Creation
 
-Part 1 implements checkout details and validated quotes. Part 2 remains open for transactional order submission, confirmation and notifications. See `PHASE_8_PART_1_AUDIT.md` for evidence and acceptance limits. No orders can be submitted in Part 1.
+Part 1 implements checkout details and validated quotes. Part 2 order submission, confirmation and notification implementation is prepared locally; release remains blocked by operator, transactional email, real product and live acceptance gates. See `PHASE_8_PART_2_AUDIT.md`. See `PHASE_8_PART_1_AUDIT.md` for evidence and acceptance limits. No orders can be submitted in Part 1.
 
 ## Checkout
 
@@ -693,7 +693,7 @@ Part 1 implements checkout details and validated quotes. Part 2 remains open for
 
 ## Server validation before order creation
 
-Quote-time recalculation is implemented in Part 1. These gates remain unchecked until Part 2 repeats them inside the final order transaction.
+Quote-time recalculation is implemented in Part 1 and repeated in the Part 2 order transaction. Items below remain unchecked until the gated application is released and live acceptance passes.
 
 - [ ] Re-fetch product/variant state
 - [ ] Recalculate prices

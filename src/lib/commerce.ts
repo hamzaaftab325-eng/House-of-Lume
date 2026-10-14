@@ -1,3 +1,4 @@
+import { productMediaUrl } from "./product-media";
 import { z } from "zod";
 
 const money = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
@@ -72,18 +73,8 @@ export const commerceActionSchema = z.discriminatedUnion("action", [
 ]);
 export type CommerceAction = z.infer<typeof commerceActionSchema>;
 
-export function mediaUrl(path: string | null): string | null {
-  if (!path) return null;
-  try {
-    const url = new URL(path);
-    return url.protocol === "https:" &&
-      url.hostname === "res.cloudinary.com" &&
-      url.pathname.startsWith("/diometfe9/image/upload/")
-      ? url.href
-      : null;
-  } catch {
-    return null;
-  }
+export function mediaUrl(path: string | null) {
+  return productMediaUrl(path);
 }
 
 export function savedIdsFromStorage(raw: string | null): string[] {

@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { productMediaUrl } from "@/lib/product-media";
 import { z } from "zod";
 
 import { env } from "@/lib/env";
@@ -124,14 +125,13 @@ const isCiPlaceholder =
   env.NEXT_PUBLIC_SUPABASE_URL === "https://example.supabase.co" &&
   /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(env.NEXT_PUBLIC_SITE_URL) &&
   process.env.VERCEL !== "1";
-const trustedCloudinaryPrefix = "https://res.cloudinary.com/diometfe9/";
 
 function databaseError(scope: string, message: string) {
   return new Error(`Product detail ${scope} failed: ${message}`);
 }
 
 function trustedMediaUrl(path: string | null) {
-  return path?.startsWith(trustedCloudinaryPrefix) ? path : null;
+  return productMediaUrl(path);
 }
 
 function normalizeOptions(rows: z.infer<typeof optionRowSchema>[]): ProductOption[] {

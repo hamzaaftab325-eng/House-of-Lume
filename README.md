@@ -117,3 +117,7 @@ The owner requested signup without a verification email. In the hosted Supabase 
 ## Phase 8 Part 1
 
 Checkout details and validated COD quotes are available at `/checkout`. Order placement remains disabled until Part 2 delivers atomic order creation and confirmation. Verification evidence and remaining acceptance are in `PHASE_8_PART_1_AUDIT.md`.
+
+## Phase 8 Part 2 release preparation
+
+Order creation, secure confirmation and a durable transactional email queue are implemented but not yet released in the application. Database submission stays closed pending the chosen Super Admin, verified Resend sender/key, a real product and live acceptance. See `PHASE_8_PART_2_AUDIT.md`; do not enable the gate before these checks pass.
