@@ -1,5 +1,11 @@
 # DWELLUNE — Database Contract
 
+## Applied Phase 7 migration
+
+`20261014052742_phase7_account_contracts.sql` was applied exactly once on 14 October 2026; application release remains pending. It defines account/profile/address/preference contracts, private session checks, restrictive policies, narrow customer column grants and a policy-gated return request with replay keys and order/item validation. Related updates and default-address selection are transactional. Existing Auth provisioning/email synchronization are reused.
+
+The merchant-approved `returns.policy` contract contains `enabled`, `window_days`, `reason_codes`, `excluded_product_ids` and `refund_procedure`. Absence or malformed configuration keeps submission closed; no policy or business data is seeded. Database types have been regenerated from the migrated schema. Both populated and boundary transaction tests pass after application; all fixtures roll back.
+
 Active role and collection descriptions use DWELLUNE. The `dwellune_brand_descriptions` migration updates the existing seeded rows; applied historical migrations remain immutable.
 
 **Phase:** 1 — Database, Domain Model & Security Foundation  

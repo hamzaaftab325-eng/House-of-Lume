@@ -78,7 +78,13 @@ export function StoreHeader() {
 
           <div className={styles.actions}>
             <IconButton label="Search" icon={<Search />} onClick={() => setSearchOpen(true)} />
-            <Link className={styles.accountLink} href="/account" aria-label="Customer account">
+            <Link
+              className={styles.accountLink}
+              href="/account"
+              aria-label={
+                commerce.data?.cart.authenticated ? "Your customer account" : "Customer account"
+              }
+            >
               <UserRound aria-hidden="true" />
             </Link>
             {!isHome ? (

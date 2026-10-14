@@ -1,0 +1,57 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { AuthForm, type AuthMode } from "@/components/account/auth-form";
+import styles from "@/components/account/account.module.css";
+const modes: Record<string, { mode: AuthMode; title: string; intro: string }> = {
+  signin: {
+    mode: "signin",
+    title: "Welcome home.",
+    intro: "Sign in to manage your details, saved objects and orders.",
+  },
+  signup: {
+    mode: "signup",
+    title: "Make yourself at home.",
+    intro:
+      "Create your DWELLUNE account. Browsing and future guest checkout remain available without an account.",
+  },
+  reset: {
+    mode: "reset",
+    title: "Forgot your password?",
+    intro: "Request a secure recovery link for your account.",
+  },
+  resend: {
+    mode: "resend",
+    title: "Verify your email.",
+    intro: "Request a fresh verification link. Check your inbox and spam folder.",
+  },
+  "update-password": {
+    mode: "recover",
+    title: "Choose a new password.",
+    intro: "Open a fresh recovery link, then save your new password.",
+  },
+};
+export const metadata: Metadata = { title: "Customer access" };
+export default async function AuthPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ mode: string }>;
+  searchParams: Promise<{ next?: string }>;
+}) {
+  const { mode } = await params;
+  if (!Object.hasOwn(modes, mode)) notFound();
+  const route = modes[mode];
+  if (!route) notFound();
+  return (
+    <main className={`${styles.page} ${styles.auth}`}>
+      <p className={styles.eyebrow}>DWELLUNE · Your account</p>
+      <h1 className={styles.title}>{route.title}</h1>
+      <p className={styles.intro}>{route.intro}</p>
+      <AuthForm
+        mode={route.mode}
+        next={(await searchParams).next}
+        emailReady={process.env.AUTH_EMAIL_READY === "true"}
+      />
+    </main>
+  );
+}

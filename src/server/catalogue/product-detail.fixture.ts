@@ -237,6 +237,49 @@ const fixtures: Record<string, ProductDetailData> = {
   },
 };
 
+// Additional products exist only in the placeholder database used by local browser tests.
+for (const [index, slug, name, type, price] of [
+  [3, "test-table-lamp", "TEST Table Lamp", "lamp", 4500],
+  [4, "test-decorative-mirror", "TEST Decorative Mirror", "mirror", 6500],
+  [5, "test-scented-candle", "TEST Scented Candle", "candle", 1500],
+] as const) {
+  const id = `33333333-3333-4333-8333-${String(index).padStart(12, "0")}`;
+  const source = fixtures["test-sable-planter"]!;
+  fixtures[slug] = {
+    ...source,
+    id,
+    slug,
+    name,
+    productType: type,
+    shortDescription: "Test product for functional checks; not a live offer.",
+    description: "Test-only product with sample pricing and stock for local checks.",
+    materialSummary: "Test specification",
+    careInstructions: "Test-only care information.",
+    seoTitle: `${name} | DWELLUNE`,
+    seoDescription: "Test-only product.",
+    specifications: {},
+    options: [],
+    media: [],
+    primaryCategory: { name: "Test catalogue", slug: "test-catalogue" },
+    variants: [
+      {
+        ...source.variants[0]!,
+        id: `33333333-3333-4333-8333-${String(index + 10).padStart(12, "0")}`,
+        sku: `P7-TEST-${index}`,
+        title: "Test standard",
+        pricePkr: price,
+        optionValueIds: [],
+        trackInventory: true,
+        availableQuantity: index === 5 ? 0 : 5,
+        inStock: index !== 5,
+        attributes: {},
+        dimensionsCm: {},
+        weightGrams: null,
+      },
+    ],
+  };
+}
+
 const related: Record<string, RelatedProductSummary[]> = {
   "test-aurelia-floor-lamp": [
     {

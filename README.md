@@ -70,6 +70,8 @@ Future domain code is organized by responsibility rather than by page. Server-ow
 
 ## Environment
 
+Phase 7 is prepared locally, awaiting merchant inputs and acceptance; see `PHASE_7_AUDIT.md`. Email actions default to closed through `AUTH_EMAIL_READY=false`. Enable them only after production SMTP, DWELLUNE Auth redirects and real inbox flows are verified. `AUTH_RECOVERY_SECRET` is a private random secret for recovery grants; configure it securely and never commit its value. The Phase 7 migration was applied exactly once on 14 October 2026, and database types were regenerated. The application release is still held for real email/account acceptance and return operating details. Gmail SMTP is the merchant-selected testing provider; no sending-domain purchase is required for that setup.
+
 Copy `.env.example` to `.env.local` for local development.
 
 ```bash

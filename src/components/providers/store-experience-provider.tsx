@@ -16,7 +16,13 @@ export function StoreExperienceProvider({ children }: Readonly<{ children: React
   useEffect(() => {
     document.documentElement.dataset.motion = reducedMotion ? "reduced" : "full";
 
-    if (reducedMotion || pathname === "/cart" || pathname === "/wishlist") {
+    if (
+      reducedMotion ||
+      pathname === "/cart" ||
+      pathname === "/wishlist" ||
+      pathname.startsWith("/account") ||
+      pathname.startsWith("/auth")
+    ) {
       lenisRef.current?.destroy();
       lenisRef.current = null;
       return;

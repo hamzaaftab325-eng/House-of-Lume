@@ -1,3 +1,4 @@
+begin;
 -- Run inside BEGIN / ROLLBACK. No QA products, users, carts or discounts persist.
 create temporary table phase6_checks(name text primary key);
 grant all on phase6_checks to anon, authenticated;
@@ -8,7 +9,8 @@ insert into public.product_variants(id,product_id,sku,title,price_pkr,track_inve
 insert into public.inventory_locations(id,code,name) values('66000000-0000-4000-8000-000000000021','P6-TRANSACTIONAL','Transactional QA');
 insert into public.inventory_balances(variant_id,location_id,on_hand) values('66000000-0000-4000-8000-000000000011','66000000-0000-4000-8000-000000000021',5);
 insert into public.discounts(code,name,discount_type,percentage_bps) values('P6-TRANSACTIONAL','Transactional discount','percentage',1000);
-insert into auth.users(id,email,raw_user_meta_data) values('66000000-0000-4000-8000-000000000031','p6-rollback-a@example.invalid','{}'),('66000000-0000-4000-8000-000000000032','p6-rollback-b@example.invalid','{}');
+insert into auth.users(id,email,email_confirmed_at,raw_user_meta_data) values('66000000-0000-4000-8000-000000000031','p6-rollback-a@example.invalid',now(),'{}'),('66000000-0000-4000-8000-000000000032','p6-rollback-b@example.invalid',now(),'{}');
+insert into auth.sessions(id,user_id,created_at) values('66000000-0000-4000-8000-000000000051','66000000-0000-4000-8000-000000000031',now()),('66000000-0000-4000-8000-000000000052','66000000-0000-4000-8000-000000000032',now());
 set local role anon;
 select set_config('request.jwt.claims','{}',true);
 do $$ declare q jsonb; begin
@@ -53,14 +55,14 @@ do $$ declare q jsonb; begin
 end $$;
 reset role;
 set local role authenticated;
-select set_config('request.jwt.claims','{"sub":"66000000-0000-4000-8000-000000000031","role":"authenticated"}',true);
+select set_config('request.jwt.claims','{"sub":"66000000-0000-4000-8000-000000000031","role":"authenticated","session_id":"66000000-0000-4000-8000-000000000051"}',true);
 do $$ declare q jsonb; begin
  q:=public.commerce_cart_snapshot(repeat('a',64)); if not (q->>'authenticated')::boolean or (q->>'item_count')::integer<>3 then raise exception 'guest claim failed'; end if;
  perform public.commerce_wishlist_set('66000000-0000-4000-8000-000000000012',true);
  q:=public.commerce_wishlist_snapshot(); if jsonb_array_length(q->'lines')<>1 then raise exception 'wishlist save failed'; end if;
  insert into phase6_checks values('sign-in cart claim and authenticated wishlist persistence');
 end $$;
-select set_config('request.jwt.claims','{"sub":"66000000-0000-4000-8000-000000000032","role":"authenticated"}',true);
+select set_config('request.jwt.claims','{"sub":"66000000-0000-4000-8000-000000000032","role":"authenticated","session_id":"66000000-0000-4000-8000-000000000052"}',true);
 do $$ declare q jsonb; begin
  q:=public.commerce_cart_snapshot(repeat('a',64)); if (q->>'item_count')::integer<>0 then raise exception 'customer cart IDOR'; end if;
  q:=public.commerce_wishlist_snapshot(); if jsonb_array_length(q->'lines')<>0 then raise exception 'wishlist IDOR'; end if;
@@ -73,7 +75,7 @@ select set_config('request.jwt.claims','{}',true);
 select public.commerce_cart_add(repeat('c',64),'66000000-0000-4000-8000-000000000012',2);
 reset role;
 set local role authenticated;
-select set_config('request.jwt.claims','{"sub":"66000000-0000-4000-8000-000000000031","role":"authenticated"}',true);
+select set_config('request.jwt.claims','{"sub":"66000000-0000-4000-8000-000000000031","role":"authenticated","session_id":"66000000-0000-4000-8000-000000000051"}',true);
 do $$ declare q jsonb; begin
  q:=public.commerce_cart_snapshot(repeat('c',64)); if (q->>'item_count')::integer<>5 then raise exception 'guest merge failed'; end if;
  q:=public.commerce_cart_snapshot(repeat('c',64)); if (q->>'item_count')::integer<>5 then raise exception 'guest merge replay duplicated'; end if;
@@ -86,7 +88,7 @@ update public.inventory_reservations set expires_at=now()-interval '1 minute' wh
 select app_private.release_expired_inventory_reservations();
 do $$ begin if (select reserved from public.inventory_balances where variant_id='66000000-0000-4000-8000-000000000011')<>0 then raise exception 'expiry did not release stock'; end if; insert into phase6_checks values('reservation expiry cleanup'); end $$;
 set local role authenticated;
-select set_config('request.jwt.claims','{"sub":"66000000-0000-4000-8000-000000000031","role":"authenticated"}',true);
+select set_config('request.jwt.claims','{"sub":"66000000-0000-4000-8000-000000000031","role":"authenticated","session_id":"66000000-0000-4000-8000-000000000051"}',true);
 select public.commerce_cart_set_quantity(null,'66000000-0000-4000-8000-000000000011',2);
 reset role;
 update public.product_variants set status='inactive' where id='66000000-0000-4000-8000-000000000011';
@@ -98,3 +100,5 @@ do $$ declare q jsonb; begin
 end $$;
 reset role;
 select name from phase6_checks order by name;
+
+rollback;

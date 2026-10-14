@@ -60,11 +60,12 @@ export function StoreCommerceProvider({ children }: { children: ReactNode }) {
   const authVersion = useRef(0);
 
   const request = useCallback((action?: CommerceAction, broadcast = false): Promise<void> => {
+    const expectedVersion = authVersion.current;
     const operation = queue.current
       .catch(() => undefined)
       .then(async () => {
-        if (!alive.current) return;
-        const version = authVersion.current;
+        if (!alive.current || expectedVersion !== authVersion.current) return;
+        const version = expectedVersion;
         setPending(true);
         setError(null);
         try {
@@ -222,7 +223,18 @@ export function StoreCommerceProvider({ children }: { children: ReactNode }) {
       });
       unsubscribe = () => subscription.subscription.unsubscribe();
     });
+    const onAccountChanged = () => {
+      authVersion.current += 1;
+      dataRef.current = null;
+      setData(null);
+      setLoading(true);
+      void synchronize().catch(() => undefined);
+    };
+    const accountChannel =
+      typeof BroadcastChannel !== "undefined" ? new BroadcastChannel("dwellune-account") : null;
+    if (accountChannel) accountChannel.onmessage = onAccountChanged;
     const onStorage = (event: StorageEvent) => {
+      if (event.key === "dwellune-auth-change") onAccountChanged();
       if (event.key === SAVED_KEY) {
         ids.current = savedIdsFromStorage(event.newValue);
         void synchronize().catch(() => undefined);
@@ -237,6 +249,7 @@ export function StoreCommerceProvider({ children }: { children: ReactNode }) {
     return () => {
       alive.current = false;
       unsubscribe?.();
+      accountChannel?.close();
       channel.current?.close();
       channel.current = null;
       window.removeEventListener("storage", onStorage);

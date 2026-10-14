@@ -120,7 +120,10 @@ export type ProductDetailResult = {
   relatedProducts: RelatedProductSummary[];
 };
 
-const isCiPlaceholder = env.NEXT_PUBLIC_SUPABASE_URL === "https://example.supabase.co";
+const isCiPlaceholder =
+  env.NEXT_PUBLIC_SUPABASE_URL === "https://example.supabase.co" &&
+  /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(env.NEXT_PUBLIC_SITE_URL) &&
+  process.env.VERCEL !== "1";
 const trustedCloudinaryPrefix = "https://res.cloudinary.com/diometfe9/";
 
 function databaseError(scope: string, message: string) {

@@ -22,6 +22,10 @@ export async function commerceService(
   } = await client.auth.getUser();
   if (authError && authError.name !== "AuthSessionMissingError")
     throw new Error("authentication_required");
+  if (user) {
+    const session = await client.rpc("account_session_valid");
+    if (session.error || session.data !== true) throw new Error("authentication_required");
+  }
   const rpc = async (name: string, args: Record<string, unknown> = {}) => {
     const { data, error } = await client.rpc(name, args);
     if (error) throw new Error(error.message);

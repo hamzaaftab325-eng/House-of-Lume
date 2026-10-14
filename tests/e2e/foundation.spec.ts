@@ -246,9 +246,10 @@ test("hero respects reduced-motion preference", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("account and CRM foundation routes load", async ({ page }) => {
+test("customer account access and CRM foundation routes load", async ({ page }) => {
   await page.goto("/account");
-  await expect(page.getByRole("heading", { name: "Account foundation." })).toBeVisible();
+  await expect(page).toHaveURL(/\/auth\/signin\?next=/);
+  await expect(page.getByRole("heading", { name: "Welcome home." })).toBeVisible();
 
   await page.goto("/crm");
   await expect(page.getByRole("heading", { name: "CRM foundation." })).toBeVisible();

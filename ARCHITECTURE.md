@@ -1,5 +1,11 @@
 # DWELLUNE — Application Architecture
 
+## Pending Phase 7 account implementation
+
+Private account/auth routes, `/api/auth`, `/api/account`, a Next.js 16 session-refresh proxy and validated customer services/forms are prepared locally. Email actions remain gated by `AUTH_EMAIL_READY`. Recovery uses a private HMAC secret and a short-lived HttpOnly grant bound to the verified user/session.
+
+Account reads/writes verify identity, active customer and live Auth session. The applied migration adds restrictive session policies and narrower customer column grants to protect staff notes and notification payloads. Existing Auth provisioners/email synchronization are reused. Browser session events hide stale private content and cancel commerce actions queued under an earlier identity. Background identity checks preserve form state. Order details show owned status history and exclude previously requested/excluded quantities from the return form. Notifications support all, unread, order, return and account filters. Nothing in this section claims a deployed Phase 7; `PHASE_7_AUDIT.md` tracks the acceptance blockers.
+
 **Status:** Phase 0 production baseline  
 **Applies with:** `AI_INSTRUCTIONS.md`, `design.md`, `PROJECT_PLAN.md`, `PHASE_EXECUTION_TEMPLATE.md`, and `SECURITY.md`
 

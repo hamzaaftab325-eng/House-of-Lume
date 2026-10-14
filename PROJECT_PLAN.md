@@ -647,6 +647,8 @@ See `PHASE_6_AUDIT.md` for evidence and operational boundaries.
 
 # 12. Phase 7 — Authentication & Customer Account
 
+**Status:** Implementation prepared and migration applied once on 2026-10-14. Verified: 39 unit/route tests, 52 browser tests, 13 populated account database test groups, 15 cart/wishlist regression groups, privilege/session boundaries and post-apply advisors. JazzCash/bank refund instructions and an owner-authorized test product are configured. The owner requested production release for live acceptance; real Gmail links and signed-in UI checks remain pending owner confirmation. See `PHASE_7_AUDIT.md`.
+
 - [ ] Sign up
 - [ ] Sign in
 - [ ] Sign out
