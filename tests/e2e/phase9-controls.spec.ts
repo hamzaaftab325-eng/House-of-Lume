@@ -107,6 +107,7 @@ for (const width of [375, 768, 1440])
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/crm/verification/settings");
     await expect(page.getByRole("heading", { name: "COD verification rules." })).toBeVisible();
+    await page.waitForLoadState("networkidle");
     await page.getByLabel("High-value threshold (PKR)").focus();
     await page.keyboard.press("Tab");
     await expect(page.getByLabel("Possible duplicate window (hours)")).toBeFocused();

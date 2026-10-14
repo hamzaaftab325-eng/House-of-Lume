@@ -129,3 +129,7 @@ Super Admin can open `/crm/verification` to review pending orders, record actual
 ## Phase 9 Part 2 — review controls
 
 Open `/crm/verification/settings` as Super Admin to edit rules with an audit reason. Defaults: PKR 25,000 high-value threshold, 24-hour duplicate window, two prior failed/RTO orders within 180 days, three orders per hour and five per 24 hours. Possible duplicates match normalized phone and canonical total. Signals require staff review; they do not automatically reject customers. Clear manual review with a private note, then confirm separately. Settings never enable checkout. Real-product merchant acceptance remains deferred.
+
+## Phase 10 Part 1 — notification centers
+
+Customer inbox: `/account/notifications`. Staff inbox: `/crm/notifications`. Both support all/unread, category filters, bounded cursor pages, single-read and whole-inbox mark-all. Staff additionally filter priority and see operational urgency. Inboxes are recipient-scoped, including for Super Admin; staff and customer notices stay separate. Badges refresh after reads, cross-tab changes, visible-tab return and a 60-second visible-page poll. Reading notices does not alter orders or imply email delivery. Part 2 event coverage/preferences remain separate. See `PHASE_10_PART_1_AUDIT.md`.

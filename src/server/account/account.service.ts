@@ -2,14 +2,12 @@ import { createClient } from "@/lib/supabase/server";
 import {
   addressRowSchema,
   customerSchema,
-  notificationSchema,
   orderItemSchema,
   orderHistorySchema,
   orderSchema,
   returnPolicySchema,
   returnSchema,
   type AccountAction,
-  type NotificationFilter,
 } from "@/lib/account";
 import { z } from "zod";
 import { cache } from "react";
@@ -34,60 +32,52 @@ export const accountIdentity = cache(async () => {
   return { client, customer, email: user.email ?? "" };
 });
 
-export async function accountSnapshot(page = 1, filter: NotificationFilter = "all") {
+export async function accountSnapshot(page = 1) {
   const identity = await accountIdentity();
   const { client, customer } = identity;
-  let notificationQuery = client
-    .from("notifications")
-    .select("id,title,body,priority,read_at,created_at,entity_type,entity_id")
-    .order("created_at", { ascending: false })
-    .range((page - 1) * 20, page * 20 - 1);
-  if (filter === "unread") notificationQuery = notificationQuery.is("read_at", null);
-  if (filter === "orders") notificationQuery = notificationQuery.eq("entity_type", "order");
-  if (filter === "returns") notificationQuery = notificationQuery.eq("entity_type", "return");
-  if (filter === "account")
-    notificationQuery = notificationQuery.in("entity_type", ["account", "customer", "profile"]);
-  const [addresses, orders, notifications, returns, preferences, policy, unread] =
-    await Promise.all([
-      client
-        .from("customer_addresses")
-        .select(
-          "id,label,recipient_name,phone,address_line1,address_line2,city,province,postal_code,is_default",
-        )
-        .eq("customer_id", customer.id)
-        .order("is_default", { ascending: false })
-        .order("created_at")
-        .limit(50),
-      client
-        .from("orders")
-        .select(
-          "id,order_number,status,total_pkr,subtotal_pkr,discount_pkr,shipping_pkr,tax_pkr,placed_at,delivered_at",
-          { count: "exact" },
-        )
-        .eq("customer_id", customer.id)
-        .order("placed_at", { ascending: false })
-        .range((page - 1) * 20, page * 20 - 1),
-      notificationQuery,
-      client
-        .from("returns")
-        .select("id,order_id,return_number,status,reason_code,requested_at")
-        .eq("customer_id", customer.id)
-        .order("requested_at", { ascending: false })
-        .range((page - 1) * 20, page * 20 - 1),
-      client
-        .from("notification_preferences")
-        .select("email_marketing")
-        .eq("customer_id", customer.id)
-        .maybeSingle(),
-      client
-        .from("system_settings")
-        .select("value")
-        .eq("key", "returns.policy")
-        .eq("is_public", true)
-        .maybeSingle(),
-      client.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null),
-    ]);
-  if ([addresses, orders, notifications, returns, preferences, policy, unread].some((r) => r.error))
+  const [addresses, orders, returns, preferences, policy, unread] = await Promise.all([
+    client
+      .from("customer_addresses")
+      .select(
+        "id,label,recipient_name,phone,address_line1,address_line2,city,province,postal_code,is_default",
+      )
+      .eq("customer_id", customer.id)
+      .order("is_default", { ascending: false })
+      .order("created_at")
+      .limit(50),
+    client
+      .from("orders")
+      .select(
+        "id,order_number,status,total_pkr,subtotal_pkr,discount_pkr,shipping_pkr,tax_pkr,placed_at,delivered_at",
+        { count: "exact" },
+      )
+      .eq("customer_id", customer.id)
+      .order("placed_at", { ascending: false })
+      .range((page - 1) * 20, page * 20 - 1),
+    client
+      .from("returns")
+      .select("id,order_id,return_number,status,reason_code,requested_at")
+      .eq("customer_id", customer.id)
+      .order("requested_at", { ascending: false })
+      .range((page - 1) * 20, page * 20 - 1),
+    client
+      .from("notification_preferences")
+      .select("email_marketing")
+      .eq("customer_id", customer.id)
+      .maybeSingle(),
+    client
+      .from("system_settings")
+      .select("value")
+      .eq("key", "returns.policy")
+      .eq("is_public", true)
+      .maybeSingle(),
+    client
+      .from("notifications")
+      .select("id", { count: "exact", head: true })
+      .eq("audience", "customer")
+      .is("read_at", null),
+  ]);
+  if ([addresses, orders, returns, preferences, policy, unread].some((r) => r.error))
     throw new Error("account_load_failed");
   const parsedPolicy = returnPolicySchema.safeParse(policy.data?.value);
   return {
@@ -97,7 +87,6 @@ export async function accountSnapshot(page = 1, filter: NotificationFilter = "al
     addresses: z.array(addressRowSchema).parse(addresses.data),
     orders: z.array(orderSchema).parse(orders.data),
     orderCount: orders.count ?? 0,
-    notifications: z.array(notificationSchema).parse(notifications.data),
     unread: unread.count ?? 0,
     returns: z.array(returnSchema).parse(returns.data),
     emailMarketing: Boolean(preferences.data?.email_marketing),
@@ -205,26 +194,14 @@ export async function accountMutate(action: AccountAction) {
         p_email_marketing: action.values.emailMarketing,
       });
       break;
-    case "readNotification": {
-      const notification = await client
-        .from("notifications")
-        .select("id,read_at")
-        .eq("id", action.id)
-        .maybeSingle();
-      if (notification.error || !notification.data) throw new Error("account_write_failed");
-      if (notification.data.read_at) return { saved: true, customerId: customer.id };
-      result = await client
-        .from("notifications")
-        .update({ read_at: new Date().toISOString() })
-        .eq("id", action.id)
-        .is("read_at", null);
+    case "readNotification":
+      result = await client.rpc("notification_read", { p_audience: "customer", p_id: action.id });
       break;
-    }
     case "readAllNotifications":
-      result = await client
-        .from("notifications")
-        .update({ read_at: new Date().toISOString() })
-        .is("read_at", null);
+      result = await client.rpc("notification_read", {
+        p_audience: "customer",
+        p_cutoff: new Date().toISOString(),
+      });
       break;
     case "return":
       result = await client.rpc("account_request_return", {

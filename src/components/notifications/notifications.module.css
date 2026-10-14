@@ -1,0 +1,60 @@
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.list article[data-priority="critical"] {
+  border-left: 3px solid var(--color-error);
+  padding-left: 1rem;
+}
+.list article[data-priority="high"] {
+  border-left: 3px solid var(--color-bronze);
+  padding-left: 1rem;
+}
+.select {
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control, 0.5rem);
+}
+.badgeLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0.5rem;
+  color: inherit;
+}
+.badgeLink svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.25rem;
+  min-height: 1.25rem;
+  padding: 0.1rem 0.3rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.badgeLink[data-compact="true"] {
+  width: 2.75rem;
+  padding: 0;
+  justify-content: center;
+}
+.badgeLink[data-compact="true"] .count {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

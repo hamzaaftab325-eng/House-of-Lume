@@ -342,11 +342,18 @@
 @media (max-width: 38rem) {
   .headerInner {
     min-height: 5.15rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 0.35rem;
   }
 
   .logoImage {
     width: clamp(7.8rem, 34vw, 9.2rem);
+    max-width: 100%;
+  }
+
+  .logo {
+    min-width: 0;
+    max-width: 100%;
   }
 
   .footerNav {

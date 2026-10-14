@@ -12,7 +12,7 @@ export default function CrmPage() {
       </p>
       <div className={styles.actions}>
         <DwelluneButtonLink href="/crm/verification">Open verification queue</DwelluneButtonLink>
-        <DwelluneButtonLink href={"/account/notifications" as Route} variant="frame">
+        <DwelluneButtonLink href={"/crm/notifications" as Route} variant="frame">
           Notifications
         </DwelluneButtonLink>
       </div>

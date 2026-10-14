@@ -10,7 +10,8 @@ export function AccountSessionGuard({
 }: {
   customerId: string;
   children: React.ReactNode;
-  sessionEndpoint?: "/api/account" | "/api/admin/session";
+  sessionEndpoint?:
+    "/api/account" | "/api/admin/session" | "/api/notifications?audience=customer&summary=1";
 }) {
   const [valid, setValid] = useState(true);
   const [retry, setRetry] = useState(0);

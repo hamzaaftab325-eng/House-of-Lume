@@ -1236,6 +1236,7 @@ export type Database = {
       };
       notifications: {
         Row: {
+          audience: string;
           body: string;
           created_at: string;
           data: Json;
@@ -1250,6 +1251,7 @@ export type Database = {
           title: string;
         };
         Insert: {
+          audience: string;
           body: string;
           created_at?: string;
           data?: Json;
@@ -1264,6 +1266,7 @@ export type Database = {
           title: string;
         };
         Update: {
+          audience?: string;
           body?: string;
           created_at?: string;
           data?: Json;
@@ -2968,6 +2971,21 @@ export type Database = {
         Returns: Json;
       };
       commerce_wishlist_snapshot: { Args: never; Returns: Json };
+      notification_feed: {
+        Args: {
+          p_audience: string;
+          p_before?: string;
+          p_category?: string;
+          p_priority?: string;
+          p_read?: string;
+        };
+        Returns: Json;
+      };
+      notification_read: {
+        Args: { p_audience: string; p_cutoff?: string; p_id?: string };
+        Returns: Json;
+      };
+      notification_unread: { Args: { p_audience: string }; Returns: number };
       order_email_worker: {
         Args: { p_input: Json; p_secret: string };
         Returns: Json;

@@ -1,11 +1,11 @@
-import { notificationFilters, type NotificationFilter } from "@/lib/account";
+import { type NotificationFilter } from "@/lib/account";
 import type { Route } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { accountSnapshot } from "@/server/account/account.service";
+import { NotificationPage } from "@/components/notifications/notification-page";
 import { AuthForm } from "./auth-form";
 import {
-  AccountActionButton,
   AddressEntry,
   AddressForm,
   PreferencesForm,
@@ -38,10 +38,12 @@ export async function AccountPage({
   page?: string;
   filter?: NotificationFilter;
 }) {
+  if (section === "notifications")
+    return <NotificationPage audience="customer" searchParams={Promise.resolve({ filter })} />;
   const page = Math.floor(Math.max(1, Math.min(1000, Number(rawPage) || 1)));
   let data;
   try {
-    data = await accountSnapshot(page, filter);
+    data = await accountSnapshot(page);
   } catch (e) {
     if (e instanceof Error && e.message === "authentication_required")
       redirect(
@@ -125,60 +127,6 @@ export async function AccountPage({
             ) : null}
           </>
         ) : null}
-        {section === "notifications" ? (
-          <>
-            <nav className={styles.actions} aria-label="Notification filters">
-              {notificationFilters.map((value) => (
-                <Link
-                  key={value}
-                  href={`/account/notifications?filter=${value}` as Route}
-                  aria-current={filter === value ? "page" : undefined}
-                >
-                  {value.charAt(0).toUpperCase() + value.slice(1)}
-                </Link>
-              ))}
-            </nav>
-            <p>{data.unread} unread</p>
-            {data.unread ? (
-              <AccountActionButton action={{ action: "readAllNotifications" }}>
-                Mark all as read
-              </AccountActionButton>
-            ) : null}
-            {data.notifications.length ? (
-              data.notifications.map((n) => (
-                <article key={n.id} className={styles.row}>
-                  <div>
-                    <h2>{n.title}</h2>
-                    <p>{n.body}</p>
-                    <p>
-                      <time dateTime={n.created_at}>
-                        {new Date(n.created_at).toLocaleString("en-PK", {
-                          timeZone: "Asia/Karachi",
-                        })}
-                      </time>{" "}
-                      · {n.read_at ? "Read" : "Unread"} · {n.priority}
-                    </p>
-                    {n.entity_type === "order" && n.entity_id ? (
-                      <Link href={`/account/orders/${n.entity_id}` as Route}>View order</Link>
-                    ) : null}
-                  </div>
-                  {!n.read_at ? (
-                    <AccountActionButton action={{ action: "readNotification", id: n.id }}>
-                      Mark as read
-                    </AccountActionButton>
-                  ) : null}
-                </article>
-              ))
-            ) : (
-              <p className={styles.empty}>No notifications to show.</p>
-            )}
-            {data.notifications.length === 20 ? (
-              <Link href={`/account/notifications?page=${page + 1}&filter=${filter}` as Route}>
-                Next notifications
-              </Link>
-            ) : null}
-          </>
-        ) : null}
         {section === "returns" ? (
           <>
             <p className={styles.intro}>
@@ -223,7 +171,7 @@ export async function AccountPage({
             </section>
           </>
         ) : null}
-        {page > 1 && ["orders", "notifications", "returns"].includes(section) ? (
+        {page > 1 && ["orders", "returns"].includes(section) ? (
           <Link href={`/account/${section}?page=${page - 1}&filter=${filter}` as Route}>
             Previous page
           </Link>

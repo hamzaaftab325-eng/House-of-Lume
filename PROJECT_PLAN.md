@@ -748,39 +748,39 @@ Part 1 implementation and rollback evidence are recorded in `PHASE_9_PART_1_AUDI
 
 ## Core architecture
 
-- [ ] Persistent notification table
+- [x] Persistent notification table
 - [ ] Notification type registry
-- [ ] Recipient model
-- [ ] Entity/deep-link model
-- [ ] Priority
-- [ ] Read/unread
-- [ ] Read timestamp
-- [ ] Delivery channel
-- [ ] Delivery status
-- [ ] Retry/error metadata
+- [x] Recipient model
+- [x] Entity/deep-link model
+- [x] Priority
+- [x] Read/unread
+- [x] Read timestamp
+- [x] Delivery channel
+- [x] Delivery status
+- [x] Retry/error metadata
 - [ ] Notification preferences
 
 ## Customer notification center
 
-- [ ] Header unread badge
-- [ ] Notification list
-- [ ] All/unread
-- [ ] Category filter
-- [ ] Mark one read
-- [ ] Mark all read
-- [ ] Deep-link to order/return/product
-- [ ] Empty state
-- [ ] Error state
-- [ ] Pagination/cursor loading
+- [x] Header unread badge
+- [x] Notification list
+- [x] All/unread
+- [x] Category filter
+- [x] Mark one read
+- [x] Mark all read
+- [x] Deep-link to order/return/product
+- [x] Empty state
+- [x] Error state
+- [x] Pagination/cursor loading
 
 ## CRM notification center
 
-- [ ] Staff unread badge
-- [ ] Operational categories
-- [ ] Priority handling
-- [ ] Entity links
-- [ ] Read management
-- [ ] Filter by severity/category
+- [x] Staff unread badge
+- [x] Operational categories
+- [x] Priority handling
+- [x] Entity links
+- [x] Read management
+- [x] Filter by severity/category
 
 ## Customer events
 
@@ -813,6 +813,8 @@ Part 1 implementation and rollback evidence are recorded in `PHASE_9_PART_1_AUDI
 - [ ] Failed background job/email
 
 ---
+
+Part 1 notification centers and recipient-scoped read controls are implemented; evidence and acceptance limits are in `PHASE_10_PART_1_AUDIT.md`. Delivery metadata reuses the existing Phase 8 worker. Part 2 still owns the full event registry, preferences and expanded event/reliability coverage; future workflow events will activate with their actual business workflows.
 
 # 16. Phase 11 — Transactional Email
 

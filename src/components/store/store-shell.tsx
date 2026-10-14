@@ -12,6 +12,7 @@ import { SearchOverlay } from "@/components/search/search-overlay";
 import { IconButton } from "@/components/ui/controls";
 import { Drawer } from "@/components/ui/overlays";
 
+import { NotificationBadge } from "@/components/notifications/notification-badge";
 import { CommerceDrawers } from "./commerce-drawers";
 import styles from "./store-shell.module.css";
 
@@ -87,6 +88,11 @@ export function StoreHeader() {
             >
               <UserRound aria-hidden="true" />
             </Link>
+            <NotificationBadge
+              audience="customer"
+              compact
+              enabled={Boolean(commerce.data?.cart.authenticated)}
+            />
             {!isHome ? (
               <span className={styles.desktopOnly}>
                 <IconButton
