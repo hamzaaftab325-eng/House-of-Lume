@@ -55,6 +55,7 @@ test("staff sees real delivery semantics and deferred registry dependencies", as
   await login(context, true);
   await page.goto("/crm/notifications/delivery");
   await expect(page.getByRole("heading", { name: "Notification delivery." })).toBeVisible();
+  await expect(page.getByText("order.confirmed · Template v2", { exact: true })).toBeVisible();
   await expect(
     page.getByText(
       "Acceptance uncertain — inspect the sender mailbox; automatic resend is blocked.",

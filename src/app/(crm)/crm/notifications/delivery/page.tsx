@@ -73,6 +73,9 @@ export default async function Page({
                 <Link href={`/crm/verification/${job.order_id}` as Route}>Open order</Link>
               </h2>
               <p>
+                {job.event} · Template {job.version}
+              </p>
+              <p>
                 {job.status} · Attempts: {job.attempts}
               </p>
               {job.error ? (

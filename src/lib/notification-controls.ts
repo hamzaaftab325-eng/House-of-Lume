@@ -23,6 +23,8 @@ export const operationsSchema = z.object({
       z.object({
         id: z.uuid(),
         order_id: z.uuid(),
+        event: z.string().min(1),
+        version: z.string().min(1),
         status: z.enum(["pending", "sending", "sent", "failed"]),
         attempts: z.number().int().nonnegative(),
         error: z.string().nullable(),

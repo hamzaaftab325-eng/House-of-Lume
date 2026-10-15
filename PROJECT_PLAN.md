@@ -823,28 +823,28 @@ Use the owner-selected Gmail SMTP adapter for transactional email. Reconsider a 
 
 - [x] Branded base email template (Phase 11 Part 1: HTML + text, approved logo, responsive/dark-mode fallback)
 - [x] Order placed template and existing Gmail receipt sender integration; real-product checkout acceptance remains deferred
-- [ ] Verification request
-- [ ] Order confirmed
+- [x] Verification request
+- [x] Order confirmed
 - [ ] Packed/dispatch update where useful
 - [ ] Shipped
 - [ ] Out-for-delivery if supported operationally
 - [ ] Delivered
 - [ ] Delivery failed
-- [ ] Cancelled
-- [ ] Return request received
+- [x] Cancelled
+- [x] Return request received
 - [ ] Return decision
 - [ ] Password/account emails where applicable
 - [ ] Abandoned cart reminder if enabled
 
 Reliability:
 
-- [ ] Delivery event logging
-- [ ] Idempotent email jobs
-- [ ] Retry handling
-- [ ] Failure visibility in CRM
-- [ ] No duplicate email from retry
+- [x] Delivery event logging
+- [x] Idempotent email jobs
+- [x] Retry handling
+- [x] Failure visibility in CRM
+- [x] Replay suppression and safe retry handling; ambiguous SMTP acceptance requires manual mailbox review
 
-Phase 11 Part 1 prepares versioned templates for COD verification, confirmation, cancellation and return-request receipt. Their event-to-email queue producers are Part 2 work; they are not yet automatic outgoing emails. The fixed owner test action now sends a clearly labelled branded sample to `hamzaaftab325@gmail.com`. Signup retains automatic login without email verification. Application recovery/email-change callbacks are production-safe; hosted Supabase Auth template/allowlist inspection and real recovery acceptance remain external checks. See `PHASE_11_PART_1_AUDIT.md`.
+Phase 11 Parts 1–2 implement branded receipts and supported event-email jobs for COD verification, confirmation, cancellation and return requests. Future fulfillment/return-decision/RTO templates are prepared; their producers remain deferred. The owner-approved Gmail adapter, durable receipts, private attempt logging, bounded retries and uncertain-send review are retained. Signup still logs in automatically without verification email. Hosted Auth template/allowlist and real live-order acceptance remain pending. See `PHASE_11_PART_1_AUDIT.md` and `PHASE_11_PART_2_AUDIT.md` for verified scope, eight recorded migrations, tests and acceptance limits.
 
 ---
 

@@ -288,3 +288,7 @@ Inventory alerts apply only to active tracked variants of published, non-test pr
 `20261014165030_phase10_manual_review_events.sql` emits a stable revision-derived manual-review event and narrows preference RLS to the active owner, including Super Admin. Essential order preference columns cannot be disabled; optional choices use a strict own-account RPC. An explicit audience SELECT grant fixes the account unread-count filter under Phase 7's column grants. Applied migration SQL is immutable; generated public types were refreshed.
 
 Rollback evidence: `phase10-part2.sql`, `phase10-part2-boundaries.sql`, Part 1/event regression suites and the existing Gmail worker suite. All passed without surviving users/orders/notifications/queue jobs or sending an SMTP email.
+
+## Phase 11 transactional email events
+
+The private outbox now permits distinct supported event jobs per order. Durable event/recipient receipts retain template version and suppress replays even when no job remains. A placement-only unique index protects original receipts. Receipts attach their job FK after insertion; status-history bigint identifiers derive stable namespaced event UUIDs. Deferred transaction triggers snapshot items/totals/contact email only after related writes finish. Private attempt records track status, attempt and safe error code. No new public enqueue/resend RPC exists; checkout confirmation reports only placement-email status. Eight Phase 11 migrations and focused rollback verification are recorded in PHASE_11_PART_2_AUDIT.md.

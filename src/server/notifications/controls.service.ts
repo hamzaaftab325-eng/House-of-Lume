@@ -76,6 +76,8 @@ export async function notificationOperations(
               {
                 id: "a3000000-0000-4000-8000-000000000001",
                 order_id: "94000000-0000-4000-8000-000000000001",
+                event: "order.confirmed",
+                version: "v2",
                 status: "failed",
                 attempts: 1,
                 error: "smtp_uncertain",

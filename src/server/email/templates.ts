@@ -1,12 +1,22 @@
 import { z } from "zod";
 
 export const emailTemplateVersion = "v2";
-export const emailEventSchema = z.enum([
+export const activeEmailEventSchema = z.enum([
   "order.placed",
   "order.verification_required",
   "order.confirmed",
   "order.cancelled",
   "return.requested",
+]);
+export const emailEventSchema = z.enum([
+  ...activeEmailEventSchema.options,
+  "order.packed",
+  "order.shipped",
+  "order.out_for_delivery",
+  "order.delivered",
+  "order.delivery_failed",
+  "return.updated",
+  "order.rto_updated",
 ]);
 export type EmailEvent = z.infer<typeof emailEventSchema>;
 
@@ -34,6 +44,41 @@ const content: Record<EmailEvent, { title: string; introduction: string }> = {
     title: "Your return request is received.",
     introduction:
       "Our team will review your request and contact you with the next steps. This receipt does not mean your return or refund has been approved. Please wait for return instructions before sending any items.",
+  },
+  "order.packed": {
+    title: "Your order is packed.",
+    introduction:
+      "Your order is packed for dispatch. We will share shipping information after handover to the courier.",
+  },
+  "order.shipped": {
+    title: "Your order is on its way.",
+    introduction:
+      "Your order has been handed to the courier. Check the shipment details below. Payment remains Cash on Delivery.",
+  },
+  "order.out_for_delivery": {
+    title: "Your order is out for delivery.",
+    introduction:
+      "The courier has scheduled a delivery attempt. Please keep the agreed COD amount ready and your phone available.",
+  },
+  "order.delivered": {
+    title: "Your order is delivered.",
+    introduction:
+      "Delivery has been recorded. Thank you for choosing DWELLUNE. Contact us if you need help with your items.",
+  },
+  "order.delivery_failed": {
+    title: "Your delivery needs attention.",
+    introduction:
+      "The delivery attempt was unsuccessful. See the recorded update below and contact us for the next steps.",
+  },
+  "return.updated": {
+    title: "Your return request has an update.",
+    introduction:
+      "Our team has recorded an update to your return request. Follow the decision and instructions below; do not send items without an approved return arrangement.",
+  },
+  "order.rto_updated": {
+    title: "Your shipment return has an update.",
+    introduction:
+      "The courier return for your shipment has an update. Contact the store if you need help arranging the next steps.",
   },
 };
 

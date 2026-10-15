@@ -88,6 +88,35 @@ it("marks ambiguous SMTP acceptance uncertain and never resends in the same run"
     expect.objectContaining({ p_input: expect.objectContaining({ result: "uncertain" }) }),
   );
 });
+it("uses the event and snapshotted version of a confirmed-order job", async () => {
+  const confirmed = {
+    ...job,
+    payload: { ...job.payload, event: "order.confirmed", version: "v2" },
+  };
+  mocks.rpc.mockResolvedValueOnce({ data: { job: confirmed, verify_due: false }, error: null });
+  mocks.sendMail.mockResolvedValue({ accepted: job.payload.to, messageId: "confirmation-id" });
+  expect(await runOrderEmails("secret", "dispatch")).toEqual({ status: "sent" });
+  expect(mocks.sendMail).toHaveBeenCalledWith(
+    expect.objectContaining({
+      to: job.payload.to,
+      messageId: `<dwellune-order.confirmed-v2-${job.id}@gmail.com>`,
+      html: expect.stringContaining("Your order is confirmed."),
+      text: expect.stringContaining(job.payload.text),
+    }),
+  );
+});
+it.each([
+  { event: "order.shipped", version: "v2" },
+  { event: "order.confirmed", version: "unknown" },
+])("does not send unsupported queued events or versions: %j", async (fields) => {
+  mocks.rpc.mockResolvedValueOnce({
+    data: { job: { ...job, payload: { ...job.payload, ...fields } }, verify_due: false },
+    error: null,
+  });
+  await expect(runOrderEmails("secret", "dispatch")).rejects.toThrow();
+  expect(mocks.sendMail).not.toHaveBeenCalled();
+  expect(mocks.close).toHaveBeenCalledOnce();
+});
 it("leaves a sending lease untouched when acknowledgement fails after acceptance", async () => {
   mocks.rpc
     .mockResolvedValueOnce({ data: { job, verify_due: false }, error: null })

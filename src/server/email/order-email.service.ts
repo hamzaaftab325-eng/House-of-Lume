@@ -3,8 +3,7 @@ import nodemailer from "nodemailer";
 import { z } from "zod";
 import { env } from "@/lib/env";
 import {
-  emailEventSchema,
-  emailTemplateVersion,
+  activeEmailEventSchema,
   renderOwnerTestEmail,
   renderTransactionalEmail,
 } from "./templates";
@@ -22,7 +21,8 @@ const jobSchema = z.object({
       .max(200)
       .regex(/^[^\r\n]+$/),
     text: z.string().min(1).max(100_000),
-    event: emailEventSchema.default("order.placed"),
+    event: activeEmailEventSchema.default("order.placed"),
+    version: z.literal("v2").default("v2"),
   }),
 });
 const claimSchema = z.object({ job: jobSchema.nullable(), verify_due: z.boolean() });
@@ -134,7 +134,7 @@ export async function runOrderEmails(secret: string, action: "dispatch" | "verif
           orderId: job.order_id,
           siteUrl: env.NEXT_PUBLIC_SITE_URL,
         }),
-        messageId: `<dwellune-${job.payload.event}-${emailTemplateVersion}-${job.id}@gmail.com>`,
+        messageId: `<dwellune-${job.payload.event}-${job.payload.version}-${job.id}@gmail.com>`,
       });
       outcome = result.accepted.length === 1 ? "sent" : "failed";
       if (outcome === "sent") messageId = result.messageId;

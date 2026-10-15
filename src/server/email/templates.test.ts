@@ -52,7 +52,7 @@ it("rejects header injection and invalid event/order identifiers", () => {
   ).toThrow();
   expect(() => renderTransactionalEmail({ ...input, orderId: 'x" onclick="evil()' })).toThrow();
   expect(() =>
-    renderTransactionalEmail({ ...input, event: "order.shipped" as "order.placed" }),
+    renderTransactionalEmail({ ...input, event: "unsupported.event" as "order.placed" }),
   ).toThrow();
 });
 
