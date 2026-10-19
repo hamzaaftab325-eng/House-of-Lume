@@ -1,7 +1,8 @@
 # DWELLUNE — Dependency Security Policy
 
-**Status:** Phase 0 production baseline  
-**Last reviewed:** 2026-10-05
+**Status:** Active dependency policy; re-reviewed during maintenance Part 4
+
+**Last reviewed:** 2026-10-19
 
 ## Production dependency gate
 
@@ -35,7 +36,7 @@ An accepted dev-tool advisory is **not** described as fixed. It is an explicitly
 
 - Severity: High
 - Affected package: `braces <= 3.0.3`
-- Patched upstream release: none as of 2026-10-05
+- Patched upstream release: none reported by the 2026-10-19 registry/audit check (`braces` latest remains `3.0.3`)
 - Current dependency path: `eslint-config-next` → `@next/eslint-plugin-next` → `fast-glob` → `micromatch` → `braces`
 - Scope in this repository: development lint tooling only
 - Production runtime exposure: none when verified by `npm audit --omit=dev --audit-level=high`
@@ -43,6 +44,8 @@ An accepted dev-tool advisory is **not** described as fixed. It is an explicitly
 - Mitigation: do not feed customer-controlled glob patterns into lint tooling; keep lint tooling CI/local only; continue production dependency auditing; update the Next.js lint dependency chain when upstream publishes a compatible remediation
 
 ### Review trigger
+
+Part 4 recheck: runtime audit reports zero vulnerabilities; the full audit still reports the same five affected development-tool entries in this one chain. The registry advertises a newer `eslint-config-next` release, but npm still offers a breaking downgrade as its remediation for this installed graph and `braces` has no patched release. This maintenance release preserves the verified dependency/lockfile set. It does not claim the development advisory or ESLint support warning is resolved. Upgrading the lint toolchain requires a separate compatible update and complete gate verification.
 
 Re-review this exception whenever any of these change:
 

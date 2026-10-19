@@ -2,6 +2,8 @@
 
 > Current scope override — 19 October 2026: operate with one owner admin. No staff accounts, role editor, permission matrix, staff activation or staff management route is planned. Historical completed phase descriptions retain prior terminology where they document existing contracts. Maintenance Part 2 converts those contracts to owner-only access without adding commerce features. Parts 3 (storefront cleanup) and 4 (final verification) remain separate.
 
+> Maintenance Part 4 — final verification, 19 October 2026: Parts 1–3 are deployed. This batch verifies the retained implementation, fixes optional browser-history failures and consolidates the release/rollback and launch-gate record in `docs/maintenance/part-4-final-verification.md`. No new feature, dependency, database migration or checkout enablement is included. Historical phase checklists below describe their original delivery dates; they are not a current inventory of removed demo components or proof that future CRM/fulfillment/settlement work is implemented. Live catalogue currently contains five published listings, including sample/test content; merchant product/order acceptance remains pending.
+
 # DWELLUNE — Production Build Plan
 
 **Status:** Approved planning baseline  

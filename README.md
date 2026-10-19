@@ -12,7 +12,7 @@ The Vercel project has a permanent, host-specific routing rule that directs form
 - Next.js App Router
 - React + strict TypeScript
 - Tailwind CSS design tokens
-- Supabase/PostgreSQL in the database phase
+- Connected Supabase/PostgreSQL with RLS and live-session authorization
 - Owner-selected Gmail SMTP for order confirmations; Supabase SMTP for Auth emails
 - Vercel production deployment
 
@@ -21,11 +21,12 @@ The Vercel project has a permanent, host-specific routing rule that directs form
 Read these before implementation work:
 
 1. `AI_INSTRUCTIONS.md` — engineering and completion rules
-2. `design.md` — visual, interaction, accessibility and motion system
-3. `PROJECT_PLAN.md` — scope, phases and COD operations architecture
-4. `PHASE_EXECUTION_TEMPLATE.md` — mandatory phase checklist/audit format
-5. `ARCHITECTURE.md` — route, domain, service, validation and data-access boundaries
-6. `SECURITY.md` — dependency-security gates and documented tooling exceptions
+2. `BRAND.md` — active identity, logo and palette
+3. `design.md` — visual, interaction, accessibility and motion system
+4. `PROJECT_PLAN.md` — scope, phases and COD operations architecture
+5. `PHASE_EXECUTION_TEMPLATE.md` — mandatory phase checklist/audit format
+6. `ARCHITECTURE.md` — route, domain, service, validation and data-access boundaries
+7. `SECURITY.md` — dependency-security gates and documented tooling exceptions
 
 ## Current architecture
 
@@ -60,7 +61,7 @@ Future domain code is organized by responsibility rather than by page. Server-ow
 ## Route boundaries
 
 - `(store)` is public commerce/discovery.
-- `(account)` becomes authenticated customer space when auth is introduced.
+- `(account)` is authenticated customer space with owned account/order/return data.
 - `(crm)` is restricted to the single store owner through live Auth sessions and database authorization.
 - Server Components are the default. Client Components are introduced only at real interaction boundaries.
 
@@ -74,7 +75,7 @@ Future domain code is organized by responsibility rather than by page. Server-ow
 
 ## Environment
 
-Phase 7 is prepared locally, awaiting merchant inputs and acceptance; see `PHASE_7_AUDIT.md`. Email actions default to closed through `AUTH_EMAIL_READY=false`. Enable them only after production SMTP, DWELLUNE Auth redirects and real inbox flows are verified. `AUTH_RECOVERY_SECRET` is a private random secret for recovery grants; configure it securely and never commit its value. The Phase 7 migration was applied exactly once on 14 October 2026, and database types were regenerated. The application release is still held for real email/account acceptance and return operating details. Gmail SMTP is the merchant-selected testing provider; no sending-domain purchase is required for that setup.
+Account routes and services are deployed; real-account and inbox acceptance remain separate launch gates. Recovery and email-change actions default to closed through `AUTH_EMAIL_READY=false`. Enable them only after production SMTP, DWELLUNE Auth redirects and real inbox flows are verified. `AUTH_RECOVERY_SECRET` is a private random secret for recovery grants; configure it securely and never commit its value. Signup without verification email is the owner's chosen behavior and is separate from recovery readiness. Gmail SMTP is the selected provider. See `docs/maintenance/part-4-final-verification.md` for the current readiness record and `PHASE_7_AUDIT.md` for historical implementation evidence.
 
 Copy `.env.example` to `.env.local` for local development.
 
@@ -120,7 +121,7 @@ The owner requested signup without a verification email. In the hosted Supabase 
 
 ## Phase 8 Part 1
 
-Checkout details and validated COD quotes are available at `/checkout`. Order placement remains disabled until Part 2 delivers atomic order creation and confirmation. Verification evidence and remaining acceptance are in `PHASE_8_PART_1_AUDIT.md`.
+Checkout details and validated COD quotes are available at `/checkout`. Atomic order creation and confirmation are deployed, while order placement remains disabled by the production launch gate. Verification evidence and remaining acceptance are in `PHASE_8_PART_1_AUDIT.md` and `PHASE_8_PART_2_AUDIT.md`.
 
 ## Phase 8 Part 2 release preparation
 
@@ -140,7 +141,7 @@ Customer inbox: `/account/notifications`. Admin inbox: `/crm/notifications`. Bot
 
 ## Phase 10 Part 2 — events and delivery controls
 
-`/account/notifications/preferences` controls optional product notices and marketing consent. Essential order/verification/account notices and transactional emails remain enabled; product subscriptions and marketing campaigns do not start from this screen. `/crm/notifications/delivery` shows bounded email-job views, full queue counts, SMTP health and active/deferred event coverage. SMTP acceptance is separate from inbox delivery. Uncertain sends have no automatic resend action.
+`/account/notifications/preferences` allows withdrawal of previously saved optional consent; the current UI offers no new opt-ins. Essential order/verification/account notices and transactional emails remain enabled. `/crm/notifications/delivery` shows bounded email-job views, full queue counts, SMTP health and active/deferred event coverage. SMTP acceptance is separate from inbox delivery. Uncertain sends have no automatic resend action.
 
 Current producers include order placement/confirmation/cancellation, verification/manual review, return requests, eligible inventory threshold crossings, email job failure and SMTP authentication failure. Durable per-recipient receipts prevent replay and preserve optional suppression. Existing email lease/backoff safeguards remain intact. Future fulfillment/RTO/moderation/support/settlement/product-subscription events stay deferred. See `PHASE_10_PART_2_AUDIT.md`.
 
@@ -159,3 +160,9 @@ The conversion reconciles two previously live-only migrations and a Phase 5 vers
 The public `/system` development showcase and its exclusive sample components, hooks, styles and unused scaffolding are retired. The homepage no longer promotes an inactive journal or newsletter signup; its closing section links to the working catalogue. Static room inspiration is labelled as such. Optional product ratings, aggregate-rating markup and the product-page review query are removed; product/offer metadata, pricing, stock and purchase controls remain.
 
 Marketing and product-subscription opt-in controls are not part of the current storefront. Existing consent records and guarded compatibility APIs remain, and `/account/notifications/preferences` lets customers withdraw previously enabled optional updates while essential order/account notices remain enabled. Account settings links to that same screen. No database migration or production-data deletion is included. Product images, email branding, animation dependencies, checkout safeguards and the single-owner access model are retained. See `docs/maintenance/part-3-storefront-cleanup.md`.
+
+## Final maintenance verification (Part 4)
+
+The four-part cleanup preserves the single owner and implemented shopping/account/notification workflows. Part 4 adds regression coverage and guards optional recent-search/recently-viewed persistence so blocked or full browser storage cannot interrupt shopping. No dependency, schema, consent, order, email or launch-setting change is included.
+
+The current audit and release/rollback procedure are in `docs/maintenance/part-4-final-verification.md`. It distinguishes verified maintenance work from remaining merchant acceptance, external-media/performance evidence, observability and backup gates. Completing this maintenance batch does not certify all future build phases or open checkout.

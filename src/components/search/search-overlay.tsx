@@ -48,7 +48,11 @@ function saveRecent(query: string) {
     cleaned,
     ...loadRecents().filter((item) => item.toLowerCase() !== cleaned.toLowerCase()),
   ].slice(0, 5);
-  window.localStorage.setItem(RECENTS_KEY, JSON.stringify(next));
+  try {
+    window.localStorage.setItem(RECENTS_KEY, JSON.stringify(next));
+  } catch {
+    // Saving optional history must not prevent search navigation.
+  }
 }
 
 export function SearchOverlay({ open, onOpenChange }: Props) {
@@ -255,7 +259,11 @@ export function SearchOverlay({ open, onOpenChange }: Props) {
             <button
               type="button"
               onClick={() => {
-                window.localStorage.removeItem(RECENTS_KEY);
+                try {
+                  window.localStorage.removeItem(RECENTS_KEY);
+                } catch {
+                  // Keep search usable when the browser denies storage access.
+                }
                 setRecents([]);
               }}
             >

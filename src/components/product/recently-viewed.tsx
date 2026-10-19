@@ -46,7 +46,11 @@ function parse(raw: string | null) {
 
 function hydrate() {
   if (hydrated || typeof window === "undefined") return;
-  snapshot = parse(window.localStorage.getItem(STORAGE_KEY));
+  try {
+    snapshot = parse(window.localStorage.getItem(STORAGE_KEY));
+  } catch {
+    snapshot = EMPTY;
+  }
   hydrated = true;
 }
 
@@ -73,7 +77,11 @@ function subscribe(listener: () => void) {
 function recordViewed(product: RecentProduct) {
   hydrate();
   snapshot = [product, ...snapshot.filter((item) => item.slug !== product.slug)].slice(0, 6);
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+  } catch {
+    // Optional browsing history must not interrupt the product or purchase controls.
+  }
   for (const listener of listeners) listener();
 }
 

@@ -1,12 +1,13 @@
 # DWELLUNE — Application Architecture
 
-## Pending Phase 7 account implementation
+## Current implementation and launch boundary
 
-Private account/auth routes, `/api/auth`, `/api/account`, a Next.js 16 session-refresh proxy and validated customer services/forms are prepared locally. Email actions remain gated by `AUTH_EMAIL_READY`. Recovery uses a private HMAC secret and a short-lived HttpOnly grant bound to the verified user/session.
+Private account/auth routes, `/api/auth`, `/api/account`, the Next.js 16 session-refresh proxy and validated customer services/forms are deployed. Recovery and email-change actions remain gated by `AUTH_EMAIL_READY`. Recovery uses a private HMAC secret and a short-lived HttpOnly grant bound to the verified user/session.
 
-Account reads/writes verify identity, active customer and live Auth session. The applied migration adds restrictive session policies and narrower customer column grants to protect staff notes and notification payloads. Existing Auth provisioners/email synchronization are reused. Browser session events hide stale private content and cancel commerce actions queued under an earlier identity. Background identity checks preserve form state. Order details show owned status history and exclude previously requested/excluded quantities from the return form. Notifications support all, unread, order, return and account filters. Nothing in this section claims a deployed Phase 7; `PHASE_7_AUDIT.md` tracks the acceptance blockers.
+Account reads/writes verify identity, active customer and live Auth session. Restrictive session policies and narrower customer column grants protect internal notes and notification payloads. Existing Auth provisioners/email synchronization are reused. Browser session events hide stale private content and cancel commerce actions queued under an earlier identity. Background identity checks preserve form state. Order details show owned status history and exclude previously requested/excluded quantities from the return form. Notifications support all, unread, order, return and account filters. Deployed code is distinct from real-account/inbox acceptance; the current launch gates are recorded in `docs/maintenance/part-4-final-verification.md`.
 
-**Status:** Phase 0 production baseline  
+**Status:** Maintained through single-owner conversion and storefront cleanup, 19 October 2026
+
 **Applies with:** `AI_INSTRUCTIONS.md`, `design.md`, `PROJECT_PLAN.md`, `PHASE_EXECUTION_TEMPLATE.md`, and `SECURITY.md`
 
 ## 1. Architectural Principle
@@ -49,7 +50,7 @@ Examples later:
 
 ### `(account)`
 
-Customer-owned authenticated surfaces once Supabase Auth is introduced.
+Customer-owned authenticated surfaces protected by Supabase Auth and database ownership checks.
 
 Examples later:
 
@@ -135,13 +136,13 @@ Rules:
 
 - components do not query Supabase directly by default
 - persistence queries are centralized by domain/use case
-- staff/customer authorization is enforced before private data is returned
+- owner/customer authorization is enforced before private data is returned
 - database result types are explicit
 - N+1 query patterns are reviewed
 - indexes follow real query patterns
 - service-role access never reaches the browser
 
-The concrete Supabase adapters will be introduced in Phase 1.
+Concrete adapters live in `src/server` and `src/lib/supabase`; authoritative multi-step commerce writes run in database RPCs.
 
 ## 7. Validation Boundary
 
@@ -214,7 +215,7 @@ Production styling follows `design.md`.
 - reusable component variants instead of duplicated class strings
 - no routine inline styles
 
-The Phase 0 global stylesheet establishes tokens, responsive shell behavior, focus treatment, and reduced-motion fallback only. Final reusable commerce components arrive in Phase 2.
+The global stylesheet establishes tokens, responsive shell behavior, focus treatment and reduced-motion fallbacks. Shared controls and domain components live in `src/components`.
 
 ## 12. Motion Architecture
 
@@ -317,7 +318,7 @@ Browser storage contains only guest wishlist IDs and a replayable legacy import 
 
 ## Phase 8 Part 1 checkout
 
-The checkout UI uses a private context endpoint and strict same-origin quote endpoint. Server session/customer checks resolve saved addresses; the database computes canonical totals through `checkout_quote`. Quotes expire and are invalidated by cart/contact/address changes. Checkout does not submit orders; Part 2 must repeat validation inside its atomic order transaction. See `PHASE_8_PART_1_AUDIT.md`.
+The checkout UI uses a private context endpoint and strict same-origin quote endpoint. Server session/customer checks resolve saved addresses; the database computes canonical totals through `checkout_quote`. Quotes expire and are invalidated by cart/contact/address changes. The deployed Part 2 order transaction repeats validation atomically, but production order submission remains closed by its release gate. See `PHASE_8_PART_1_AUDIT.md` and `PHASE_8_PART_2_AUDIT.md`.
 
 ## Phase 8 Part 2 prepared application
 
@@ -370,3 +371,9 @@ The product loader no longer queries reviews or serializes review summaries. The
 Notification settings are withdrawal-only in the current UI: no new marketing/product opt-ins are offered. The existing guarded endpoint is retained for deployment compatibility; the UI submits both optional flags as false and verifies the returned values. Pending writes are locked; uncertain results retry the same off-values. One stored optional consent existed at preflight and is preserved until that customer chooses to withdraw it. Essential notification rules, existing recipient ownership, Auth guards and all SQL remain unchanged.
 
 Hero animation ownership is isolated from the homepage editorial animator. Motion-mode changes revert hero text splits and clear interrupted child/filter state before showing the selected slide, preventing hidden content after a reduced-motion change.
+
+## Final maintenance verification — Part 4
+
+Optional recent-search and recently-viewed storage is best effort. Browser denial or quota failures must not throw through a product render, prevent keyboard search navigation, or block search controls. Recently viewed retains its bounded in-memory snapshot when persistence fails; authoritative cart, account and order data continue to use their existing server contracts.
+
+The final maintenance audit consolidates Parts 1–3, local regression evidence, live read-only database/job checks, release/rollback steps and remaining launch gates. Retained `staff` audiences/RPC names and the read-only rollout bridge are compatibility contracts, not staff-management features. Do not remove private archives, migration history, existing consent or operational receipts to simplify terminology. See `docs/maintenance/part-4-final-verification.md`.
