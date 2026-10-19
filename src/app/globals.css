@@ -257,47 +257,9 @@ main #categories [role="listitem"]:nth-child(5) img {
     letter-spacing: 0.12em;
   }
 
-  main section[aria-labelledby="notes-title"] > div,
   main section[aria-labelledby="why-title"] > div {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 0.75rem;
-  }
-
-  main section[aria-labelledby="notes-title"] > div > article {
-    min-width: 0;
-    grid-column: auto !important;
-    grid-row: auto !important;
-  }
-
-  main section[aria-labelledby="notes-title"] > div > article > div:first-child {
-    aspect-ratio: 1.08 !important;
-  }
-
-  main section[aria-labelledby="notes-title"] > div > article > div:last-child {
-    padding: 0.9rem 0.85rem 1rem;
-  }
-
-  main section[aria-labelledby="notes-title"] > div > article > div:last-child > span {
-    font-size: 0.48rem;
-    letter-spacing: 0.16em;
-  }
-
-  main section[aria-labelledby="notes-title"] > div > article h3 {
-    margin-top: 0.45rem;
-    font-size: clamp(1.25rem, 4.8vw, 1.6rem);
-    line-height: 1;
-  }
-
-  main section[aria-labelledby="notes-title"] > div > article p {
-    margin: 0.55rem 0 0;
-    font-size: 0.72rem;
-    line-height: 1.45;
-  }
-
-  main section[aria-labelledby="notes-title"] > div > article > div:last-child > svg {
-    position: static;
-    width: 1rem;
-    margin-top: 0.8rem;
   }
 
   main section[aria-labelledby="why-title"] > div > article {
@@ -358,25 +320,8 @@ main #categories [role="listitem"]:nth-child(5) img {
     letter-spacing: 0.1em;
   }
 
-  main section[aria-labelledby="notes-title"] > div,
   main section[aria-labelledby="why-title"] > div {
     gap: 0.5rem;
-  }
-
-  main section[aria-labelledby="notes-title"] > div > article > div:last-child {
-    padding: 0.75rem 0.65rem 0.85rem;
-  }
-
-  main section[aria-labelledby="notes-title"] > div > article h3 {
-    font-size: 1.15rem;
-  }
-
-  main section[aria-labelledby="notes-title"] > div > article p {
-    font-size: 0.66rem;
-  }
-
-  main section[aria-labelledby="notes-title"] > div > article > div:last-child > svg {
-    margin-top: 0.65rem;
   }
 
   main section[aria-labelledby="why-title"] > div > article {

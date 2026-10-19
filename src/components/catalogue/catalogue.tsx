@@ -29,7 +29,7 @@ function productPrice(product: CatalogueProduct) {
   return money.format(product.min_price_pkr);
 }
 
-export function ProductUnit({ product }: { product: CatalogueProduct }) {
+function ProductUnit({ product }: { product: CatalogueProduct }) {
   const image = productMediaUrl(product.primary_media_path);
   const material = product.materials[0] ?? product.material_summary ?? product.product_type;
   const href = `/products/${product.slug}` as Route;
@@ -78,7 +78,7 @@ export function ProductUnit({ product }: { product: CatalogueProduct }) {
   );
 }
 
-export type CatalogueViewProps = {
+type CatalogueViewProps = {
   eyebrow: string;
   title: string;
   description: string;

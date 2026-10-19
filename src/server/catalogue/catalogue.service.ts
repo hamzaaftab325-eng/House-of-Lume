@@ -49,11 +49,11 @@ const facetsSchema = z.object({
 });
 
 export type CatalogueCategory = z.infer<typeof categorySchema>;
-export type CatalogueCollection = z.infer<typeof collectionSchema>;
+type CatalogueCollection = z.infer<typeof collectionSchema>;
 export type CatalogueProduct = z.infer<typeof productSchema>;
 export type CatalogueFacets = z.infer<typeof facetsSchema>;
 
-export type CatalogueResult = {
+type CatalogueResult = {
   products: CatalogueProduct[];
   totalCount: number;
   categories: CatalogueCategory[];
@@ -74,7 +74,7 @@ function databaseError(scope: string, message: string) {
   return new Error(`Catalogue ${scope} failed: ${message}`);
 }
 
-export async function getCatalogueNavigation() {
+async function getCatalogueNavigation() {
   if (isCiPlaceholder) return { categories: [], collections: [] };
   const supabase = await createClient();
   const [categoriesResult, collectionsResult] = await Promise.all([
@@ -189,7 +189,7 @@ const suggestionDestinationSchema = z.object({
   description: z.string().nullable(),
 });
 
-export type SearchSuggestions = {
+type SearchSuggestions = {
   products: Array<z.infer<typeof suggestionProductSchema>>;
   categories: Array<z.infer<typeof suggestionDestinationSchema>>;
   collections: Array<z.infer<typeof suggestionDestinationSchema>>;

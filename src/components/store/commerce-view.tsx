@@ -180,7 +180,7 @@ export function CartContents({
     </div>
   );
 }
-export function CartSummary() {
+function CartSummary() {
   const commerce = useStoreCommerce();
   const [code, setCode] = useState("");
   const quote = commerce.data?.cart.quote;

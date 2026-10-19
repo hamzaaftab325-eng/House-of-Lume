@@ -1,17 +1,84 @@
-> Maintenance Part 3 scope — 19 October 2026: remove the public development showcase, inactive newsletter/journal previews, optional storefront review/ratings presentation and new marketing/product opt-ins. Preserve existing consent withdrawal and essential notifications. Historical schema/data stay intact. These optional features require a later explicit scope change before reintroduction. The accepted shopping experience and single-owner access remain protected.
-
-> Current scope override — 19 October 2026: operate with one owner admin. No staff accounts, role editor, permission matrix, staff activation or staff management route is planned. Historical completed phase descriptions retain prior terminology where they document existing contracts. Maintenance Part 2 converts those contracts to owner-only access without adding commerce features. Parts 3 (storefront cleanup) and 4 (final verification) remain separate.
-
-> Maintenance Part 4 — final verification, 19 October 2026: Parts 1–3 are deployed. This batch verifies the retained implementation, fixes optional browser-history failures and consolidates the release/rollback and launch-gate record in `docs/maintenance/part-4-final-verification.md`. No new feature, dependency, database migration or checkout enablement is included. Historical phase checklists below describe their original delivery dates; they are not a current inventory of removed demo components or proof that future CRM/fulfillment/settlement work is implemented. Live catalogue currently contains five published listings, including sample/test content; merchant product/order acceptance remains pending.
-
 # DWELLUNE — Production Build Plan
 
-**Status:** Approved planning baseline  
+**Status:** Active roadmap after completed four-part maintenance — 19 October 2026
+
 **Product:** Production ecommerce storefront + internal commerce CRM  
 **Payment model:** Cash on Delivery only at launch  
 **Design source of truth:** `design.md`  
 **Execution source of truth:** `AI_INSTRUCTIONS.md`  
 **Plan source of truth:** `PROJECT_PLAN.md`
+
+---
+
+# Current position and next work
+
+This is the current roadmap. Original phase numbers are preserved. The four maintenance parts are complete and are separate from build Phases 0–26. A checked implementation item means the code and stated regression checks exist; it does not establish real merchant, mailbox or launch acceptance. Future phase checklists remain unchecked until that phase is delivered and verified.
+
+## Completed maintenance
+
+| Part                   | Result                                                                                                           | Evidence                                                            |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| 1 — Baseline           | Inventory, regression baseline and recovery/drift findings recorded                                              | [Baseline](docs/maintenance/part-1-baseline.md)                     |
+| 2 — Single admin       | One owner authority; staff management and role/permission editing retired; records retained privately            | [Single owner](docs/maintenance/part-2-single-admin.md)             |
+| 3 — Storefront cleanup | Showcase, inactive newsletter/journal, ratings and new optional opt-ins retired; working shopping flows retained | [Storefront cleanup](docs/maintenance/part-3-storefront-cleanup.md) |
+| 4 — Final verification | Browser-storage reliability fixes; local, database, CI and production checks passed                              | [Final verification](docs/maintenance/part-4-final-verification.md) |
+
+Verified Part 4 release baseline: [`9a418ce`](https://github.com/hamzaaftab325-eng/House-of-Lume/commit/9a418ce541e9b2fa798fb4f5cf7175ff8c448837). [CI passed](https://github.com/hamzaaftab325-eng/House-of-Lume/actions/runs/39276828010). Vercel production deployment `dpl_5kPxnBTeazt2HKyPz5BnrzDiTSVw` is READY on [DWELLUNE](https://dwellune.vercel.app). These are the 19 October release observations, not a guarantee about future runtime state.
+
+Part 4 verification baseline: 196 application tests, 107 browser tests with local retries disabled, 24 isolated database scripts, 23 live HTTP/security checks, formatting, lint, strict TypeScript, production build and zero runtime dependency vulnerabilities. The full development-tool audit still has its documented exception in `SECURITY.md`.
+
+## Build-phase status
+
+| Phase                          | Current position                                                                                     | Remaining boundary                                                                                                           |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| 0 — Foundation                 | Implemented and regression verified                                                                  | Full production observability is a separate launch gate                                                                      |
+| 1 — Database/security          | Connected schema, RLS and single-owner conversion verified; 41 migrations match live history         | Existing advisor findings and full backup/restore acceptance remain recorded                                                 |
+| 2 — Storefront system          | Retained components and motion verified                                                              | Removed demonstration components are not requirements to rebuild                                                             |
+| 3 — Homepage                   | Accepted editorial design retained; real navigation destinations repaired                            | Shelf imagery/content is editorial, not a live product feed; connect approved real products during catalogue management work |
+| 4 — Catalogue/search           | Implemented; live browse/search/category/collection routes verified                                  | Five published listings include sample/test content; merchant catalogue acceptance remains pending                           |
+| 5 — Product details            | Implemented; variants, stock, price, media controls and Product/Offer metadata verified              | Ratings retired; external-image visual acceptance remains limited                                                            |
+| 6 — Cart/wishlist/reservations | Implemented; server ownership and expiry regression verified                                         | Real customer journey remains part of launch acceptance                                                                      |
+| 7 — Accounts                   | Core account/session/ownership code deployed and regression verified                                 | Real signup/sign-in/sign-out and hosted recovery/email-change inbox acceptance pending                                       |
+| 8 — COD checkout               | Atomic creation, quotes, confirmation, stock and idempotency implemented and regression verified     | **Production order gate remains OFF**; no real acceptance order has been placed                                              |
+| 9 — COD verification           | Owner queue, contact, confirmation/cancellation and policy/review controls implemented               | Live merchant order acceptance remains pending                                                                               |
+| 10 — Notifications             | Existing customer/owner inboxes, supported producers, withdrawal and delivery visibility implemented | Future fulfillment/return-decision/settlement events wait for their real workflows                                           |
+| 11 — Transactional email       | Five supported business-event email paths and durable retry/uncertainty handling implemented         | Real order/inbox and hosted Auth acceptance pending; future producers remain deferred                                        |
+| 12 — CRM foundation            | Owner access, basic workspace/navigation, verification and notification screens exist                | **Next milestone:** finish and verify the lean owner workspace scope below                                                   |
+| 13–18 — Operations modules     | Future build work; existing schema does not mean management UI is implemented                        | Build product/inventory, fulfillment, returns/RTO, settlement, customer and discount operations in order                     |
+| 19–26 — Reliability and launch | Some foundations exist and were rechecked during maintenance                                         | Verify the completed future workflows, remaining security/SEO/accessibility/performance and full launch acceptance           |
+
+## Scope that stays fixed
+
+- Exactly one owner admin. No staff directory, invitations, role editor, permission matrix or staff activation workflow.
+- Preserve owner/customer identity separation, essential notifications, commerce history, receipts, existing consent and private access archives.
+- Keep legacy `staff` audience/RPC/actor names only where required for compatibility; they do not create additional administrators.
+- No public `/system`, newsletter signup, House Notes/journal preview, ratings/reviews UI or new marketing/product-subscription opt-ins.
+- Review moderation, campaigns, abandoned-cart recovery, command palettes and advanced analytics are outside the current lean implementation sequence unless explicitly requested. Existing schema/history is preserved.
+- COD only. No online payment gateway. Refund instructions do not add a payment integration.
+- Preserve the accepted brand, storefront layout and motion. Extend shared patterns only when a real retained workflow needs them.
+
+## Next execution sequence
+
+1. **Phase 12 — finish the owner CRM foundation.** Reuse the existing owner authority and operational screens. Confirm the minimal navigation and usable workspace states; expose only working destinations. Do not turn this phase into product, shipping, analytics or staff-management implementation.
+2. **Phase 13 — product, collection and inventory management.** Enable the owner to manage real catalogue/variant/media/pricing/stock data and connect selected real homepage products without redesigning the accepted storefront.
+3. **Phases 14–16 — operational completion.** Implement validated fulfillment/delivery, returns/RTO and COD reconciliation, adding their essential notification/email producers with their actual workflows.
+4. **Phases 17–18 — core customer and discount operations.** Reuse existing ownership/history and discount validation; optional retention/reviews remain excluded.
+5. **Phases 19–26 — remaining reliability, security and launch acceptance.** Reuse existing jobs/tests/deployment; complete the remaining evidence and merchant journeys before launch sign-off.
+
+For each approved phase: show its checklist, implement one coherent batch, verify locally, update evidence and make at most one final production push. Do not begin the next phase just because this roadmap lists it. The roadmap update is included in the requested Phase 12 preparation/cleanup batch; Phase 12 workspace implementation remains the next separately directed step. See [preparation evidence](docs/maintenance/phase-12-preparation.md).
+
+## Launch gates still open
+
+- [ ] Owner-approved real products, inventory, delivery/COD rules and operating process.
+- [ ] Controlled real guest/customer order → owner verification → essential notification/email → mailbox acceptance after the required operational scope is ready.
+- [ ] Real account and hosted password recovery/email-change callback/inbox acceptance; keep readiness flags gated until accepted.
+- [ ] Full database/Auth/Vault backup availability and restore rehearsal. The prior scoped access checkpoint is not a full disaster-recovery backup.
+- [ ] Resolve or explicitly assess the recorded security/tooling findings; keep default-deny private storage and protective indexes intact.
+- [ ] Production observability access: the connected Vercel runtime-error query returned 403; clean logs are not established.
+- [ ] External-image visual acceptance, full manual accessibility/device checks and field p75 LCP/INP/CLS evidence.
+- [ ] Explicit launch sign-off before changing `checkout.orders_enabled` from false.
+
+Checkout was still disabled at the latest post-release check. No plan update enables it or changes production data. See the Part 4 audit for exact evidence and limitations. Historical phase audits remain unchanged.
 
 ---
 
@@ -24,7 +91,7 @@ It is not a prototype. It must be capable of real customer ordering, real invent
 The product contains two connected systems:
 
 1. **Customer Storefront** — discovery, shopping, cart, COD checkout, order tracking, account, notifications.
-2. **Internal CRM / Commerce Operations** — products, inventory, orders, COD verification, delivery tracking, RTO, customers, notifications, reviews, returns, analytics, audit logs, settings.
+2. **Internal CRM / Commerce Operations** — products, inventory, orders, COD verification, delivery tracking, RTO, customers, notifications, returns, essential reporting, audit logs and settings. Optional review/retention modules are excluded from the current roadmap.
 
 ---
 
@@ -208,6 +275,8 @@ No phase is 100% complete until applicable checks pass.
 
 # 5. Phase 0 — Repository, Architecture & Engineering Foundation
 
+**Status:** Foundation implemented and reverified during maintenance. Defining the logging boundary does not establish complete production monitoring; that remains an open launch gate.
+
 ## Goal
 
 Create a production-quality base that later phases do not need to rewrite.
@@ -216,53 +285,53 @@ Create a production-quality base that later phases do not need to rewrite.
 
 ### Repository foundation
 
-- [ ] Initialize Next.js App Router
-- [ ] Configure strict TypeScript
-- [ ] Configure Tailwind CSS
-- [ ] Configure ESLint
-- [ ] Configure formatting rules
-- [ ] Add `.editorconfig`
-- [ ] Add `.gitignore`
-- [ ] Add `.env.example`
-- [ ] Add environment validation
-- [ ] Add project README
-- [ ] Preserve `design.md`
-- [ ] Preserve `AI_INSTRUCTIONS.md`
-- [ ] Preserve `PROJECT_PLAN.md`
+- [x] Initialize Next.js App Router
+- [x] Configure strict TypeScript
+- [x] Configure Tailwind CSS
+- [x] Configure ESLint
+- [x] Configure formatting rules
+- [x] Add `.editorconfig`
+- [x] Add `.gitignore`
+- [x] Add `.env.example`
+- [x] Add environment validation
+- [x] Add project README
+- [x] Preserve `design.md`
+- [x] Preserve `AI_INSTRUCTIONS.md`
+- [x] Preserve `PROJECT_PLAN.md`
 
 ### Architecture
 
-- [ ] Define storefront route groups
-- [ ] Define account route group
-- [ ] Define CRM/admin route group
-- [ ] Define server/client component boundaries
-- [ ] Define data-access architecture
-- [ ] Define service/domain layer pattern
-- [ ] Define error handling pattern
-- [ ] Define logging pattern
-- [ ] Define API/action validation pattern
+- [x] Define storefront route groups
+- [x] Define account route group
+- [x] Define CRM/admin route group
+- [x] Define server/client component boundaries
+- [x] Define data-access architecture
+- [x] Define service/domain layer pattern
+- [x] Define error handling pattern
+- [x] Define logging pattern
+- [x] Define API/action validation pattern
 
 ### Styling
 
-- [ ] Implement design tokens from `design.md`
-- [ ] Configure fonts
-- [ ] Create base typography
-- [ ] Create base focus styles
-- [ ] Create responsive container utilities
-- [ ] Create motion/reduced-motion foundation
+- [x] Implement design tokens from `design.md`
+- [x] Configure fonts
+- [x] Create base typography
+- [x] Create base focus styles
+- [x] Create responsive container utilities
+- [x] Create motion/reduced-motion foundation
 
 ### Testing
 
-- [ ] Configure test runner
-- [ ] Configure E2E framework
-- [ ] Add smoke test
+- [x] Configure test runner
+- [x] Configure E2E framework
+- [x] Add smoke test
 
 ### Build gate
 
-- [ ] Lint passes
-- [ ] TypeScript passes
-- [ ] Tests pass
-- [ ] Production build passes
+- [x] Lint passes
+- [x] TypeScript passes
+- [x] Tests pass
+- [x] Production build passes
 
 ---
 
@@ -347,7 +416,7 @@ Build the real commerce schema before hardcoding product/business logic into UI.
 - [x] Single owner assignment (Part 2)
 - [x] Example customers/orders for development
 
-**Phase 1 status: 100% complete.**
+**Phase 1 status:** Schema/security foundation implemented and regression verified. Maintenance Part 2 supplies the current owner model; remaining advisor and backup gates are listed in the current-position summary.
 
 ---
 
@@ -365,24 +434,18 @@ Translate `design.md` into reusable production components.
 - [x] DwelluneLink
 - [x] IconButton
 - [x] DwelluneLine
-- [x] ProductStage
+- [x] Product image/object-stage patterns in catalogue and product details
 - [x] ProductUnit
-- [x] ShelfGrid
-- [x] SplitPlane
-- [x] CropWindow
-- [x] EditorialChapter
-- [x] MaterialStory
-- [x] RoomStory
-- [x] SearchOverlay shell
+- [x] Shared shelf/grid product presentation
+- [x] Working SearchOverlay with suggestions, keyboard navigation and recent-search fallback
 - [x] Drawer
 - [x] Dialog
-- [x] Accordion
-- [x] Tabs
 - [x] Inputs
 - [x] Selects
-- [x] Checkbox/radio
-- [x] StatusBadge
+- [x] Used checkbox controls; unused radio demo retired
 - [x] Toast system
+
+Unused showcase-only components and wrappers were retired in maintenance Part 3. Reusable patterns are design guidance, not requirements to recreate deleted demo code.
 
 ## Store shell
 
@@ -398,10 +461,10 @@ Translate `design.md` into reusable production components.
 ## Motion infrastructure
 
 - [x] GSAP registration
-- [x] ScrollTrigger lifecycle helpers
+- [x] ScrollTrigger integration and cleanup in retained components
 - [x] Lenis integration
 - [x] Motion/Framer Motion boundaries
-- [x] SplitType helper
+- [x] SplitType integration in retained motion; unused showcase wrapper retired
 - [x] Reduced-motion mode
 - [x] Route cleanup
 - [x] Responsive motion behavior
@@ -417,7 +480,7 @@ Translate `design.md` into reusable production components.
 - [x] Store shell and design-system interaction coverage passes
 - [x] Responsive no-horizontal-overflow checks pass across the supported viewport set
 
-**Phase 2 status: 100% complete.**
+**Phase 2 status:** Retained component/system implementation and recorded regression complete; deleted showcase components stay retired.
 
 ---
 
@@ -448,14 +511,13 @@ Create and ship the premium DWELLUNE homepage and brand-storytelling experience.
 
 ## Deferred to later phases
 
-These items are intentionally scheduled for later implementation when their supporting commerce systems exist:
+The live catalogue/category/collection destinations are implemented. The accepted homepage product shelf is still editorial preview content. Only approved real catalogue wiring belongs in the upcoming product-management work:
 
 - Real Supabase-backed homepage product and collection data
 - Dedicated live New Arrivals data feed
 - Customer reviews/social proof: outside current scope after maintenance Part 3
 - Newsletter/marketing capture: outside current scope after maintenance Part 3
-- Final catalogue/category routes and commerce destination wiring
-- Any additional dedicated editorial chapters that become useful once real catalogue content exists
+- Preserve working catalogue/category/collection destinations; no additional editorial chapter is required
 
 ## Motion
 
@@ -475,13 +537,13 @@ These items are intentionally scheduled for later implementation when their supp
 - [x] Playwright end-to-end tests pass
 - [x] Responsive no-horizontal-overflow checks pass across the supported viewport set
 
-**Phase 3 status: 100% complete for the accepted homepage scope.**
+**Phase 3 status:** Accepted homepage scope implemented and regression verified; real product-feed wiring and external-media acceptance remain as stated above.
 
 ---
 
 # 9. Phase 4 — Catalogue, Collections, Search & Discovery
 
-**Status:** ✅ Complete — production catalogue, collections, URL-synchronized filtering/sorting, and search/discovery were implemented and verified on 2026-10-13. The connected production project currently has no published products, so the verified live storefront correctly renders the production empty state without fabricated catalogue data.
+**Status:** Implemented and regression verified. Live catalogue/search/category/collection routes were rechecked during maintenance Part 4. The latest database check has five published listings, including sample/test content; real sellable catalogue acceptance is pending.
 
 ## Catalogue
 
@@ -527,17 +589,17 @@ These items are intentionally scheduled for later implementation when their supp
 - [x] Unit tests pass
 - [x] Production build passes
 - [x] Playwright regression and Phase 4 E2E coverage passes
-- [x] Vercel preview build succeeds
+- [x] Latest maintenance production release and canonical catalogue routes verified; no new preview is required
 
 See `PHASE_4_AUDIT.md` for the complete evidence-based audit.
 
-**Phase 4 status: 100% complete.**
+**Phase 4 status:** Catalogue/discovery implementation and regression verified; merchant real-product acceptance remains open.
 
 ---
 
 # 10. Phase 5 — Product Detail Experience
 
-**Status:** ✅ Complete — the production Product Detail Experience was implemented and verified on 2026-10-13. The connected production catalogue currently has no published products, so no fake production PDP content was introduced; deterministic CI-only fixtures and rolled-back live Supabase probes verify behavior and authorization.
+**Status:** Implemented and regression verified. Real published product routes and Product/Offer metadata were checked during maintenance Part 4. Local fixtures and isolated SQL tests verify variants/stock/ownership; merchant acceptance and full external-image visual checks remain separate.
 
 - [x] Product gallery
 - [x] Optimized media
@@ -570,7 +632,7 @@ See `PHASE_4_AUDIT.md` for the complete evidence-based audit.
 - [x] Live anonymous RLS verifies published-variant visibility and draft-variant denial
 - [x] Live inventory-reservation probe verifies available quantity and in-stock state update through the projection trigger
 - [x] Public COD configuration and shipping estimate rule are consumed from the existing production data model
-- [x] Bag/wishlist handoff is device-local and explicitly non-authoritative; full cart/wishlist/reservation ownership remains Phase 6
+- [x] Bag/wishlist controls use the Phase 6 server-owned commerce contracts; browser data is not authoritative
 - [x] Catalogue and predictive search product destinations connect to the PDP
 - [x] Product-detail unit tests pass
 - [x] Product-detail Playwright E2E coverage passes
@@ -582,12 +644,12 @@ See `PHASE_4_AUDIT.md` for the complete evidence-based audit.
 - [x] Unit tests pass
 - [x] Production build passes
 - [x] Full Playwright Chromium suite passes
-- [x] Exact-head Vercel preview build reaches READY
-- [x] Supabase security advisor reports zero security lints
+- [x] Latest maintenance production deployment reaches READY on the exact tested SHA
+- [x] Current Supabase RLS/grants and advisor findings reviewed; existing warnings/default-deny notices are recorded in the Part 4 audit
 
 See `PHASE_5_AUDIT.md` for the complete evidence-based audit.
 
-**Phase 5 status: 100% complete for Product Detail Experience implementation and verification.**
+**Phase 5 status:** Product-detail implementation and recorded regression complete; real catalogue and external-media acceptance remain separate.
 
 ---
 
@@ -641,36 +703,35 @@ See `PHASE_5_AUDIT.md` for the complete evidence-based audit.
 
 Guest wishlist IDs persist on this device; signed-in wishlist data persists in Supabase and merges on authentication. Guest carts use a 256-bit HttpOnly token whose SHA-256 digest isolates their database rows. Cart mutations revalidate canonical catalogue values. Inventory holds last the configured reservation period (30 minutes by default), refresh on cart mutations, and are released on removal/reduction/expiry. The scheduled database cleanup runs every five minutes. Cart retention is 30 days by default. Limits: 30 distinct cart variants, 99 units per variant, 50 wishlist entries.
 
-The authentication interface remains Phase 7. Address-specific shipping, final checkout, COD order creation and checkout idempotency remain Phase 8; cart delivery amounts are estimates. The cart honestly states that order placement is not open yet. No payment gateway or placeholder order flow was added.
+Authentication is deployed through Phase 7. Phase 8 supplies address-specific quotes and gated atomic order creation/confirmation; cart delivery amounts remain estimates. Production checkout stays closed. No online payment gateway is introduced.
 
 See `PHASE_6_AUDIT.md` for evidence and operational boundaries.
 
-**Phase 6 status: 100% complete for Cart, Wishlist & Inventory Reservation implementation and verification.**
+**Phase 6 status:** Cart, wishlist and reservation implementation/regression complete; full real-customer launch acceptance remains open.
 
 ---
 
 # 12. Phase 7 — Authentication & Customer Account
 
-**Scope correction (14 October 2026):** Owner requests immediate password signup without verification email. Hosted Supabase Confirm Email must be OFF; signup installs a real session and redirects to account. Recovery and email changes remain secure email flows. Live signup acceptance is pending the provider toggle. The historical verification checklist below describes the earlier scope.
+**Status:** Core account implementation is deployed and regression verified. Signup uses the owner's immediate-password/no-verification-email model; provider configuration and real signup acceptance must still be verified. Recovery/email-change code remains gated until hosted SMTP/callback and real inbox acceptance pass. See `PHASE_7_AUDIT.md` and the current Part 4 acceptance record.
 
-**Status:** Implementation prepared and migration applied once on 2026-10-14. Verified: 39 unit/route tests, 52 browser tests, 13 populated account database test groups, 15 cart/wishlist regression groups, privilege/session boundaries and post-apply advisors. JazzCash/bank refund instructions and an owner-authorized test product are configured. The owner requested production release for live acceptance; real Gmail links and signed-in UI checks remain pending owner confirmation. See `PHASE_7_AUDIT.md`.
+## Implemented account scope
 
-- [ ] Sign up
-- [ ] Sign in
-- [ ] Sign out
-- [ ] Email verification if enabled
-- [ ] Password reset
-- [ ] Session handling
-- [ ] Profile
-- [ ] Address book
-- [ ] Order history
-- [ ] Order detail
-- [ ] Wishlist sync
-- [ ] Notification center
-- [ ] Notification preferences
-- [ ] Return requests
-- [ ] Account settings
-- [ ] Secure ownership authorization
+- [x] Password signup flow with provider preflight and session installation
+- [x] Sign in/sign out and live-session handling
+- [x] Profile and address book
+- [x] Owned order history/detail and wishlist sync
+- [x] Notification center and withdrawal-only optional consent screen
+- [x] Return-request and account-settings flows
+- [x] Server/database ownership authorization and private no-store responses
+- [x] Gated recovery/email-change implementation and safe invalid-link handling
+
+## Remaining acceptance
+
+- [ ] Real signup/sign-in/sign-out and account flows against the intended hosted provider settings
+- [ ] Hosted password reset/recovery and email-change callback/inbox acceptance before email readiness is enabled
+
+Verification email at signup is excluded by owner instruction. No new marketing/product opt-ins are required.
 
 Guest COD checkout should remain possible unless business rules later require an account.
 
@@ -678,7 +739,7 @@ Guest COD checkout should remain possible unless business rules later require an
 
 # 13. Phase 8 — COD Checkout & Order Creation
 
-Part 1 implements checkout details and validated quotes. Part 2 order submission, confirmation and notification implementation is prepared locally; release remains blocked by operator, transactional email, real product and live acceptance gates. See `PHASE_8_PART_2_AUDIT.md`. See `PHASE_8_PART_1_AUDIT.md` for evidence and acceptance limits. No orders can be submitted in Part 1.
+**Status:** Checkout details, validated quotes, atomic order submission/confirmation and supported notifications/email queue are deployed and regression verified. The production order gate remains closed pending real catalogue, operational and mailbox acceptance. The checkboxes below describe implementation/isolated regression, not live-order acceptance. See `PHASE_8_PART_1_AUDIT.md`, `PHASE_8_PART_2_AUDIT.md` and the Part 4 audit.
 
 ## Checkout
 
@@ -697,29 +758,29 @@ Part 1 implements checkout details and validated quotes. Part 2 order submission
 
 ## Server validation before order creation
 
-Quote-time recalculation is implemented in Part 1 and repeated in the Part 2 order transaction. Items below remain unchecked until the gated application is released and live acceptance passes.
+Quote-time recalculation is implemented in Part 1 and repeated atomically in the deployed Part 2 transaction. SQL/browser regression verifies the paths below; the separate real-order launch gate remains open.
 
-- [ ] Re-fetch product/variant state
-- [ ] Recalculate prices
-- [ ] Recalculate discounts
-- [ ] Recalculate delivery fee
-- [ ] Validate stock
-- [ ] Validate COD eligibility
-- [ ] Validate customer/order limits
-- [ ] Idempotency key
+- [x] Re-fetch product/variant state
+- [x] Recalculate prices
+- [x] Recalculate discounts
+- [x] Recalculate delivery fee
+- [x] Validate stock
+- [x] Validate COD eligibility
+- [x] Validate customer/order limits
+- [x] Idempotency key
 
 ## Order result
 
-- [ ] Create order transactionally
-- [ ] Create order items snapshot
-- [ ] Create address snapshot
-- [ ] Create initial status history
-- [ ] Reserve inventory
-- [ ] Create COD verification record if needed
-- [ ] Create customer notification
-- [ ] Create staff notification
-- [ ] Queue confirmation email
-- [ ] Confirmation page
+- [x] Create order transactionally
+- [x] Create order items snapshot
+- [x] Create address snapshot
+- [x] Create initial status history
+- [x] Reserve inventory
+- [x] Create COD verification record if needed
+- [x] Create customer notification
+- [x] Create owner-admin notification
+- [x] Queue confirmation email
+- [x] Confirmation page
 
 ---
 
@@ -727,11 +788,11 @@ Quote-time recalculation is implemented in Part 1 and repeated in the Part 2 ord
 
 - [x] Configurable verification requirement
 - [x] Verification status
-- [x] Staff verification queue
+- [x] Owner-admin verification queue
 - [x] Customer contact workflow (manual app links and actual outcome recording)
-- [x] Verification notes (staff-only)
+- [x] Verification notes (owner-only)
 - [x] Attempt tracking
-- [x] Verified by staff
+- [x] Verified by owner admin
 - [x] Verified timestamp
 - [x] Reject/cancel flow (before shipment/collection)
 - [x] Stock release on rejection/cancellation
@@ -779,7 +840,7 @@ Part 1 implementation and rollback evidence are recorded in `PHASE_9_PART_1_AUDI
 
 ## CRM notification center
 
-- [x] Staff unread badge
+- [x] Owner-admin unread badge
 - [x] Operational categories
 - [x] Priority handling
 - [x] Entity links
@@ -801,7 +862,7 @@ Part 1 implementation and rollback evidence are recorded in `PHASE_9_PART_1_AUDI
 - [ ] RTO update where appropriate
 - [ ] Back-in-stock when implemented
 
-## Staff events
+## Owner-admin events
 
 - [x] New COD order
 - [x] Verification required
@@ -811,8 +872,8 @@ Part 1 implementation and rollback evidence are recorded in `PHASE_9_PART_1_AUDI
 - [ ] Delivery failure
 - [ ] RTO initiated
 - [x] Return request
-- [ ] Review requiring moderation
-- [ ] Support escalation
+      Review/moderation and support-escalation producers are excluded from the current lean scope; retained registry entries do not schedule their implementation.
+
 - [ ] Settlement discrepancy
 - [x] Existing email job failure and SMTP-health alerts
 - [ ] Other background jobs when their producers exist
@@ -838,7 +899,6 @@ Use the owner-selected Gmail SMTP adapter for transactional email. Reconsider a 
 - [x] Return request received
 - [ ] Return decision
 - [ ] Password/account emails where applicable
-- [ ] Abandoned cart reminder if enabled
 
 Reliability:
 
@@ -854,42 +914,86 @@ Phase 11 Parts 1–2 implement branded receipts and supported event-email jobs f
 
 # 17. Phase 12 — CRM Foundation & Owner Access
 
-## Access
+**Status:** Partially implemented. Owner security and the current operational workspace are deployed. The remaining foundation is the next development milestone; completing it does not implement every future CRM module.
+
+## Existing foundation — retain
 
 - [x] One owner Auth identity and live-session checks (maintenance Part 2)
-- [x] Owner-only route/API/database authorization
-- [x] Retire staff directory, role/permission management and activation workflows
-- [x] Preserve former access records privately for recovery
+- [x] Owner-only route/API/database authorization; customer accounts cannot promote themselves
+- [x] Retired staff directory, role/permission management and activation workflows
+- [x] Former access records retained privately for recovery
+- [x] `/crm` owner workspace with working verification and notification entry points
+- [x] Shared authenticated header/navigation, owner identity, sign-out and session invalidation
+- [x] `/crm/verification` and owned order verification detail
+- [x] `/crm/verification/settings` policy/review rules
+- [x] `/crm/notifications` operational inbox and unread badge
+- [x] `/crm/notifications/delivery` bounded delivery status and event registry
+- [x] Current admin responsive, keyboard, API-authorization and revoked-session regression
 
-## CRM shell
+## Remaining Phase 12 checklist
 
-- [ ] Navigation rail
-- [ ] Utility header
-- [ ] Command/search interface
-- [ ] Notification center
-- [ ] Responsive admin behavior
+- [ ] Finalize the lean CRM navigation/landing-page scope using the existing brand and shared controls; retain working destinations only.
+- [ ] Review navigation consistency and active-location/context across the existing verification, policy, inbox and delivery screens.
+- [ ] Verify loading, empty, error, forbidden, stale-session and retry behavior across that finalized workspace.
+- [ ] Verify keyboard/focus and small-mobile/tablet/desktop navigation for any foundation changes.
+- [ ] Complete focused API/database regression plus the full required quality/build gate for the final batch.
+- [ ] Update the Phase 12 audit with implemented scope, remaining launch gates and rollback; verify the single final production release.
 
-## Primary routes
+These are remaining scope/review gates, not findings that the existing screens are broken. Keep this phase small. A decorative dashboard, command palette, new analytics, side rail for its own sake or links to unimplemented screens are not prerequisites.
 
-- [ ] Dashboard
-- [ ] Orders
-- [ ] Customers
-- [ ] Products
-- [ ] Collections
-- [ ] Inventory
-- [ ] Discounts
-- [ ] Abandoned carts
-- [ ] Reviews
-- [ ] Returns
-- [ ] Notifications
-- [ ] COD reconciliation
-- [ ] Analytics
-- [ ] Audit logs
-- [ ] Settings
+## Phase 12 execution plan
+
+Implement one coherent workspace batch after preparation is accepted. Use the existing owner context, verified session guard, notification services and shared controls. No new database migration, role system or package is expected for this foundation; reassess only if a concrete implementation requirement appears.
+
+### 1. Shared navigation and orientation
+
+- [ ] Reuse the current header, owner identity, sign-out and account link.
+- [ ] Provide clear destinations for Overview (`/crm`), COD verification (`/crm/verification`), Verification rules (`/crm/verification/settings`), Notifications (`/crm/notifications`) and Delivery status (`/crm/notifications/delivery`).
+- [ ] Give the active destination a visible treatment and `aria-current="page"`; nested order detail belongs to verification, while rules and delivery use their more specific destinations.
+- [ ] Keep future product/order/customer/analytics routes absent until their real modules exist.
+- [ ] Keep navigation usable on mobile without a new decorative side rail or command palette. Use shared tokens and classes; introduce a small client boundary only for actual active-route interaction.
+
+### 2. Owner landing page
+
+- [ ] Make the existing operational entry points easy to find, including rules and delivery status.
+- [ ] Keep checkout readiness explicit and truthful. No fabricated sales, order totals or analytics cards.
+- [ ] Use existing data only if it helps an actual owner action; do not add a metrics/data-fetch layer just to fill the page.
+
+### 3. State and access safeguards
+
+- [ ] Preserve server-side owner checks, customer/owner separation, private no-store responses and live-session invalidation.
+- [ ] Review signed-out/customer-denied, revoked-session, network-error, empty, loading and retry states across each working destination.
+- [ ] Preserve verification/policy immutable retries, scoped notifications, existing consent withdrawal and email uncertainty handling.
+- [ ] Keep checkout and Auth email readiness gated; no real test order, new administrator or outgoing test email is part of the shell work.
+
+### 4. Acceptance and release
+
+- [ ] Add a stable navigation/main-content focus path, visible keyboard focus and accessible current-location labels; test at 320, 375, 768, 1024 and 1440px.
+- [ ] Test direct links and nested routes, sign-out/session loss, shared navigation, empty/error states and the retained verification/inbox/delivery flows.
+- [ ] Run formatting, zero-warning lint, strict TypeScript, relevant application/database checks, full browser regression, dependency audit and production build.
+- [ ] Record a Phase 12 audit/rollback target; make one final production push and verify CI, exact SHA, READY alias and live smoke checks.
+
+Primary files to review are `src/app/(crm)/crm/layout.tsx`, `src/app/(crm)/crm/page.tsx`, CRM loading/error boundaries, `src/components/admin`, and existing admin browser tests. Extract only shared shell code actually needed; leave owner authorization and business services in their existing modules. Completion means the retained owner workspace is coherent and verified, not that Phases 13–18 are built.
+
+## Module ownership after the foundation
+
+| Work                                                            | Planned phase |
+| --------------------------------------------------------------- | ------------- |
+| Products, collections, media, variants and inventory management | 13            |
+| General orders, fulfillment and delivery attempts               | 14            |
+| Return decisions and RTO operations                             | 15            |
+| COD settlement/reconciliation                                   | 16            |
+| Customer management and timeline                                | 17            |
+| Discount management                                             | 18            |
+| Essential reporting and later cross-cutting launch gates        | 19–26         |
+
+Do not move these entire modules into Phase 12. The owner will manage all retained modules through the same single authority as they are built.
 
 ---
 
 # 18. Phase 13 — Product, Collection & Inventory Management
+
+**Status:** Owner-management workflows are future work. Reuse the existing catalogue/schema, stock projections, reservation ledger and threshold-notification producers. These unchecked items concern management UI and its verified integration, not recreating existing data infrastructure. Real homepage product selection/wiring belongs to this phase while preserving the accepted layout.
 
 - [ ] Create product
 - [ ] Edit product
@@ -915,6 +1019,8 @@ Phase 11 Parts 1–2 implement branded receipts and supported event-email jobs f
 ---
 
 # 19. Phase 14 — Order Operations, Fulfillment & Delivery Attempts
+
+**Status:** General order/fulfillment workspace is future work. Existing COD verification contact, confirmation, eligible cancellation and stock-release safeguards remain implemented; reuse their transactions and authority rather than adding parallel transitions.
 
 ## Order workspace
 
@@ -974,7 +1080,7 @@ All status transitions must be validated server-side and logged.
 - [ ] Return reason
 - [ ] Return items/quantity
 - [ ] Eligibility validation
-- [ ] Staff review
+- [ ] Owner-admin review
 - [ ] Approve/reject
 - [ ] Return shipment/reference if used
 - [ ] Received inspection
@@ -1000,17 +1106,19 @@ Track physical COD cash independently from delivery status.
 - [ ] Reconciliation status
 - [ ] Difference amount
 - [ ] Discrepancy reason
-- [ ] Staff notes
+- [ ] Owner-admin notes
 - [ ] Attach/reference settlement document if required
 - [ ] Reconciled by
 - [ ] Reconciled timestamp
 - [ ] Audit log
-- [ ] Staff notification on discrepancy
+- [ ] Owner-admin notification on discrepancy
 - [ ] Settlement reporting
 
 ---
 
 # 22. Phase 17 — Customer Management & CRM Timeline
+
+**Status:** Owner-facing customer management is future work. Customer self-service profile/addresses/owned orders already exist and are not being rebuilt in this phase.
 
 - [ ] Customer profile
 - [ ] Contact details
@@ -1035,61 +1143,46 @@ Do not expose internal risk notes to customers.
 
 ---
 
-# 23. Phase 18 — Discounts, Reviews, Retention & Abandoned Carts
+# 23. Phase 18 — Discount Management
 
-## Discounts
+**Status:** Future owner-management UI. Existing server-side customer discount validation remains implemented and must be preserved.
 
-- [ ] Code creation
+- [ ] Owner-only code creation/editing and safe activation/deactivation
 - [ ] Validity window
 - [ ] Usage limits
 - [ ] Customer eligibility
 - [ ] Product/category eligibility
 - [ ] Minimum spend
-- [ ] Server-side validation
+- [ ] Reuse canonical server-side validation and existing redemption safeguards
+- [ ] Audit attribution, invalid/expired states and ownership/regression checks
 
-## Reviews
-
-- [ ] Review submission
-- [ ] Eligibility policy
-- [ ] Rating
-- [ ] Text
-- [ ] Moderation
-- [ ] Published/unpublished
-- [ ] Report handling
-
-## Abandoned carts
-
-- [ ] Abandonment definition
-- [ ] Cart capture
-- [ ] Reminder eligibility
-- [ ] Reminder scheduling
-- [ ] Stop reminders after order
-- [ ] Notification/email logging
+Reviews/ratings, moderation, marketing campaigns and abandoned-cart reminder/recovery UI are excluded from the current implementation sequence. Their historical schema/records are not deleted, and they are not unchecked mandatory launch work. Reintroducing them requires an explicit scope change.
 
 ---
 
 # 24. Phase 19 — Background Jobs & Automation Reliability
 
-- [ ] Job architecture chosen
-- [ ] Email jobs
-- [ ] Notification jobs
-- [ ] Abandoned-cart jobs
-- [ ] Verification reminder jobs
-- [ ] Low-stock alert jobs
+**Status:** Existing cron, email queue, leases/backoff and private job storage are already implemented. This phase extends/verifies reliability for later operational workflows, rather than rebuilding those foundations.
+
+- [x] Existing job architecture chosen and deployed
+- [x] Supported-event email jobs and bounded retry/uncertainty handling
+- [x] Current transactional notification producers and recipient dedupe
+- [x] Current inventory threshold alerts (event-driven; do not add a duplicate scanner)
 - [ ] Delivery follow-up jobs if required
-- [ ] Settlement reminder jobs
-- [ ] Idempotency
-- [ ] Retry policy
+- [ ] Verify idempotency across all newly completed operational producers
+- [ ] Verify retry policy across new producers while preserving current worker safeguards
 - [ ] Failure tracking
 - [ ] Manual retry path
 - [ ] Dead-letter/manual review strategy where needed
-- [ ] Job observability
+- [ ] Complete production job observability and failure acceptance
 
 No critical job may depend on a user keeping a browser page open.
 
 ---
 
 # 25. Phase 20 — Analytics & Reporting
+
+Keep reporting limited to trustworthy operational totals from implemented order, stock and settlement workflows. The metric checklist is evaluated within this phase; it does not authorize advanced forecasting, tracking products or an expanded analytics suite. No fabricated metrics are shown before their source workflows exist.
 
 ## Store metrics
 
@@ -1104,7 +1197,6 @@ No critical job may depend on a user keeping a browser page open.
 - [ ] Product/category performance
 - [ ] Customer growth
 - [ ] Repeat customer rate
-- [ ] Abandoned cart recovery
 - [ ] Discount performance
 - [ ] Return rate
 
@@ -1143,7 +1235,6 @@ No critical job may depend on a user keeping a browser page open.
 - [ ] Product/collection indexing strategy
 - [ ] 404
 - [ ] Redirect strategy
-- [ ] Journal/content architecture if included
 
 ---
 
@@ -1275,7 +1366,7 @@ Audit:
 - [ ] Environment variables
 - [ ] Migrations
 - [ ] Storage policies
-- [ ] Resend configuration
+- [ ] Gmail transactional SMTP and separate Supabase Auth SMTP acceptance
 - [ ] Cron/job configuration
 - [ ] Domain config
 - [ ] SEO config
@@ -1294,7 +1385,7 @@ Audit:
 - [ ] Production RLS verified
 - [ ] Vercel production environment
 - [ ] Domain
-- [ ] Resend domain verification
+- [ ] Selected Gmail sender and real inbox delivery acceptance; no Resend domain prerequisite
 - [ ] Background jobs/cron enabled
 - [ ] Production admin account process
 - [ ] Production smoke test
@@ -1353,19 +1444,19 @@ This reduces fake completion and integration rewrites.
 ## Development
 
 - local/development Supabase
-- development Resend configuration
+- isolated email adapter/test mailbox; suppress real customer delivery in local regression
 - test data
 
-## Preview
+## Routine verification
 
-- Vercel Preview
-- non-production database/integrations
-- safe QA data
+- local/off-remote production build and isolated regression data
+- no routine preview deployment under the single-push workflow
+- preview/branch work only if the owner explicitly changes that workflow
 
 ## Production
 
 - production Supabase
-- production Resend
+- owner-selected Gmail SMTP; separate Supabase Auth SMTP configuration
 - production domain
 - production jobs
 
@@ -1375,14 +1466,12 @@ Never perform destructive development/QA against production data.
 
 # 34. Branch Strategy
 
-Recommended:
-
-- `main` — production-ready integrated code
-- feature/phase branches — isolated implementation
-
-Use focused commits.
-
-Do not accumulate huge unreviewable commits across unrelated domains.
+- Work against `main` with one coherent approved batch.
+- Complete implementation, tests and audit locally before preparing one final commit.
+- No feature/phase/preview branches or intermediate pushes unless explicitly requested.
+- Move `main` once for the completed batch and verify the exact automatic production deployment.
+- Do not create a separate workflow-only commit to publish a plan/formatting closeout; include prepared documentation in the next approved batch.
+- Follow `AI_INSTRUCTIONS.md` for the authoritative single production-push rule.
 
 ---
 
@@ -1407,7 +1496,7 @@ Mandatory launch-quality areas:
 - delivery attempts
 - RTO
 - COD reconciliation
-- role security
+- single-owner/customer security
 - analytics essentials
 - accessibility
 - performance

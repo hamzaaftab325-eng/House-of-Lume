@@ -8,7 +8,7 @@ import {
   renderTransactionalEmail,
 } from "./templates";
 
-export const storeEmail = "dwellunestore@gmail.com";
+const storeEmail = "dwellunestore@gmail.com";
 const jobSchema = z.object({
   id: z.uuid(),
   order_id: z.uuid(),

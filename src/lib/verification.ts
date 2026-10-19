@@ -30,8 +30,8 @@ export const verificationActionSchema = z
   .object({ orderId: z.uuid(), requestId: z.uuid(), input: verificationInputSchema })
   .strict();
 export type VerificationAction = z.infer<typeof verificationActionSchema>;
-export const reviewStatusSchema = z.enum(["not_required", "pending", "cleared", "closed"]);
-export const reviewFlagSchema = z.object({
+const reviewStatusSchema = z.enum(["not_required", "pending", "cleared", "closed"]);
+const reviewFlagSchema = z.object({
   code: z.enum(["high_value", "possible_duplicate", "failed_delivery_history", "staff_review"]),
   label: z.string().max(200),
   count: z.number().int().nonnegative(),
@@ -45,7 +45,7 @@ export const reviewSchema = z.object({
   reviewed_at: z.string().nullable(),
   note: z.string().nullable(),
 });
-export const policyValuesSchema = z
+const policyValuesSchema = z
   .object({
     verificationRequired: z.boolean(),
     highValuePkr: z.number().int().min(1000).max(1_000_000),
@@ -170,7 +170,6 @@ export const verificationResultSchema = z.object({
   verification_status: z.string(),
   verification_revision: revision,
 });
-export type VerificationDetail = z.infer<typeof verificationDetailSchema>;
 export function verificationError(code: string) {
   const messages: Record<string, string> = {
     authentication_required: "Your session expired. Sign in again.",

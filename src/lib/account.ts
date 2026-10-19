@@ -13,12 +13,6 @@ export function safeAccountRedirect(value: string | null | undefined) {
   }
 }
 
-export const notificationFilters = ["all", "unread", "orders", "returns", "account"] as const;
-export type NotificationFilter = (typeof notificationFilters)[number];
-export function notificationFilter(value?: string): NotificationFilter {
-  return notificationFilters.find((filter) => filter === value) ?? "all";
-}
-
 const phone = z
   .string()
   .trim()
@@ -56,7 +50,7 @@ export const addressSchema = z
     default: z.boolean(),
   })
   .strict();
-export const preferencesSchema = z.object({ emailMarketing: z.boolean() }).strict();
+const preferencesSchema = z.object({ emailMarketing: z.boolean() }).strict();
 export const accountActionSchema = z.discriminatedUnion("action", [
   z.object({ action: z.literal("profile"), values: profileSchema }).strict(),
   z.object({ action: z.literal("address"), values: addressSchema }).strict(),
@@ -124,16 +118,6 @@ export const orderHistorySchema = z.object({
   to_status: z.string(),
   created_at: z.string(),
 });
-export const notificationSchema = z.object({
-  id: z.uuid(),
-  title: z.string(),
-  body: z.string(),
-  priority: z.string(),
-  read_at: z.string().nullable(),
-  created_at: z.string(),
-  entity_type: z.string().nullable(),
-  entity_id: z.uuid().nullable(),
-});
 export const returnSchema = z.object({
   id: z.uuid(),
   order_id: z.uuid(),
@@ -151,8 +135,5 @@ export const returnPolicySchema = z.object({
 });
 export type Customer = z.infer<typeof customerSchema>;
 export type Address = z.infer<typeof addressRowSchema>;
-export type Order = z.infer<typeof orderSchema>;
 export type OrderItem = z.infer<typeof orderItemSchema>;
-export type Notification = z.infer<typeof notificationSchema>;
-export type CustomerReturn = z.infer<typeof returnSchema>;
 export type ReturnPolicy = z.infer<typeof returnPolicySchema>;

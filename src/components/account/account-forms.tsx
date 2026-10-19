@@ -281,27 +281,6 @@ export function AddressEntry({ address }: { address: Address }) {
     </section>
   );
 }
-export function AccountActionButton({
-  action,
-  children,
-}: {
-  action: AccountAction;
-  children: React.ReactNode;
-}) {
-  const state = useAccountMutation();
-  return (
-    <div>
-      <DwelluneButton
-        variant="quiet"
-        disabled={state.pending}
-        onClick={() => void state.run(action)}
-      >
-        {state.pending ? "Saving…" : children}
-      </DwelluneButton>
-      <Feedback {...state} />
-    </div>
-  );
-}
 export function SignOutButton() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");

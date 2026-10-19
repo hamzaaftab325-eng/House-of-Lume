@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const emailTemplateVersion = "v2";
+const emailTemplateVersion = "v2";
 export const activeEmailEventSchema = z.enum([
   "order.placed",
   "order.verification_required",
@@ -18,7 +18,7 @@ export const emailEventSchema = z.enum([
   "return.updated",
   "order.rto_updated",
 ]);
-export type EmailEvent = z.infer<typeof emailEventSchema>;
+type EmailEvent = z.infer<typeof emailEventSchema>;
 
 const content: Record<EmailEvent, { title: string; introduction: string }> = {
   "order.placed": {

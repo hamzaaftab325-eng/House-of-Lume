@@ -114,7 +114,6 @@ A phase cannot be marked 100% complete if an applicable quality gate is failing 
 
 Use Node.js 24 LTS. `.nvmrc` is committed and `package.json` constrains the supported major version.
 
-
 ### Immediate password signup
 
 The owner requested signup without a verification email. In the hosted Supabase project, turn **Confirm Email OFF** under Authentication > Sign In / Providers > Email. Signup uses a nonpersisting password Auth client and installs the returned session through the SSR cookie client. The endpoint checks the setting before signup, preventing an unintended verification email while configuration is pending. Recovery and email changes still require functioning SMTP and production callback URLs.
@@ -166,3 +165,9 @@ Marketing and product-subscription opt-in controls are not part of the current s
 The four-part cleanup preserves the single owner and implemented shopping/account/notification workflows. Part 4 adds regression coverage and guards optional recent-search/recently-viewed persistence so blocked or full browser storage cannot interrupt shopping. No dependency, schema, consent, order, email or launch-setting change is included.
 
 The current audit and release/rollback procedure are in `docs/maintenance/part-4-final-verification.md`. It distinguishes verified maintenance work from remaining merchant acceptance, external-media/performance evidence, observability and backup gates. Completing this maintenance batch does not certify all future build phases or open checkout.
+
+## Phase 12 preparation
+
+`PROJECT_PLAN.md` records the next owner-workspace checklist and keeps later product, fulfillment and settlement modules separate. The preparation cleanup removes unused account UI/schema/type leftovers and the generic account notification adapter shadowed by the dedicated notification route; existing notification URLs/filters and compatibility APIs remain supported. Module-only helpers are kept private rather than exported without callers. Thirteen global journal selectors are removed while shared service styles and design tokens remain.
+
+See [preparation evidence](docs/maintenance/phase-12-preparation.md) for removal/preservation checks. The superseded root sample-setup and return-draft documents are consolidated into [catalogue and return notes](docs/reference/catalogue-and-return-notes.md), preserving required image provenance and merchant input without the retired staff/Resend setup instructions. Phase 12 navigation/landing-page changes are planned, not implemented by this preparation batch.

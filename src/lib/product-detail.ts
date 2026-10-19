@@ -10,7 +10,7 @@ export type ProductMediaItem = {
   isPrimary: boolean;
 };
 
-export type ProductOptionValue = {
+type ProductOptionValue = {
   id: string;
   value: string;
   swatchHex: string | null;
@@ -85,7 +85,7 @@ export type RelatedProductSummary = {
   mediaAlt: string | null;
 };
 
-export const MAX_BAG_QUANTITY = 99;
+const MAX_BAG_QUANTITY = 99;
 
 const pkr = new Intl.NumberFormat("en-PK", {
   style: "currency",

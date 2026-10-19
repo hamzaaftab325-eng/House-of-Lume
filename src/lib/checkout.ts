@@ -118,7 +118,6 @@ export const orderConfirmationSchema = z.object({
     }),
   ),
 });
-export type OrderConfirmation = z.infer<typeof orderConfirmationSchema>;
 
 export const checkoutDiscountSchema = z
   .object({

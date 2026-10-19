@@ -1,9 +1,7 @@
-import { type NotificationFilter } from "@/lib/account";
 import type { Route } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { accountSnapshot } from "@/server/account/account.service";
-import { NotificationPage } from "@/components/notifications/notification-page";
 import { AuthForm } from "./auth-form";
 import { AddressEntry, AddressForm, ProfileForm, SignOutButton } from "./account-forms";
 import { AccountSessionGuard } from "./session-guard";
@@ -17,6 +15,7 @@ export const sections = {
   returns: "Returns",
   settings: "Account settings",
 };
+export type AccountSection = Exclude<keyof typeof sections, "notifications">;
 const money = (n: number) =>
   new Intl.NumberFormat("en-PK", {
     style: "currency",
@@ -26,14 +25,10 @@ const money = (n: number) =>
 export async function AccountPage({
   section,
   page: rawPage,
-  filter = "all",
 }: {
-  section: keyof typeof sections;
+  section: AccountSection;
   page?: string;
-  filter?: NotificationFilter;
 }) {
-  if (section === "notifications")
-    return <NotificationPage audience="customer" searchParams={Promise.resolve({ filter })} />;
   const page = Math.floor(Math.max(1, Math.min(1000, Number(rawPage) || 1)));
   let data;
   try {
@@ -166,9 +161,7 @@ export async function AccountPage({
           </>
         ) : null}
         {page > 1 && ["orders", "returns"].includes(section) ? (
-          <Link href={`/account/${section}?page=${page - 1}&filter=${filter}` as Route}>
-            Previous page
-          </Link>
+          <Link href={`/account/${section}?page=${page - 1}` as Route}>Previous page</Link>
         ) : null}
         {section === "returns" && data.returns.length === 20 ? (
           <Link href={`/account/returns?page=${page + 1}` as Route}>Next returns</Link>

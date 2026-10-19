@@ -114,7 +114,7 @@ const relatedRowSchema = z.object({
   primary_media_alt: z.string().nullable(),
 });
 
-export type ProductDetailResult = {
+type ProductDetailResult = {
   product: ProductDetailData;
   relatedProducts: RelatedProductSummary[];
 };

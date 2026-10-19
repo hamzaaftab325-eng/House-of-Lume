@@ -11,6 +11,22 @@ async function identity(
     },
   ]);
 }
+test("dedicated customer notifications retain legacy filters and settings links", async ({
+  page,
+  context,
+}) => {
+  await identity(context, "customer");
+  await page.goto("/account/notifications?filter=unread&page=2");
+  await expect(page.getByRole("heading", { name: "Your notifications." })).toBeVisible();
+  await expect(page.getByLabel("Show", { exact: true })).toHaveValue("unread");
+  await expect(page.getByRole("article")).toHaveCount(20);
+  await page.goto("/account/notifications?filter=orders");
+  await expect(page.getByLabel("Category", { exact: true })).toHaveValue("orders");
+  await page.getByRole("link", { name: "Notification settings", exact: true }).click();
+  await expect(page).toHaveURL(/\/account\/notifications\/preferences$/);
+  await expect(page.getByRole("heading", { name: "Notification settings." })).toBeVisible();
+});
+
 for (const audience of ["customer", "staff"] as const)
   test(`${audience} inbox filters, paginates and reads without mixing audiences`, async ({
     page,

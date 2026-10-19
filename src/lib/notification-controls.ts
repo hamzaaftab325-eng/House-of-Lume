@@ -45,4 +45,3 @@ export const operationsSchema = z.object({
     sent: z.number().int().nonnegative(),
   }),
 });
-export type NotificationOperations = z.infer<typeof operationsSchema>;

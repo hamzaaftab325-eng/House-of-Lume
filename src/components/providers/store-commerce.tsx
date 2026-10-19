@@ -20,7 +20,7 @@ import {
 const SAVED_KEY = "dwellune-saved-ids-v2";
 const LEGACY_KEY = "dwellune-commerce-v1";
 const IMPORT_KEY = "dwellune-cart-import-v2";
-export type CommerceProductSnapshot = {
+type CommerceProductSnapshot = {
   variantId: string;
   productSlug: string;
   productName: string;

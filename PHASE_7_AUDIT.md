@@ -36,7 +36,7 @@ The first browser run used a build containing the real public Supabase configura
 
 ## Merchant operating decisions
 
-See `RETURN_POLICY_DRAFT.md` for the researched seven-day proposal. No policy has been published in production. The actual COD refund payout method and return address/pickup arrangement are still unspecified; test-only rules are used exclusively inside rolled-back tests.
+See the [recorded return proposal](docs/reference/catalogue-and-return-notes.md#recorded-return-terms), consolidated from the original `RETURN_POLICY_DRAFT.md`, for the researched seven-day proposal. No policy has been published in production. The actual COD refund payout method and return address/pickup arrangement are still unspecified; test-only rules are used exclusively inside rolled-back tests.
 
 ## Final release gate
 

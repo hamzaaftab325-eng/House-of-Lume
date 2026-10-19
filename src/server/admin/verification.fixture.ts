@@ -10,7 +10,7 @@ import {
   policySchema,
   type PolicyAction,
 } from "@/lib/verification";
-export const fixtureOrderId = "94000000-0000-4000-8000-000000000001";
+const fixtureOrderId = "94000000-0000-4000-8000-000000000001";
 const fixtureAdminId = "94000000-0000-4000-8000-000000000002";
 export function adminFixtureEnabled() {
   return (

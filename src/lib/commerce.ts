@@ -2,7 +2,7 @@ import { productMediaUrl } from "./product-media";
 import { z } from "zod";
 
 const money = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
-export const savedLineSchema = z.object({
+const savedLineSchema = z.object({
   variant_id: z.uuid(),
   product_slug: z.string().regex(/^[a-z0-9-]+$/),
   product_name: z.string(),
@@ -11,7 +11,7 @@ export const savedLineSchema = z.object({
   media_path: z.string().nullable(),
   max_quantity: z.number().int().min(0).max(99).default(99),
 });
-export const cartLineSchema = savedLineSchema.extend({
+const cartLineSchema = savedLineSchema.extend({
   quantity: z.number().int().min(1).max(99),
   line_total_pkr: money,
   track_inventory: z.boolean(),

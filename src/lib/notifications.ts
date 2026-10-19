@@ -1,5 +1,5 @@
 import { z } from "zod";
-export const audienceSchema = z.enum(["customer", "staff"]);
+const audienceSchema = z.enum(["customer", "staff"]);
 export type NotificationAudience = z.infer<typeof audienceSchema>;
 export const categories = [
   "all",

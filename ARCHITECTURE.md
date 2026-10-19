@@ -307,7 +307,6 @@ Those belong to later phases defined in `PROJECT_PLAN.md`.
 
 Phase 0 exists to make those implementations consistent, testable, secure, and maintainable from the beginning.
 
-
 ## Phase 6 commerce boundary
 
 `StoreCommerceProvider` owns the shared browser view of the bag and saved objects. The header drawers and `/cart` and `/wishlist` pages reuse the same line controls. `/api/commerce` validates a bounded action payload, checks mutation Origin against the request host/protocol, sends private no-store responses, and issues the HttpOnly/SameSite guest identity. `commerce.service.ts` verifies the Auth session through `getUser()` and invokes the ownership-aware Supabase RPCs; no service-role credential is used.
@@ -377,3 +376,9 @@ Hero animation ownership is isolated from the homepage editorial animator. Motio
 Optional recent-search and recently-viewed storage is best effort. Browser denial or quota failures must not throw through a product render, prevent keyboard search navigation, or block search controls. Recently viewed retains its bounded in-memory snapshot when persistence fails; authoritative cart, account and order data continue to use their existing server contracts.
 
 The final maintenance audit consolidates Parts 1–3, local regression evidence, live read-only database/job checks, release/rollback steps and remaining launch gates. Retained `staff` audiences/RPC names and the read-only rollout bridge are compatibility contracts, not staff-management features. Do not remove private archives, migration history, existing consent or operational receipts to simplify terminology. See `docs/maintenance/part-4-final-verification.md`.
+
+## Phase 12 preparation boundary
+
+Customer notifications are owned by the dedicated `/account/notifications` route and shared `NotificationPage`, which retains supported and legacy filter parsing. The generic `/account/[section]` renderer covers profile, addresses, orders, returns and settings; it no longer imports a second notification-rendering branch or forwards irrelevant notification filters through order/return pagination. Account navigation still links to the dedicated inbox.
+
+Unused account action UI, an unused old notification row schema and unreferenced type aliases are removed. Global selectors for the retired journal are pruned without deleting shared service-section rules. Implementation-only helpers/types are module-private; used RPC payload validation, browser fixtures, generated database types, domain APIs and framework exports remain intact. Source reachability and CSS checks distinguish actual dead code from required route boundaries, dynamic imports and historical recovery/seed records. See `docs/maintenance/phase-12-preparation.md`. This preparation does not implement the planned CRM navigation changes.

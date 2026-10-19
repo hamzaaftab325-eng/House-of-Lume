@@ -1,14 +1,8 @@
-export const catalogueSorts = [
-  "featured",
-  "newest",
-  "price-asc",
-  "price-desc",
-  "name-asc",
-] as const;
-export const catalogueAvailability = ["in-stock", "out-of-stock"] as const;
+const catalogueSorts = ["featured", "newest", "price-asc", "price-desc", "name-asc"] as const;
+const catalogueAvailability = ["in-stock", "out-of-stock"] as const;
 
-export type CatalogueSort = (typeof catalogueSorts)[number];
-export type CatalogueAvailability = (typeof catalogueAvailability)[number];
+type CatalogueSort = (typeof catalogueSorts)[number];
+type CatalogueAvailability = (typeof catalogueAvailability)[number];
 export type SearchParamsInput = Record<string, string | string[] | undefined>;
 
 export type CatalogueFilters = {
