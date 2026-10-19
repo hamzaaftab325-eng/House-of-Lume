@@ -124,11 +124,6 @@ video {
   margin-inline: auto;
 }
 
-.editorial-shell {
-  width: min(100% - (2 * var(--page-gutter)), var(--editorial-max));
-  margin-inline: auto;
-}
-
 .reading-width {
   max-width: var(--reading-max);
 }

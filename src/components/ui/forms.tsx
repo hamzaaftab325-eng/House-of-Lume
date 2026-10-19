@@ -163,34 +163,3 @@ export function CheckboxField({ label, description, ...props }: ChoiceProps) {
     </label>
   );
 }
-
-type RadioGroupProps = {
-  legend: string;
-  name: string;
-  options: Array<{ label: string; value: string; description?: string }>;
-  defaultValue?: string;
-};
-
-export function RadioGroup({ legend, name, options, defaultValue }: RadioGroupProps) {
-  return (
-    <fieldset className={styles.radioGroup}>
-      <legend className={styles.legend}>{legend}</legend>
-      {options.map((option) => (
-        <label key={option.value} className={styles.choice}>
-          <input
-            type="radio"
-            name={name}
-            value={option.value}
-            defaultChecked={defaultValue === option.value}
-          />
-          <span className={styles.choiceText}>
-            <strong>{option.label}</strong>
-            {option.description ? <span>{option.description}</span> : null}
-          </span>
-        </label>
-      ))}
-    </fieldset>
-  );
-}
-
-export { styles as formStyles };

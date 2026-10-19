@@ -1,3 +1,5 @@
+> Maintenance Part 3 scope — 19 October 2026: remove the public development showcase, inactive newsletter/journal previews, optional storefront review/ratings presentation and new marketing/product opt-ins. Preserve existing consent withdrawal and essential notifications. Historical schema/data stay intact. These optional features require a later explicit scope change before reintroduction. The accepted shopping experience and single-owner access remain protected.
+
 > Current scope override — 19 October 2026: operate with one owner admin. No staff accounts, role editor, permission matrix, staff activation or staff management route is planned. Historical completed phase descriptions retain prior terminology where they document existing contracts. Maintenance Part 2 converts those contracts to owner-only access without adding commerce features. Parts 3 (storefront cleanup) and 4 (final verification) remain separate.
 
 # DWELLUNE — Production Build Plan
@@ -437,9 +439,9 @@ Create and ship the premium DWELLUNE homepage and brand-storytelling experience.
 - [x] Curated objects editorial treatment
 - [x] Shop by category / space presentation
 - [x] Brand story and trust presentation
-- [x] Journal / inspiration feature through House Notes
+- [x] House Notes preview retired in maintenance Part 3
 - [x] Service / trust strip
-- [x] Newsletter presentation shell for later functional integration
+- [x] Inactive newsletter shell retired; closing action opens the catalogue (Part 3)
 - [x] Storefront footer
 
 ## Deferred to later phases
@@ -448,8 +450,8 @@ These items are intentionally scheduled for later implementation when their supp
 
 - Real Supabase-backed homepage product and collection data
 - Dedicated live New Arrivals data feed
-- Live customer reviews / social proof data
-- Functional newsletter persistence, validation, and Resend workflow
+- Customer reviews/social proof: outside current scope after maintenance Part 3
+- Newsletter/marketing capture: outside current scope after maintenance Part 3
 - Final catalogue/category routes and commerce destination wiring
 - Any additional dedicated editorial chapters that become useful once real catalogue content exists
 
@@ -553,7 +555,7 @@ See `PHASE_4_AUDIT.md` for the complete evidence-based audit.
 - [x] Materials
 - [x] Care
 - [x] Shipping/returns summary
-- [x] Reviews summary
+- [x] Optional ratings summary retired in maintenance Part 3; product/offer metadata retained
 - [x] Related products
 - [x] Recently viewed
 

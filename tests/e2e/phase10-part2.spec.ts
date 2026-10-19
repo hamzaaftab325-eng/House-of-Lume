@@ -8,25 +8,36 @@ async function login(context: import("@playwright/test").BrowserContext, staff =
     },
   ]);
 }
-test("saves optional preferences while essential notices remain enabled", async ({
+async function legacyPreferences(context: import("@playwright/test").BrowserContext) {
+  await login(context);
+  await context.addCookies([
+    {
+      name: "dwellune-test-notification-preferences",
+      value: JSON.stringify({ productUpdates: true, emailMarketing: true, essentialUpdates: true }),
+      url: "http://127.0.0.1:3000",
+    },
+  ]);
+}
+test("existing optional consent can be withdrawn while essential notices remain enabled", async ({
   page,
   context,
 }) => {
-  await login(context);
+  await legacyPreferences(context);
   await page.goto("/account/notifications/preferences");
-  await page.getByLabel("Product updates in my notification inbox").check();
-  await page.getByRole("button", { name: "Save notification preferences", exact: true }).click();
-  await expect(page.getByText("Notification preferences saved.", { exact: true })).toBeVisible();
+  await expect(page.getByRole("checkbox")).toHaveCount(0);
+  await page.getByRole("button", { name: "Turn off optional updates", exact: true }).click();
+  await expect(page.getByText("Optional updates disabled.", { exact: true })).toBeVisible();
   await page.reload();
-  await expect(page.getByLabel("Product updates in my notification inbox")).toBeChecked();
+  await expect(page.getByText("Optional updates are off.", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Turn off optional updates" })).toHaveCount(0);
   await expect(
     page.getByText("Essential order, verification and account updates remain enabled.", {
-      exact: false,
+      exact: true,
     }),
   ).toBeVisible();
 });
-test("uncertain preference writes retry frozen choices", async ({ page, context }) => {
-  await login(context);
+test("uncertain consent withdrawal retries the same off values", async ({ page, context }) => {
+  await legacyPreferences(context);
   const bodies: string[] = [];
   await page.route("**/api/notifications/preferences", async (route) => {
     if (route.request().method() !== "POST") return route.continue();
@@ -40,13 +51,19 @@ test("uncertain preference writes retry frozen choices", async ({ page, context 
     await route.continue();
   });
   await page.goto("/account/notifications/preferences");
-  await page.getByLabel("Allow marketing emails").check();
-  await page.getByRole("button", { name: "Save notification preferences", exact: true }).click();
-  await expect(page.getByLabel("Allow marketing emails")).toBeDisabled();
-  await page.getByRole("button", { name: "Retry same preferences" }).click();
-  await expect(page.getByText("Notification preferences saved.", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Turn off optional updates", exact: true }).click();
+  await page.getByRole("button", { name: "Retry turning off updates", exact: true }).click();
+  await expect(page.getByText("Optional updates disabled.", { exact: true })).toBeVisible();
   expect(bodies).toHaveLength(2);
   expect(bodies[0]).toBe(bodies[1]);
+  expect(JSON.parse(bodies[0])).toEqual({ productUpdates: false, emailMarketing: false });
+});
+test("accounts without optional consent see no opt-in controls", async ({ page, context }) => {
+  await login(context);
+  await page.goto("/account/notifications/preferences");
+  await expect(page.getByText("Optional updates are off.", { exact: true })).toBeVisible();
+  await expect(page.getByRole("checkbox")).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /optional updates/i })).toHaveCount(0);
 });
 test("staff sees real delivery semantics and deferred registry dependencies", async ({
   page,

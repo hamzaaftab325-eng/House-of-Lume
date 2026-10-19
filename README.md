@@ -43,10 +43,14 @@ src/
 │   └── layout.tsx
 ├── lib/
 │   ├── env.ts         environment validation
-│   ├── result.ts      domain result primitive
-│   └── validation.ts  schema-validation boundary
+│   ├── product-detail.ts product contracts
+│   └── supabase/      clients and generated database types
 └── server/
-    └── logger.ts      structured server logging foundation
+    ├── catalogue/     catalogue and product queries
+    ├── commerce/      cart and wishlist services
+    ├── account/       customer services
+    ├── admin/         owner-only operations
+    └── notifications/ recipient-scoped notifications
 ```
 
 The complete dependency and boundary rules live in `ARCHITECTURE.md`.
@@ -149,3 +153,9 @@ Phase 11 Part 2 adds durable supported-event email jobs, private attempt logs, p
 The shop has one administrator. `app_private.store_owner` is the only active admin assignment, protected by a singleton constraint, Auth foreign key, live-session validation and RLS. No staff directory, role assignments, invitations or permission editor is supported. All existing admin operations use that owner; customer accounts and commerce workflows remain separate. Admin access does not require a customer profile.
 
 The conversion reconciles two previously live-only migrations and a Phase 5 version mismatch. Never reapply that reconciled history to production. Archived access records stay private for recovery. Legacy `staff_verification_*` RPC names, the persisted `staff` notification audience and `is_super_admin()` policy helper are compatibility contracts; each now resolves to the same owner check. A read-only `staff_profiles` view supports the preceding deployment during rollout. It cannot manage staff. See `docs/maintenance/part-2-single-admin.md` for checks, recovery and remaining launch acceptance.
+
+## Storefront cleanup (maintenance Part 3)
+
+The public `/system` development showcase and its exclusive sample components, hooks, styles and unused scaffolding are retired. The homepage no longer promotes an inactive journal or newsletter signup; its closing section links to the working catalogue. Static room inspiration is labelled as such. Optional product ratings, aggregate-rating markup and the product-page review query are removed; product/offer metadata, pricing, stock and purchase controls remain.
+
+Marketing and product-subscription opt-in controls are not part of the current storefront. Existing consent records and guarded compatibility APIs remain, and `/account/notifications/preferences` lets customers withdraw previously enabled optional updates while essential order/account notices remain enabled. Account settings links to that same screen. No database migration or production-data deletion is included. Product images, email branding, animation dependencies, checkout safeguards and the single-owner access model are retained. See `docs/maintenance/part-3-storefront-cleanup.md`.

@@ -20,7 +20,9 @@ const slides = [
     title: "Refined living starts here.",
     copy: "Discover considered lighting, greenery, and objects designed to bring warmth, calm, and character to modern homes.",
     primaryLabel: "Shop now",
+    primaryHref: "/shop",
     secondaryLabel: "Explore collection",
+    secondaryHref: "/#categories",
   },
   {
     image:
@@ -28,8 +30,10 @@ const slides = [
     eyebrow: "DWELLUNE · Gather",
     title: "Made for the moments that bring us together.",
     copy: "Warm woods, soft light, and thoughtful forms for dining spaces that invite people to stay a little longer.",
-    primaryLabel: "Explore dining",
+    primaryLabel: "Explore décor",
+    primaryHref: "/categories/decor",
     secondaryLabel: "View the edit",
+    secondaryHref: "/collections/new-arrivals",
   },
   {
     image:
@@ -38,7 +42,9 @@ const slides = [
     title: "Comfort, considered down to the last detail.",
     copy: "A softer approach to modern living, built from tactile materials, balanced proportions, and warm ambient light.",
     primaryLabel: "Shop living",
+    primaryHref: "/shop",
     secondaryLabel: "Discover objects",
+    secondaryHref: "/shop?category=decor",
   },
   {
     image:
@@ -47,7 +53,9 @@ const slides = [
     title: "Bring a little more life indoors.",
     copy: "Layered greenery and natural textures designed to make bright rooms feel calmer, fresher, and more grounded.",
     primaryLabel: "Shop plants",
+    primaryHref: "/categories/plants",
     secondaryLabel: "Explore spaces",
+    secondaryHref: "/#spaces-title",
   },
   {
     image:
@@ -56,7 +64,9 @@ const slides = [
     title: "A warmer atmosphere, after sunset.",
     copy: "Sculptural lighting, layered glow, and quiet objects that change how a room feels when the day slows down.",
     primaryLabel: "Shop lighting",
+    primaryHref: "/categories/lighting",
     secondaryLabel: "Explore the house",
+    secondaryHref: "/#categories",
   },
 ] as const;
 
@@ -103,9 +113,19 @@ export function HomeHero() {
       const images = imageRefs.current.filter((node): node is HTMLImageElement => node !== null);
       const copies = copyRefs.current.filter((node): node is HTMLDivElement => node !== null);
 
+      // Killing an interrupted transition leaves child words/supporting text hidden.
+      // Restore the original text before applying the selected slide's motion mode.
+      titleSplitRefs.current.forEach((split) => split?.revert());
+      titleSplitRefs.current.length = 0;
+      copies.forEach((copy) => {
+        gsap.set(copy.querySelectorAll(`h1, p, .${styles.actions}`), {
+          clearProps: "transform,filter,opacity,visibility,willChange",
+        });
+      });
+
       gsap.set(layers, { autoAlpha: 0, zIndex: 0, clipPath: "inset(0% 0% 0% 0%)" });
       gsap.set(images, { scale: reducedMotion ? 1 : 1.035, xPercent: 0 });
-      gsap.set(copies, { autoAlpha: 0, y: 0 });
+      gsap.set(copies, { autoAlpha: 0, y: 0, clearProps: "filter" });
 
       if (layers[selectedIndex]) gsap.set(layers[selectedIndex], { autoAlpha: 1, zIndex: 1 });
       if (copies[selectedIndex]) gsap.set(copies[selectedIndex], { autoAlpha: 1 });
@@ -380,7 +400,7 @@ export function HomeHero() {
                 <div className={styles.actions}>
                   <Link
                     className={styles.primaryAction}
-                    href="/#shop"
+                    href={slide.primaryHref}
                     tabIndex={index === activeIndex ? 0 : -1}
                   >
                     {slide.primaryLabel}
@@ -388,7 +408,7 @@ export function HomeHero() {
                   </Link>
                   <Link
                     className={styles.secondaryAction}
-                    href="/#collection"
+                    href={slide.secondaryHref}
                     tabIndex={index === activeIndex ? 0 : -1}
                   >
                     {slide.secondaryLabel}

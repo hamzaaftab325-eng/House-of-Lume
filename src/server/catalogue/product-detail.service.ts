@@ -89,8 +89,6 @@ const stockRowSchema = z.object({
   low_stock: z.boolean(),
 });
 
-const reviewRowSchema = z.object({ rating: z.number().int().min(1).max(5) });
-
 const settingRowSchema = z.object({ key: z.string(), value: z.unknown() });
 
 const shippingRuleRowSchema = z.object({
@@ -191,12 +189,6 @@ function normalizeVariants(
   });
 }
 
-function reviewSummary(rows: z.infer<typeof reviewRowSchema>[]) {
-  if (!rows.length) return { count: 0, averageRating: null };
-  const average = rows.reduce((sum, row) => sum + row.rating, 0) / rows.length;
-  return { count: rows.length, averageRating: Math.round(average * 10) / 10 };
-}
-
 function deliveryPolicy(
   settings: z.infer<typeof settingRowSchema>[],
   shippingRule: z.infer<typeof shippingRuleRowSchema> | null,
@@ -265,7 +257,6 @@ export const getProductDetail = cache(async (slug: string): Promise<ProductDetai
     variantsResult,
     mediaResult,
     stockResult,
-    reviewsResult,
     settingsResult,
     shippingResult,
   ] = await Promise.all([
@@ -297,11 +288,6 @@ export const getProductDetail = cache(async (slug: string): Promise<ProductDetai
       .select("variant_id,available_quantity,in_stock,low_stock")
       .eq("product_id", productRow.id),
     supabase
-      .from("reviews")
-      .select("rating")
-      .eq("product_id", productRow.id)
-      .eq("status", "approved"),
-    supabase
       .from("system_settings")
       .select("key,value")
       .eq("is_public", true)
@@ -323,7 +309,6 @@ export const getProductDetail = cache(async (slug: string): Promise<ProductDetai
     ["variants", variantsResult.error],
     ["media", mediaResult.error],
     ["variant stock", stockResult.error],
-    ["reviews", reviewsResult.error],
     ["settings", settingsResult.error],
     ["shipping", shippingResult.error],
   ] as const;
@@ -337,7 +322,6 @@ export const getProductDetail = cache(async (slug: string): Promise<ProductDetai
     z.array(stockRowSchema).parse(stockResult.data ?? []),
   );
   const media = normalizeMedia(z.array(mediaRowSchema).parse(mediaResult.data ?? []));
-  const reviews = z.array(reviewRowSchema).parse(reviewsResult.data ?? []);
   const settings = z.array(settingRowSchema).parse(settingsResult.data ?? []);
   const shippingRule = shippingResult.data
     ? shippingRuleRowSchema.parse(shippingResult.data)
@@ -370,7 +354,6 @@ export const getProductDetail = cache(async (slug: string): Promise<ProductDetai
       media,
       options,
       variants,
-      reviewSummary: reviewSummary(reviews),
       deliveryPolicy: deliveryPolicy(settings, shippingRule),
     },
     relatedProducts: normalizeRelated(relatedResult.data ?? [], productRow.id),

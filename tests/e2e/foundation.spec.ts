@@ -192,44 +192,12 @@ test("mobile navigation has accessible targets and scoped navigation", async ({ 
   await expectNoHorizontalOverflow(page);
 });
 
-test("storefront and design-system showroom do not overflow supported responsive widths", async ({
-  page,
-}) => {
+test("storefront does not overflow supported responsive widths", async ({ page }) => {
   for (const width of responsiveWidths) {
     await page.setViewportSize({ width, height: width < 768 ? 812 : 900 });
-
     await page.goto("/");
     await expectNoHorizontalOverflow(page);
-
-    await page.goto("/system");
-    await expectNoHorizontalOverflow(page);
   }
-});
-
-test("design system interactions are keyboard usable", async ({ page }) => {
-  await page.goto("/system");
-
-  await expect(page.getByRole("heading", { name: "A showroom, not a template." })).toBeVisible();
-  const bronzeTab = page.getByRole("tab", { name: "Bronze" });
-  await bronzeTab.focus();
-  await page.keyboard.press("ArrowRight");
-  await expect(page.getByRole("tab", { name: "Linen" })).toHaveAttribute("aria-selected", "true");
-
-  const dialogTrigger = page.getByRole("button", { name: "Open dialog" });
-  await dialogTrigger.click();
-  await expect(page.getByRole("dialog", { name: "A calm interruption." })).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(dialogTrigger).toBeFocused();
-});
-
-test("reduced motion keeps the design system usable", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/system");
-
-  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
-  await expect(
-    page.getByRole("heading", { name: "Scroll moves the story, not the interface." }),
-  ).toBeVisible();
 });
 
 test("hero respects reduced-motion preference", async ({ page }) => {
@@ -244,6 +212,36 @@ test("hero respects reduced-motion preference", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: "A warmer atmosphere, after sunset." }),
   ).toBeVisible();
+});
+
+test("switching motion preference during a slide transition preserves the selected content", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  const pause = page.getByRole("button", { name: "Pause hero autoplay" });
+  await expect(pause).toBeEnabled();
+  await pause.click();
+  await page
+    .getByRole("button", { name: "Show slide 5: A warmer atmosphere, after sunset." })
+    .click();
+  await expect(page.getByRole("region", { name: "DWELLUNE introduction" })).toHaveAttribute(
+    "aria-busy",
+    "true",
+  );
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(
+    page.getByRole("heading", { name: "A warmer atmosphere, after sunset." }),
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: "Shop lighting" })).toBeVisible();
+  await expect(page.getByRole("region", { name: "DWELLUNE introduction" })).toHaveAttribute(
+    "aria-busy",
+    "false",
+  );
+  await page.getByRole("button", { name: "Show slide 1: Refined living starts here." }).click();
+  const firstTitle = page.getByRole("heading", { name: "Refined living starts here." });
+  await expect(firstTitle).toBeVisible();
+  await expect(firstTitle.locator("..")).toHaveCSS("filter", "none");
 });
 
 test("customer and administrator routes require sign-in", async ({ page }) => {

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { notificationPreferences } from "@/server/notifications/controls.service";
 import { notificationIdentity } from "@/server/notifications/notifications.service";
-import { NotificationPreferencesForm } from "@/components/notifications/notification-preferences-form";
+import { NotificationSettings } from "@/components/notifications/notification-settings";
 import { AccountSessionGuard } from "@/components/account/session-guard";
 import styles from "@/components/account/account.module.css";
 export default async function Page() {
@@ -22,8 +22,8 @@ export default async function Page() {
         sessionEndpoint="/api/notifications?audience=customer&summary=1"
       >
         <Link href="/account/notifications">Back to notifications</Link>
-        <h1 className={styles.title}>Notification preferences.</h1>
-        <NotificationPreferencesForm preferences={preferences} />
+        <h1 className={styles.title}>Notification settings.</h1>
+        <NotificationSettings preferences={preferences} />
       </AccountSessionGuard>
     </main>
   );

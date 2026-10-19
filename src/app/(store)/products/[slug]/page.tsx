@@ -65,14 +65,6 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
     brand: { "@type": "Brand", name: "DWELLUNE" },
     category: product.primaryCategory?.name,
     offers: offers.length ? offers : undefined,
-    aggregateRating:
-      product.reviewSummary.count > 0 && product.reviewSummary.averageRating
-        ? {
-            "@type": "AggregateRating",
-            ratingValue: product.reviewSummary.averageRating,
-            reviewCount: product.reviewSummary.count,
-          }
-        : undefined,
   };
 
   return (

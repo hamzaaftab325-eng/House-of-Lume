@@ -157,7 +157,6 @@ const fixtures: Record<string, ProductDetailData> = {
         lowStock: false,
       },
     ],
-    reviewSummary: { count: 12, averageRating: 4.8 },
     deliveryPolicy,
   },
   "test-sable-planter": {
@@ -232,7 +231,6 @@ const fixtures: Record<string, ProductDetailData> = {
         lowStock: false,
       },
     ],
-    reviewSummary: { count: 0, averageRating: null },
     deliveryPolicy,
   },
 };

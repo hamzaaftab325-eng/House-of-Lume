@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { DwelluneButtonLink } from "@/components/ui/controls";
 import { ArrowRight, Headphones, PackageCheck, Truck, WalletCards } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useRef } from "react";
@@ -28,8 +30,6 @@ const roomObjects = [
   { name: "Forma Coffee Table", type: "Objects", image: images.object },
   { name: "Soleto Planter", type: "Planters", image: images.decor },
 ] as const;
-
-const spaceTabs = ["Living room", "Dining room", "Entryway", "Outdoor"] as const;
 
 const materials = [
   {
@@ -67,30 +67,6 @@ const materials = [
     detail: "Brings life in",
     image: images.living,
     className: styles.materialSmall,
-  },
-] as const;
-
-const notes = [
-  {
-    eyebrow: "Materials",
-    title: "The Beauty of Natural Textures",
-    copy: "Earthy materials bring warmth, depth, and a sense of calm to everyday spaces.",
-    image: images.decor,
-    featured: false,
-  },
-  {
-    eyebrow: "At home",
-    title: "Designing for a Softer Light",
-    copy: "From golden mornings to quiet evenings, discover how light shapes the feeling of home.",
-    image: images.living,
-    featured: true,
-  },
-  {
-    eyebrow: "Curated living",
-    title: "Objects with a Deeper Meaning",
-    copy: "The stories, places, and people behind the pieces we choose to live with.",
-    image: images.object,
-    featured: false,
   },
 ] as const;
 
@@ -135,7 +111,7 @@ export function HomeEditorialSections() {
       const splits: SplitType[] = [];
       const splitTargets = Array.from(
         document.querySelectorAll<HTMLElement>(
-          'main [data-active="true"] h1, #categories h2, #products h2, [data-editorial-section] h2',
+          "#categories h2, #products h2, [data-editorial-section] h2",
         ),
       );
 
@@ -179,8 +155,6 @@ export function HomeEditorialSections() {
       const cinematicText = Array.from(
         document.querySelectorAll<HTMLElement>(
           [
-            'main [data-active="true"] p',
-            'main [data-active="true"] a',
             "#categories > header p",
             "#products header p",
             "[data-editorial-section] p",
@@ -410,7 +384,6 @@ export function HomeEditorialSections() {
   );
 
   const liftSmall = reducedMotion ? undefined : { y: -6, scale: 1.008 };
-  const liftMedium = reducedMotion ? undefined : { y: -9, scale: 1.012 };
 
   return (
     <div ref={rootRef}>
@@ -457,10 +430,10 @@ export function HomeEditorialSections() {
               Layered textures, natural materials, and considered lighting create a living space
               that feels effortless and distinctly yours.
             </p>
-            <a className={styles.primaryLink} href="#products">
-              Shop the room
+            <Link className={styles.primaryLink} href="/shop">
+              Explore the catalogue
               <ArrowRight aria-hidden="true" />
-            </a>
+            </Link>
 
             <div className={styles.roomObjects}>
               {roomObjects.map((item) => (
@@ -483,18 +456,15 @@ export function HomeEditorialSections() {
                     <strong>{item.name}</strong>
                     <span>{item.type}</span>
                   </div>
-                  <ArrowRight aria-hidden="true" />
                 </motion.div>
               ))}
             </div>
           </aside>
         </div>
 
-        <div className={styles.spaceTabs} data-reveal>
-          {spaceTabs.map((label) => (
-            <span key={label}>{label}</span>
-          ))}
-        </div>
+        <p className={styles.roomCaption} data-reveal>
+          Living room inspiration
+        </p>
       </section>
 
       <section
@@ -513,10 +483,10 @@ export function HomeEditorialSections() {
             Natural materials, considered details, and enduring beauty — the foundations of a more
             thoughtful home.
           </p>
-          <a href="#products" className={styles.textLink} data-reveal>
-            Explore materials
+          <Link href="/shop" className={styles.textLink} data-reveal>
+            Browse the collection
             <ArrowRight aria-hidden="true" />
-          </a>
+          </Link>
         </div>
 
         <div className={styles.materialGrid}>
@@ -541,50 +511,6 @@ export function HomeEditorialSections() {
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <strong>{material.name}</strong>
                 <small>{material.detail}</small>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.notesSection} data-editorial-section aria-labelledby="notes-title">
-        <header className={styles.centerHeader}>
-          <p className={styles.kicker} data-reveal>
-            DWELLUNE
-          </p>
-          <h2 id="notes-title" data-reveal>
-            House Notes
-          </h2>
-          <p data-reveal>
-            Stories on light, living, and materials — a journal for a more beautiful home, inside
-            and out.
-          </p>
-        </header>
-
-        <div className={styles.notesGrid}>
-          {notes.map((note) => (
-            <motion.article
-              key={note.title}
-              className={`${styles.noteCard} ${note.featured ? styles.noteFeatured : ""}`}
-              data-reveal
-              whileHover={liftMedium}
-              transition={{ duration: 0.38, ease: "easeOut" }}
-            >
-              <div className={styles.noteImage}>
-                <Image
-                  src={note.image}
-                  alt=""
-                  fill
-                  className={styles.coverImage}
-                  sizes="(max-width: 900px) 100vw, 44vw"
-                  data-parallax={note.featured ? "5" : undefined}
-                />
-              </div>
-              <div className={styles.noteCopy}>
-                <span>{note.eyebrow}</span>
-                <h3>{note.title}</h3>
-                <p>{note.copy}</p>
-                <ArrowRight aria-hidden="true" />
               </div>
             </motion.article>
           ))}
@@ -656,25 +582,11 @@ export function HomeEditorialSections() {
           <h2 id="closing-title" data-reveal>
             A More Beautiful Tomorrow
           </h2>
-          <p data-reveal>
-            Inspiration, new arrivals, and thoughtful living — created for a calmer, brighter home.
-          </p>
-          <div className={styles.newsletterShell} data-reveal aria-label="Newsletter preview">
-            <input
-              type="email"
-              placeholder="Newsletter opens soon"
-              disabled
-              aria-label="Newsletter signup coming soon"
-            />
-            <button type="button" disabled>
-              Join us
-              <ArrowRight aria-hidden="true" />
-            </button>
-          </div>
-          <div className={styles.closingMeta} data-reveal>
-            <span>New arrivals</span>
-            <span>Home inspiration</span>
-            <span>Exclusive offers</span>
+          <p data-reveal>Lighting, greenery, and considered objects for a calmer, brighter home.</p>
+          <div className={styles.closingAction} data-reveal>
+            <DwelluneButtonLink href="/shop" showArrow>
+              Explore the collection
+            </DwelluneButtonLink>
           </div>
         </div>
       </section>

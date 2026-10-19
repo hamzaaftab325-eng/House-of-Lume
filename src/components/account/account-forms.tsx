@@ -302,32 +302,6 @@ export function AccountActionButton({
     </div>
   );
 }
-export function PreferencesForm({ emailMarketing }: { emailMarketing: boolean }) {
-  const state = useAccountMutation();
-  return (
-    <form
-      className={styles.form}
-      onSubmit={(e) => {
-        e.preventDefault();
-        void state.run({
-          action: "preferences",
-          values: { emailMarketing: new FormData(e.currentTarget).has("emailMarketing") },
-        });
-      }}
-    >
-      <CheckboxField
-        name="emailMarketing"
-        label="Allow marketing emails"
-        defaultChecked={emailMarketing}
-        description="Your choice does not turn off essential account verification, security or transactional messages. Marketing delivery will begin only when available."
-      />
-      <DwelluneButton type="submit" disabled={state.pending}>
-        Save preference
-      </DwelluneButton>
-      <Feedback {...state} />
-    </form>
-  );
-}
 export function SignOutButton() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");

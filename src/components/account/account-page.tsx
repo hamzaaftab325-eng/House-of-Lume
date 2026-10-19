@@ -5,13 +5,7 @@ import { redirect } from "next/navigation";
 import { accountSnapshot } from "@/server/account/account.service";
 import { NotificationPage } from "@/components/notifications/notification-page";
 import { AuthForm } from "./auth-form";
-import {
-  AddressEntry,
-  AddressForm,
-  PreferencesForm,
-  ProfileForm,
-  SignOutButton,
-} from "./account-forms";
+import { AddressEntry, AddressForm, ProfileForm, SignOutButton } from "./account-forms";
 import { AccountSessionGuard } from "./session-guard";
 import styles from "./account.module.css";
 
@@ -158,8 +152,8 @@ export async function AccountPage({
         {section === "settings" ? (
           <>
             <section className={styles.section}>
-              <h2>Marketing preference</h2>
-              <PreferencesForm emailMarketing={data.emailMarketing} />
+              <h2>Notifications</h2>
+              <Link href="/account/notifications/preferences">Manage notification settings</Link>
             </section>
             <section className={styles.section}>
               <h2>Change password</h2>

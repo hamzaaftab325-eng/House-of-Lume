@@ -1,7 +1,7 @@
 "use client";
 
-import { ChevronDown, X } from "lucide-react";
-import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { X } from "lucide-react";
+import { useEffect, useId, useRef, type ReactNode } from "react";
 
 import { cx } from "@/lib/cx";
 
@@ -131,106 +131,5 @@ export function Drawer({
         {footer ? <div className={styles.drawerFooter}>{footer}</div> : null}
       </div>
     </dialog>
-  );
-}
-
-type AccordionProps = { children: ReactNode; className?: string };
-
-export function Accordion({ children, className }: AccordionProps) {
-  return <div className={cx(styles.accordion, className)}>{children}</div>;
-}
-
-type AccordionItemProps = {
-  title: string;
-  children: ReactNode;
-  defaultOpen?: boolean;
-};
-
-export function AccordionItem({ title, children, defaultOpen = false }: AccordionItemProps) {
-  return (
-    <details className={styles.accordionItem} open={defaultOpen || undefined}>
-      <summary className={styles.accordionSummary}>
-        <span>{title}</span>
-        <ChevronDown className={styles.accordionChevron} aria-hidden="true" />
-      </summary>
-      <div className={styles.accordionContent}>{children}</div>
-    </details>
-  );
-}
-
-type TabItem = { id: string; label: string; content: ReactNode };
-
-type TabsProps = {
-  label: string;
-  items: TabItem[];
-  defaultValue?: string;
-};
-
-export function Tabs({ label, items, defaultValue }: TabsProps) {
-  const [active, setActive] = useState(defaultValue ?? items[0]?.id ?? "");
-  const baseId = useId();
-  const refs = useRef<Array<HTMLButtonElement | null>>([]);
-
-  const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
-    let nextIndex = index;
-    if (event.key === "ArrowRight") nextIndex = (index + 1) % items.length;
-    else if (event.key === "ArrowLeft") nextIndex = (index - 1 + items.length) % items.length;
-    else if (event.key === "Home") nextIndex = 0;
-    else if (event.key === "End") nextIndex = items.length - 1;
-    else return;
-
-    event.preventDefault();
-    const item = items[nextIndex];
-    if (!item) return;
-    setActive(item.id);
-    refs.current[nextIndex]?.focus();
-  };
-
-  const activeItem = items.find((item) => item.id === active) ?? items[0];
-
-  return (
-    <div>
-      <div className={styles.tabsList} role="tablist" aria-label={label}>
-        {items.map((item, index) => (
-          <button
-            key={item.id}
-            ref={(node) => {
-              refs.current[index] = node;
-            }}
-            className={styles.tab}
-            id={`${baseId}-${item.id}-tab`}
-            role="tab"
-            type="button"
-            aria-controls={`${baseId}-${item.id}-panel`}
-            aria-selected={activeItem?.id === item.id}
-            tabIndex={activeItem?.id === item.id ? 0 : -1}
-            onClick={() => setActive(item.id)}
-            onKeyDown={(event) => onKeyDown(event, index)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
-      {activeItem ? (
-        <div
-          className={styles.tabPanel}
-          id={`${baseId}-${activeItem.id}-panel`}
-          role="tabpanel"
-          aria-labelledby={`${baseId}-${activeItem.id}-tab`}
-          tabIndex={0}
-        >
-          {activeItem.content}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-export function EmptyDrawerState({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <div className={styles.emptyState}>
-      <strong>{title}</strong>
-      <p>{children}</p>
-    </div>
   );
 }

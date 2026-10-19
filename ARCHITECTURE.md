@@ -155,7 +155,7 @@ Use Zod schemas for:
 - environment variables
 - external webhook/provider payloads when integrations are introduced
 
-`src/lib/validation.ts` provides the baseline parsing pattern.
+Domain schemas in `src/lib` and the services validate inputs with Zod `parse`/`safeParse` at the first trusted boundary. The unused generic validation wrapper was retired in maintenance Part 3.
 
 Validation does not replace authorization.
 
@@ -175,7 +175,6 @@ Unexpected infrastructure failures may throw and should reach the application ob
 
 Current primitives:
 
-- `src/lib/result.ts`
 - `src/app/error.tsx`
 - `src/app/global-error.tsx`
 - `src/app/not-found.tsx`
@@ -184,7 +183,7 @@ Error messages shown to customers must not expose internal stack traces or sensi
 
 ## 9. Logging and Observability
 
-`src/server/logger.ts` is the initial structured logging boundary.
+The unused generic result/logger scaffolding was retired in maintenance Part 3. Domain services and Next.js error boundaries remain the active error/reporting paths; a future observability adapter must be wired into actual callers before being described as operational.
 
 Rules:
 
@@ -359,3 +358,15 @@ The authoritative assignment is `app_private.store_owner`: one `singleton=true` 
 Every existing verification, policy, notification and delivery operation uses the same owner authority. Notification producers target the owner directly. `is_super_admin()` remains a thin policy alias; persisted audience `staff`, receipt actor fields and verification RPC names remain stable. These are protocol compatibility, not separate roles or configurable permissions. The old directory/context/access-action RPCs and permission helpers are removed. Role/profile/permission tables and access receipts are retained as client-inaccessible `app_private.legacy_*` archives. Verification receipts are now `admin_verification_receipts`.
 
 For rolling deployment compatibility, `public.staff_profiles` is a read-only security-invoker view exposing the one owner only to that owner's valid session. The new application does not query it. Database changes deploy before application code; the preceding application can continue its owner lookup against this bridge. A private scoped checkpoint contains pre-change function definitions/grants, access rows and tested reverse SQL. It is not a full Supabase/Auth/Vault backup.
+
+## Storefront scope — maintenance Part 3
+
+The public design showcase (`/system`) is removed along with exclusive editorial demo art/components, sample status/radio/tab/accordion controls, showcase motion wrappers and unused generic scaffolding. Working dialogs/drawers, toast feedback, form fields, product controls and every animation dependency remain reachable from production routes. Generated database types remain intentionally retained.
+
+The homepage keeps its hero, categories, product shelf, room/material/service scenes, motion, closing composition and footer. Inactive journal/newsletter previews are removed. Closing and room/material actions lead to `/shop`; static room content does not pretend to switch to unpublished room experiences.
+
+The product loader no longer queries reviews or serializes review summaries. The purchase panel and Product JSON-LD no longer present ratings. The review table and historical migrations remain intact. Category/options/variants/media/stock/shipping/related-product queries and Product/Offer metadata are unchanged.
+
+Notification settings are withdrawal-only in the current UI: no new marketing/product opt-ins are offered. The existing guarded endpoint is retained for deployment compatibility; the UI submits both optional flags as false and verifies the returned values. Pending writes are locked; uncertain results retry the same off-values. One stored optional consent existed at preflight and is preserved until that customer chooses to withdraw it. Essential notification rules, existing recipient ownership, Auth guards and all SQL remain unchanged.
+
+Hero animation ownership is isolated from the homepage editorial animator. Motion-mode changes revert hero text splits and clear interrupted child/filter state before showing the selected slide, preventing hidden content after a reduced-motion change.

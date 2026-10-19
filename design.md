@@ -1,3 +1,5 @@
+> Current scope — maintenance Part 3, 19 October 2026: the public design showcase, journal/newsletter previews and optional review/ratings presentation are retired. Do not introduce marketing or product-subscription opt-in UI. Retain existing consent withdrawal, essential notices and all core shopping controls. Reusable patterns described below remain design guidance; they do not require shipping unused demo components.
+
 # DWELLUNE — Production Design System
 
 **Status:** Final production baseline  
@@ -502,7 +504,7 @@ Contains:
 - product name
 - descriptor
 - price
-- reviews summary
+- optional ratings summary only if explicitly reintroduced
 - variant controls
 - quantity
 - Add to Bag

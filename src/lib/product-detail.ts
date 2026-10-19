@@ -41,11 +41,6 @@ export type ProductVariant = {
   lowStock: boolean;
 };
 
-export type ProductReviewSummary = {
-  count: number;
-  averageRating: number | null;
-};
-
 export type ProductDeliveryPolicy = {
   codEnabled: boolean;
   codMinOrderPkr: number;
@@ -73,7 +68,6 @@ export type ProductDetailData = {
   media: ProductMediaItem[];
   options: ProductOption[];
   variants: ProductVariant[];
-  reviewSummary: ProductReviewSummary;
   deliveryPolicy: ProductDeliveryPolicy;
 };
 

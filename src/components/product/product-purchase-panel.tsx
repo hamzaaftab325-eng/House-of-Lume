@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, Minus, Plus, Star } from "lucide-react";
+import { Heart, Minus, Plus } from "lucide-react";
 
 import { DwelluneButton } from "@/components/ui/controls";
 import {
@@ -72,18 +72,6 @@ export function ProductPurchasePanel({
       ) : (
         <p className={styles.unavailableCopy}>No purchasable variant is currently published.</p>
       )}
-
-      <div className={styles.reviewSummary}>
-        <Star aria-hidden="true" />
-        {product.reviewSummary.count > 0 && product.reviewSummary.averageRating ? (
-          <span>
-            <strong>{product.reviewSummary.averageRating.toFixed(1)}</strong> from{" "}
-            {product.reviewSummary.count} {product.reviewSummary.count === 1 ? "review" : "reviews"}
-          </span>
-        ) : (
-          <span>No reviews yet</span>
-        )}
-      </div>
 
       {product.options.map((option) => (
         <fieldset className={styles.optionGroup} key={option.id}>

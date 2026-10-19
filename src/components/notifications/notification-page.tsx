@@ -92,7 +92,7 @@ export async function NotificationPage({
               : "/account/notifications/preferences") as Route
           }
         >
-          {audience === "staff" ? "Delivery status and event registry" : "Notification preferences"}
+          {audience === "staff" ? "Delivery status and event registry" : "Notification settings"}
         </Link>
       </div>
       <NotificationCenter

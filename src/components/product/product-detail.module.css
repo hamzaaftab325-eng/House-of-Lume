@@ -236,25 +236,6 @@
   line-height: 1.6;
 }
 
-.reviewSummary {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: -0.65rem;
-  color: var(--color-ash);
-  font-size: 0.78rem;
-}
-
-.reviewSummary svg {
-  width: 0.95rem;
-  fill: var(--color-bronze);
-  color: var(--color-bronze);
-}
-
-.reviewSummary strong {
-  color: var(--color-ink);
-}
-
 .optionGroup {
   min-width: 0;
   margin: 0;
