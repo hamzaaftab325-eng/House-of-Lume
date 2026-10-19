@@ -1,10 +1,10 @@
-import type { Metadata, Route } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { adminIdentity } from "@/server/admin/admin.service";
 import { AccountSessionGuard } from "@/components/account/session-guard";
 import { SignOutButton } from "@/components/account/account-forms";
-import { NotificationBadge } from "@/components/notifications/notification-badge";
+import { AdminNavigation } from "@/components/admin/admin-navigation";
 import styles from "@/components/admin/verification.module.css";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -32,18 +32,16 @@ export default async function CrmLayout({ children }: { children: React.ReactNod
   }
   return (
     <AccountSessionGuard userId={admin.userId} sessionEndpoint="/api/admin/session">
+      <a className={styles.skipLink} href="#crm-main">Skip to main content</a>
       <header className={styles.header}>
-        <nav aria-label="Administrator navigation">
-          <Link href="/crm">DWELLUNE admin</Link>
-          <Link href={"/crm/verification" as Route}>COD verification</Link>
-          <Link href={"/crm/verification/settings" as Route}>Verification rules</Link>
-          <NotificationBadge audience="staff" />
+        <AdminNavigation />
+        <div className={styles.adminActions}>
+          <span className={styles.identity}>{admin.email}</span>
           <Link href="/account">My account</Link>
-        </nav>
-        <span className={styles.identity}>{admin.email}</span>
-        <SignOutButton />
+          <SignOutButton />
+        </div>
       </header>
-      {children}
+      <div id="crm-main" tabIndex={-1}>{children}</div>
     </AccountSessionGuard>
   );
 }
