@@ -1668,27 +1668,6 @@ export type Database = {
           },
         ];
       };
-      permissions: {
-        Row: {
-          created_at: string;
-          description: string | null;
-          name: string;
-          slug: string;
-        };
-        Insert: {
-          created_at?: string;
-          description?: string | null;
-          name: string;
-          slug: string;
-        };
-        Update: {
-          created_at?: string;
-          description?: string | null;
-          name?: string;
-          slug?: string;
-        };
-        Relationships: [];
-      };
       product_categories: {
         Row: {
           category_id: string;
@@ -2275,60 +2254,6 @@ export type Database = {
           },
         ];
       };
-      role_permissions: {
-        Row: {
-          created_at: string;
-          permission_slug: string;
-          role_slug: string;
-        };
-        Insert: {
-          created_at?: string;
-          permission_slug: string;
-          role_slug: string;
-        };
-        Update: {
-          created_at?: string;
-          permission_slug?: string;
-          role_slug?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "role_permissions_permission_slug_fkey";
-            columns: ["permission_slug"];
-            isOneToOne: false;
-            referencedRelation: "permissions";
-            referencedColumns: ["slug"];
-          },
-          {
-            foreignKeyName: "role_permissions_role_slug_fkey";
-            columns: ["role_slug"];
-            isOneToOne: false;
-            referencedRelation: "roles";
-            referencedColumns: ["slug"];
-          },
-        ];
-      };
-      roles: {
-        Row: {
-          created_at: string;
-          description: string | null;
-          name: string;
-          slug: string;
-        };
-        Insert: {
-          created_at?: string;
-          description?: string | null;
-          name: string;
-          slug: string;
-        };
-        Update: {
-          created_at?: string;
-          description?: string | null;
-          name?: string;
-          slug?: string;
-        };
-        Relationships: [];
-      };
       rto_records: {
         Row: {
           created_at: string;
@@ -2539,45 +2464,6 @@ export type Database = {
           updated_at?: string;
         };
         Relationships: [];
-      };
-      staff_profiles: {
-        Row: {
-          created_at: string;
-          is_active: boolean;
-          role_slug: string;
-          updated_at: string;
-          user_id: string;
-        };
-        Insert: {
-          created_at?: string;
-          is_active?: boolean;
-          role_slug: string;
-          updated_at?: string;
-          user_id: string;
-        };
-        Update: {
-          created_at?: string;
-          is_active?: boolean;
-          role_slug?: string;
-          updated_at?: string;
-          user_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "staff_profiles_role_slug_fkey";
-            columns: ["role_slug"];
-            isOneToOne: false;
-            referencedRelation: "roles";
-            referencedColumns: ["slug"];
-          },
-          {
-            foreignKeyName: "staff_profiles_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: true;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          },
-        ];
       };
       support_messages: {
         Row: {
@@ -2837,6 +2723,36 @@ export type Database = {
         };
         Relationships: [];
       };
+      staff_profiles: {
+        Row: {
+          access_revision: number | null;
+          access_valid_after: string | null;
+          created_at: string | null;
+          is_active: boolean | null;
+          role_slug: string | null;
+          updated_at: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          access_revision?: never;
+          access_valid_after?: string | null;
+          created_at?: string | null;
+          is_active?: never;
+          role_slug?: never;
+          updated_at?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          access_revision?: never;
+          access_valid_after?: string | null;
+          created_at?: string | null;
+          is_active?: never;
+          role_slug?: never;
+          updated_at?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       account_delete_address: { Args: { p_id: string }; Returns: undefined };
@@ -2995,6 +2911,7 @@ export type Database = {
         Args: { p_input: Json; p_secret: string };
         Returns: Json;
       };
+      owner_context: { Args: never; Returns: Json };
       staff_verification_action: {
         Args: { p_input: Json; p_order_id: string; p_request_id: string };
         Returns: Json;

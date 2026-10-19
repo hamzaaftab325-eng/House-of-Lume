@@ -19,7 +19,7 @@ function failure(error: unknown) {
   const status =
     code === "authentication_required"
       ? 401
-      : code === "staff_access_required"
+      : ["staff_access_required", "admin_access_required"].includes(code)
         ? 403
         : [
               "verification_changed",

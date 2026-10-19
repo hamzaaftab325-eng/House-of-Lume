@@ -1,14 +1,17 @@
 // Enabled only under the existing loopback/placeholder/no-Vercel browser-test guard.
 import { cookies } from "next/headers";
-import { staffFixtureEnabled, staffFixtureIdentity } from "@/server/admin/verification.fixture";
+import { adminFixtureEnabled, adminFixtureIdentity } from "@/server/admin/verification.fixture";
 import { feedSchema, type NotificationQuery, type NotificationRead } from "@/lib/notifications";
 export async function notificationFixtureIdentity(audience: "customer" | "staff") {
-  if (!staffFixtureEnabled()) throw new Error("authentication_required");
-  if (audience === "staff") return staffFixtureIdentity();
+  if (!adminFixtureEnabled()) throw new Error("authentication_required");
+  if (audience === "staff") {
+    const admin = await adminFixtureIdentity();
+    return { identityId: admin.userId, email: admin.email };
+  }
   if ((await cookies()).get("dwellune-test-customer")?.value !== "1")
     throw new Error("authentication_required");
   return {
-    customerId: "99000000-0000-4000-8000-000000000001",
+    identityId: "99000000-0000-4000-8000-000000000001",
     email: "customer-fixture@example.invalid",
   };
 }

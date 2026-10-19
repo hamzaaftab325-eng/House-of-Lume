@@ -3,16 +3,19 @@ import { useEffect, useState } from "react";
 import { broadcastAccountChange } from "./session-events";
 import { DwelluneButton } from "@/components/ui/controls";
 
-export function AccountSessionGuard({
-  customerId,
-  children,
-  sessionEndpoint = "/api/account",
-}: {
-  customerId: string;
-  children: React.ReactNode;
-  sessionEndpoint?:
-    "/api/account" | "/api/admin/session" | "/api/notifications?audience=customer&summary=1";
-}) {
+type SessionGuardProps = { children: React.ReactNode } & (
+  | {
+      customerId: string;
+      userId?: never;
+      sessionEndpoint?: "/api/account" | "/api/notifications?audience=customer&summary=1";
+    }
+  | { userId: string; customerId?: never; sessionEndpoint: "/api/admin/session" }
+);
+
+export function AccountSessionGuard(props: SessionGuardProps) {
+  const { children, sessionEndpoint = "/api/account" } = props;
+  const identityId = props.userId ?? props.customerId;
+  const identityKey = props.userId ? "userId" : "customerId";
   const [valid, setValid] = useState(true);
   const [retry, setRetry] = useState(0);
   useEffect(() => {
@@ -41,7 +44,7 @@ export function AccountSessionGuard({
         }
         const data = await r.json();
         if (!alive || version !== generation) return;
-        if (data.customerId !== customerId) {
+        if (data[identityKey] !== identityId) {
           setValid(false);
           window.location.reload();
           return;
@@ -79,7 +82,7 @@ export function AccountSessionGuard({
       document.removeEventListener("visibilitychange", onVisibility);
       window.clearInterval(timer);
     };
-  }, [customerId, retry, sessionEndpoint]);
+  }, [identityId, identityKey, retry, sessionEndpoint]);
   return (
     <>
       <div hidden={!valid}>{children}</div>

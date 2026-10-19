@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { accountIdentity } from "@/server/account/account.service";
 import { adminIdentity } from "@/server/admin/admin.service";
-import { staffFixtureEnabled } from "@/server/admin/verification.fixture";
+import { adminFixtureEnabled } from "@/server/admin/verification.fixture";
 import { notificationFixture, notificationFixtureIdentity } from "./notifications.fixture";
 import {
   feedSchema,
@@ -17,14 +17,17 @@ function parseUnread(data: unknown) {
   return parsed.data;
 }
 export async function notificationIdentity(audience: NotificationAudience) {
-  if (staffFixtureEnabled()) return notificationFixtureIdentity(audience);
-  if (audience === "staff") return adminIdentity();
+  if (adminFixtureEnabled()) return notificationFixtureIdentity(audience);
+  if (audience === "staff") {
+    const admin = await adminIdentity();
+    return { identityId: admin.userId, email: admin.email };
+  }
   const { customer, email } = await accountIdentity();
-  return { customerId: customer.id, email };
+  return { identityId: customer.id, email };
 }
 export async function notificationFeed(query: NotificationQuery) {
   await notificationIdentity(query.audience);
-  if (staffFixtureEnabled()) return feedSchema.parse(await notificationFixture(query));
+  if (adminFixtureEnabled()) return feedSchema.parse(await notificationFixture(query));
   const client = await createClient();
   const { data, error } = await client.rpc("notification_feed", {
     p_audience: query.audience,
@@ -44,20 +47,30 @@ export async function notificationFeed(query: NotificationQuery) {
 }
 export async function notificationUnread(audience: NotificationAudience) {
   const identity = await notificationIdentity(audience);
-  if (staffFixtureEnabled()) {
+  if (adminFixtureEnabled()) {
     const result = parseUnread(
       await notificationFixture({ audience, read: "all", category: "all", priority: "all" }),
     );
-    return { ...result, customerId: identity.customerId };
+    return {
+      ...result,
+      ...(audience === "staff"
+        ? { userId: identity.identityId }
+        : { customerId: identity.identityId }),
+    };
   }
   const client = await createClient();
   const { data, error } = await client.rpc("notification_unread", { p_audience: audience });
   if (error) throw new Error(error.message);
-  return { ...parseUnread({ unread: data }), customerId: identity.customerId };
+  return {
+    ...parseUnread({ unread: data }),
+    ...(audience === "staff"
+      ? { userId: identity.identityId }
+      : { customerId: identity.identityId }),
+  };
 }
 export async function notificationRead(action: NotificationRead) {
   await notificationIdentity(action.audience);
-  if (staffFixtureEnabled())
+  if (adminFixtureEnabled())
     return parseUnread(
       await notificationFixture(
         { audience: action.audience, read: "all", category: "all", priority: "all" },

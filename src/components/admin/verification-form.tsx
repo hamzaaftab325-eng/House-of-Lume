@@ -179,7 +179,7 @@ export function VerificationForm({
           </p>
         )}
         <TextAreaField
-          label="Staff verification note"
+          label="Admin verification note"
           hint="Private to administrators. Record why you are taking this action."
           value={note}
           onChange={(event) => setNote(event.target.value)}

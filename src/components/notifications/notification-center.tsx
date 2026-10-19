@@ -153,7 +153,7 @@ export function NotificationCenter({
         </DwelluneButton>
       </form>
       <p role="status">
-        {feed.unread} unread in your {query.audience === "staff" ? "staff" : "customer"} inbox
+        {feed.unread} unread in your {query.audience === "staff" ? "admin" : "customer"} inbox
       </p>
       <div className={styles.actions}>
         {feed.unread > 0 ? (

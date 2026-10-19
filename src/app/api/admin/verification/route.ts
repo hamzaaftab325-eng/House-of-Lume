@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     const status =
       code === "authentication_required"
         ? 401
-        : code === "staff_access_required"
+        : ["staff_access_required", "admin_access_required"].includes(code)
           ? 403
           : code === "order_unavailable"
             ? 404

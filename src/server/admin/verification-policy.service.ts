@@ -1,10 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
 import { adminIdentity } from "./admin.service";
 import { policySchema, type PolicyAction } from "@/lib/verification";
-import { staffFixtureEnabled, fixturePolicy } from "./verification.fixture";
+import { adminFixtureEnabled, fixturePolicy } from "./verification.fixture";
 export async function verificationPolicy(action?: PolicyAction) {
   await adminIdentity();
-  if (staffFixtureEnabled()) return fixturePolicy(action);
+  if (adminFixtureEnabled()) return fixturePolicy(action);
   const client = await createClient();
   const { data, error } = await client.rpc(
     "staff_verification_policy",

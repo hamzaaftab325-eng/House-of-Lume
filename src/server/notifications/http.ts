@@ -11,7 +11,7 @@ export function notificationFailure(error: unknown) {
   const status =
     code === "authentication_required"
       ? 401
-      : code === "staff_access_required"
+      : ["staff_access_required", "admin_access_required"].includes(code)
         ? 403
         : error instanceof z.ZodError ||
             error instanceof SyntaxError ||
@@ -24,7 +24,7 @@ export function notificationFailure(error: unknown) {
         status === 401
           ? "Please sign in again."
           : status === 403
-            ? "Staff access required."
+            ? "Administrator access required."
             : status === 400
               ? "Check the notification settings."
               : "The result is unavailable. Please retry.",

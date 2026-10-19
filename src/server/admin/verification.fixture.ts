@@ -11,8 +11,8 @@ import {
   type PolicyAction,
 } from "@/lib/verification";
 export const fixtureOrderId = "94000000-0000-4000-8000-000000000001";
-const fixtureStaffId = "94000000-0000-4000-8000-000000000002";
-export function staffFixtureEnabled() {
+const fixtureAdminId = "94000000-0000-4000-8000-000000000002";
+export function adminFixtureEnabled() {
   return (
     !process.env.VERCEL &&
     process.env.COMMERCE_TEST_FIXTURES === "1" &&
@@ -20,10 +20,10 @@ export function staffFixtureEnabled() {
     /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(process.env.NEXT_PUBLIC_SITE_URL ?? "")
   );
 }
-export async function staffFixtureIdentity() {
-  if ((await cookies()).get("dwellune-test-staff")?.value !== "1")
+export async function adminFixtureIdentity() {
+  if ((await cookies()).get("dwellune-test-admin")?.value !== "1")
     throw new Error("authentication_required");
-  return { email: "staff-fixture@example.invalid", customerId: fixtureStaffId };
+  return { email: "owner-fixture@example.invalid", userId: fixtureAdminId };
 }
 const stateSchema = z.object({
   review: reviewSchema.default({
@@ -116,11 +116,11 @@ export async function fixtureDetail(id: string) {
         contact_outcome: entry.outcome ?? null,
         staff_action: entry.action,
         note: entry.note,
-        initiated_by: fixtureStaffId,
-        verified_by: entry.action === "confirm" ? fixtureStaffId : null,
+        initiated_by: fixtureAdminId,
+        verified_by: entry.action === "confirm" ? fixtureAdminId : null,
         created_at: date,
         verified_at: entry.action === "confirm" ? date : null,
-        staff_name: "Fixture staff",
+        staff_name: "Fixture admin",
       }))
       .reverse(),
     history: state.notes
@@ -129,7 +129,7 @@ export async function fixtureDetail(id: string) {
         id: index + 1,
         from_status: "pending_verification",
         to_status: entry.action === "confirm" ? "confirmed" : "cancelled",
-        changed_by: fixtureStaffId,
+        changed_by: fixtureAdminId,
         created_at: date,
       })),
     can_verify: state.status === "pending_verification",
@@ -198,7 +198,7 @@ export async function fixtureAction(action: VerificationAction) {
             ...state.review.flags,
             {
               code: "staff_review",
-              label: "Staff requested manual review.",
+              label: "Admin requested manual review.",
               count: 1,
               threshold: 1,
             },
@@ -211,7 +211,7 @@ export async function fixtureAction(action: VerificationAction) {
     state.review = {
       ...state.review,
       status: "cleared",
-      reviewed_by: fixtureStaffId,
+      reviewed_by: fixtureAdminId,
       reviewed_at: "2026-10-14T00:00:00+00:00",
       note: action.input.note,
     };

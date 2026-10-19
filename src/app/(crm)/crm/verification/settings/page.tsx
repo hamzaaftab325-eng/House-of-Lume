@@ -22,7 +22,7 @@ export default async function VerificationSettings() {
         Matching retries return the existing order.
       </p>
       <p className={styles.intro}>
-        Flagged orders require a recorded staff review before confirmation. Saving these rules does
+        Flagged orders require a recorded admin review before confirmation. Saving these rules does
         not open checkout.
       </p>
       <VerificationPolicyForm key={policy.revision} policy={policy} />

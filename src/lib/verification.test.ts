@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { staffContactLinks, verificationActionSchema, verificationError } from "./verification";
+import { adminContactLinks, verificationActionSchema, verificationError } from "./verification";
 const base = {
   orderId: "94000000-0000-4000-8000-000000000001",
   requestId: "94000000-0000-4000-8000-000000000002",
@@ -37,14 +37,14 @@ it("validates contact outcomes and forbids customer/staff identity overrides", (
 });
 it("does not build unsafe contact URLs or email header injections", () => {
   expect(
-    staffContactLinks(
+    adminContactLinks(
       "javascript:alert(1)",
       "https://evil.example",
       "owner@example.com\r\nBcc:foreign@example.com",
       100001,
     ),
   ).toEqual({ phone: null, whatsapp: null, email: null });
-  expect(staffContactLinks("+923001234567", null, "customer@example.com", 100001)).toEqual({
+  expect(adminContactLinks("+923001234567", null, "customer@example.com", 100001)).toEqual({
     phone: "tel:+923001234567",
     whatsapp: "https://wa.me/923001234567",
     email: "mailto:customer%40example.com?subject=DWELLUNE%20order%20100001%20verification",

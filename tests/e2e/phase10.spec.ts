@@ -5,7 +5,7 @@ async function identity(
 ) {
   await context.addCookies([
     {
-      name: audience === "staff" ? "dwellune-test-staff" : "dwellune-test-customer",
+      name: audience === "staff" ? "dwellune-test-admin" : "dwellune-test-customer",
       value: "1",
       url: "http://127.0.0.1:3000",
     },
@@ -17,10 +17,11 @@ for (const audience of ["customer", "staff"] as const)
     context,
   }) => {
     await identity(context, audience);
+    const inboxLabel = audience === "staff" ? "admin" : "customer";
     const path = audience === "staff" ? "/crm/notifications" : "/account/notifications";
     await page.goto(path);
     await expect(
-      page.getByText(`23 unread in your ${audience} inbox`, { exact: true }),
+      page.getByText(`23 unread in your ${inboxLabel} inbox`, { exact: true }),
     ).toBeVisible();
     await expect(page.getByRole("article")).toHaveCount(20);
     await page.getByRole("link", { name: "Older notifications", exact: true }).click();
@@ -36,7 +37,7 @@ for (const audience of ["customer", "staff"] as const)
       })
       .click();
     await expect(
-      page.getByText(`22 unread in your ${audience} inbox`, { exact: true }),
+      page.getByText(`22 unread in your ${inboxLabel} inbox`, { exact: true }),
     ).toBeVisible();
     await page.getByLabel("Show", { exact: true }).selectOption("unread");
     await page.getByLabel("Category", { exact: true }).selectOption("verification");
@@ -44,12 +45,12 @@ for (const audience of ["customer", "staff"] as const)
     await expect(page.getByRole("article")).toHaveCount(1);
     await page.getByRole("button", { name: "Mark all as read", exact: true }).click();
     await expect(
-      page.getByText(`0 unread in your ${audience} inbox`, { exact: true }),
+      page.getByText(`0 unread in your ${inboxLabel} inbox`, { exact: true }),
     ).toBeVisible();
     await expect(page.getByRole("article")).toHaveCount(0);
     if (audience === "staff")
       await expect(
-        page.getByRole("link", { name: "Staff notifications, 0 unread", exact: true }),
+        page.getByRole("link", { name: "Admin notifications, 0 unread", exact: true }),
       ).toBeVisible();
   });
 test("notification API and pages protect both audiences", async ({ page, request }) => {
@@ -85,7 +86,7 @@ test("uncertain read-all retries preserve the original cutoff", async ({ page, c
   await page.getByRole("button", { name: "Mark all as read", exact: true }).click();
   await expect(page.getByRole("button", { name: "Mark all as read", exact: true })).toBeDisabled();
   await page.getByRole("button", { name: "Retry read update" }).click();
-  await expect(page.getByText("0 unread in your staff inbox", { exact: true })).toBeVisible();
+  await expect(page.getByText("0 unread in your admin inbox", { exact: true })).toBeVisible();
   expect(bodies).toHaveLength(2);
   expect(bodies[0]).toBe(bodies[1]);
 });
@@ -101,7 +102,7 @@ test("notification center hides private data after access revocation", async ({
   await page.evaluate(() =>
     window.dispatchEvent(new StorageEvent("storage", { key: "dwellune-auth-change" })),
   );
-  await expect(page.getByRole("heading", { name: "Staff notifications." })).not.toBeVisible();
+  await expect(page.getByRole("heading", { name: "Admin notifications." })).not.toBeVisible();
 });
 for (const width of [375, 768, 1440])
   test(`notification center keyboard and reflow at ${width}`, async ({ page, context }) => {

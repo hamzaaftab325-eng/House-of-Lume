@@ -57,7 +57,7 @@ Future domain code is organized by responsibility rather than by page. Server-ow
 
 - `(store)` is public commerce/discovery.
 - `(account)` becomes authenticated customer space when auth is introduced.
-- `(crm)` becomes staff-only operational space when staff auth/RBAC is introduced.
+- `(crm)` is restricted to the single store owner through live Auth sessions and database authorization.
 - Server Components are the default. Client Components are introduced only at real interaction boundaries.
 
 ## Styling rules
@@ -120,19 +120,19 @@ Checkout details and validated COD quotes are available at `/checkout`. Order pl
 
 ## Phase 8 Part 2 release preparation
 
-Order creation, secure confirmation and a durable transactional email queue are deployed with checkout disabled. The Super Admin is configured. The owner selected Gmail SMTP for order emails using `dwellunestore@gmail.com`; the protected worker uses Production `SMTP_APP_PASSWORD` and `ORDER_EMAIL_WORKER_SECRET`. Auth SMTP remains independently configured in Supabase. Real inventory, merchant operating details and live checkout/mailbox acceptance remain launch gates. See `PHASE_8_PART_2_AUDIT.md` and `GMAIL_ORDER_EMAIL_AUDIT.md`; do not enable checkout before these checks pass.
+Order creation, secure confirmation and a durable transactional email queue are deployed with checkout disabled. The Owner admin is configured. The owner selected Gmail SMTP for order emails using `dwellunestore@gmail.com`; the protected worker uses Production `SMTP_APP_PASSWORD` and `ORDER_EMAIL_WORKER_SECRET`. Auth SMTP remains independently configured in Supabase. Real inventory, merchant operating details and live checkout/mailbox acceptance remain launch gates. See `PHASE_8_PART_2_AUDIT.md` and `GMAIL_ORDER_EMAIL_AUDIT.md`; do not enable checkout before these checks pass.
 
 ## Phase 9 Part 1 — COD verification
 
-Super Admin can open `/crm/verification` to review pending orders, record actual phone/WhatsApp/email contact, confirm orders, or reject/cancel eligible orders before shipment and COD collection. Required private notes, staff timestamps, stale-order protection and idempotent retries safeguard the workflow. Customer account status/progress and in-app notices update without exposing staff notes. Product management is still later work, and checkout remains closed pending real-product acceptance. See `PHASE_9_PART_1_AUDIT.md`; Part 2 adds editable verification rules, deterministic review signals, mandatory review clearance and rolling phone/account/guest order limits. See `PHASE_9_PART_2_AUDIT.md`.
+Owner admin can open `/crm/verification` to review pending orders, record actual phone/WhatsApp/email contact, confirm orders, or reject/cancel eligible orders before shipment and COD collection. Required private notes, staff timestamps, stale-order protection and idempotent retries safeguard the workflow. Customer account status/progress and in-app notices update without exposing staff notes. Product management is still later work, and checkout remains closed pending real-product acceptance. See `PHASE_9_PART_1_AUDIT.md`; Part 2 adds editable verification rules, deterministic review signals, mandatory review clearance and rolling phone/account/guest order limits. See `PHASE_9_PART_2_AUDIT.md`.
 
 ## Phase 9 Part 2 — review controls
 
-Open `/crm/verification/settings` as Super Admin to edit rules with an audit reason. Defaults: PKR 25,000 high-value threshold, 24-hour duplicate window, two prior failed/RTO orders within 180 days, three orders per hour and five per 24 hours. Possible duplicates match normalized phone and canonical total. Signals require staff review; they do not automatically reject customers. Clear manual review with a private note, then confirm separately. Settings never enable checkout. Real-product merchant acceptance remains deferred.
+Open `/crm/verification/settings` as Owner admin to edit rules with an audit reason. Defaults: PKR 25,000 high-value threshold, 24-hour duplicate window, two prior failed/RTO orders within 180 days, three orders per hour and five per 24 hours. Possible duplicates match normalized phone and canonical total. Signals require staff review; they do not automatically reject customers. Clear manual review with a private note, then confirm separately. Settings never enable checkout. Real-product merchant acceptance remains deferred.
 
 ## Phase 10 Part 1 — notification centers
 
-Customer inbox: `/account/notifications`. Staff inbox: `/crm/notifications`. Both support all/unread, category filters, bounded cursor pages, single-read and whole-inbox mark-all. Staff additionally filter priority and see operational urgency. Inboxes are recipient-scoped, including for Super Admin; staff and customer notices stay separate. Badges refresh after reads, cross-tab changes, visible-tab return and a 60-second visible-page poll. Reading notices does not alter orders or imply email delivery. Part 2 event coverage/preferences remain separate. See `PHASE_10_PART_1_AUDIT.md`.
+Customer inbox: `/account/notifications`. Admin inbox: `/crm/notifications`. Both support all/unread, category filters, bounded cursor pages, single-read and whole-inbox mark-all. The admin additionally filter priority and see operational urgency. Inboxes are recipient-scoped, including for Owner admin; staff and customer notices stay separate. Badges refresh after reads, cross-tab changes, visible-tab return and a 60-second visible-page poll. Reading notices does not alter orders or imply email delivery. Part 2 event coverage/preferences remain separate. See `PHASE_10_PART_1_AUDIT.md`.
 
 ## Phase 10 Part 2 — events and delivery controls
 
@@ -143,3 +143,9 @@ Current producers include order placement/confirmation/cancellation, verificatio
 Phase 11 Part 1 adds branded HTML/plain-text order receipts through the existing Gmail worker, using the approved DWELLUNE logo and safe account links. COD verification, confirmation, cancellation and return-request templates are prepared; their outgoing email producers belong to Part 2. The protected owner test sends a clearly labelled sample to `hamzaaftab325@gmail.com`. Mailbox receipt is separate from SMTP acceptance. See `PHASE_11_PART_1_AUDIT.md` for scope and remaining acceptance gates.
 
 Phase 11 Part 2 adds durable supported-event email jobs, private attempt logs, per-job failure alerts, event/version labels in delivery operations, and future templates without enabling their producers. Eight migrations are applied and hosted rollback tests pass. The final main production release follows the single-push workflow. Live product/order acceptance and hosted Auth template/recovery checks remain pending. See `PHASE_11_PART_2_AUDIT.md`.
+
+## Single owner access (maintenance Part 2)
+
+The shop has one administrator. `app_private.store_owner` is the only active admin assignment, protected by a singleton constraint, Auth foreign key, live-session validation and RLS. No staff directory, role assignments, invitations or permission editor is supported. All existing admin operations use that owner; customer accounts and commerce workflows remain separate. Admin access does not require a customer profile.
+
+The conversion reconciles two previously live-only migrations and a Phase 5 version mismatch. Never reapply that reconciled history to production. Archived access records stay private for recovery. Legacy `staff_verification_*` RPC names, the persisted `staff` notification audience and `is_super_admin()` policy helper are compatibility contracts; each now resolves to the same owner check. A read-only `staff_profiles` view supports the preceding deployment during rollout. It cannot manage staff. See `docs/maintenance/part-2-single-admin.md` for checks, recovery and remaining launch acceptance.

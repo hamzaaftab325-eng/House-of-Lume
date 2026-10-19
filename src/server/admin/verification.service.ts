@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { adminIdentity } from "./admin.service";
 import {
-  staffFixtureEnabled,
+  adminFixtureEnabled,
   fixtureQueue,
   fixtureDetail,
   fixtureAction,
@@ -16,7 +16,7 @@ import {
 
 export async function verificationQueue(filter: QueueFilter, before: string | null) {
   await adminIdentity();
-  if (staffFixtureEnabled()) return fixtureQueue(filter);
+  if (adminFixtureEnabled()) return fixtureQueue(filter);
   const client = await createClient();
   const { data, error } = await client.rpc("staff_verification_queue", {
     p_filter: filter,
@@ -27,7 +27,7 @@ export async function verificationQueue(filter: QueueFilter, before: string | nu
 }
 export async function verificationDetail(id: string) {
   await adminIdentity();
-  if (staffFixtureEnabled()) return fixtureDetail(id);
+  if (adminFixtureEnabled()) return fixtureDetail(id);
   const client = await createClient();
   const { data, error } = await client.rpc("staff_verification_detail", { p_order_id: id });
   if (error) throw new Error(error.message);
@@ -35,7 +35,7 @@ export async function verificationDetail(id: string) {
 }
 export async function verificationAction(action: VerificationAction) {
   await adminIdentity();
-  if (staffFixtureEnabled()) return fixtureAction(action);
+  if (adminFixtureEnabled()) return fixtureAction(action);
   const client = await createClient();
   const { data, error } = await client.rpc("staff_verification_action", {
     p_order_id: action.orderId,

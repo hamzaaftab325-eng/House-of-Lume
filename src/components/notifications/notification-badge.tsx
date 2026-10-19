@@ -72,7 +72,7 @@ export function NotificationBadge({
     };
   }, [audience, enabled, pathname]);
   if (!enabled) return null;
-  const label = audience === "staff" ? "Staff notifications" : "Notifications";
+  const label = audience === "staff" ? "Admin notifications" : "Notifications";
   return (
     <Link
       className={styles.badgeLink}

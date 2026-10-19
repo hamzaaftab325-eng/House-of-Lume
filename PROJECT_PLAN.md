@@ -1,3 +1,5 @@
+> Current scope override — 19 October 2026: operate with one owner admin. No staff accounts, role editor, permission matrix, staff activation or staff management route is planned. Historical completed phase descriptions retain prior terminology where they document existing contracts. Maintenance Part 2 converts those contracts to owner-only access without adding commerce features. Parts 3 (storefront cleanup) and 4 (final verification) remain separate.
+
 # DWELLUNE — Production Build Plan
 
 **Status:** Approved planning baseline  
@@ -18,7 +20,7 @@ It is not a prototype. It must be capable of real customer ordering, real invent
 The product contains two connected systems:
 
 1. **Customer Storefront** — discovery, shopping, cart, COD checkout, order tracking, account, notifications.
-2. **Internal CRM / Commerce Operations** — products, inventory, orders, COD verification, delivery tracking, RTO, customers, notifications, reviews, returns, analytics, staff, audit logs, settings.
+2. **Internal CRM / Commerce Operations** — products, inventory, orders, COD verification, delivery tracking, RTO, customers, notifications, reviews, returns, analytics, audit logs, settings.
 
 ---
 
@@ -271,10 +273,8 @@ Build the real commerce schema before hardcoding product/business logic into UI.
 ## Core entities
 
 - [x] profiles
-- [x] staff_profiles
-- [x] roles
-- [x] permissions
-- [x] role_permissions
+- [x] Single owner assignment (Part 2 supersedes the original staff/role/permission model)
+- [x] Former access tables archived privately; read-only owner compatibility view
 - [x] categories
 - [x] collections
 - [x] products
@@ -328,7 +328,7 @@ Build the real commerce schema before hardcoding product/business logic into UI.
 
 - [x] RLS enabled for private data
 - [x] Customer ownership policies
-- [x] Staff authorization policies
+- [x] Owner authorization policies (Part 2)
 - [x] Admin-only policies
 - [x] Service-role usage server-only
 - [x] Policy tests — live anonymous catalogue visibility, draft-product denial, private-order denial, and catalogue RPC behavior verified against the connected DWELLUNE Supabase project on 2026-10-13
@@ -340,7 +340,7 @@ Build the real commerce schema before hardcoding product/business logic into UI.
 - [x] Products
 - [x] Variants
 - [x] Inventory
-- [x] Staff roles
+- [x] Single owner assignment (Part 2)
 - [x] Example customers/orders for development
 
 **Phase 1 status: 100% complete.**
@@ -848,16 +848,14 @@ Phase 11 Parts 1–2 implement branded receipts and supported event-email jobs f
 
 ---
 
-# 17. Phase 12 — CRM Foundation & Staff Access
+# 17. Phase 12 — CRM Foundation & Owner Access
 
 ## Access
 
-- [ ] Staff authentication
-- [ ] Roles
-- [ ] Permissions
-- [ ] Route guards
-- [ ] Server-side authorization
-- [ ] Staff activation/deactivation
+- [x] One owner Auth identity and live-session checks (maintenance Part 2)
+- [x] Owner-only route/API/database authorization
+- [x] Retire staff directory, role/permission management and activation workflows
+- [x] Preserve former access records privately for recovery
 
 ## CRM shell
 
@@ -882,7 +880,6 @@ Phase 11 Parts 1–2 implement branded receipts and supported event-email jobs f
 - [ ] Notifications
 - [ ] COD reconciliation
 - [ ] Analytics
-- [ ] Staff
 - [ ] Audit logs
 - [ ] Settings
 
@@ -1149,7 +1146,7 @@ No critical job may depend on a user keeping a browser page open.
 # 27. Phase 22 — Security Hardening
 
 - [ ] RLS audit
-- [ ] Role/permission matrix audit
+- [ ] Single-owner/customer authorization audit
 - [ ] Authorization tests
 - [ ] Privilege escalation tests
 - [ ] IDOR tests

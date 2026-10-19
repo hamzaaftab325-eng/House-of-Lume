@@ -1,6 +1,6 @@
 begin;
 create temporary table p9b_admin(user_id uuid);
-insert into p9b_admin select user_id from public.staff_profiles where is_active and role_slug='super_admin';
+insert into p9b_admin select user_id from app_private.store_owner where singleton;
 grant select on p9b_admin to authenticated;
 insert into auth.sessions(id,user_id,created_at,not_after) select '95000000-0000-4000-8000-000000000001',user_id,now(),now()+interval '1 hour' from p9b_admin;
 insert into public.orders(id,guest_checkout,contact_name,contact_phone,subtotal_pkr,total_pkr,idempotency_key,placed_at)
@@ -25,7 +25,7 @@ do $$ begin
  begin perform public.staff_verification_action('95100000-0000-4000-8000-000000000002',gen_random_uuid(),'{"action":"cancel","expectedRevision":0,"note":"cancel after collection"}');raise exception 'collected cancellation accepted';exception when others then if sqlerrm<>'cancellation_unavailable' then raise;end if;end;
 end $$;
 reset role;
-update public.staff_profiles set is_active=false where user_id=(select user_id from p9b_admin);
+update app_private.store_owner set access_valid_after=now()+interval '1 second';
 set local role authenticated;
 do $$ begin
  begin perform public.staff_verification_policy();raise exception 'inactive staff policy accepted';exception when others then if sqlerrm<>'staff_access_required' then raise;end if;end;

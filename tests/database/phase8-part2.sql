@@ -11,7 +11,7 @@ insert into auth.users(id,email,email_confirmed_at,raw_user_meta_data) values
 ('89000000-0000-4000-8000-000000000001','p8b-a@example.invalid',now(),'{}'),('89000000-0000-4000-8000-000000000002','p8b-b@example.invalid',now(),'{}');
 insert into auth.sessions(id,user_id,created_at,not_after) values
 ('89100000-0000-4000-8000-000000000001','89000000-0000-4000-8000-000000000001',now(),now()+interval '1 hour'),('89100000-0000-4000-8000-000000000002','89000000-0000-4000-8000-000000000002',now(),now()+interval '1 hour');
-insert into public.staff_profiles(user_id,role_slug) values('89000000-0000-4000-8000-000000000002','super_admin');
+-- The store has one existing owner; this second account remains a customer.
 insert into public.products(id,product_type,status,name,slug,published_at) values('89200000-0000-4000-8000-000000000001','lamp','active','Rollback order fixture','p8b-rollback-lamp',now());
 insert into public.product_variants(id,product_id,sku,title,price_pkr,track_inventory) values('89300000-0000-4000-8000-000000000001','89200000-0000-4000-8000-000000000001','P8B-ROLLBACK','Fixture',1000,true);
 insert into public.inventory_balances(variant_id,location_id,on_hand) select '89300000-0000-4000-8000-000000000001',id,5 from public.inventory_locations where code='MAIN-PK';

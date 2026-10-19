@@ -1,7 +1,6 @@
 begin;
 create temporary table p8_checks(name text primary key);
 grant all on p8_checks to anon,authenticated;
-create temporary table p8_baseline as select (select count(*) from public.orders) orders,(select count(*) from public.notifications) notifications;
 insert into auth.users(id,email,email_confirmed_at,raw_user_meta_data) values
 ('88000000-0000-4000-8000-000000000001','p8-a@example.invalid',now(),'{}'),('88000000-0000-4000-8000-000000000002','p8-b@example.invalid',now(),'{}');
 insert into auth.sessions(id,user_id,created_at,not_after) values
@@ -13,6 +12,7 @@ update public.shipping_zones set is_active=false;
 insert into public.shipping_zones(id,code,name,country_code,cities,provinces,is_nationwide,is_active) values('88400000-0000-4000-8000-000000000001','P8-ROLLBACK','Rollback Lahore','PK',array['Lahore'],array['Punjab'],false,true);
 insert into public.shipping_rules(id,zone_id,name,flat_fee_pkr,free_shipping_threshold_pkr,cod_max_order_pkr,estimated_days_min,estimated_days_max) values('88500000-0000-4000-8000-000000000001','88400000-0000-4000-8000-000000000001','Rollback delivery',250,1900,10000,3,5);
 insert into public.discounts(code,name,discount_type,percentage_bps) values('P8-ROLLBACK','Rollback discount','percentage',1000);
+create temporary table p8_baseline as select (select count(*) from public.orders) orders,(select count(*) from public.notifications where entity_type='order') notifications;
 set local role anon;
 select set_config('request.jwt.claims','{}',true);
 select public.commerce_cart_add(repeat('8',64),'88300000-0000-4000-8000-000000000001',2);
@@ -79,8 +79,8 @@ do $$ begin begin perform public.checkout_quote(repeat('8',64),'{"country":"PK",
 reset role;
 do $$ begin
  if (select reserved from public.inventory_balances where variant_id='88300000-0000-4000-8000-000000000001')<>2 then raise exception 'quote double reserved stock';end if;
- if (select count(*) from public.orders)<>(select orders from p8_baseline) or (select count(*) from public.notifications)<>(select notifications from p8_baseline) then raise exception 'quote created business events';end if;
- insert into p8_checks values('quotes do not reserve twice, create orders or notifications');
+ if (select count(*) from public.orders)<>(select orders from p8_baseline) or (select count(*) from public.notifications where entity_type='order')<>(select notifications from p8_baseline) then raise exception 'quote created business events';end if;
+ insert into p8_checks values('quotes do not reserve twice, create orders or order notifications');
 end $$;
 select name from p8_checks order by name;
 rollback;

@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
-import { staffFixtureEnabled } from "@/server/admin/verification.fixture";
+import { adminFixtureEnabled } from "@/server/admin/verification.fixture";
 import { notificationIdentity } from "./notifications.service";
 import {
   preferenceSchema,
@@ -11,7 +11,7 @@ export async function notificationPreferences(
   values?: Omit<NotificationPreferences, "essentialUpdates">,
 ) {
   await notificationIdentity("customer");
-  if (staffFixtureEnabled()) {
+  if (adminFixtureEnabled()) {
     const store = await cookies();
     let result = preferenceSchema.parse({
       productUpdates: false,
@@ -50,7 +50,7 @@ export async function notificationOperations(
   status: "all" | "pending" | "sending" | "sent" | "failed" = "all",
 ) {
   await notificationIdentity("staff");
-  if (staffFixtureEnabled())
+  if (adminFixtureEnabled())
     return operationsSchema.parse({
       types: [
         {

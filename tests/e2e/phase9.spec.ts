@@ -14,7 +14,7 @@ test("a double click creates only one verification request", async ({ page, cont
   });
   await page.goto(`/crm/verification/${orderId}`);
   await page
-    .getByLabel("Staff verification note")
+    .getByLabel("Admin verification note")
     .fill("No response on the actual contact attempt.");
   const save = page.getByRole("button", { name: "Save verification action" });
   await save.dblclick();
@@ -26,7 +26,7 @@ test("a double click creates only one verification request", async ({ page, cont
 });
 async function staff(context: import("@playwright/test").BrowserContext) {
   await context.addCookies([
-    { name: "dwellune-test-staff", value: "1", url: "http://127.0.0.1:3000" },
+    { name: "dwellune-test-admin", value: "1", url: "http://127.0.0.1:3000" },
   ]);
 }
 test("verification workspace and API deny visitors and foreign-origin actions", async ({
@@ -62,7 +62,7 @@ for (const width of [375, 768, 1440])
     await page.goto("/crm/verification");
     await expect(page.getByRole("heading", { name: "Verification queue." })).toBeVisible();
     await page.getByRole("link", { name: "Order #900001", exact: true }).click();
-    await expect(page.getByLabel("Staff verification note")).toBeVisible();
+    await expect(page.getByLabel("Admin verification note")).toBeVisible();
     await expect(page.getByRole("link", { name: "Call customer" })).toHaveAttribute(
       "href",
       "tel:+923001234567",
@@ -84,22 +84,22 @@ test("records manual contact, confirms with staff/time and cancels before dispat
   await page.goto(`/crm/verification/${orderId}`);
   await page.getByLabel("Contact outcome", { exact: true }).selectOption("reached");
   await page
-    .getByLabel("Staff verification note")
+    .getByLabel("Admin verification note")
     .fill("Customer reached by phone and address checked.");
   await page.getByRole("button", { name: "Save verification action" }).click();
   await expect(page.getByText("Attempt 1 · contact", { exact: true })).toBeVisible();
   await page.getByLabel("Action", { exact: true }).selectOption("confirm");
   await page
-    .getByLabel("Staff verification note")
+    .getByLabel("Admin verification note")
     .fill("Confirmed the customer and delivery details.");
   await page.getByLabel("I reviewed the order and confirm this decision.").check();
   await page.getByRole("button", { name: "Save verification action" }).click();
   await expect(
-    page.getByText("Fixture staff · Verified by Fixture staff", { exact: true }),
+    page.getByText("Fixture admin · Verified by Fixture admin", { exact: true }),
   ).toBeVisible();
   await expect(page.getByLabel("Action", { exact: true })).toHaveValue("cancel");
   await page
-    .getByLabel("Staff verification note")
+    .getByLabel("Admin verification note")
     .fill("Customer requested cancellation before dispatch.");
   await page.getByLabel("I reviewed the order and confirm this decision.").check();
   await page.getByRole("button", { name: "Save verification action" }).click();
@@ -118,7 +118,7 @@ test("rejects a pending order only after explicit review and keeps its history",
   await page.goto(`/crm/verification/${orderId}`);
   await page.getByLabel("Action", { exact: true }).selectOption("reject");
   await page
-    .getByLabel("Staff verification note")
+    .getByLabel("Admin verification note")
     .fill("Customer declined the order during verification.");
   await page.getByLabel("I reviewed the order and confirm this decision.").check();
   await page.getByRole("button", { name: "Save verification action" }).click();
@@ -143,10 +143,10 @@ test("retries uncertain results with the same immutable payload and request ID",
   });
   await page.goto(`/crm/verification/${orderId}`);
   await page
-    .getByLabel("Staff verification note")
+    .getByLabel("Admin verification note")
     .fill("No response on the first actual phone attempt.");
   await page.getByRole("button", { name: "Save verification action" }).click();
-  await expect(page.getByLabel("Staff verification note")).toBeDisabled();
+  await expect(page.getByLabel("Admin verification note")).toBeDisabled();
   await page.getByRole("button", { name: "Retry same action attempt" }).click();
   await expect(page.getByText("Attempt 1 · contact", { exact: true })).toBeVisible();
   expect(requests.length).toBe(2);
@@ -169,10 +169,10 @@ test("stale order conflicts require a reload instead of silently submitting agai
     });
   });
   await page.goto(`/crm/verification/${orderId}`);
-  await page.getByLabel("Staff verification note").fill("Customer did not respond.");
+  await page.getByLabel("Admin verification note").fill("Customer did not respond.");
   await page.getByRole("button", { name: "Save verification action" }).click();
   await expect(page.getByRole("button", { name: "Reload order details" })).toBeVisible();
-  await expect(page.getByLabel("Staff verification note")).toBeDisabled();
+  await expect(page.getByLabel("Admin verification note")).toBeDisabled();
   expect(count).toBe(1);
 });
 test("hides private order details when staff access is revoked in another tab", async ({

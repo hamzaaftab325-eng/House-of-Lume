@@ -4,7 +4,7 @@ import styles from "@/components/account/account.module.css";
 export default function CrmPage() {
   return (
     <main className={styles.page}>
-      <p className={styles.eyebrow}>DWELLUNE · SUPER ADMIN</p>
+      <p className={styles.eyebrow}>DWELLUNE · OWNER ADMIN</p>
       <h1 className={styles.title}>Administrator workspace.</h1>
       <p className={styles.intro}>
         Review Cash on Delivery orders, record customer contact and approve or cancel verification

@@ -1,7 +1,7 @@
 # DWELLUNE — AI Engineering Instructions
 
 **Status:** Mandatory  
-**Version:** 2.1  
+**Version:** 2.2
 **Product:** Production ecommerce storefront + internal commerce CRM  
 **Launch payment model:** Cash on Delivery only  
 **Quality expectation:** Production-grade; no prototype shortcuts
@@ -265,6 +265,10 @@ When Supabase is introduced:
 Never rely on hidden UI controls as authorization.
 
 ---
+
+### Current authorization scope — single owner
+
+The store has exactly one owner admin. Use the database owner assignment and live Auth session for every admin operation. Do not add staff accounts, role/permission management or staff activation workflows. Keep customer identity separate from admin identity. Preserve legacy protocol names where required for safe compatibility; they must resolve to the one owner authority.
 
 ## 10. Launch Payment Rule — COD Only
 
@@ -628,7 +632,7 @@ Critical E2E flows include:
 - return flow
 - notification creation/read state
 - transactional email dispatch path
-- role/permission boundaries
+- owner/customer authorization boundaries
 
 Tests should verify behavior, not implementation details only.
 

@@ -2,14 +2,14 @@ import { expect, test } from "@playwright/test";
 const orderId = "94000000-0000-4000-8000-000000000001";
 test.beforeEach(async ({ context }) => {
   await context.addCookies([
-    { name: "dwellune-test-staff", value: "1", url: "http://127.0.0.1:3000" },
+    { name: "dwellune-test-admin", value: "1", url: "http://127.0.0.1:3000" },
   ]);
 });
 test("manual review blocks confirmation until staff clear it with a note", async ({ page }) => {
   await page.goto(`/crm/verification/${orderId}`);
   await page.getByLabel("Action", { exact: true }).selectOption("request_review");
   await page
-    .getByLabel("Staff verification note")
+    .getByLabel("Admin verification note")
     .fill("Address needs to be checked with customer.");
   await page.getByLabel("I reviewed the order and confirm this decision.").check();
   await page.getByRole("button", { name: "Save verification action" }).click();
@@ -22,7 +22,7 @@ test("manual review blocks confirmation until staff clear it with a note", async
   await page.getByRole("link", { name: "Order #900001", exact: true }).click();
   await page.getByLabel("Action", { exact: true }).selectOption("clear_review");
   await page
-    .getByLabel("Staff verification note")
+    .getByLabel("Admin verification note")
     .fill("Customer confirmed the complete delivery address.");
   await page.getByLabel("I reviewed the order and confirm this decision.").check();
   await page.getByRole("button", { name: "Save verification action" }).click();
@@ -30,7 +30,7 @@ test("manual review blocks confirmation until staff clear it with a note", async
   await expect(page.getByText("Cleared by", { exact: false })).toBeVisible();
   await page.getByLabel("Action", { exact: true }).selectOption("confirm");
   await page
-    .getByLabel("Staff verification note")
+    .getByLabel("Admin verification note")
     .fill("Verified after the separate manual review clearance.");
   await page.getByLabel("I reviewed the order and confirm this decision.").check();
   await page.getByRole("button", { name: "Save verification action" }).click();

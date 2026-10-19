@@ -29,7 +29,7 @@ export default async function VerificationQueue({
   }
   return (
     <main className={styles.page}>
-      <p className={styles.eyebrow}>Cash on Delivery · Staff review</p>
+      <p className={styles.eyebrow}>Cash on Delivery · Admin review</p>
       <h1 className={styles.title}>Verification queue.</h1>
       <p className={styles.intro}>
         Contact the customer, record what happened, and verify the order before fulfillment. Amounts

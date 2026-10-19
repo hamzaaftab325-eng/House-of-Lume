@@ -1,6 +1,6 @@
 begin;
 create temporary table p9c_state(admin_id uuid,policy_input jsonb,policy_result jsonb);
-insert into p9c_state(admin_id) select user_id from public.staff_profiles where is_active and role_slug='super_admin';
+insert into p9c_state(admin_id) select user_id from app_private.store_owner where singleton;
 grant all on p9c_state to authenticated;
 insert into auth.sessions(id,user_id,created_at,not_after) select '97000000-0000-4000-8000-000000000001',admin_id,now(),now()+interval '1 hour' from p9c_state;
 set local role authenticated;

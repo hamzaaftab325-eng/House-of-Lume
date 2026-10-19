@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { z } from "zod";
 import { verificationDetail } from "@/server/admin/verification.service";
-import { staffContactLinks, verificationMoney, verificationDate } from "@/lib/verification";
+import { adminContactLinks, verificationMoney, verificationDate } from "@/lib/verification";
 import { VerificationForm } from "@/components/admin/verification-form";
 import styles from "@/components/account/account.module.css";
 import adminStyles from "@/components/admin/verification.module.css";
@@ -19,7 +19,7 @@ export default async function VerificationOrder({ params }: { params: Promise<{ 
     throw error;
   }
   const { order, address } = data;
-  const links = staffContactLinks(
+  const links = adminContactLinks(
     order.contact_phone,
     order.contact_whatsapp,
     order.contact_email,
@@ -181,7 +181,7 @@ export default async function VerificationOrder({ params }: { params: Promise<{ 
                 </p>
                 <p className={adminStyles.note}>{attempt.note}</p>
                 <p>
-                  {attempt.staff_name ?? (attempt.initiated_by ? "Staff member" : "System")}
+                  {attempt.staff_name ?? (attempt.initiated_by ? "Administrator" : "System")}
                   {attempt.verified_by
                     ? ` · Verified by ${attempt.staff_name ?? attempt.verified_by}`
                     : ""}

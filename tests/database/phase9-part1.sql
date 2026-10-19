@@ -2,7 +2,7 @@
 begin;
 create temporary table p9_state(order_id uuid,first_result jsonb,admin_id uuid);
 grant all on p9_state to authenticated;
-insert into p9_state(order_id,admin_id) select '93000000-0000-4000-8000-000000000001',user_id from public.staff_profiles where is_active and role_slug='super_admin';
+insert into p9_state(order_id,admin_id) select '93000000-0000-4000-8000-000000000001',user_id from app_private.store_owner where singleton;
 insert into auth.users(id,email,email_confirmed_at,raw_user_meta_data) values('93100000-0000-4000-8000-000000000001','p9-customer@example.invalid',now(),'{"role":"super_admin"}');
 insert into auth.sessions(id,user_id,created_at,not_after) values('93200000-0000-4000-8000-000000000001','93100000-0000-4000-8000-000000000001',now(),now()+interval '1 hour');
 insert into auth.sessions(id,user_id,created_at,not_after) select '93200000-0000-4000-8000-000000000002',admin_id,now(),now()+interval '1 hour' from p9_state;

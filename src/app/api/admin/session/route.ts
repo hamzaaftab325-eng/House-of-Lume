@@ -5,7 +5,7 @@ export async function GET() {
   const headers = { "Cache-Control": "private, no-store", Vary: "Cookie" };
   try {
     const admin = await adminIdentity();
-    return NextResponse.json({ customerId: admin.customerId }, { headers });
+    return NextResponse.json({ userId: admin.userId }, { headers });
   } catch (error) {
     const code = error instanceof Error ? error.message : "";
     return NextResponse.json(
@@ -13,7 +13,7 @@ export async function GET() {
       {
         headers,
         status:
-          code === "authentication_required" ? 401 : code === "staff_access_required" ? 403 : 503,
+          code === "authentication_required" ? 401 : code === "admin_access_required" ? 403 : 503,
       },
     );
   }

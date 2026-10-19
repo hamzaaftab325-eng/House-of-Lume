@@ -62,7 +62,7 @@ Examples later:
 
 ### `(crm)`
 
-Staff-only operations once RBAC is introduced.
+Owner-only operations. The current single-admin contract below supersedes historical role-based descriptions.
 
 Examples later:
 
@@ -74,7 +74,7 @@ Examples later:
 - returns/RTO
 - COD reconciliation
 - analytics
-- staff/settings
+- settings
 
 Route grouping is organizational; authorization must still be enforced server-side.
 
@@ -324,9 +324,9 @@ The checkout UI uses a private context endpoint and strict same-origin quote end
 
 COD order submission is deployed with a closed database release gate. The database atomically validates and snapshots orders, transfers inventory holds and emits in-app/email events. The owner selected Gmail SMTP (`dwellunestore@gmail.com`) in place of Resend for order confirmations. Supabase cron invokes a protected Node worker once per minute; Vault contains only its scoped capability and canonical HTTPS URL. The Gmail App Password remains server-only in Vercel. No application service-role credential is required. Owner/cookie-scoped attempt recovery supports ambiguous order network results. See `GMAIL_ORDER_EMAIL_AUDIT.md` and `PHASE_8_PART_2_AUDIT.md` for email behavior and pending launch gates.
 
-## Staff COD verification
+## Admin COD verification
 
-`/crm/verification` and its order pages use active Super Admin/live-session checks and guarded database RPCs. The queue uses 20-row keyset pagination. Manual contact logs, confirmation and eligible cancellation record private notes, staff attribution and audit entries. Actor/request receipts deduplicate retries, while an order revision rejects stale decisions. Cancellation shares checkout's commerce lock ordering and existing reservation-release trigger; settlement remains independent. Customer notifications/history carry safe status only. `/api/admin/session` supplements cross-tab account invalidation with fresh staff-role checks. See `PHASE_9_PART_1_AUDIT.md` for tests and deferred launch acceptance.
+`/crm/verification` and its order pages use singleton owner/live-session checks and guarded database RPCs. The queue uses 20-row keyset pagination. Manual contact logs, confirmation and eligible cancellation record private notes, staff attribution and audit entries. Actor/request receipts deduplicate retries, while an order revision rejects stale decisions. Cancellation shares checkout's commerce lock ordering and existing reservation-release trigger; settlement remains independent. Customer notifications/history carry safe status only. `/api/admin/session` supplements cross-tab account invalidation with fresh owner/session checks. See `PHASE_9_PART_1_AUDIT.md` for tests and deferred launch acceptance.
 
 ## COD review policy and signals
 
@@ -351,3 +351,11 @@ Preferences derive customer identity from the live session and cannot select rec
 ## Phase 11 event email pipeline
 
 Supported business transactions enqueue receipt/verification/confirmation/cancellation/return-request email snapshots. Durable event/recipient receipts serialize duplicate events; the Gmail worker claims a stored versioned payload and retains bounded retry/lease rules. Ambiguous sends require manual mailbox review. Failure alerts identify the job, and staff delivery operations exposes event/version without recipient/payload secrets. Future fulfillment/return-decision/RTO templates are renderable but have no active email producer. Auth SMTP remains independently configured. See PHASE_11_PART_2_AUDIT.md for verification and deferred acceptance.
+
+## Single owner authorization — maintenance Part 2
+
+The authoritative assignment is `app_private.store_owner`: one `singleton=true` row referencing `auth.users`. `is_owner()` checks the live verified, non-anonymous Auth session, ban state and access-valid-after floor. `owner_require()` locks that row during admin transactions; `owner_context()` returns only the authenticated owner user ID/email. The server validates this context against `auth.getUser()`. It never infers admin access from email text, user metadata or customer profile state. `/api/admin/session` returns `userId`; the CRM session guard uses that identity. Customer guards retain `customerId`.
+
+Every existing verification, policy, notification and delivery operation uses the same owner authority. Notification producers target the owner directly. `is_super_admin()` remains a thin policy alias; persisted audience `staff`, receipt actor fields and verification RPC names remain stable. These are protocol compatibility, not separate roles or configurable permissions. The old directory/context/access-action RPCs and permission helpers are removed. Role/profile/permission tables and access receipts are retained as client-inaccessible `app_private.legacy_*` archives. Verification receipts are now `admin_verification_receipts`.
+
+For rolling deployment compatibility, `public.staff_profiles` is a read-only security-invoker view exposing the one owner only to that owner's valid session. The new application does not query it. Database changes deploy before application code; the preceding application can continue its owner lookup against this bridge. A private scoped checkpoint contains pre-change function definitions/grants, access rows and tested reverse SQL. It is not a full Supabase/Auth/Vault backup.

@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 async function login(context: import("@playwright/test").BrowserContext, staff = false) {
   await context.addCookies([
     {
-      name: staff ? "dwellune-test-staff" : "dwellune-test-customer",
+      name: staff ? "dwellune-test-admin" : "dwellune-test-customer",
       value: "1",
       url: "http://127.0.0.1:3000",
     },

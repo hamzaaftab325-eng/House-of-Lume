@@ -67,11 +67,11 @@ export async function NotificationPage({
         DWELLUNE · {audience === "staff" ? "Operations" : "Your account"}
       </p>
       <h1 className={styles.title}>
-        {audience === "staff" ? "Staff notifications." : "Your notifications."}
+        {audience === "staff" ? "Admin notifications." : "Your notifications."}
       </h1>
       <p className={styles.intro}>
         {audience === "staff"
-          ? "Operational updates addressed to your staff account. Your customer inbox remains separate."
+          ? "Operational updates for the store owner. Customer notifications remain separate."
           : "Updates addressed to your account. Reading a notice does not change your order."}
       </p>
       {audience === "customer" ? (
@@ -106,7 +106,7 @@ export async function NotificationPage({
     <main className={styles.page}>
       {audience === "customer" ? (
         <AccountSessionGuard
-          customerId={identity.customerId}
+          customerId={identity.identityId}
           sessionEndpoint="/api/notifications?audience=customer&summary=1"
         >
           {content}

@@ -41,7 +41,7 @@ do $$begin
  begin perform public.notification_read('customer','a1200000-0000-4000-8000-000000000024');raise exception 'admin read foreign customer inbox';exception when others then if sqlerrm<>'notification_unavailable' then raise;end if;end;
 end $$;
 reset role;
-update public.staff_profiles set is_active=false where user_id='13ea3052-462e-473f-b023-346a163eaf3a';
+update app_private.store_owner set access_valid_after=now()+interval '1 second';
 set local role authenticated;
 do $$begin begin perform public.notification_feed('staff');raise exception 'inactive staff accepted';exception when others then if sqlerrm<>'staff_access_required' then raise;end if;end;end $$;
 reset role;

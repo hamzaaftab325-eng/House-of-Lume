@@ -45,10 +45,9 @@ do $$ declare a uuid; b uuid; c uuid; q jsonb; begin
  if (select count(order_number) from public.orders)<>1 or (select count(*) from public.order_items)<>1 or (select count(to_status) from public.order_status_history)<>1 then raise exception 'order ownership failed'; end if;
  if exists(select 1 from public.orders where id='77400000-0000-4000-8000-000000000002') then raise exception 'foreign order exposed'; end if;
  insert into phase7_checks values('owned order, item and history reads; foreign order denied');
- update public.notifications set read_at=now() where id='77600000-0000-4000-8000-000000000001';
- if not exists(select 1 from public.notifications where read_at is not null) then raise exception 'read state failed'; end if;
- update public.notifications set read_at=now() where id='77600000-0000-4000-8000-000000000002';
- if found then raise exception 'foreign notification updated'; end if;
+ perform public.notification_read('customer','77600000-0000-4000-8000-000000000001');
+ if not exists(select 1 from public.notifications where id='77600000-0000-4000-8000-000000000001' and read_at is not null) then raise exception 'read state failed';end if;
+ begin perform public.notification_read('customer','77600000-0000-4000-8000-000000000002');raise exception 'foreign notification updated';exception when others then if sqlerrm<>'notification_unavailable' then raise;end if;end;
  insert into phase7_checks values('notification read state and foreign-write denial');
  perform public.commerce_wishlist_merge(array['77300000-0000-4000-8000-000000000001'::uuid,'77300000-0000-4000-8000-000000000002'::uuid]);
  q:=public.commerce_wishlist_snapshot();
@@ -102,7 +101,8 @@ update auth.users set email_confirmed_at=now() where id='77000000-0000-4000-8000
 delete from auth.sessions where id='77100000-0000-4000-8000-000000000001';
 set local role authenticated;
 do $$ begin
- if public.account_session_valid() or (select count(*) from public.notifications)>0 then raise exception 'revoked session accepted'; end if;
+ if public.account_session_valid() then raise exception 'revoked session accepted';end if;
+ begin perform public.notification_feed('customer');raise exception 'revoked notifications accepted';exception when others then if sqlerrm<>'authentication_required' then raise;end if;end;
  begin perform public.commerce_wishlist_snapshot(); raise exception 'revoked wishlist accepted'; exception when others then if sqlerrm<>'authentication_required' then raise; end if; end;
  insert into phase7_checks values('revoked JWT denies notifications and commerce RPC');
 end $$;

@@ -1,7 +1,7 @@
 -- Isolated rollback test of the exact worker body with a synthetic capability.
 -- The only replacement is the Vault lookup; no live capability is retrieved.
 begin;
-do $guard$ begin if (select md5(prosrc) from pg_proc where oid='app_private.order_email_worker(text,jsonb)'::regprocedure)<>'a9c3d6d3bc0dc3ccca00a96a08c4f7cf' then raise exception 'worker body changed; regenerate isolated test';end if;end $guard$;
+do $guard$ begin if (select md5(prosrc) from pg_proc where oid='app_private.order_email_worker(text,jsonb)'::regprocedure)<>'8a9df20ffa2c8512c54136814d3fbafc' then raise exception 'worker body changed; regenerate isolated test';end if;end $guard$;
 create function pg_temp.phase11_test_worker(p_secret text,p_input jsonb) returns jsonb language plpgsql security definer set search_path='' as $clone$
 declare v_secret text; v_action text; v_lease uuid; v_result text; r record;
 begin
@@ -50,7 +50,7 @@ begin
    select s.user_id,'order.email_failed','Order email requires attention',
     case when r.last_error_code='smtp_uncertain' then 'The order is saved. Email acceptance is uncertain; review the sender mailbox before resending.' else 'The order is saved, but transactional email sending failed.' end,
     'high','order',r.order_id,jsonb_build_object('href','/crm','email_job_id',r.id,'email_event',r.event_key)
-   from public.staff_profiles s where s.is_active and s.role_slug='super_admin'
+   from app_private.store_owner s where s.singleton
    and not exists(select 1 from public.notifications n where n.event_key='order.email_failed' and n.entity_id=r.order_id and n.recipient_user_id=s.user_id and n.data->>'email_job_id'=r.id::text);
   update public.notification_deliveries set provider='gmail_smtp',status='failed',failed_at=coalesce(failed_at,now()),
    attempt_count=r.attempt_count,last_error_code=r.last_error_code where notification_id=r.notification_id and channel='email';

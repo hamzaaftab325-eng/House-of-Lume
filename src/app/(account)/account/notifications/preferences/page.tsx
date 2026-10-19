@@ -18,7 +18,7 @@ export default async function Page() {
   return (
     <main className={styles.page}>
       <AccountSessionGuard
-        customerId={identity.customerId}
+        customerId={identity.identityId}
         sessionEndpoint="/api/notifications?audience=customer&summary=1"
       >
         <Link href="/account/notifications">Back to notifications</Link>

@@ -175,6 +175,7 @@ export function verificationError(code: string) {
   const messages: Record<string, string> = {
     authentication_required: "Your session expired. Sign in again.",
     staff_access_required: "Administrator access is required.",
+    admin_access_required: "Administrator access is required.",
     order_unavailable: "This order is unavailable.",
     verification_changed:
       "Another action changed this order. Reload its details before continuing.",
@@ -194,7 +195,7 @@ export function verificationError(code: string) {
     "We could not confirm whether the action was saved. Retry the same attempt or reload the order."
   );
 }
-export function staffContactLinks(
+export function adminContactLinks(
   phone: string,
   whatsapp: string | null,
   email: string | null,

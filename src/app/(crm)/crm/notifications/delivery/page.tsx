@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import type { Route } from "next";
 import { deliveryFilterSchema } from "@/lib/notification-controls";
 import { notificationOperations } from "@/server/notifications/controls.service";
@@ -10,10 +11,17 @@ export default async function Page({
   searchParams: Promise<{ status?: string }>;
 }) {
   const status = deliveryFilterSchema.catch("all").parse((await searchParams).status);
-  const data = await notificationOperations(status);
+  let data;
+  try {
+    data = await notificationOperations(status);
+  } catch (error) {
+    if (error instanceof Error && error.message === "authentication_required")
+      redirect("/auth/signin?next=%2Fcrm%2Fnotifications%2Fdelivery");
+    throw error;
+  }
   return (
     <main className={styles.page}>
-      <Link href="/crm/notifications">Back to staff notifications</Link>
+      <Link href="/crm/notifications">Back to admin notifications</Link>
       <h1 className={styles.title}>Notification delivery.</h1>
       <p className={styles.intro}>
         In-app notices become available when their database transaction commits. Read status is
