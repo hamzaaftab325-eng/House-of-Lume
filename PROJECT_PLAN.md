@@ -1,6 +1,6 @@
 # DWELLUNE — Production Build Plan
 
-**Status:** Phase 12 implementation and local acceptance complete — 20 October 2026
+**Status:** Phase 12 foundation and selected-design revision implemented — 20 October 2026
 
 **Product:** Production ecommerce storefront + internal commerce CRM  
 **Payment model:** Cash on Delivery only at launch  
@@ -914,7 +914,7 @@ Phase 11 Parts 1–2 implement branded receipts and supported event-email jobs f
 
 # 17. Phase 12 — CRM Foundation & Owner Access
 
-**Status:** Implementation and local acceptance complete. The approved branded owner workspace and retained operational flows are verified. The final release is checked against GitHub CI and the canonical Vercel deployment after the single production push. Later commerce/reporting phases remain separate.
+**Status:** Foundation and selected-design revision implemented and locally verified. The final release is checked against GitHub CI and the canonical Vercel deployment after the single production push. Later commerce/reporting phases remain separate.
 
 ## Existing foundation — retain
 
@@ -932,7 +932,16 @@ Phase 11 Parts 1–2 implement branded receipts and supported event-email jobs f
 
 ## Approved workspace implementation
 
-The selected [dashboard reference](docs/reference/owner-dashboard-approved.png) and `design.md` section 19 define the shared CRM visual direction. Phase 12 delivers the owner workspace foundation and retained operational flows, not the later commerce modules pictured in the concept. Its sample data is never displayed in production.
+The selected [dashboard reference](docs/reference/owner-dashboard-selected.webp) and `design.md` section 19 define the shared CRM visual direction. Phase 12 delivers the owner workspace foundation and retained operational flows, not the later commerce modules pictured in the concept. Its sample data is never displayed in production.
+
+### 20 October selected-design revision
+
+- [x] Compact reference proportions, bronze active navigation, stronger Manrope hierarchy and centered empty icon.
+- [x] Four individual real-data summary cards; preview amount is not revenue.
+- [x] Two-column review/preview-breakdown layout and three lower operational panels.
+- [x] Chart derives only from the shown authorized requests; zero state is unfilled and explicitly labelled.
+- [x] Fresh responsive, keyboard, session/auth and full regression checks.
+- [x] Clean production build and documentation review; exact CI/deployment/live verification is reported after the single production update.
 
 ### Phase 12 completion checklist
 
@@ -944,7 +953,7 @@ The selected [dashboard reference](docs/reference/owner-dashboard-approved.png) 
 - [x] Shared compact typography/content layout across existing CRM pages; obsolete landing/header styles retired.
 - [x] Existing server-side owner authorization, private responses, session invalidation, immutable verification retries and notification safeguards retained.
 - [x] Responsive, keyboard, focus, contrast and authorized-route browser-runtime acceptance verified.
-- [x] Locked install, formatting, zero-warning lint, strict/unused TypeScript, 196 application tests, 121 browser tests without retries, zero runtime vulnerabilities and clean production build verified.
+- [x] Locked install, formatting, zero-warning lint, strict/unused TypeScript, 196 application tests, 123 browser tests without retries, zero runtime vulnerabilities and clean production build verified.
 - [x] Phase audit, rollback target and one-push release procedure recorded. Exact release SHA, CI, READY alias and live checks are verified after publication and reported with the release.
 
 The previous partial release `a7f0c86864a46b89638e561ee7ab137de557baaa` introduced navigation and operational links but failed CI formatting. The completion batch replaces its horizontal/large-heading treatment with the approved workspace and includes the missing verification. No new schema, dependency, launch setting, administrator or outgoing test email is required.
@@ -970,7 +979,7 @@ The previous partial release `a7f0c86864a46b89638e561ee7ab137de557baaa` introduc
 4. Run the complete quality/build gate and record exact results in [the Phase 12 audit](docs/maintenance/phase-12-workspace.md).
 5. Make one final commit/push on `main`; verify CI, deployed SHA, canonical READY alias and live smoke. No feature branch, preview or intermediate production push.
 
-Rollback target for this completion batch is `a7f0c86864a46b89638e561ee7ab137de557baaa`. Production data and migrations do not change. Earlier maintenance/real-merchant acceptance limitations remain separate launch gates; checkout remains disabled.
+Rollback target for this visual revision is `96f4e0ea2f7e9c65d960459193c909b3328a3029`. Production data and migrations do not change. Earlier maintenance/real-merchant acceptance limitations remain separate launch gates; checkout remains disabled.
 
 ## Module ownership after the foundation
 

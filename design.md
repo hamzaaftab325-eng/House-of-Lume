@@ -738,16 +738,17 @@ The CRM inherits brand DNA while prioritizing speed.
 
 ### Approved owner workspace — Phase 12
 
-The owner selected [this dashboard composition](docs/reference/owner-dashboard-approved.png) on 19 October 2026. Its compact sidebar, utility header, metric strip, broad operational table and narrower action rail guide the CRM. This permits a functional sidebar and restrained panels; storefront design stays unchanged. The reference is concept artwork, not a source of production data or an application asset.
+**20 October visual revision:** the owner selected the DWELLUNE adaptation of the food-analytics dashboard: compact light sidebar, bronze selection, slim header, four separate summary tiles, a broad left operational panel with a narrower donut panel, and three lower panels. This replaces the earlier layout direction below. Use the actual logo and Manrope, not the generated wordmark/tablet frame. No hands, device border, surrounding photography or sample figures belong in the application. The four real tiles are unread notices, bounded queue preview, the shown requests’ combined order value (explicitly not revenue), and COD. The donut groups that same bounded preview into manual review/awaiting contact; it is not fulfillment or global analytics. Empty preview uses an unfilled ring plus explicit zero counts. Lower panels expose working actions, closed-checkout readiness and operational notices. Sales/product analytics remain later-phase scope.
+
+The owner selected [this dashboard composition](docs/reference/owner-dashboard-selected.webp) on 20 October 2026. Its compact sidebar, utility header, four summary tiles, two upper panels and three lower panels guide the CRM. This permits a functional sidebar and restrained panels; storefront design stays unchanged. The reference is concept artwork, not a source of production data or an application asset.
 
 - Reuse the real `/public/logo.svg`, preserving proportions; use the authenticated owner's identity, not the reference's name or avatar.
 - Use existing semantic tokens: canvas/paper surfaces, ink/ash text, line borders, bronze controls and olive/sage selections. Actual status colours use existing warning/error/success tokens. Do not copy new hex palettes into components.
 - Use existing Manrope for CRM headings and tables, tabular numbers, compact headings, restrained control/input radii and purposeful spacing. No new font, icon package, decorative animation or giant hero heading.
 - Desktop navigation becomes a labelled native modal dialog below the desktop breakpoint, with Escape dismissal, focus containment/restoration and breakpoint cleanup. Provide a skip link and one current-location label; nested settings/delivery routes take priority over their parents.
-- Expose working destinations only. No fake store switcher, inactive search/export/date controls, unsupported metrics, sample identities or charts. Current overview data reuses authorized verification and notification services; a bounded queue preview is labelled as a preview, not a total.
+- Expose working destinations only. No fake store switcher, inactive search/export/date controls, unsupported metrics, sample identities or fabricated charts. Current overview data reuses authorized verification and notification services; a bounded queue preview is labelled as a preview, not a total.
 - Keep full chart/reporting and product/fulfillment/settlement modules in their planned phases. Completed workflows without data show an explicit empty state; failed reads show a recoverable error, never fabricated zero values.
 - Reflow the sidebar and action rail naturally; permit keyboard-accessible table scrolling within a labelled region while preventing horizontal page overflow. Preserve zoom, visible focus and reduced-motion behaviour.
-
 
 ### Avoid
 

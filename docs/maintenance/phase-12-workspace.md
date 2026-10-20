@@ -1,5 +1,27 @@
 # Phase 12 — Owner workspace completion
 
+## 20 October selected-design revision
+
+The initial `96f4e0e` foundation passed technical checks but the owner identified insufficient visual fidelity. This revision uses the newly selected [DWELLUNE dashboard](../reference/owner-dashboard-selected.webp), replacing the earlier visual acceptance claim. It applies a compact sidebar, dark bronze selected state, stronger Manrope headings, four separate summary tiles, two upper panels and three lower operational panels. The empty-state icon is centered and the sidebar uses narrower proportions with a thin overflow scrollbar only when needed.
+
+The dashboard does not reproduce the mockup’s device frame, hands, sample furniture or invented revenue. The real preview order value sums the same up-to-five pending requests shown in the table and explicitly says it is not revenue. The SVG ring groups only those requests by manual review/awaiting contact, with text counts, preview labels and an unfilled zero state. It is server-rendered without new chart dependencies, inline styles, extra data requests or client-side analytics. Existing error, loading, auth and session behaviors are retained.
+
+Revision verification:
+
+- Lint, strict TypeScript with unused-local/parameter checks, repository formatting and 196 application tests pass.
+- Full browser regression: 123 passed, one worker, no retries (4.5 minutes). Notification revocation also passes in the separate 25-test notification/workspace run.
+- The final spacing-only refinement is clean-built and the 15 workspace tests rerun, including all seven widths, accurate manual/contact counts, unfilled empty ring, screenshots, keyboard and session/customer boundaries.
+- Desktop and mobile authenticated screenshots are inspected; screenshot capture now waits for the live session check so a hidden-session state cannot be mistaken for the dashboard.
+- Runtime audit: zero vulnerabilities. No dependency/lockfile, service, API, SQL, owner access rule or launch flag changes.
+- Existing local Cloudinary DNS errors remain a storefront-media verification limitation; no external image requests are added by this dashboard.
+
+ Production evidence is reported against the resulting SHA after the single release; no second documentation push is required.
+
+Rollback for this revision: `96f4e0ea2f7e9c65d960459193c909b3328a3029`. No database change or checkout activation.
+
+## Earlier foundation evidence
+
+
 Implementation and local verification complete, 20 October 2026. The single-push production gate below must be verified against the resulting commit; post-push evidence is reported with the release.
 
 ## Scope and result
@@ -40,14 +62,14 @@ Existing SQL tests/migrations are unchanged; this batch adds no database behavio
 
 Target: existing `main` and canonical https://dwellune.vercel.app. No feature branch or preview. The release must have all of the following before being reported complete:
 
-1. The final local commit and GitHub `main` match, with parent `a7f0c86`.
+1. The final local commit and GitHub `main` match, with parent `96f4e0e`.
 2. [GitHub CI on main](https://github.com/hamzaaftab325-eng/House-of-Lume/actions?query=branch%3Amain) succeeds for that exact commit.
 3. The canonical Vercel production alias is READY on that same commit, without alias errors.
 4. Read-only live route, private API/sign-in guards, fixture denial and closed-checkout checks pass.
 
 These observations are made after publication and supplied in the release report, avoiding a second documentation-only push. No duplicate deployment is needed when the Git integration succeeds.
 
-Pre-release rollback SHA: `a7f0c86864a46b89638e561ee7ab137de557baaa`. Roll back application code only if necessary; no database restore is required for this batch.
+Pre-release rollback SHA for the initial foundation: `a7f0c86864a46b89638e561ee7ab137de557baaa`. Roll back application code only if necessary; no database restore is required for this batch.
 
 The workspace used for earlier maintenance contained older uncommitted cleanup work. It was preserved unchanged; completion work uses an isolated clean copy of the existing `main` branch at the production SHA.
 

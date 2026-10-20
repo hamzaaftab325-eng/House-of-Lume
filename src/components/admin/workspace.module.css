@@ -1,6 +1,6 @@
 .shell {
   display: grid;
-  grid-template-columns: 15rem minmax(0, 1fr);
+  grid-template-columns: 13.25rem minmax(0, 1fr);
   min-height: 100dvh;
   background: var(--color-canvas);
   color: var(--color-ink);
@@ -10,7 +10,8 @@
   top: 0;
   height: 100dvh;
   overflow-y: auto;
-  padding: 1rem 0.875rem;
+  padding: 1rem 0.75rem;
+  scrollbar-width: thin;
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--color-line);
@@ -23,14 +24,14 @@
 }
 .brand img {
   height: auto;
-  width: 10.625rem;
+  width: 9rem;
 }
 .ownerBadge {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.8rem;
-  margin: 0.7rem 0 1.25rem;
+  margin: 0.6rem 0 1rem;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-input);
   font-size: 0.8rem;
@@ -55,7 +56,7 @@
 }
 .navigation {
   display: grid;
-  gap: 1.4rem;
+  gap: 1rem;
 }
 .navLabel {
   padding: 0 0.75rem;
@@ -85,13 +86,13 @@
   background: color-mix(in srgb, var(--color-sage) 12%, transparent);
 }
 .navLink[aria-current="page"] {
-  background: color-mix(in srgb, var(--color-sage) 24%, transparent);
-  box-shadow: inset 3px 0 var(--color-olive);
+  background: var(--color-graphite);
+  color: var(--color-paper);
   font-weight: 700;
 }
 .sidebarFooter {
   margin-top: auto;
-  padding-top: 2rem;
+  padding-top: 1rem;
 }
 .ownerIdentity {
   display: grid;
@@ -114,7 +115,7 @@
   flex-direction: column;
 }
 .topbar {
-  min-height: 4.5rem;
+  min-height: 4rem;
   padding: 0.7rem clamp(1rem, 2.5vw, 2.5rem);
   display: flex;
   align-items: center;
@@ -159,11 +160,12 @@
   width: 100%;
   max-width: 96rem;
   margin: 0 auto;
-  padding: clamp(1.25rem, 2.5vw, 2.5rem);
+  padding: clamp(1rem, 1.6vw, 1.5rem);
 }
 .content main h1 {
   font-family: var(--font-manrope), sans-serif;
-  font-size: clamp(1.65rem, 2.5vw, 2.25rem);
+  font-size: clamp(1.5rem, 2vw, 1.85rem);
+  font-weight: 750;
   line-height: 1.2;
   letter-spacing: -0.035em;
 }
@@ -245,12 +247,13 @@
   margin-bottom: 2rem;
 }
 .mobileHeading h2 {
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-weight: 750;
   margin: 0;
 }
 .overview {
   display: grid;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 .pageHeading {
   display: flex;
@@ -277,20 +280,22 @@
 }
 .metricStrip {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
   margin: 0;
-  padding: 1.2rem 0;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-input);
-  background: var(--color-paper);
+  padding: 0;
 }
 .metricStrip > div {
-  padding: 0 1.25rem;
-}
-.metricStrip > div + div {
-  border-left: 1px solid var(--color-line);
+  padding: 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: var(--color-paper);
 }
 .metricStrip dt {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-weight: 650;
   color: var(--color-ash);
   font-size: 0.75rem;
 }
@@ -330,9 +335,9 @@
 }
 .overviewGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1.7fr) minmax(17rem, 1fr);
-  align-items: start;
-  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1.4fr) minmax(17rem, 1fr);
+  align-items: stretch;
+  gap: 1rem;
 }
 .panel {
   background: var(--color-paper);
@@ -342,7 +347,7 @@
   overflow: hidden;
 }
 .panelHeading {
-  padding: 1.2rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -350,7 +355,8 @@
   gap: 0.75rem;
 }
 .panelHeading h2 {
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-weight: 750;
   margin: 0;
   letter-spacing: -0.025em;
 }
@@ -359,7 +365,7 @@
   color: var(--color-ash);
   line-height: 1.65;
   padding: 0 1.2rem;
-  margin: 0 0 1.1rem;
+  margin: 0 0 0.75rem;
 }
 .tableScroll {
   max-width: 100%;
@@ -422,13 +428,16 @@
   line-height: 1.65;
 }
 .empty {
-  padding: 2rem 1.25rem;
+  padding: 1.75rem 1.25rem;
   text-align: center;
 }
 .empty > svg {
+  margin: 0 auto 0.75rem;
   color: var(--color-olive);
 }
 .empty h3 {
+  font-weight: 700;
+  margin: 0 0 0.6rem;
   font-size: 0.95rem;
 }
 .empty p {
@@ -462,6 +471,7 @@
   color: var(--color-graphite);
 }
 .actionList strong {
+  font-weight: 700;
   font-size: 0.78rem;
 }
 .actionList p {
@@ -471,14 +481,18 @@
   margin: 0.3rem 0 0;
 }
 .operatingNote {
-  margin: 1.2rem;
+  margin: 1rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: start;
   padding: 1rem;
   border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--color-sage) 14%, var(--color-paper));
 }
 .operatingNote h3 {
   font-size: 0.9rem;
-  margin: 1rem 0 0.6rem;
+  margin: 0 0 0.5rem;
+  font-weight: 700;
 }
 .operatingNote p {
   font-size: 0.75rem;
@@ -490,12 +504,13 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  padding: 1.2rem;
+  padding: 1rem;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-input);
   background: color-mix(in srgb, var(--color-sage) 10%, var(--color-paper));
 }
 .noteBand h2 {
+  font-weight: 700;
   font-size: 0.85rem;
   margin: 0 0 0.4rem;
 }
@@ -535,12 +550,162 @@
   gap: 1rem;
   align-items: center;
 }
+.metricStrip dd.moneyMetric {
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  padding-top: 0.25rem;
+}
+.lowerGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.breakdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.25rem 1rem 0.5rem;
+  flex-wrap: wrap;
+}
+.donut {
+  position: relative;
+  width: 9rem;
+  flex-shrink: 0;
+}
+.donut svg {
+  width: 100%;
+  transform: rotate(-90deg);
+}
+.donut circle {
+  fill: none;
+  stroke-width: 16;
+}
+.donutTrack {
+  stroke: var(--color-chalk);
+}
+.donutContact {
+  stroke: var(--color-olive);
+}
+.donutManual {
+  stroke: var(--color-bronze);
+}
+.donut > div {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+.donut strong {
+  font-size: 2rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+.donut span {
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  color: var(--color-ash);
+}
+.legend {
+  display: grid;
+  gap: 1.2rem;
+  margin: 0;
+  font-size: 0.75rem;
+  flex: 1;
+  min-width: 9rem;
+}
+.legend > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.legend dt {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.legend dd {
+  margin: 0;
+  font-weight: 750;
+}
+.manualDot,
+.contactDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-bronze);
+}
+.contactDot {
+  background: var(--color-olive);
+}
+.readinessBody {
+  padding: 0 1rem 1rem;
+  font-size: 0.75rem;
+}
+.readinessBody h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 0.75rem 0;
+}
+.readinessBody p {
+  color: var(--color-ash);
+  line-height: 1.7;
+  margin: 0.75rem 0 1rem;
+}
+.readinessBody a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-underline-offset: 0.25rem;
+  font-weight: 650;
+}
+.featureIcon {
+  display: inline-grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 12px;
+  color: var(--color-graphite);
+  background: color-mix(in srgb, var(--color-bronze) 12%, var(--color-paper));
+}
+.noticeCount {
+  display: block;
+  font-size: 2rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+.noticeCount span {
+  font-size: 0.8rem;
+  color: var(--color-ash);
+  font-weight: 500;
+}
+.paymentNote {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-line);
+  color: var(--color-graphite);
+}
+.operatingNote > svg {
+  flex-shrink: 0;
+  color: var(--color-olive);
+}
 @media (max-width: 79rem) {
-  .overviewGrid {
-    grid-template-columns: minmax(0, 1fr);
+  .lowerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .metricStrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 63.999rem) {
+  .overviewGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .shell {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -554,14 +719,17 @@
 @media (max-width: 39rem) {
   .metricStrip {
     grid-template-columns: 1fr;
-    padding: 0 1rem;
+    padding: 0;
   }
   .metricStrip > div {
-    padding: 1rem 0;
+    padding: 1rem;
   }
   .metricStrip > div + div {
     border-left: 0;
     border-top: 1px solid var(--color-line);
+  }
+  .lowerGrid {
+    grid-template-columns: minmax(0, 1fr);
   }
   .ownerPill {
     display: none;

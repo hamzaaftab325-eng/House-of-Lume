@@ -1,6 +1,9 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  Bell,
+  Wallet,
+  ShoppingBag,
   ClipboardCheck,
   MailCheck,
   ShieldCheck,
@@ -18,13 +21,17 @@ export default async function CrmPage() {
     notificationUnread("staff"),
   ]);
   const preview = queue.items.slice(0, 5);
+  const manual = preview.filter((order) => order.review_status === "pending").length;
+  const contact = preview.length - manual;
+  const previewValue = preview.reduce((total, order) => total + order.total_pkr, 0);
+  const manualArc = preview.length ? (manual / preview.length) * 100 : 0;
   return (
     <main className={styles.overview}>
       <div className={styles.pageHeading}>
         <div>
-          <p className={styles.eyebrow}>OWNER WORKSPACE</p>
+          <p className={styles.eyebrow}>DWELLUNE · OWNER DASHBOARD</p>
           <h1>Store overview</h1>
-          <p>Your verification queue, notices and operational tools.</p>
+          <p>A clear view of your store’s verification and operations.</p>
         </div>
         <DwelluneButtonLink href="/crm/verification" size="compact">
           Open verification queue
@@ -32,14 +39,20 @@ export default async function CrmPage() {
       </div>
       <dl className={styles.metricStrip}>
         <div>
-          <dt>Unread notifications</dt>
+          <dt>
+            <Bell size={18} aria-hidden="true" />
+            Unread notifications
+          </dt>
           <dd>{notifications.unread.toLocaleString("en-PK")}</dd>
           <Link href="/crm/notifications?read=unread">
             Review inbox <ArrowRight size={14} aria-hidden="true" />
           </Link>
         </div>
         <div>
-          <dt>Queue preview</dt>
+          <dt>
+            <ClipboardCheck size={18} aria-hidden="true" />
+            Queue preview
+          </dt>
           <dd>
             {preview.length}
             <span> shown</span>
@@ -47,7 +60,18 @@ export default async function CrmPage() {
           <p>Up to 5 awaiting verification</p>
         </div>
         <div>
-          <dt>Payment model</dt>
+          <dt>
+            <Wallet size={18} aria-hidden="true" />
+            Preview order value
+          </dt>
+          <dd className={styles.moneyMetric}>{verificationMoney(previewValue)}</dd>
+          <p>Value of the {preview.length} shown requests; not revenue.</p>
+        </div>
+        <div>
+          <dt>
+            <ShoppingBag size={18} aria-hidden="true" />
+            Payment model
+          </dt>
           <dd className={styles.textMetric}>Cash on Delivery</dd>
           <p>Collection and settlement are separate.</p>
         </div>
@@ -129,7 +153,72 @@ export default async function CrmPage() {
             </p>
           </div>
         </section>
-        <aside className={styles.panel} aria-labelledby="actions-title">
+        <section className={styles.panel} aria-labelledby="breakdown-title">
+          <div className={styles.panelHeading}>
+            <h2 id="breakdown-title">Verification breakdown</h2>
+            <span className={styles.tag}>Preview only</span>
+          </div>
+          <p className={styles.caption}>
+            Review state of the same {preview.length} shown requests.
+          </p>
+          <div className={styles.breakdown}>
+            <div className={styles.donut}>
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <circle className={styles.donutTrack} cx="60" cy="60" r="46" />
+                {preview.length ? (
+                  <>
+                    <circle className={styles.donutContact} cx="60" cy="60" r="46" />
+                    <circle
+                      className={styles.donutManual}
+                      cx="60"
+                      cy="60"
+                      r="46"
+                      pathLength="100"
+                      strokeDasharray={`${manualArc} ${100 - manualArc}`}
+                    />
+                  </>
+                ) : null}
+              </svg>
+              <div>
+                <strong>{preview.length}</strong>
+                <span>SHOWN REQUESTS</span>
+              </div>
+            </div>
+            <dl className={styles.legend}>
+              <div>
+                <dt>
+                  <span className={styles.manualDot} />
+                  Manual review
+                </dt>
+                <dd>{manual}</dd>
+              </div>
+              <div>
+                <dt>
+                  <span className={styles.contactDot} />
+                  Awaiting contact
+                </dt>
+                <dd>{contact}</dd>
+              </div>
+            </dl>
+          </div>
+          <div className={styles.operatingNote}>
+            <ShieldCheck size={20} aria-hidden="true" />
+            <div>
+              <h3>{preview.length ? "Review before fulfillment" : "Your preview is clear"}</h3>
+              <p>
+                {preview.length
+                  ? "Confirm customer details and record each decision in the verification queue."
+                  : "No pending requests in this preview. New COD verification requests will appear here."}
+              </p>
+            </div>
+          </div>
+          <div className={styles.panelFoot}>
+            <p>This is a bounded preview, not a store-wide order or fulfillment report.</p>
+          </div>
+        </section>
+      </div>
+      <div className={styles.lowerGrid}>
+        <section className={styles.panel} aria-labelledby="actions-title">
           <div className={styles.panelHeading}>
             <h2 id="actions-title">Action center</h2>
             <span className={styles.tag}>Owner only</span>
@@ -160,18 +249,49 @@ export default async function CrmPage() {
               <ArrowRight size={16} aria-hidden="true" />
             </Link>
           </div>
-          <div className={styles.operatingNote}>
-            <span className={styles.tag}>LAUNCH READINESS</span>
+        </section>
+        <section className={styles.panel} aria-labelledby="readiness-title">
+          <div className={styles.panelHeading}>
+            <h2 id="readiness-title">Launch readiness</h2>
+            <span className={styles.status}>Checkout closed</span>
+          </div>
+          <div className={styles.readinessBody}>
+            <span className={styles.featureIcon}>
+              <ShoppingBag size={24} aria-hidden="true" />
+            </span>
             <h3>Operations before launch</h3>
             <p>
               Checkout remains closed pending real product and launch acceptance. Keep customer
               contact and verification records up to date.
             </p>
+            <Link href="/crm/verification/settings">
+              Review verification policy <ArrowRight size={15} aria-hidden="true" />
+            </Link>
+          </div>
+        </section>
+        <section className={styles.panel} aria-labelledby="notices-title">
+          <div className={styles.panelHeading}>
+            <h2 id="notices-title">Operational notices</h2>
+            <Bell size={18} aria-hidden="true" />
+          </div>
+          <div className={styles.readinessBody}>
+            <strong className={styles.noticeCount}>
+              {notifications.unread.toLocaleString("en-PK")}
+              <span> unread</span>
+            </strong>
+            <p>
+              Review persisted store alerts, verification updates and notification delivery notices
+              in your inbox.
+            </p>
             <Link href="/crm/notifications">
               Open operational notices <ArrowRight size={15} aria-hidden="true" />
             </Link>
+            <div className={styles.paymentNote}>
+              <ShieldCheck size={16} aria-hidden="true" />
+              Cash on Delivery only
+            </div>
           </div>
-        </aside>
+        </section>
       </div>
       <section className={styles.noteBand} aria-labelledby="privacy-title">
         <ShieldCheck size={21} aria-hidden="true" />

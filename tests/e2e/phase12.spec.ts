@@ -55,6 +55,11 @@ for (const width of [320, 375, 768, 1024, 1280, 1440, 1920]) {
       await expect(
         page.getByRole("heading", { name: "Store overview", exact: true }),
       ).toBeVisible();
+      await page.bringToFront();
+      await page.waitForLoadState("networkidle");
+      await expect(
+        page.getByRole("heading", { name: "Store overview", exact: true }),
+      ).toBeVisible();
       await page.screenshot({ path: `../phase12-evidence/overview-${width}.png`, fullPage: true });
     }
   });
@@ -96,6 +101,20 @@ test("overview shows a truthful empty queue and no sample metrics", async ({ pag
     page.getByRole("heading", { name: "No requests awaiting verification" }),
   ).toBeVisible();
   await expect(page.getByRole("table")).toHaveCount(0);
+  const breakdown = page.getByRole("region", { name: "Verification breakdown" });
+  await expect(breakdown.locator("svg circle")).toHaveCount(1);
+  await expect(breakdown.locator("dl > div").filter({ hasText: "Manual review" })).toHaveText(
+    "Manual review0",
+  );
+  await expect(breakdown.locator("dl > div").filter({ hasText: "Awaiting contact" })).toHaveText(
+    "Awaiting contact0",
+  );
+  await page.bringToFront();
+  await page.waitForLoadState("networkidle");
+  await expect(
+    page.getByRole("heading", { name: "No requests awaiting verification" }),
+  ).toBeVisible();
+  await page.screenshot({ path: "../phase12-evidence/overview-empty.png", fullPage: true });
   await expect(page.getByText(/1,248,600|312,400|Sample data/)).toHaveCount(0);
   await page.getByRole("link", { name: "View all verification orders" }).click();
   await expect(page.getByRole("link", { name: "Order #900001", exact: true })).toBeVisible();
@@ -175,3 +194,43 @@ test("mobile dialog traps focus and closes when the owner session becomes uncert
   await expect(dialog).not.toBeVisible();
   await expect(page.locator("#crm-navigation")).not.toHaveAttribute("open", "");
 });
+
+for (const manual of [false, true]) {
+  test(`preview breakdown reflects the actual review state: manual=${manual}`, async ({
+    page,
+    context,
+  }) => {
+    await owner(context);
+    await context.addCookies([
+      {
+        name: "dwellune-test-verification",
+        value: JSON.stringify({
+          revision: 0,
+          status: "pending_verification",
+          verification: "pending",
+          notes: [],
+          review: {
+            status: manual ? "pending" : "not_required",
+            flags: [],
+            reviewed_by: null,
+            reviewed_at: null,
+            note: null,
+          },
+        }),
+        url: "http://127.0.0.1:3000",
+      },
+    ]);
+    await page.goto("/crm");
+    const breakdown = page.getByRole("region", { name: "Verification breakdown" });
+    await expect(breakdown.locator("dl > div").filter({ hasText: "Manual review" })).toHaveText(
+      `Manual review${manual ? 1 : 0}`,
+    );
+    await expect(breakdown.locator("dl > div").filter({ hasText: "Awaiting contact" })).toHaveText(
+      `Awaiting contact${manual ? 0 : 1}`,
+    );
+    await expect(page.locator("dl > div").filter({ hasText: "Preview order value" })).toContainText(
+      "2,200",
+    );
+    await expect(page.getByText("Checkout closed", { exact: true })).toBeVisible();
+  });
+}
