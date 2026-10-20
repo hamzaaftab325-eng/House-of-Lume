@@ -1,6 +1,6 @@
 # DWELLUNE — Production Build Plan
 
-**Status:** Active roadmap after completed four-part maintenance — 19 October 2026
+**Status:** Phase 12 implementation and local acceptance complete — 20 October 2026
 
 **Product:** Production ecommerce storefront + internal commerce CRM  
 **Payment model:** Cash on Delivery only at launch  
@@ -43,7 +43,7 @@ Part 4 verification baseline: 196 application tests, 107 browser tests with loca
 | 9 — COD verification           | Owner queue, contact, confirmation/cancellation and policy/review controls implemented               | Live merchant order acceptance remains pending                                                                               |
 | 10 — Notifications             | Existing customer/owner inboxes, supported producers, withdrawal and delivery visibility implemented | Future fulfillment/return-decision/settlement events wait for their real workflows                                           |
 | 11 — Transactional email       | Five supported business-event email paths and durable retry/uncertainty handling implemented         | Real order/inbox and hosted Auth acceptance pending; future producers remain deferred                                        |
-| 12 — CRM foundation            | Owner access, basic workspace/navigation, verification and notification screens exist                | **Next milestone:** finish and verify the lean owner workspace scope below                                                   |
+| 12 — CRM foundation            | Branded owner workspace, authorized overview, verification and notification flows verified                | Approved workspace and local acceptance complete; audit and release gate recorded below                                                   |
 | 13–18 — Operations modules     | Future build work; existing schema does not mean management UI is implemented                        | Build product/inventory, fulfillment, returns/RTO, settlement, customer and discount operations in order                     |
 | 19–26 — Reliability and launch | Some foundations exist and were rechecked during maintenance                                         | Verify the completed future workflows, remaining security/SEO/accessibility/performance and full launch acceptance           |
 
@@ -59,13 +59,13 @@ Part 4 verification baseline: 196 application tests, 107 browser tests with loca
 
 ## Next execution sequence
 
-1. **Phase 12 — finish the owner CRM foundation.** Reuse the existing owner authority and operational screens. Confirm the minimal navigation and usable workspace states; expose only working destinations. Do not turn this phase into product, shipping, analytics or staff-management implementation.
+1. **Phase 12 — owner CRM foundation implemented and locally verified.** The approved branded sidebar/header, operational overview and retained working destinations are complete. The release gate checks CI and the canonical deployment; no later module starts automatically.
 2. **Phase 13 — product, collection and inventory management.** Enable the owner to manage real catalogue/variant/media/pricing/stock data and connect selected real homepage products without redesigning the accepted storefront.
 3. **Phases 14–16 — operational completion.** Implement validated fulfillment/delivery, returns/RTO and COD reconciliation, adding their essential notification/email producers with their actual workflows.
 4. **Phases 17–18 — core customer and discount operations.** Reuse existing ownership/history and discount validation; optional retention/reviews remain excluded.
 5. **Phases 19–26 — remaining reliability, security and launch acceptance.** Reuse existing jobs/tests/deployment; complete the remaining evidence and merchant journeys before launch sign-off.
 
-For each approved phase: show its checklist, implement one coherent batch, verify locally, update evidence and make at most one final production push. Do not begin the next phase just because this roadmap lists it. The roadmap update is included in the requested Phase 12 preparation/cleanup batch; Phase 12 workspace implementation remains the next separately directed step. See [preparation evidence](docs/maintenance/phase-12-preparation.md).
+For each approved phase: show its checklist, implement one coherent batch, verify locally, update evidence and make at most one final production push. Do not begin the next phase just because this roadmap lists it. The Phase 12 workspace now has its own implementation and verification record; Phase 13 remains the next separately directed build step. See [preparation evidence](docs/maintenance/phase-12-preparation.md).
 
 ## Launch gates still open
 
@@ -914,7 +914,7 @@ Phase 11 Parts 1–2 implement branded receipts and supported event-email jobs f
 
 # 17. Phase 12 — CRM Foundation & Owner Access
 
-**Status:** Partially implemented. Owner security and the current operational workspace are deployed. The remaining foundation is the next development milestone; completing it does not implement every future CRM module.
+**Status:** Implementation and local acceptance complete. The approved branded owner workspace and retained operational flows are verified. The final release is checked against GitHub CI and the canonical Vercel deployment after the single production push. Later commerce/reporting phases remain separate.
 
 ## Existing foundation — retain
 
@@ -930,50 +930,47 @@ Phase 11 Parts 1–2 implement branded receipts and supported event-email jobs f
 - [x] `/crm/notifications/delivery` bounded delivery status and event registry
 - [x] Current admin responsive, keyboard, API-authorization and revoked-session regression
 
-## Remaining Phase 12 checklist
+## Approved workspace implementation
 
-- [ ] Finalize the lean CRM navigation/landing-page scope using the existing brand and shared controls; retain working destinations only.
-- [ ] Review navigation consistency and active-location/context across the existing verification, policy, inbox and delivery screens.
-- [ ] Verify loading, empty, error, forbidden, stale-session and retry behavior across that finalized workspace.
-- [ ] Verify keyboard/focus and small-mobile/tablet/desktop navigation for any foundation changes.
-- [ ] Complete focused API/database regression plus the full required quality/build gate for the final batch.
-- [ ] Update the Phase 12 audit with implemented scope, remaining launch gates and rollback; verify the single final production release.
+The selected [dashboard reference](docs/reference/owner-dashboard-approved.png) and `design.md` section 19 define the shared CRM visual direction. Phase 12 delivers the owner workspace foundation and retained operational flows, not the later commerce modules pictured in the concept. Its sample data is never displayed in production.
 
-These are remaining scope/review gates, not findings that the existing screens are broken. Keep this phase small. A decorative dashboard, command palette, new analytics, side rail for its own sake or links to unimplemented screens are not prerequisites.
+### Phase 12 completion checklist
 
-## Phase 12 execution plan
+- [x] Branded desktop sidebar and compact utility header, using the actual logo, existing palette and owner identity.
+- [x] Overview, verification, rules, notifications and delivery navigation; correct specific-route highlighting and breadcrumbs.
+- [x] Accessible mobile navigation with native dialog, Escape, focus restoration and desktop-breakpoint dismissal.
+- [x] Operational overview with real unread notifications, a clearly bounded pending-order preview and working action links.
+- [x] Empty queue state and recoverable loading/error/session states; unavailable data is never represented as zero.
+- [x] Shared compact typography/content layout across existing CRM pages; obsolete landing/header styles retired.
+- [x] Existing server-side owner authorization, private responses, session invalidation, immutable verification retries and notification safeguards retained.
+- [x] Responsive, keyboard, focus, contrast and authorized-route browser-runtime acceptance verified.
+- [x] Locked install, formatting, zero-warning lint, strict/unused TypeScript, 196 application tests, 121 browser tests without retries, zero runtime vulnerabilities and clean production build verified.
+- [x] Phase audit, rollback target and one-push release procedure recorded. Exact release SHA, CI, READY alias and live checks are verified after publication and reported with the release.
 
-Implement one coherent workspace batch after preparation is accepted. Use the existing owner context, verified session guard, notification services and shared controls. No new database migration, role system or package is expected for this foundation; reassess only if a concrete implementation requirement appears.
+The previous partial release `a7f0c86864a46b89638e561ee7ab137de557baaa` introduced navigation and operational links but failed CI formatting. The completion batch replaces its horizontal/large-heading treatment with the approved workspace and includes the missing verification. No new schema, dependency, launch setting, administrator or outgoing test email is required.
 
-### 1. Shared navigation and orientation
+### Data and later-module boundaries
 
-- [ ] Reuse the current header, owner identity, sign-out and account link.
-- [ ] Provide clear destinations for Overview (`/crm`), COD verification (`/crm/verification`), Verification rules (`/crm/verification/settings`), Notifications (`/crm/notifications`) and Delivery status (`/crm/notifications/delivery`).
-- [ ] Give the active destination a visible treatment and `aria-current="page"`; nested order detail belongs to verification, while rules and delivery use their more specific destinations.
-- [ ] Keep future product/order/customer/analytics routes absent until their real modules exist.
-- [ ] Keep navigation usable on mobile without a new decorative side rail or command palette. Use shared tokens and classes; introduce a small client boundary only for actual active-route interaction.
+| Reference area | Phase 12 result | Later functional expansion |
+| -------------- | --------------- | -------------------------- |
+| Sidebar/header | Branded, responsive and connected to working screens | Extend as each module ships |
+| Action center | Verification, policy, notifications and delivery entry points | Each future workflow's real queue |
+| Overview metrics | Authorized unread total and labelled bounded queue preview | Sales comparisons/reporting in Phase 20 |
+| Products/inventory | No fake product metrics or dead management links | Phase 13 |
+| General order fulfillment | Existing COD verification only | Phase 14 |
+| Return decisions/RTO | Existing request/notification behavior retained | Phase 15 |
+| COD reconciliation | No sample balances; delivery is not reconciliation | Phase 16 |
+| Customers | Owner/customer access separation retained | Phase 17 |
 
-### 2. Owner landing page
+### Verification and release sequence
 
-- [ ] Make the existing operational entry points easy to find, including rules and delivery status.
-- [ ] Keep checkout readiness explicit and truthful. No fabricated sales, order totals or analytics cards.
-- [ ] Use existing data only if it helps an actual owner action; do not add a metrics/data-fetch layer just to fill the page.
+1. Review selected design, owner boundaries and the latest `main`/production baseline.
+2. Implement shared workspace, useful authorized overview and consistent retained screens.
+3. Test navigation, responsive reflow, loading/empty/error/session recovery, keyboard and retained workflows.
+4. Run the complete quality/build gate and record exact results in [the Phase 12 audit](docs/maintenance/phase-12-workspace.md).
+5. Make one final commit/push on `main`; verify CI, deployed SHA, canonical READY alias and live smoke. No feature branch, preview or intermediate production push.
 
-### 3. State and access safeguards
-
-- [ ] Preserve server-side owner checks, customer/owner separation, private no-store responses and live-session invalidation.
-- [ ] Review signed-out/customer-denied, revoked-session, network-error, empty, loading and retry states across each working destination.
-- [ ] Preserve verification/policy immutable retries, scoped notifications, existing consent withdrawal and email uncertainty handling.
-- [ ] Keep checkout and Auth email readiness gated; no real test order, new administrator or outgoing test email is part of the shell work.
-
-### 4. Acceptance and release
-
-- [ ] Add a stable navigation/main-content focus path, visible keyboard focus and accessible current-location labels; test at 320, 375, 768, 1024 and 1440px.
-- [ ] Test direct links and nested routes, sign-out/session loss, shared navigation, empty/error states and the retained verification/inbox/delivery flows.
-- [ ] Run formatting, zero-warning lint, strict TypeScript, relevant application/database checks, full browser regression, dependency audit and production build.
-- [ ] Record a Phase 12 audit/rollback target; make one final production push and verify CI, exact SHA, READY alias and live smoke checks.
-
-Primary files to review are `src/app/(crm)/crm/layout.tsx`, `src/app/(crm)/crm/page.tsx`, CRM loading/error boundaries, `src/components/admin`, and existing admin browser tests. Extract only shared shell code actually needed; leave owner authorization and business services in their existing modules. Completion means the retained owner workspace is coherent and verified, not that Phases 13–18 are built.
+Rollback target for this completion batch is `a7f0c86864a46b89638e561ee7ab137de557baaa`. Production data and migrations do not change. Earlier maintenance/real-merchant acceptance limitations remain separate launch gates; checkout remains disabled.
 
 ## Module ownership after the foundation
 

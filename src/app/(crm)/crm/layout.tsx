@@ -3,9 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { adminIdentity } from "@/server/admin/admin.service";
 import { AccountSessionGuard } from "@/components/account/session-guard";
-import { SignOutButton } from "@/components/account/account-forms";
-import { AdminNavigation } from "@/components/admin/admin-navigation";
-import styles from "@/components/admin/verification.module.css";
+import { AdminWorkspace } from "@/components/admin/admin-navigation";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Administrator workspace",
@@ -32,16 +30,7 @@ export default async function CrmLayout({ children }: { children: React.ReactNod
   }
   return (
     <AccountSessionGuard userId={admin.userId} sessionEndpoint="/api/admin/session">
-      <a className={styles.skipLink} href="#crm-main">Skip to main content</a>
-      <header className={styles.header}>
-        <AdminNavigation />
-        <div className={styles.adminActions}>
-          <span className={styles.identity}>{admin.email}</span>
-          <Link href="/account">My account</Link>
-          <SignOutButton />
-        </div>
-      </header>
-      <div id="crm-main" tabIndex={-1}>{children}</div>
+      <AdminWorkspace email={admin.email}>{children}</AdminWorkspace>
     </AccountSessionGuard>
   );
 }

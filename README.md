@@ -58,6 +58,10 @@ The complete dependency and boundary rules live in `ARCHITECTURE.md`.
 
 Future domain code is organized by responsibility rather than by page. Server-owned pricing, inventory, COD eligibility and order state must never be delegated to browser state.
 
+## Owner workspace
+
+Phase 12 applies the approved branded sidebar/header to the existing verification, policy, inbox and delivery screens. The overview shows a bounded pending-order preview and real unread notices. Mobile navigation supports keyboard focus and session invalidation. Product/inventory, fulfillment and reporting retain their later roadmap phases. See [the Phase 12 audit](docs/maintenance/phase-12-workspace.md) for validation and release boundaries.
+
 ## Route boundaries
 
 - `(store)` is public commerce/discovery.

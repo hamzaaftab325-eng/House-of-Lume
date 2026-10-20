@@ -3,7 +3,7 @@
 # DWELLUNE — Production Design System
 
 **Status:** Final production baseline  
-**Version:** 2.1  
+**Version:** 2.2
 **Product:** Production ecommerce storefront + internal commerce CRM  
 **Launch payment model:** Cash on Delivery only  
 **Design direction:** Luminous Domesticity  
@@ -735,6 +735,19 @@ Use a vertical timeline on mobile and flexible horizontal/vertical layout on des
 ## 19. CRM Operations Language
 
 The CRM inherits brand DNA while prioritizing speed.
+
+### Approved owner workspace — Phase 12
+
+The owner selected [this dashboard composition](docs/reference/owner-dashboard-approved.png) on 19 October 2026. Its compact sidebar, utility header, metric strip, broad operational table and narrower action rail guide the CRM. This permits a functional sidebar and restrained panels; storefront design stays unchanged. The reference is concept artwork, not a source of production data or an application asset.
+
+- Reuse the real `/public/logo.svg`, preserving proportions; use the authenticated owner's identity, not the reference's name or avatar.
+- Use existing semantic tokens: canvas/paper surfaces, ink/ash text, line borders, bronze controls and olive/sage selections. Actual status colours use existing warning/error/success tokens. Do not copy new hex palettes into components.
+- Use existing Manrope for CRM headings and tables, tabular numbers, compact headings, restrained control/input radii and purposeful spacing. No new font, icon package, decorative animation or giant hero heading.
+- Desktop navigation becomes a labelled native modal dialog below the desktop breakpoint, with Escape dismissal, focus containment/restoration and breakpoint cleanup. Provide a skip link and one current-location label; nested settings/delivery routes take priority over their parents.
+- Expose working destinations only. No fake store switcher, inactive search/export/date controls, unsupported metrics, sample identities or charts. Current overview data reuses authorized verification and notification services; a bounded queue preview is labelled as a preview, not a total.
+- Keep full chart/reporting and product/fulfillment/settlement modules in their planned phases. Completed workflows without data show an explicit empty state; failed reads show a recoverable error, never fabricated zero values.
+- Reflow the sidebar and action rail naturally; permit keyboard-accessible table scrolling within a labelled region while preventing horizontal page overflow. Preserve zoom, visible focus and reduced-motion behaviour.
+
 
 ### Avoid
 

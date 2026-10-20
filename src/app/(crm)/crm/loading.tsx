@@ -1,8 +1,9 @@
-import styles from "@/components/account/account.module.css";
+import styles from "@/components/admin/workspace.module.css";
 export default function Loading() {
   return (
-    <main className={styles.page} role="status" aria-live="polite">
-      <p className={styles.intro}>Loading administrator workspace…</p>
+    <main className={styles.state} role="status" aria-live="polite">
+      <h1>Loading workspace</h1>
+      <p>Checking your operational information…</p>
     </main>
   );
 }
